@@ -970,7 +970,8 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	public void set_param(Module_Parameter param) {
 		if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
 			final String param_field = param.get_id().get_current_name();
-			if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+			final char first_char = param_field.charAt(0);
+			if (first_char >= '0' && first_char <= '9') {
 				param.error("Unexpected array index in module parameter, expected a valid field name for union template type `CHARACTER STRING.identification'");
 			}
 			if("syntaxes".equals(param_field)) {

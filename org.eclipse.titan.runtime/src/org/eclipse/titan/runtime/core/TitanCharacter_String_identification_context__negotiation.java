@@ -454,7 +454,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 			else {
 				if (23 == name_len.get() && "presentation-context-id".equals(fld_name.substring(0,name_len.get()))) {
 					presentation__context__id_found = true;
-					final int ret_val = get_field_presentation__context__id().JSON_decode(TitanInteger.TitanInteger_descr_, p_tok, p_silent);
+					final int ret_val = get_field_presentation__context__id().JSON_decode(TitanInteger.TitanInteger_descr_, p_tok, p_silent, false);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "presentation-context-id");
@@ -465,7 +465,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 				}
 				else if (15 == name_len.get() && "transfer-syntax".equals(fld_name.substring(0,name_len.get()))) {
 					transfer__syntax_found = true;
-					final int ret_val = get_field_transfer__syntax().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, p_silent);
+					final int ret_val = get_field_transfer__syntax().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, p_silent, false);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "transfer-syntax");

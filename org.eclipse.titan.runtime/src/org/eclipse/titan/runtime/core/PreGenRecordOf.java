@@ -46,7 +46,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 	public PreGenRecordOf() {
-		super("PreGenRecordOf", module_type_enum.TTCN3_MODULE, new byte[] {(byte)2, (byte)172, (byte)107, (byte)74, (byte)67, (byte)37, (byte)48, (byte)47, (byte)113, (byte)216, (byte)134, (byte)12, (byte)12, (byte)157, (byte)70, (byte)204});
+		super("PreGenRecordOf", module_type_enum.TTCN3_MODULE, new byte[] {(byte)0x02, (byte)0xAC, (byte)0x6B, (byte)0x4A, (byte)0x43, (byte)0x25, (byte)0x30, (byte)0x2F, (byte)0x71, (byte)0xD8, (byte)0x86, (byte)0x0C, (byte)0x0C, (byte)0x9D, (byte)0x46, (byte)0xCC});
 	}
 
 	public static class PREGEN__RECORD__OF__INTEGER__OPTIMIZED extends Record_Of_Type {
@@ -74334,7 +74334,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void set_param(Module_Parameter param) {
 			if (param.get_id() != null && param.get_id().next_name()) {
 				final String param_field = param.get_id().get_current_name();
-				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+				final char first_char = param_field.charAt(0);
+				if (first_char >= '0' && first_char <= '9') {
 					param.error("Unexpected array index in module parameter, expected a valid field name for union type `@PreGenRecordOf.anytype'");
 				}
 				else {
@@ -74971,7 +74972,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public void set_param(Module_Parameter param) {
 			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
 				final String param_field = param.get_id().get_current_name();
-				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+				final char first_char = param_field.charAt(0);
+				if (first_char >= '0' && first_char <= '9') {
 					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@PreGenRecordOf.anytype'");
 				}
 				else {

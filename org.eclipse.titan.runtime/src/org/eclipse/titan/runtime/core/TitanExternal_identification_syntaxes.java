@@ -453,7 +453,7 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 			else {
 				if (8 == name_len.get() && "abstract".equals(fld_name.substring(0,name_len.get()))) {
 					abstract__found = true;
-					final int ret_val = get_field_abstract_().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, p_silent);
+					final int ret_val = get_field_abstract_().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, p_silent, false);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "abstract");
@@ -464,7 +464,7 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 				}
 				else if (8 == name_len.get() && "transfer".equals(fld_name.substring(0,name_len.get()))) {
 					transfer_found = true;
-					final int ret_val = get_field_transfer().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, p_silent);
+					final int ret_val = get_field_transfer().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, p_silent, false);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "transfer");
