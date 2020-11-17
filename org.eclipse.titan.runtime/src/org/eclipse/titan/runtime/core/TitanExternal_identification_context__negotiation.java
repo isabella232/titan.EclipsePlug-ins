@@ -474,6 +474,9 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 					dec_len += ret_val;
 				}
 				else {
+					if (p_silent) {
+						return JSON.JSON_ERROR_INVALID_TOKEN;
+					}
 					JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, fld_name);
 					dec_len += p_tok.get_next_token(j_token, null, null);
 					if (json_token_t.JSON_TOKEN_NUMBER != j_token.get() && json_token_t.JSON_TOKEN_STRING != j_token.get() &&
