@@ -785,10 +785,10 @@ public final class UnionGenerator {
 
 		// Originally RT2
 		source.append("\t\t\tfinal Module_Param_Id param_id = param.get_id();\n");
-		source.append("\t\t\tif (param.get_id() != null && param.get_id().next_name()) {\n");
+		source.append("\t\t\tif (param_id != null && param_id.next_name()) {\n");
 		// Haven't reached the end of the module parameter name
 		// => the name refers to one of the fields, not to the whole union
-		source.append("\t\t\t\tfinal String param_field = param.get_id().get_current_name();\n");
+		source.append("\t\t\t\tfinal String param_field = param_id.get_current_name();\n");
 		source.append("\t\t\t\tfinal char first_char = param_field.charAt(0);\n");
 		source.append("\t\t\t\tif (first_char >= '0' && first_char <= '9') {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union type `{0}''\");\n", displayName ));
@@ -2899,8 +2899,8 @@ public final class UnionGenerator {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void set_param(Module_Parameter param) {\n");
 		source.append("\t\t\tfinal Module_Param_Id param_id = param.get_id();\n");
-		source.append("\t\t\tif((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {\n");
-		source.append("\t\t\t\tfinal String param_field = param.get_id().get_current_name();\n");
+		source.append("\t\t\tif((param_id instanceof Module_Param_Name) && param_id.next_name()) {\n");
+		source.append("\t\t\t\tfinal String param_field = param_id.get_current_name();\n");
 		source.append("\t\t\t\tfinal char first_char = param_field.charAt(0);\n");
 		source.append("\t\t\t\tif (first_char >= '0' && first_char <= '9') {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union template type `{0}''\");\n", displayName));
