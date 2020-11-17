@@ -16,6 +16,7 @@ import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
@@ -466,8 +467,9 @@ public class TitanExternal_identification extends Base_Type {
 
 	@Override
 	public void set_param(Module_Parameter param) {
-		if (param.get_id() != null && param.get_id().next_name()) {
-			final String param_field = param.get_id().get_current_name();
+		final Module_Param_Id param_id = param.get_id();
+		if (param_id != null && param_id.next_name()) {
+			final String param_field = param_id.get_current_name();
 			final char first_char = param_field.charAt(0);
 			if (first_char >= '0' && first_char <= '9') {
 				param.error("Unexpected array index in module parameter, expected a valid field name for union type `EXTERNAL.identification'");

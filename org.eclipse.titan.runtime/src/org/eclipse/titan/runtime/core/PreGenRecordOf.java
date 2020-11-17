@@ -18,6 +18,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
@@ -74332,8 +74333,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(Module_Parameter param) {
-			if (param.get_id() != null && param.get_id().next_name()) {
-				final String param_field = param.get_id().get_current_name();
+			final Module_Param_Id param_id = param.get_id();
+			if (param_id != null && param_id.next_name()) {
+				final String param_field = param_id.get_current_name();
 				final char first_char = param_field.charAt(0);
 				if (first_char >= '0' && first_char <= '9') {
 					param.error("Unexpected array index in module parameter, expected a valid field name for union type `@PreGenRecordOf.anytype'");
@@ -74970,8 +74972,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(Module_Parameter param) {
-			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
-				final String param_field = param.get_id().get_current_name();
+			final Module_Param_Id param_id = param.get_id();
+			if((param_id instanceof Module_Param_Name) && param_id.next_name()) {
+				final String param_field = param_id.get_current_name();
 				final char first_char = param_field.charAt(0);
 				if (first_char >= '0' && first_char <= '9') {
 					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@PreGenRecordOf.anytype'");
