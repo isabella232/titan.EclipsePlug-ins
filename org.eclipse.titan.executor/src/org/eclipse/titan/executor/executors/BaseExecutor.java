@@ -106,7 +106,7 @@ public abstract class BaseExecutor {
 	protected static final boolean CREATE_TEMP_CFG = false;
 
 	public static final String PADDEDDATETIMEFORMAT = "%1$tF %1$tH:%1$tM:%1$tS.%1$tL000";
-	public static final String DATETIMEFORMAT = "%1$tF %1$tH:%1$tM:%1$tS.%2$06d";
+	public static final String DATETIMEFORMAT = "%1$tF %1$tH:%1$tM:%1$tS.%2$-6d";
 
 	public static final String MAIN_CONTROLLER = "Main Controller";
 	protected static final String CONFIGFILEPATH_NULL = "Could not launch beacuse the configuration file's path is null";
