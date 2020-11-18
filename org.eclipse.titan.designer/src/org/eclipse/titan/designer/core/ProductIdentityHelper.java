@@ -69,7 +69,7 @@ public final class ProductIdentityHelper {
 			rNumber = PRODUCT_PATTERN3_MATCHER.group(1);
 		} else {
 			if (location != null) {
-				location.reportSemanticError("Wrong format for product version information: The accepted formats resemble CRL 113 200/1 R9A");
+				location.reportSemanticError("Wrong format for product version information: The accepted formats resemble CRL 113 200/1 R9A or 7/CAX 105 7730 R2A");
 			}
 			return null;
 		}
