@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
-package org.eclipse.titan.executor.jni;
+package org.eclipse.titan.runtime.core.mctr;
 
 /**
  * Data structure for representing a time value.

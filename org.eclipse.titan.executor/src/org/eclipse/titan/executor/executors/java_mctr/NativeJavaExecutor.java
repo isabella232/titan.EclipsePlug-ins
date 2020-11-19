@@ -40,7 +40,6 @@ import org.eclipse.titan.executor.executors.BaseExecutor;
 import org.eclipse.titan.executor.executors.ExecuteDialog;
 import org.eclipse.titan.executor.executors.ExecuteDialog.ExecutableType;
 import org.eclipse.titan.executor.executors.SeverityResolver;
-import org.eclipse.titan.executor.jni.Timeval;
 import org.eclipse.titan.executor.views.executormonitor.ComponentElement;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorStorage;
@@ -54,6 +53,7 @@ import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
 import org.eclipse.titan.executor.views.testexecution.TestExecutionView;
 import org.eclipse.titan.runtime.core.TitanVerdictType;
 import org.eclipse.titan.runtime.core.mctr.MainController;
+import org.eclipse.titan.runtime.core.mctr.Timeval;
 import org.eclipse.titan.runtime.core.mctr.UserInterface;
 
 /**
@@ -115,8 +115,8 @@ public class NativeJavaExecutor extends BaseExecutor {
 		}
 
 		@Override
-		public void notify(final long timestamp, final String source, final int severity, final String message) {
-			callback.notifyCallback(new Timeval(timestamp / 1000, timestamp % 1000), source, severity, message);
+		public void notify(final Timeval timestamp, final String source, final int severity, final String message) {
+			callback.notifyCallback(timestamp, source, severity, message);
 		}
 
 		@Override

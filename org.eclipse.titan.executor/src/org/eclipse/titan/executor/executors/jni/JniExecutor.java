@@ -46,7 +46,6 @@ import org.eclipse.titan.executor.jni.IJNICallback;
 import org.eclipse.titan.executor.jni.JNIMiddleWare;
 import org.eclipse.titan.executor.jni.McStateEnum;
 import org.eclipse.titan.executor.jni.QualifiedName;
-import org.eclipse.titan.executor.jni.Timeval;
 import org.eclipse.titan.executor.jni.VerdictTypeEnum;
 import org.eclipse.titan.executor.views.executormonitor.ComponentElement;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorStorage;
@@ -58,6 +57,7 @@ import org.eclipse.titan.executor.views.executormonitor.MainControllerElement;
 import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
 import org.eclipse.titan.executor.views.testexecution.TestExecutionView;
+import org.eclipse.titan.runtime.core.mctr.Timeval;
 
 /**
  * This executor handles the execution of tests compiled in a parallel mode, via directly connecting to the MainController written in C++.

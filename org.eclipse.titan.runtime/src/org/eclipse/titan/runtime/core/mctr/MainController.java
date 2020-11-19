@@ -624,10 +624,10 @@ public class MainController {
 
 	private void notify(final String message) {
 		final long timestamp = System.currentTimeMillis();
-		notify(timestamp, mc_hostname, TTCN_Logger.Severity.EXECUTOR_UNQUALIFIED.ordinal(), message);
+		notify(new Timeval(timestamp / 1000, timestamp % 1000), mc_hostname, TTCN_Logger.Severity.EXECUTOR_UNQUALIFIED.ordinal(), message);
 	}
 
-	private void notify(final long timestamp, final String source, final int severity, final String message) {
+	private void notify(final Timeval timestamp, final String source, final int severity, final String message) {
 		unlock();
 		ui.notify(timestamp, source, severity, message);
 		lock();
@@ -5827,7 +5827,7 @@ public class MainController {
 		final int length = text_buf.pull_int().get_int();
 		final byte messageBytes[] = new byte[length];
 		text_buf.pull_raw(length, messageBytes);
-		notify(seconds * 1000 + microseconds / 1000, source, severity, new String(messageBytes));
+		notify(new Timeval(seconds, microseconds), source, severity, new String(messageBytes));
 	}
 
 	private void process_log(final Host hc) {
@@ -5842,7 +5842,7 @@ public class MainController {
 		final int length = text_buf.pull_int().get_int();
 		final byte messageBytes[] = new byte[length];
 		text_buf.pull_raw(length, messageBytes);
-		notify(seconds * 1000 + microseconds / 1000, hc.log_source, severity, new String(messageBytes));
+		notify(new Timeval(seconds, microseconds), hc.log_source, severity, new String(messageBytes));
 	}
 
 	private void process_log(final ComponentStruct tc) {
@@ -5856,7 +5856,7 @@ public class MainController {
 		final int length = text_buf.pull_int().get_int();
 		final byte messageBytes[] = new byte[length];
 		text_buf.pull_raw(length, messageBytes);
-		notify(seconds * 1000 + microseconds / 1000, tc.log_source, severity, new String(messageBytes));
+		notify(new Timeval(seconds, microseconds), tc.log_source, severity, new String(messageBytes));
 	}
 
 	public void execute_testcase(final String moduleName, final String testcaseName) {

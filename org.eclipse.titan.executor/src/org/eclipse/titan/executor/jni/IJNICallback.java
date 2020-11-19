@@ -9,6 +9,8 @@ package org.eclipse.titan.executor.jni;
 
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.mctr.Timeval;
+
 /**
  * The callback interface that is used by the MainController to call back to the executor.
  *

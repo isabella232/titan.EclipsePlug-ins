@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.executor.TITANConsole;
+import org.eclipse.titan.runtime.core.mctr.Timeval;
 
 /**
  * The middleware that connects the JNI executor and the MainController.

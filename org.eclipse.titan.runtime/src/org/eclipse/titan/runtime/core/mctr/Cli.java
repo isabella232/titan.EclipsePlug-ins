@@ -166,7 +166,7 @@ public class Cli extends UserInterface {
 	}
 
 	@Override
-	public void notify(final long timestamp, final String source, final int severity, final String message) {
+	public void notify(final Timeval timestamp, final String source, final int severity, final String message) {
 		// TODO Auto-generated method stub
 
 	}
