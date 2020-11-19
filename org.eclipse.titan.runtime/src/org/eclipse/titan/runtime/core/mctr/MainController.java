@@ -406,7 +406,7 @@ public class MainController {
 	private volatile boolean any_component_killed_requested;
 	private volatile boolean all_component_killed_requested;
 	private long testcase_start_time_seconds;// testcase_start_time
-	private int testcase_start_time_miliseconds;
+	private int testcase_start_time_microseconds;
 	private volatile boolean stop_requested;
 	private volatile boolean stop_after_tc;
 
@@ -1811,7 +1811,7 @@ public class MainController {
 		final int upper_int = text_buf.pull_int().get_int();
 		final int lower_int = text_buf.pull_int().get_int();
 		testcase_start_time_seconds = upper_int * 0xffffffff + lower_int;
-		testcase_start_time_miliseconds = text_buf.pull_int().get_int();
+		testcase_start_time_microseconds = text_buf.pull_int().get_int();
 
 		final Host ptcLoc = choose_ptc_location(componentTypeName, componentName, componentLocation);
 		if (ptcLoc == null) {
@@ -1935,7 +1935,7 @@ public class MainController {
 		final int lower_int = (int)(testcase_start_time_seconds % 0xffffffff);
 		text_buf.push_int(upper_int);
 		text_buf.push_int(lower_int);
-		text_buf.push_int(testcase_start_time_miliseconds);
+		text_buf.push_int(testcase_start_time_microseconds);
 
 		send_message(host.socket, text_buf);
 	}
@@ -5827,7 +5827,7 @@ public class MainController {
 		final int length = text_buf.pull_int().get_int();
 		final byte messageBytes[] = new byte[length];
 		text_buf.pull_raw(length, messageBytes);
-		notify(seconds * 1000 + microseconds, source, severity, new String(messageBytes));
+		notify(seconds * 1000 + microseconds / 1000, source, severity, new String(messageBytes));
 	}
 
 	private void process_log(final Host hc) {
@@ -5842,7 +5842,7 @@ public class MainController {
 		final int length = text_buf.pull_int().get_int();
 		final byte messageBytes[] = new byte[length];
 		text_buf.pull_raw(length, messageBytes);
-		notify(seconds * 1000 + microseconds, hc.log_source, severity, new String(messageBytes));
+		notify(seconds * 1000 + microseconds / 1000, hc.log_source, severity, new String(messageBytes));
 	}
 
 	private void process_log(final ComponentStruct tc) {
@@ -5856,7 +5856,7 @@ public class MainController {
 		final int length = text_buf.pull_int().get_int();
 		final byte messageBytes[] = new byte[length];
 		text_buf.pull_raw(length, messageBytes);
-		notify(seconds * 1000 + microseconds, tc.log_source, severity, new String(messageBytes));
+		notify(seconds * 1000 + microseconds / 1000, tc.log_source, severity, new String(messageBytes));
 	}
 
 	public void execute_testcase(final String moduleName, final String testcaseName) {

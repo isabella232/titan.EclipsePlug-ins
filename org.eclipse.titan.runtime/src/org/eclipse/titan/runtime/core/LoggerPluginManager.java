@@ -1058,7 +1058,7 @@ public final class LoggerPluginManager {
 
 	private void fill_common_fields(final TitanLogEvent event, final Severity severity) {
 		final long timestamp = System.currentTimeMillis();
-		event.get_field_timestamp__().operator_assign(new TimestampType(new TitanInteger(BigInteger.valueOf(timestamp / 1000)), new TitanInteger((int)(timestamp % 1000))));
+		event.get_field_timestamp__().operator_assign(new TimestampType(new TitanInteger(BigInteger.valueOf(timestamp / 1000)), new TitanInteger((int)(timestamp % 1000) * 1000)));
 
 		final TitanLogEvent_sourceInfo__list srcinfo = event.get_field_sourceInfo__list();
 		if (TTCN_Location.actualSize.get() == 0) {

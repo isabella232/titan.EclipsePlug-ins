@@ -674,7 +674,7 @@ public final class TTCN_Communication {
 			final String componentName, final String componentLocation, final boolean is_alive,
 			final double testcase_start_time) {
 		final long seconds = (long)testcase_start_time;
-		final int miliseconds = (int)((testcase_start_time - seconds) * 1000);
+		final int microseconds = (int)((testcase_start_time - seconds) * 1000);
 
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CREATE_REQ);
@@ -687,7 +687,7 @@ public final class TTCN_Communication {
 		final int lower_int = (int)(seconds % 0xffffffff);
 		text_buf.push_int(upper_int);
 		text_buf.push_int(lower_int);
-		text_buf.push_int(miliseconds);
+		text_buf.push_int(microseconds);
 
 		send_message(text_buf);
 	}
@@ -1160,10 +1160,10 @@ public final class TTCN_Communication {
 		final int upper_int = local_incoming_buf.pull_int().get_int();
 		final int lower_int = local_incoming_buf.pull_int().get_int();
 		final long seconds = upper_int * 0xffffffff + lower_int;
-		final int milliSeconds = local_incoming_buf.pull_int().get_int();
+		final int microSeconds = local_incoming_buf.pull_int().get_int();
 		local_incoming_buf.cut_message();
 
-		final double start_time = seconds + milliSeconds / 1000.0;
+		final double start_time = seconds + microSeconds / 1000000.0;
 
 		TTCN_Runtime.process_create_ptc(component_reference, component_module_name, component_definition_name, system_module_name, system_definition_name, component_name, is_alive, testcase_module_name, testcase_definition_name, start_time);
 	}
