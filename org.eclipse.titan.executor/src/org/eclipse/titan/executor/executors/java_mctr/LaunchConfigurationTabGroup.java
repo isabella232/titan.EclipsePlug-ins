@@ -15,10 +15,8 @@ import org.eclipse.debug.ui.EnvironmentTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.debug.ui.ILaunchConfigurationTabGroup;
-import org.eclipse.titan.executor.tabpages.hostcontrollers.HostControllersTab;
 import org.eclipse.titan.executor.tabpages.maincontroller.NativeJavaMainControllerTab;
 import org.eclipse.titan.executor.tabpages.performance.NativeJavaPerformanceSettingsTab;
-import org.eclipse.titan.executor.tabpages.testset.TestSetTab;
 
 /**
  * @author Kristof Szabados
@@ -29,7 +27,9 @@ public final class LaunchConfigurationTabGroup implements ILaunchConfigurationTa
 	@Override
 	public void createTabs(final ILaunchConfigurationDialog arg0, final String arg1) {
 		//TODO add support for starting Java generated host controllers
-		tabs = new ILaunchConfigurationTab[] {new NativeJavaMainControllerTab(this)/*, new HostControllersTab(this)*/, new TestSetTab(),
+		//TODO add support for extracting the tests from the Java side generated code
+		// till that is not possible, it is also not possible to configure test sets on the user interface.
+		tabs = new ILaunchConfigurationTab[] {new NativeJavaMainControllerTab(this)/*, new HostControllersTab(this)*//*, new TestSetTab()*/,
 				new NativeJavaPerformanceSettingsTab(), new EnvironmentTab(), new CommonTab()};
 	}
 
