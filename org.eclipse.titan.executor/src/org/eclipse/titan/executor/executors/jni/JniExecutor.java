@@ -348,7 +348,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 				severity = Integer.parseInt(value[3]);
 				final Formatter formatter = new Formatter();
 				formatter.format(DATETIMEFORMAT, new Date(Long.parseLong(value[0]) * 1000), Long.valueOf(value[1]));
-				times.add(formatter.toString());
+				times.add(formatter.toString().replace(' ', '0'));
 				tempNotifications.add(new Notification(formatter.toString(), SeverityResolver.getSeverityString(severity), value[2], value[4]));
 				formatter.close();
 			}
@@ -356,7 +356,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 			for (final String[] value : s) {
 				final Formatter formatter = new Formatter();
 				formatter.format(DATETIMEFORMAT, new Date(Long.parseLong(value[0]) * 1000), Long.valueOf(value[1]));
-				times.add(formatter.toString());
+				times.add(formatter.toString().replace(' ', '0'));
 				tempNotifications.add(new Notification(formatter.toString(), EMPTY_STRING, value[2], value[4]));
 				formatter.close();
 			}
@@ -394,7 +394,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 
 		final Formatter formatter = new Formatter();
 		formatter.format(DATETIMEFORMAT, new Date(time.tv_sec * 1000), time.tv_usec);
-		final String timestamp = formatter.toString();
+		final String timestamp = formatter.toString().replace(' ', '0');
 		formatter.close();
 
 		if (severityLevelExtraction) {
