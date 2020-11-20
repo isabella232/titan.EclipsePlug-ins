@@ -363,7 +363,7 @@ public class MainController {
 	}
 
 	private UserInterface ui;
-	private NetworkHandler nh = new NetworkHandler();
+	private final NetworkHandler nh = new NetworkHandler();
 
 	private mcStateEnum mc_state;
 	private String mc_hostname;
@@ -388,7 +388,7 @@ public class MainController {
 		// FIXME dummy?
 	}
 
-	private ConcurrentHashMap<SelectableChannel, channel_table_struct> channel_table = new ConcurrentHashMap<SelectableChannel, MainController.channel_table_struct>();
+	private final ConcurrentHashMap<SelectableChannel, channel_table_struct> channel_table = new ConcurrentHashMap<SelectableChannel, MainController.channel_table_struct>();
 
 	private static class module_version_info {
 		public String module_name;
@@ -398,7 +398,7 @@ public class MainController {
 	private String config_str;
 
 	// version_known is not need. if the modules list is not empty, we know the module version informations from the first HC to connect.
-	private List<module_version_info> modules = new ArrayList<MainController.module_version_info>();
+	private final List<module_version_info> modules = new ArrayList<MainController.module_version_info>();
 
 	private volatile boolean any_component_done_requested;
 	private volatile boolean any_component_done_sent;
@@ -413,12 +413,12 @@ public class MainController {
 	private int next_comp_ref;
 	private int tc_first_comp_ref;
 	//can not be null on the Java side
-	private List<Host> hosts = new ArrayList<MainController.Host>();
+	private final List<Host> hosts = new ArrayList<MainController.Host>();
 	//can not be null on the Java side
-	private List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
+	private final List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
 	private List<String> assigned_components = new ArrayList<String>();
 	private volatile boolean all_components_assigned;
-	private Deque<unknown_connection> unknown_connections = new LinkedList<MainController.unknown_connection>();
+	private final Deque<unknown_connection> unknown_connections = new LinkedList<MainController.unknown_connection>();
 
 	private int n_active_ptcs = 0;
 	//a negative value means no check
@@ -426,7 +426,7 @@ public class MainController {
 	public List<ComponentStruct> components = new ArrayList<MainController.ComponentStruct>();
 
 	private double kill_timer = 0.0;
-	private ReentrantLock mutex = new ReentrantLock();
+	private final ReentrantLock mutex = new ReentrantLock();
 
 	private ComponentStruct mtc;
 	private ComponentStruct system;
@@ -488,7 +488,7 @@ public class MainController {
 		ComponentStruct component;
 	}
 
-	private LinkedList<timer_struct> timers = new LinkedList<MainController.timer_struct>();
+	private final LinkedList<timer_struct> timers = new LinkedList<MainController.timer_struct>();
 
 	private static double time_now() {
 		// TODO check

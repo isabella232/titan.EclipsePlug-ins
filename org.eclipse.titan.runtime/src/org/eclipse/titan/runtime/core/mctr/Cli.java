@@ -56,9 +56,9 @@ public class Cli extends UserInterface {
 	private boolean exitFlag;
 	private String cfg_file_name;
 	private waitStateEnum waitState;
-	private ConfigData mycfg = new ConfigData();
+	private final ConfigData mycfg = new ConfigData();
 	private int executeListIndex;
-	private ReentrantLock mutex;
+	private final ReentrantLock mutex;
 	private MainController mainController;
 
 	public Cli() {
