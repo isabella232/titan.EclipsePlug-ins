@@ -1,0 +1,26 @@
+///////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2000-2020 Ericsson Telecom AB
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Eclipse Public License v2.0
+// which accompanies this distribution, and is available at
+// https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+///////////////////////////////////////////////////////////////////////////////
+msc {
+  hscale="1", wordwraparcs=on;
+  
+  TC,MC,PTC;
+  TC box TC [label = "Reaching a TTCN-3\n component start operation"];
+  TC => MC [label = "START_REQ"],
+  PTC box PTC [label = "Waiting for start"];
+  TC box TC [label = "Blocking"],
+  MC box MC [label = "Checking PTC state"];
+  MC => PTC [label = "START"];
+  MC => TC [label = "START_ACK"];
+  PTC box PTC [label = "Executing\nthe function"],
+  TC box TC [label = "Continuing execution"];
+  PTC => MC [label = "STOPPED"];
+  PTC => MC [label = "connection_termination"];
+  PTC -x PTC,
+  MC box MC [textbgcolour = "grey"],
+  TC box TC [textbgcolour = "grey"];
+}
