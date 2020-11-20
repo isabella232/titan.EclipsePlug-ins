@@ -84,8 +84,10 @@ public final class HostJob extends Job {
 			final int exitVal = proc.waitFor();
 
 			if (0 == exitVal) {
-				executor.addNotification(new Notification((new Formatter()).format(BaseExecutor.PADDEDDATETIMEFORMAT, new Date()).toString(), EMPTY,
-						EMPTY, "Host Controller executed successfully"));
+				final Formatter formatter = new Formatter();
+				final String timestamp = formatter.format(BaseExecutor.PADDEDDATETIMEFORMAT, new Date()).toString();
+				formatter.close();
+				executor.addNotification(new Notification(timestamp, EMPTY, EMPTY, "Host Controller executed successfully"));
 			} else {
 				if (stderr.ready()) {
 					final Formatter formatter = new Formatter();
@@ -148,7 +150,10 @@ public final class HostJob extends Job {
 		fastOffset = 0;
 		readFullLineOnly(stdout);
 		while (null != fastLine) {
-			executor.addNotification(new Notification((new Formatter()).format(BaseExecutor.PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
+			final Formatter formatter = new Formatter();
+			final String timestamp = formatter.format(BaseExecutor.PADDEDDATETIMEFORMAT, new Date()).toString();
+			formatter.close();
+			executor.addNotification(new Notification(timestamp, "", "", fastLine));
 			builder.delete(0, fastOffset);
 			if (!firstOutput && null != Activator.getMainView()) {
 				Activator.getMainView().refreshIfSelected(executor.mainControllerRoot);

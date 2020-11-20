@@ -960,7 +960,10 @@ public final class CliExecutor extends BaseExecutor {
 			} else if ( consoleTimeStampLength < fastLine.length() &&
 					fastLine.substring(consoleTimeStampLength).startsWith("MTC@")) {
 				fastLine = fastLine.substring(consoleTimeStampLength);
-				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
+				final Formatter formatter = new Formatter();
+				final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
+				formatter.close();
+				addNotification(new Notification(timestamp, "", "", fastLine));
 				testExecution();
 			} else if ( consoleTimeStampLength < fastLine.length() &&
 					fastLine.substring(consoleTimeStampLength).startsWith("MC@")) {
@@ -1012,7 +1015,10 @@ public final class CliExecutor extends BaseExecutor {
 				}
 			} else if (	consoleTimeStampLength < fastLine.length() && fastLine.substring(consoleTimeStampLength).startsWith("HC@")) {
 				fastLine = fastLine.substring(consoleTimeStampLength);
-				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
+				final Formatter formatter = new Formatter();
+				final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
+				formatter.close();
+				addNotification(new Notification(timestamp, "", "", fastLine));
 			} else {
 				//to avoid expensive steps and using cheap comparisons instead, if possible:
 				if ( consoleTimeStampLength > 0 && consoleTimeStampLength < fastLine.length() ) {
@@ -1021,7 +1027,10 @@ public final class CliExecutor extends BaseExecutor {
 						fastLine = fastLine.substring(consoleTimeStampLength);
 					}
 				}
-				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
+				final Formatter formatter = new Formatter();
+				final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
+				formatter.close();
+				addNotification(new Notification(timestamp, "", "", fastLine));
 			}
 			builder.delete(0, fastOffset);
 			if (Activator.getMainView() != null) {

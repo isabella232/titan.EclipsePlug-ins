@@ -297,11 +297,13 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	public void insertError(final int severity, final String msg) {
 		TITANConsole.println("Error: " + msg);
 
+		final Formatter formatter = new Formatter();
+		final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
+		formatter.close();
 		if (severityLevelExtraction) {
-			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), SeverityResolver
-					.getSeverityString(severity), EMPTY_STRING, msg));
+			addNotification(new Notification(timestamp, SeverityResolver.getSeverityString(severity), EMPTY_STRING, msg));
 		} else {
-			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), EMPTY_STRING, EMPTY_STRING, msg));
+			addNotification(new Notification(timestamp, EMPTY_STRING, EMPTY_STRING, msg));
 		}
 		if (simpleExecutionRunning) {
 			shutdownRequested = true;
