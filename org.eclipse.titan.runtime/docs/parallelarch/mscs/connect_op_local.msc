@@ -1,0 +1,26 @@
+// Copyright (c) 2000-2020 Ericsson Telecom AB
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Eclipse Public License v2.0
+// which accompanies this distribution, and is available at
+// https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+///////////////////////////////////////////////////////////////////////////////
+msc {
+  hscale="1.5", wordwraparcs=off, width=800;
+  
+  TC1 [label = "A\n TC"], MC, TC2[label = "B\n TC"];
+  
+  TC1 box TC1 [label = "  Reaching a TTCN-3\n connect operation"],
+  TC2 box TC2 [label = " Waiting or executing"];
+  TC1 => MC [label = "CONNECT_REQ"];
+  MC => TC2 [label = "CONNECT_LOCAL"];
+  TC1 box TC1 [label = "Blocking"],
+  TC2 box TC2 [label = "Establishing the connection locally"];
+  TC2 => MC [label = "CONNECTED_LOCAL"];
+  MC => TC1 [label = "CONNECT_ACK"];
+  TC1 box TC1 [label = "Continuing execution"],
+  TC2 box TC2 [label = "Waiting or executing"];
+  |||;
+  TC1 box TC1 [textbgcolour = "gray"],
+  MC box MC [textbgcolour = "gray"],
+  TC2 box TC2 [textbgcolour = "gray"];
+}

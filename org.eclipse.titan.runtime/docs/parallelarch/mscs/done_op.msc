@@ -1,0 +1,26 @@
+// Copyright (c) 2000-2020 Ericsson Telecom AB
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Eclipse Public License v2.0
+// which accompanies this distribution, and is available at
+// https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+///////////////////////////////////////////////////////////////////////////////
+msc {
+  hscale="1.2", wordwraparcs=on;
+  
+  TC, MC, PTC;
+  
+  TC box TC [label = "Executing TTCN-3\n done operation"];
+  PTC box PTC [label = "Executing TTCN-3 code"];
+  TC => MC [label = "DONE_NOTIFY"];
+  TC box TC [label = "Waiting for\n new snapshot "],
+  MC box MC [label = "Registering notification"];
+  |||;
+  TC box TC [label = "May continue on\n other branch of alt"];
+  PTC => MC [label = "STOPPED"];
+  MC => TC [label = "DONE"];
+  PTC => MC [label = "connection_termination"];
+  |||;
+  TC box TC [textbgcolour = "grey"],
+  MC box MC [textbgcolour = "grey"],
+  PTC -x PTC;
+}

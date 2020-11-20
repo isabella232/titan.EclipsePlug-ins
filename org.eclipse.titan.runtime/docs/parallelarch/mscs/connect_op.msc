@@ -1,0 +1,31 @@
+// Copyright (c) 2000-2020 Ericsson Telecom AB
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Eclipse Public License v2.0
+// which accompanies this distribution, and is available at
+// https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+///////////////////////////////////////////////////////////////////////////////
+msc {
+  hscale="1.2", wordwraparcs=on;
+  
+  TC1 [label = "A\n TC"], MC, TC2[label = "B\n TC"], TC3[label = "C\n TC"];
+  
+  TC1 box TC1 [label = "Reaching a TTCN-3\n connect operation"],
+  TC2 box TC2 [label = "Waiting or executing"],
+  TC3 box TC3 [label = "Waiting or executing"];
+  TC1 => MC [label = "CONNECT_REQ"];
+  MC => TC2 [label = "CONNECT_LISTEN"];
+  TC2 box TC2 [label = "Listening on a TCP port"];
+  TC2 => MC [label = "CONNECT_LISTEN_ACK"];
+  MC => TC3 [label = "CONNECT"];
+  TC3 => TC2 [label = "connection_establishment"];
+  TC2 => MC [label = "CONNECTED"];
+  MC => TC1 [label = "CONNECT_ACK"];
+  TC1 box TC1 [label = "Continuing execution"],
+  TC2 box TC2 [label = "Waiting or executing"],
+  TC3 box TC3 [label = "Waiting or executing"];
+  |||;
+  TC1 box TC1 [textbgcolour = "grey"],
+  MC box MC [textbgcolour = "grey"],
+  TC2 box TC2 [textbgcolour = "grey"],
+  TC3 box TC3 [textbgcolour = "grey"];
+}

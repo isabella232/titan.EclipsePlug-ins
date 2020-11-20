@@ -1,0 +1,21 @@
+///////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2000-2020 Ericsson Telecom AB
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Eclipse Public License v2.0
+// which accompanies this distribution, and is available at
+// https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+///////////////////////////////////////////////////////////////////////////////
+msc {
+  hscale="1", wordwraparcs=on;
+  
+  TC1 [label = "TC"], MC, TC2 [label = "TC"];
+  
+  TC1 box TC1 [label = "Executing TTCN-3 code"],
+  TC2 box TC2 [label = "Executing TTCN-3 code"];
+  TC1 => MC [label = "MESSAGE_TO"];
+  MC => TC2 [label = "MESSAGE_FROM"];
+  TC1 box TC1 [label = "Continuing execution"],
+  TC2 box TC2 [label = "Putting the message into the queue"];
+  |||;
+  TC2 box TC2 [label = "Continuing execution"];
+}

@@ -1,0 +1,26 @@
+// Copyright (c) 2000-2020 Ericsson Telecom AB
+// All rights reserved. This program and the accompanying materials
+// are made available under the terms of the Eclipse Public License v2.0
+// which accompanies this distribution, and is available at
+// https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+///////////////////////////////////////////////////////////////////////////////
+msc {
+  hscale="1", wordwraparcs=on;
+  
+  TC1 [label = "A\n TC"], MC, TC2 [label = "B\n TC"];
+  
+  TC1 box TC1 [label = "Reaching a TTCN-3\n disconnect operation"],
+  TC2 box TC2 [label = "Waiting or executing"];
+  TC1 => MC [label = "DISCONNECT_REQ"];
+  MC => TC2 [label = "DISCONNECT_LOCAL"];
+  TC1 box TC1 [label = "Blocking"],
+  TC2 box TC2 [label = "Removing the connection locally"];
+  TC2 => MC [label = "DISCONNECT_LOCAL"];
+  MC => TC1 [label = "DISCONNECT_ACK"];
+  TC1 box TC1 [label = "Continuing execution"],
+  TC2 box TC2 [label = "Waiting or executing"];
+  |||;
+  TC1 box TC1 [textbgcolour = "grey"],
+  MC box MC [textbgcolour = "grey"],
+  TC2 box TC2 [textbgcolour = "grey"];
+}
