@@ -2186,7 +2186,7 @@ public final class RecordSetCodeGenerator {
 			}
 			for (int i = 0; i < fieldInfos.size(); ++i) {
 				// check field name
-				source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.substring(0,name_len.get()))) '{'\n",
+				source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.substring(0, {0}))) '{'\n",
 						fieldInfos.get(i).jsonAlias != null ? fieldInfos.get(i).jsonAlias.length() : fieldInfos.get(i).mDisplayName.length(),
 						fieldInfos.get(i).jsonAlias != null ? fieldInfos.get(i).jsonAlias : fieldInfos.get(i).mDisplayName));
 				if (fieldInfos.get(i).jsonDefaultValue == null) {
