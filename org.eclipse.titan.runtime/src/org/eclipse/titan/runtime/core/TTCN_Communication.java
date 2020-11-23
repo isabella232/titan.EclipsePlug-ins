@@ -996,8 +996,8 @@ public final class TTCN_Communication {
 		if (is_connected.get()) {
 			final Text_Buf text_buf = new Text_Buf();
 			text_buf.push_int(MSG_LOG);
-			int upper_int = (int)(seconds / 0xffffffff);
-			int lower_int = (int)(seconds % 0xffffffff);
+			final int upper_int = (int)(seconds / 0xffffffff);
+			final int lower_int = (int)(seconds % 0xffffffff);
 			text_buf.push_int(upper_int);
 			text_buf.push_int(lower_int);
 			text_buf.push_int(microseconds);
