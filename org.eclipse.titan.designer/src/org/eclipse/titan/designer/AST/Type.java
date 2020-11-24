@@ -41,9 +41,9 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_field_list;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_single_tag;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_list;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_type;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_fields;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Modifier_type;
@@ -3038,8 +3038,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			} else {
 				JSON_value.append("null").append(',');
 			}
-			// FIXME: || jsonattrib->tag_list != NULL
-			JSON_value.append(jsonAttribute.as_value).append(',');
+
+			JSON_value.append(jsonAttribute.as_value || jsonAttribute.tag_list != null).append(',');
 
 			if (jsonAttribute.default_value == null) {
 				JSON_value.append("null").append(',');
@@ -3115,55 +3115,63 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 	}
 
-	protected List<rawAST_coding_taglist> convertJsonCodingAttributes(RawAST jsonattrib, final JavaGenData aData, final StringBuilder source, IType t) {
-		if (jsonattrib == null || jsonattrib.taglist == null) {
+	protected List<rawAST_coding_taglist> convertJsonCodingAttributes(JsonAST jsonattrib, final JavaGenData aData, final StringBuilder source, final IType lastType) {
+		if (jsonattrib == null || jsonattrib.tag_list == null) {
 			return null;
 		}
-			
-		final List<rawAST_single_tag> tag_list = jsonattrib.taglist;
-		final List<rawAST_coding_taglist> jsonChosen = new ArrayList<rawAST_coding_taglist>();
-		for (int c = 0; c < tag_list.size(); ++c) {
-			final rawAST_coding_taglist jsonChosenElement = new rawAST_coding_taglist();
-			if (tag_list.get(c).keyList == null || tag_list.get(c).keyList.size() == 0) {
-				jsonChosenElement.fields = null;
+
+		final List<rawAST_single_tag> tag_list = jsonattrib.tag_list;
+		final List<rawAST_coding_taglist> jsonChosen = new ArrayList<rawAST_coding_taglist>(tag_list.size());
+		for (int c = 0; c < jsonAttribute.tag_list.size(); c++) {
+			final rawAST_single_tag curr_single_Tag = jsonAttribute.tag_list.get(c);
+			final rawAST_coding_taglist curr_coding_taglist = new rawAST_coding_taglist();
+			final int keyListSize = curr_single_Tag.keyList == null ? 0: curr_single_Tag.keyList.size();
+			if (keyListSize > 0) {
+				curr_coding_taglist.fields = new ArrayList<RawASTStruct.rawAST_coding_field_list>(keyListSize);
 			} else {
-				jsonChosenElement.fields = new ArrayList<rawAST_coding_field_list>();
+				curr_coding_taglist.fields = null;
 			}
-			final Identifier union_field_id = tag_list.get(c).fieldName;
-			final TTCN3_Set_Seq_Choice_BaseType ct = (TTCN3_Set_Seq_Choice_BaseType) t;
-			final TTCN3_Set_Seq_Choice_BaseType clast = (TTCN3_Set_Seq_Choice_BaseType)getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-			jsonChosenElement.fieldname = union_field_id != null ? union_field_id.getName() : null; // TODO: currently unused
-			jsonChosenElement.fieldnum = union_field_id != null ? clast.getComponentIndexByName(tag_list.get(c).fieldName) : -2;
-			if (tag_list.get(c).keyList != null) {
-				for (int a = 0; a <tag_list.get(c).keyList.size(); ++a) {
-					final rawAST_coding_field_list key = new rawAST_coding_field_list();
-					key.value = tag_list.get(c).keyList.get(a).value;
-					key.fields = new ArrayList<rawAST_coding_fields>();
-					for (int b = 0; b < key.fields.size(); ++b) {
-						final String current_field_id = tag_list.get(c).keyList.get(a).keyField.names.get(b).getName();
-						final int current_field_index = ct.getComponentIndexByName(current_field_id);
-						final CompField current_field = ct.getComponentByIndex(current_field_index);
-						final rawAST_coding_fields jsonChosenElementField = new rawAST_coding_fields();
-						jsonChosenElementField.nthfield = current_field_index;
-						jsonChosenElementField.nthfieldname = current_field_id;
-						if (t.getTypetype() == Type_type.TYPE_TTCN3_CHOICE) {
-							jsonChosenElementField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-						} else if (current_field.isOptional()) {
-							jsonChosenElementField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
-						} else {
-							jsonChosenElementField.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
-						}
-						final Type field_type = current_field.getType();
-						jsonChosenElementField.type = field_type.getGenNameValue(aData, source);
-						jsonChosenElementField.typedesc = field_type.getGenNameTypeDescriptor(aData, source);
-						t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-						key.fields.add(jsonChosenElementField);
+			jsonChosen.add(curr_coding_taglist);
+
+			final Identifier union_field_id = curr_single_Tag.fieldName;
+			curr_coding_taglist.fieldname = union_field_id != null ? union_field_id.getName() : null;
+			curr_coding_taglist.fieldnum = union_field_id != null ? ((TTCN3_Set_Seq_Choice_BaseType)lastType).getComponentIndexByName(curr_single_Tag.fieldName) : -2;
+			for (int a = 0; a < keyListSize; a++) {
+				final rawAST_coding_field_list key = new rawAST_coding_field_list();
+				curr_coding_taglist.fields.add(key);
+				key.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(curr_single_Tag.keyList.get(a).keyField.names.size());
+				key.value = curr_single_Tag.keyList.get(a).value;
+				final ExpressionStruct expression = new ExpressionStruct();
+				curr_single_Tag.keyList.get(a).v_value.generateCodeExpression(aData, expression, true);
+				key.expression = expression;
+				final ExpressionStruct nativeExpression = new ExpressionStruct();
+				curr_single_Tag.keyList.get(a).v_value.generateCodeExpression(aData, nativeExpression, false);
+				key.nativeExpression = nativeExpression;
+				IType t = this;
+				for (int b = 0; b < curr_single_Tag.keyList.get(a).keyField.names.size(); b++) {
+					final Identifier curr_field_id = curr_single_Tag.keyList.get(a).keyField.names.get(b);
+					final int current_field_index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(curr_field_id);
+					final CompField current_field = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByIndex(current_field_index);
+					RawASTStruct.rawAST_coding_fields current_coding_fields = new RawASTStruct.rawAST_coding_fields();
+					current_coding_fields.nthfield = current_field_index;
+					current_coding_fields.nthfieldname = curr_field_id.getName();
+					if (t.getTypetype() == Type_type.TYPE_TTCN3_CHOICE) {
+						current_coding_fields.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+					} else if (current_field.isOptional()) {
+						current_coding_fields.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+					} else {
+						current_coding_fields.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
 					}
-					jsonChosenElement.fields.add(key);
+
+					final Type field_type = current_field.getType();
+					current_coding_fields.type = field_type.getGenNameValue(aData, source);
+					current_coding_fields.typedesc = field_type.getGenNameTypeDescriptor(aData, source);
+					t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					key.fields.add(current_coding_fields);
 				}
 			}
-			jsonChosen.add(jsonChosenElement);
 		}
+
 		return jsonChosen;
 	}
 

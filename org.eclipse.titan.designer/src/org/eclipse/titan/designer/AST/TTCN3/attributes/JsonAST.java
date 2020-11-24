@@ -137,7 +137,7 @@ public class JsonAST {
 	public boolean as_number;
 
 	/** chosen fields for JSON encoding */
-	public List<rawAST_coding_taglist> tag_list;
+	public List<RawAST.rawAST_single_tag> tag_list;
 
 	/**
 	 * If set, encodes the value into a map of key-value pairs (i.e. a fully
@@ -168,7 +168,7 @@ public class JsonAST {
 			parsed_default_value = value.parsed_default_value;
 			metainfo_unbound = value.metainfo_unbound;
 			as_number = value.as_number;
-			tag_list = value.tag_list != null ? new ArrayList<rawAST_coding_taglist>(value.tag_list) : null;
+			tag_list = value.tag_list != null ? new ArrayList<RawAST.rawAST_single_tag>(value.tag_list) : null;
 			as_map = value.as_map;
 			enum_texts = new ArrayList<JsonEnumText>(value.enum_texts);
 			schema_extensions = new ArrayList<JsonSchemaExtension>(value.schema_extensions);
@@ -262,6 +262,7 @@ public class JsonAST {
 		}
 	}
 
+	//FIXME system.out is unreliable for such purposes !
 	public void print_JsonAST() {
 		System.out.printf("\n\rOmit encoding: ");
 		if (omit_as_null) {
@@ -295,18 +296,18 @@ public class JsonAST {
 			System.out.printf("  Number of rules: %d\n\r", tag_list.size());
 			for (int i = 0; i < tag_list.size(); ++i) {
 				System.out.printf("  Rule #%d:\n\r", i);
-				System.out.printf("    Chosen field: %s\n\r", tag_list.get(i).fieldname != null ?
-						tag_list.get(i).fieldname : "omit");
-				System.out.printf("    Number of conditions: %d\n\r", tag_list.get(i).fields.size());
-				for (int j = 0; j < tag_list.get(i).fields.size(); ++j) {
+				System.out.printf("    Chosen field: %s\n\r", tag_list.get(i).fieldName != null ?
+						tag_list.get(i).fieldName : "omit");
+				System.out.printf("    Number of conditions: %d\n\r", tag_list.get(i).keyList.size());
+				for (int j = 0; j < tag_list.get(i).keyList.size(); ++j) {
 					System.out.printf("    Condition #%d:\n\r", j);
-					System.out.printf("      Value: %s\n\r", tag_list.get(i).fields.get(j).value);
+					System.out.printf("      Value: %s\n\r", tag_list.get(i).keyList.get(j).value);
 					System.out.printf("      Field: ");
-					for (int k = 0; k < tag_list.get(i).fields.get(j).fields.size(); ++k) {
+					for (int k = 0; k < tag_list.get(i).keyList.get(j).keyField.names.size(); ++k) {
 						if (k != 0) {
 							System.out.printf(".");
 						}
-						System.out.printf("%s", tag_list.get(i).fields.get(j).fields.get(k).nthfieldname);
+						System.out.printf("%s", tag_list.get(i).keyList.get(j).keyField.names.get(k).getName());
 					}
 					System.out.printf("\n\r");
 				}

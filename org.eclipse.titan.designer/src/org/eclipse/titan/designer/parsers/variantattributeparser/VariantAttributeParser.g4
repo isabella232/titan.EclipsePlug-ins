@@ -1189,7 +1189,7 @@ pr_JAsNumber: ASKeyword NUMBERKeyword {jsonstruct.as_number = true;};
 pr_JChosen:
 	CHOSENKeyword
 	LPAREN
-	taglist = pr_XAssocList	{rawstruct.taglist = $taglist.taglist;}
+	taglist = pr_XAssocList	{jsonstruct.tag_list = $taglist.taglist;}
 	SEMICOLON?
 	RPAREN
 ;

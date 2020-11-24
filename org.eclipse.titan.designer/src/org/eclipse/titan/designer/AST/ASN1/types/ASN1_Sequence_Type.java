@@ -43,7 +43,6 @@ import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
@@ -1336,14 +1335,13 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			}
 
 			final JsonAST jsonAttribute = cfType.getJsonAttribute();
-			final List<rawAST_coding_taglist> jsonChosen = jsonAttribute != null && jsonAttribute.tag_list != null ? new ArrayList<rawAST_coding_taglist>(jsonAttribute.tag_list) : null;
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate( aData, source ),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
 					ofType, cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source),
 					jsonAttribute != null ? jsonAttribute.metainfo_unbound : false,
 					jsonAttribute != null ? jsonAttribute.parsed_default_value : null,
-					jsonChosen,
+					null,
 					jsonAttribute != null ? jsonAttribute.alias : null,
 					jsonAttribute != null ? jsonAttribute.omit_as_null : false);
 			hasOptional |= compField.isOptional();

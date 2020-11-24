@@ -1092,7 +1092,8 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			}
 
 			final JsonAST jsonAttribute = cfType.getJsonAttribute();
-			final List<rawAST_coding_taglist> jsonChosen = jsonAttribute != null && jsonAttribute.tag_list != null ? new ArrayList<rawAST_coding_taglist>(jsonAttribute.tag_list) : null;
+			List<rawAST_coding_taglist> jsonChosen = convertJsonCodingAttributes(jsonAttribute, aData, source, lastType);
+
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate( aData, source ),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
