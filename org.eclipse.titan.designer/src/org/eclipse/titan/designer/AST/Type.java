@@ -3122,8 +3122,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final List<rawAST_single_tag> tag_list = jsonattrib.tag_list;
 		final List<rawAST_coding_taglist> jsonChosen = new ArrayList<rawAST_coding_taglist>(tag_list.size());
-		for (int c = 0; c < jsonAttribute.tag_list.size(); c++) {
-			final rawAST_single_tag curr_single_Tag = jsonAttribute.tag_list.get(c);
+		for (int c = 0; c < tag_list.size(); c++) {
+			final rawAST_single_tag curr_single_Tag = tag_list.get(c);
 			final rawAST_coding_taglist curr_coding_taglist = new rawAST_coding_taglist();
 			final int keyListSize = curr_single_Tag.keyList == null ? 0: curr_single_Tag.keyList.size();
 			if (keyListSize > 0) {
