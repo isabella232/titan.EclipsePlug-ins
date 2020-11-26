@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate">
+<stringAttribute key="lastTimeSelection" value="configuration file"/>
+<intAttribute key="lastTimeSelectionTime" value="1"/>
+<intAttribute key="lastTimeSelectionType" value="4"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/Regression_Test_java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="4"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+</listAttribute>
+<intAttribute key="org.eclipse.titan.executor.MainControllerStateRefreshTimeout" value="5"/>
+<stringAttribute key="org.eclipse.titan.executor.configurationFilePath" value="C:\Users\ethbaat\git\titan.EclipsePlug-ins\Regression_Test_java\parallel_main.cfg"/>
+<booleanAttribute key="org.eclipse.titan.executor.consoleLogging" value="true"/>
+<booleanAttribute key="org.eclipse.titan.executor.executeConfigurationFileOnLaunch" value="true"/>
+<listAttribute key="org.eclipse.titan.executor.hostCommands">
+<listEntry value="cd %Workingdirectory; %Executable %MCHost %MCPort"/>
+</listAttribute>
+<listAttribute key="org.eclipse.titan.executor.hostExecutables">
+<listEntry value=""/>
+</listAttribute>
+<listAttribute key="org.eclipse.titan.executor.hostNames">
+<listEntry value="localhost"/>
+</listAttribute>
+<listAttribute key="org.eclipse.titan.executor.hostWorkingDirectories">
+<listEntry value=""/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.titan.executor.keepTemporarilyGeneratedConfigurationFiles" value="true"/>
+<intAttribute key="org.eclipse.titan.executor.maximumNotificationLineCount" value="1000"/>
+<stringAttribute key="org.eclipse.titan.executor.projectName" value="Regression_Test_java"/>
+<booleanAttribute key="org.eclipse.titan.executor.severityLevelExtraction" value="true"/>
+<booleanAttribute key="org.eclipse.titan.executor.testcaseRefreshOnStart" value="true"/>
+<booleanAttribute key="org.eclipse.titan.executor.verdictExtraction" value="true"/>
+</launchConfiguration>
