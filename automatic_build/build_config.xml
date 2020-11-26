@@ -32,7 +32,7 @@
 	<property name="result.dir" location="${basedir}/result"/>
 	<property name="log.dir" location="${result.dir}/logs"/>
 	<property name="build.dir" location="${basedir}/../"/>
-	<property name="zip.dir" location="/home/titanrt/eclipse/zips/${version}"/>
+	<property name="zip.dir" location="/proj/ttcn3titan/www/ttcn/root/download/eclipse/zips/${version}"/>
 
 	<property name="updatesites.tmp.location" location="/local/home/titanrt/eclipse_automatic_build/tmp_update_sites" />
 	
