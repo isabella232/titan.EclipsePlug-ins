@@ -1,0 +1,230 @@
+---
+Author: Jenő Balaskó
+Version: 7.2.0
+Date: 2020-11-27
+
+---
+= Test Description for Main Controller of te TITAN TTCN-3 Test Executor
+:author: Jenő Balaskó
+:revnumber: 7.2.0
+:revdate: 2020-11-27
+:title-logo-image: images/titan_logo.png
+:sectnums:
+:doctype: article
+:toc:
+
+ifdef::env-github,backend-html5[]
+image::images/titan_logo.png[alt]
+endif::[]
+
+*Abstract*
+
+This document describes detailed information on the testing the Main Controller of the TITAN TTCN-3 Test Executor in the Eclipse environment.
+
+*Copyright*
+
+Copyright (c) 2000-2020 Ericsson Telecom AB +
+All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v2.0 that accompanies this distribution, and is available at
+
+https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
+
+*Disclaimer*
+
+The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing.
+Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
+
+== Introduction
+
+=== Overview
+
+This document describes how to test the execution of a  Java based Titan project in Eclipse IDE. 
+Java based Titan project means that the source code written in ttcn or in java in case of test ports.
+The test is restricted for parallel mode.
+
+=== Target Groups
+
+This document is for the tester of the Titan Team.
+
+=== Typographical Conventions
+
+This document uses the following typographical conventions:
+
+* *Bold* is used to represent graphical user interface (GUI) components such as buttons, menus, menu items, dialog box options, fields and keywords, as well as menu commands. Bold is also used with ’+’ to represent key combinations. For example, *Ctrl+Click*
+* The "*/*" character is used to denote a menu and sub-menu sequence. For example, *File / Open*.
+* `Monospaced` font is used represent system elements such as command and parameter names, program names, path names, URLs, directory names and code examples.
+* *`Bold monospaced font`* is used for commands that must be entered at the Command Line Interface (CLI), For example, *`ttcn3_start`*
+
+=== Installation
+
+For details on installing the TITAN Designer for the Eclipse IDE plug-in, see the Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE.
+
+=== Prerequisites
+
+* Eclipse IDE with version at least xxx
+* Installed titan.EcipsePlug-ins
+* A Java based Titan project "HelloJTitan".
+
+== Testcases
+
+=== TC1 Create Native Java Lauch Config for the Main Controller
+
+==== Prerequisites
+
+* Project "HelloJTitan" has been built and cfg file exists
+
+==== Test Steps
+
+. Select cfg.cfg on project HelloJTitan.
+. Select popup Run as ... > Run Configurations ... > Native Java Launch Config > New
++
+image::images/CreateJavaLaunchCfg1.PNG[title="Native Java Launch Config 1"]
++
+. Fill in the form with help of "Browse" buttons:
++
+image::images/CreateJavaLaunchCfg2.PNG[title="Native Java Launch Config 2"]
++
+. Fill the form of tab "Common" to save the launch cfg:
++
+image::images/CreateJavaLaunchCfg3.PNG[title="Native Java Launch Config 3"]
++
+. Push the "Close" button. The Launch cfg has been created and saved
+
+==== Status
+
+Passed
+
+=== TC2 Create Host Controller Java Application
+
+==== Prerequisites
+
+* Project "HelloJTitan" has been built
+
+==== Test Steps
+
+. Select project "HelloJTitan"
+. Select popup Run as ... > Run Configurations ... > Java Application
+. Fill the form in (see figure "Create HC2").
++
+image::images/Create_JavaAppl_JHC.PNG[title="Create HC, Main tab "]
++
+. On the tab "Argument", fill the fields in according to the config file of the project (Section [MAIN_CONTROLLER]). 
+The first arg is the hostname, the second one is the port number.
++
+image::images/Create_JavaAppl_JHC2.PNG[title="Create HC, Arguments tab"]
++
+. Press button "Apply" and "Close".
+
+==== Status
+
+Passed
+
+=== TC3 Run Parallel Test
+
+==== Prerequisites
+
+* Project "HelloJTitan" has been built and cfg file exists
+* Lauch config created for MC (according to TC1) 
+* HC created  (according to TC2)
+* cfg file detail:
++
+[source]
+----
+[MAIN_CONTROLLER]
+TCPPort := 7392
+KillTimer := 100.0
+NumHCs := 1
+LocalAddress := 127.0.0.1
+----
+
+==== Test Steps
+
+. Start MC ( On Run menu, select "HelloJTitan_NativeJavaLaunchCfg_MC", see figure "Run Menu"). 
++
+image::images/RunMenu.PNG[title="Run Menu"]
++
+The Main controller starts, and its icon appears in the "TITAN Execution Controller view". 
+. In Titan Execution Controller view, Select "Start session" on Popup menu of the Main Controller. 
++
+image::images/StartSession.PNG[title="Start session"]
+The MC starts listening (see figure "MC Listening")
++
+image::images/MCListening.PNG[title="MC Listening"]
+. Start HC (On the Run menu, select "HelloJTitan_JHC", see figure "Run Menu"). The Host controller starts and connects to the MC.
++
+[source]
+----
+MC@HU-00000670: New HC connected from 127.0.0.1 [127.0.0.1]. HU-00000670: Windows 10 10.0 on amd64.
+----
+. Create MTC (not possible if xxx) (See figure "Create MTC log")
++
+image::images/HC_Connected.PNG[title="Create MTC log"]
+. Select "Execute" on Popup menu of the Main Controller.
++
+image::images/Execute.PNG[title="Execute..."]
+. Select the config file on the Execute Dialog ( see figure "Execute Dialog" ). The execution of the testcases starts. 
++
+image::images/ExecuteDialog.PNG[title="Execute Dialog"]
+The execution logged (See figure "Execution Log")
++
+image::images/ExecLog1.PNG[title="Execution Log"]
+
+==== Status
+
+Passed
+
+=== TC4 Start the config again
+
+==== Status
+
+Passed
+
+=== TC5 Exit MTC
+
+. Select "MTC exit" on on Popup menu of the Main Controller. The MTC stops and statistics will be logged (See figure "MTC Exit" )
++
+image::images/ExitMTC.PNG[title="MTC exit log"]
+
+==== Status
+
+Failed. 
+
+==== Reason
+Setverdict pass is not passed to MC.
+
+=== TC6 HC starts before "Start session"
+
+==== Prerequisites
+
+* Project "HelloJTitan" has been built and cfg file exists
+* Lauch config created for MC (according to TC1) 
+* HC created  (according to TC2)
+* cfg file detail:
++
+[source]
+----
+[MAIN_CONTROLLER]
+TCPPort := 7392
+KillTimer := 100.0
+NumHCs := 1
+LocalAddress := 127.0.0.1
+----
+
+==== Test Steps
+. Start MC
+. Start HC 
+
+====Result: 
+[source]
+----
+xxx
+----
+
+==== Status
+
+Pass
+
+==== Reason
+
+Output as expected. HC stops immediately, because MC is not listening yet
+
+=== TC7 
