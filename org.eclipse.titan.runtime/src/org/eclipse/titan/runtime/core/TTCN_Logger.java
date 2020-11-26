@@ -859,7 +859,7 @@ public final class TTCN_Logger {
 			final long startSeconds = start_time / 1000;
 			final long startMicroSeconds = start_time % 1000;
 			if (microseconds < startMicroSeconds) {
-				str.append(String.format("%d", newSeconds - startSeconds - 1)).append('.').append(String.format("%03d", microseconds + ( 1000 - startMicroSeconds))).append("000");
+				str.append(String.format("%d", newSeconds - startSeconds - 1)).append('.').append(String.format("%03d", microseconds + ( 1000 - startMicroSeconds)));
 			} else {
 				str.append(String.format("%d", newSeconds - startSeconds)).append('.').append(String.format("%03d", microseconds - startMicroSeconds)).append("000");
 			}
@@ -870,7 +870,7 @@ public final class TTCN_Logger {
 			if (timestamp != lastTimestamp) {
 				calendar.setTimeInMillis(timestamp);
 				final StringBuilder temp = new StringBuilder();
-				temp.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))).append(':').append(String.format("%02d", calendar.get(Calendar.MINUTE))).append(':').append(String.format("%02d", calendar.get(Calendar.SECOND))).append('.').append(String.format("%03d", microseconds)).append("000");
+				temp.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))).append(':').append(String.format("%02d", calendar.get(Calendar.MINUTE))).append(':').append(String.format("%02d", calendar.get(Calendar.SECOND))).append('.').append(String.format("%03d", microseconds));
 				lastPrintedTime = temp.toString();
 				lastTimestamp = timestamp;
 			}
@@ -885,7 +885,7 @@ public final class TTCN_Logger {
 				final StringBuilder temp = new StringBuilder();
 				temp.append(String.format("%4d", calendar.get(Calendar.YEAR))).append('/').append(month_names[calendar.get(Calendar.MONTH)]).append('/').append(String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH)));
 				temp.append(' ');
-				temp.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))).append(':').append(String.format("%02d", calendar.get(Calendar.MINUTE))).append(':').append(String.format("%02d", calendar.get(Calendar.SECOND))).append('.').append(String.format("%03d", microseconds)).append("000");
+				temp.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))).append(':').append(String.format("%02d", calendar.get(Calendar.MINUTE))).append(':').append(String.format("%02d", calendar.get(Calendar.SECOND))).append('.').append(String.format("%03d", microseconds));
 				lastPrintedTime = temp.toString();
 				lastTimestamp = timestamp;
 			}
