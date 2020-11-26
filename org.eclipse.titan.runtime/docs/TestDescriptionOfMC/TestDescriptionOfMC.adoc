@@ -123,7 +123,7 @@ Passed
 ==== Prerequisites
 
 * Project "HelloJTitan" has been built and cfg file exists
-* Lauch config created for MC (according to TC1) 
+* Lauch config "cfg.cfg"created for MC (according to TC1) 
 * HC created  (according to TC2)
 * cfg file detail:
 +
@@ -176,27 +176,62 @@ Passed
 
 === TC4 Start the config again
 
+==== Test steps
+
+. Select "Execute..." on the Popup menu of the Main Controller.
+
 ==== Status
 
 Passed
 
 === TC5 Exit MTC
 
-. Select "MTC exit" on on Popup menu of the Main Controller. The MTC stops and statistics will be logged (See figure "MTC Exit" )
+. Select "MTC exit" on the Popup menu of the Main Controller. The MTC stops and statistics will be logged (See figure "MTC Exit" )
 +
 image::images/ExitMTC.PNG[title="MTC exit log"]
 
 ==== Result
 
-
+As expected:
+[source]
+----
+MC@HU-00000670: Test execution finished.
+MC@HU-00000670: Terminating MTC.
+MTC@HU-00000670: Verdict Statistics: 0 none (0 %), 2 pass (100 %), 0 inconc (0 %), 0 fail (0 %), 0 error (0 %)
+MTC@HU-00000670: Test execution summary: 2 test cases were executed. Overall verdict: pass
+MTC@HU-00000670: Exit was requested from MC. Terminating MTC.
+----
 ==== Status
 
-Failed. 
+Passed 
 
 ==== Reason
 Setverdict pass is not passed to MC.
 
-=== TC6 HC starts before "Start session"
+=== TC6 Shutdown session
+
+==== Prerequisites
+
+* Continue the previous testcase
+
+==== Test steps
+. Select "Shutdown session" on on Popup menu of the Main Controller.
+[source]
+----
+MC@HU-00000670: MTC terminated
+MC@HU-00000670: Shutting down session.
+HC@HU-00000670: MTC finished.
+HC@HU-00000670: TC A(5) finished.
+HC@HU-00000670: TC B(6) finished.
+HC@HU-00000670: Exit was requested from MC. Terminating HC.
+MC@HU-00000670: Shutdown complete.
+----
+
+==== Status
+
+Pass
+
+=== TC7 HC starts before "Start session"
 
 ==== Prerequisites
 
@@ -233,9 +268,15 @@ Pass
 
 Output as expected. HC stops immediately, because MC is not listening yet
 
-=== TC7 Starting MC With Config File Without LocalAddress
+=== TC8 Starting MC With Config File Without LocalAddress
 
 This test checks if missing LocalAddress in cfg file causes LocalAddress := 127.0.0.1 or not.
+
+==== Prerequisites
+
+* Project "HelloJTitan" has been built and cfg file exists
+* Lauch config "cfg.cfg"created for MC (according to TC1) 
+* HC created  (according to TC2)
 
 ==== Test Steps
 . Comment out the LocalAddress:
@@ -288,7 +329,7 @@ MC@HU-00000670: Shutdown complete.
 
 Pass (for the LocalAddress replacement)
 
-=== TC8 Starting MC With Config File With 
+=== TC9 Starting MC With Config File Without LocalAddress
 
 This test checks if missing LocalAddress in cfg file causes LocalAddress := 127.0.0.1 or not.
 
@@ -418,3 +459,191 @@ MC@HU-00000670: Shutdown complete.
 ==== Result
 
 Pass
+
+=== TC Run More Testcases With Pass, Fail and Error in the Behavior Functions
+
+==== Prerequisites
+
+* Project "HelloJTitan" has been built and cfg file exists
+* Lauch config "cfg2.cfg"created for MC, with 3 testcases (1 pass, 1 fail, 1 error), setting "execute automatically"
+* HC created  (according to TC2)
+
+==== Test Steps
+
+. Start MC
+. Start HC
+
+==== Result
+
+The test executed automatically.
+The Runtime log:
+[source]
+----
+MC@HU-00000670: Listening on IP address 127.0.0.1 and TCP port 7392.
+
+MC@HU-00000670: New HC connected from 127.0.0.1 [127.0.0.1]. HU-00000670: Windows 10 10.0 on amd64.
+MC@HU-00000670: Downloading configuration file to all HCs.
+HC@HU-00000670: TTCN-3 Host Controller started on HU-00000670. Version: 7/CAX 105 7730 R2A. 
+HC@HU-00000670: TTCN Logger v2.2 options: TimeStampFormat:=DateTime; LogEntityName:=Yes; LogEventTypes:=Yes;SourceInfoFormat:=Single; *.FileMask:=LOG_ALL | MATCHING | DEBUG; *.ConsoleMask:=LOG_ALL;LogFileSize:=0; LogFileNumber:=1; DiskFullAction:=Error
+HC@HU-00000670: Warning: The address of MC was set to a local IP address. This may cause incorrect behavior if a HC from a remote host also connects to MC.
+HC@HU-00000670: The address of MC was set to 127.0.0.1[127.0.0.1]:7,392.
+HC@HU-00000670: Connected to MC.
+HC@HU-00000670: Processing configuration data received from MC.
+HC@HU-00000670: Warning: Option `LogFile' was given more than once in section [LOGGING] of the configuration file.
+HC@HU-00000670: Initializing module PreGenRecordOf.
+HC@HU-00000670: Initializing module PreGenRecordOf finished.
+HC@HU-00000670: Initializing module TitanLoggerApi.
+HC@HU-00000670: Initializing module TitanLoggerApi finished.
+HC@HU-00000670: Initializing module HelloJTitan_parallel1.
+HC@HU-00000670: Initializing module HelloJTitan_parallel1 finished.
+MC@HU-00000670: Configuration file was processed on all HCs.
+MC@HU-00000670: Creating MTC on host 127.0.0.1.
+HC@HU-00000670: Configuration data was processed successfully.
+HC@HU-00000670: MTC was created. Process id: 0.
+MC@HU-00000670: MTC is created.
+MTC@HU-00000670: Executing control part of module HelloJTitan_parallel1.
+MTC@HU-00000670: Execution of control part in module HelloJTitan_parallel1 started.
+MTC@HU-00000670: Test case tc_1 started.
+MTC@HU-00000670: Initializing variables, timers and ports of component type HelloJTitan_parallel1.MTC inside testcase tc_1.
+MTC@HU-00000670: Component type HelloJTitan_parallel1.MTC was initialized.
+MTC@HU-00000670: Creating new PTC with component type HelloJTitan_parallel1.CT, component name: A.
+HC@HU-00000670: PTC was created. Component reference: 3, component type: HelloJTitan_parallel1.CT, component name: A, testcase name: tc_1, process id: 0.
+A(3)@HU-00000670: Initializing variables, timers and ports of component type HelloJTitan_parallel1.CT inside testcase tc_1.
+MTC@HU-00000670: PTC was created. Component reference: 3, alive: no, type: HelloJTitan_parallel1.CT, component name: A.
+MTC@HU-00000670: Creating new PTC with component type HelloJTitan_parallel1.CT, component name: B.
+HC@HU-00000670: PTC was created. Component reference: 4, component type: HelloJTitan_parallel1.CT, component name: B, testcase name: tc_1, process id: 0.
+B(4)@HU-00000670: Initializing variables, timers and ports of component type HelloJTitan_parallel1.CT inside testcase tc_1.
+MTC@HU-00000670: PTC was created. Component reference: 4, alive: no, type: HelloJTitan_parallel1.CT, component name: B.
+MTC@HU-00000670: Connecting ports A(3):PCO1 and B(4):PCO1.
+B(4)@HU-00000670: Port PCO1 was started.
+B(4)@HU-00000670: Port PCO2 was started.
+B(4)@HU-00000670: Component type HelloJTitan_parallel1.CT was initialized.
+A(3)@HU-00000670: Port PCO1 was started.
+A(3)@HU-00000670: Port PCO2 was started.
+A(3)@HU-00000670: Component type HelloJTitan_parallel1.CT was initialized.
+A(3)@HU-00000670: Port PCO1 is waiting for connection from B(4):PCO1 on TCP port TCP:-1.
+B(4)@HU-00000670: Port PCO1 has established the connection with A(3):PCO1 using transport type TCP.
+A(3)@HU-00000670: Port PCO1 has accepted the connection from B(4):PCO1.
+MTC@HU-00000670: Connect operation on A(3):PCO1 and B(4):PCO1 finished.
+MTC@HU-00000670: Starting function f_behavior_B() on component B(4).
+B(4)@HU-00000670: Starting function f_behavior_B().
+MTC@HU-00000670: Function was started.
+MTC@HU-00000670: Starting function f_behavior_A() on component A(3).
+B(4)@HU-00000670: Start timer t: 2 s
+A(3)@HU-00000670: Starting function f_behavior_A().
+A(3)@HU-00000670: Start timer t: 2 s
+A(3)@HU-00000670: Sent on PCO1 to B(4) charstring : "Hello B, A is here!"
+MTC@HU-00000670: Function was started.
+MTC@HU-00000670: Disconnecting ports A(3):PCO1 and B(4):PCO1.
+B(4)@HU-00000670: Message enqueued on PCO1 from A(3) charstring : "Hello B, A is here!" id 1
+B(4)@HU-00000670: Receive operation on port PCO1 succeeded, message from A(3): charstring : "Hello B, A is here!" id 1
+B(4)@HU-00000670: Successfully received
+B(4)@HU-00000670: Sent on PCO1 to A(3) charstring : "Bye"
+A(3)@HU-00000670: Message enqueued on PCO1 from B(4) charstring : "Bye" id 1
+A(3)@HU-00000670: Receive operation on port PCO1 succeeded, message from B(4): charstring : "Bye" id 1
+A(3)@HU-00000670: Successfully received Bye
+A(3)@HU-00000670: setverdict(pass): none -> pass
+A(3)@HU-00000670: Function f_behavior_A finished. PTC terminates.
+A(3)@HU-00000670: Terminating component type HelloJTitan_parallel1.CT.
+A(3)@HU-00000670: Stop timer t: 2 s
+A(3)@HU-00000670: Removing unterminated connection between port PCO1 and B(4):PCO1.
+A(3)@HU-00000670: Port PCO1 was stopped.
+A(3)@HU-00000670: Port PCO2 was stopped.
+A(3)@HU-00000670: Component type HelloJTitan_parallel1.CT was shut down inside testcase tc_1.
+B(4)@HU-00000670: setverdict(pass): none -> pass
+B(4)@HU-00000670: Function f_behavior_B finished. PTC terminates.
+B(4)@HU-00000670: Terminating component type HelloJTitan_parallel1.CT.
+B(4)@HU-00000670: Stop timer t: 2 s
+B(4)@HU-00000670: Removing unterminated connection between port PCO1 and A(3):PCO1.
+B(4)@HU-00000670: Port PCO1 was stopped.
+B(4)@HU-00000670: Port PCO2 was stopped.
+B(4)@HU-00000670: Component type HelloJTitan_parallel1.CT was shut down inside testcase tc_1.
+B(4)@HU-00000670: Final verdict of PTC: pass
+A(3)@HU-00000670: Final verdict of PTC: pass
+MTC@HU-00000670: Disconnect operation on A(3):PCO1 and B(4):PCO1 finished.
+MTC@HU-00000670: Terminating component type HelloJTitan_parallel1.MTC.
+MTC@HU-00000670: Component type HelloJTitan_parallel1.MTC was shut down inside testcase tc_1.
+MTC@HU-00000670: Waiting for PTCs to finish.
+MTC@HU-00000670: Setting final verdict of the test case.
+MTC@HU-00000670: Local verdict of MTC: none
+MTC@HU-00000670: Local verdict of PTC A(3): pass (none -> pass)
+MTC@HU-00000670: Local verdict of PTC B(4): pass (pass -> pass)
+MTC@HU-00000670: Test case tc_1 finished. Verdict: pass
+MTC@HU-00000670: Test case tc_fail started.
+MTC@HU-00000670: Initializing variables, timers and ports of component type HelloJTitan_parallel1.MTC inside testcase tc_fail.
+MTC@HU-00000670: Component type HelloJTitan_parallel1.MTC was initialized.
+MTC@HU-00000670: Creating new PTC with component type HelloJTitan_parallel1.CT, component name: A.
+HC@HU-00000670: TC A(3) finished.
+HC@HU-00000670: TC B(4) finished.
+HC@HU-00000670: PTC was created. Component reference: 5, component type: HelloJTitan_parallel1.CT, component name: A, testcase name: tc_fail, process id: 0.
+A(5)@HU-00000670: Initializing variables, timers and ports of component type HelloJTitan_parallel1.CT inside testcase tc_fail.
+A(5)@HU-00000670: Port PCO1 was started.
+MTC@HU-00000670: PTC was created. Component reference: 5, alive: no, type: HelloJTitan_parallel1.CT, component name: A.
+MTC@HU-00000670: Starting function f_behavior_fail() on component A(5).
+MTC@HU-00000670: Function was started.
+A(5)@HU-00000670: Port PCO2 was started.
+A(5)@HU-00000670: Component type HelloJTitan_parallel1.CT was initialized.
+A(5)@HU-00000670: Starting function f_behavior_fail().
+A(5)@HU-00000670: setverdict(fail): none -> fail reason: "Intentionally fail", new component reason: "Intentionally fail"
+A(5)@HU-00000670: Function f_behavior_fail finished. PTC terminates.
+A(5)@HU-00000670: Terminating component type HelloJTitan_parallel1.CT.
+A(5)@HU-00000670: Port PCO1 was stopped.
+A(5)@HU-00000670: Port PCO2 was stopped.
+A(5)@HU-00000670: Component type HelloJTitan_parallel1.CT was shut down inside testcase tc_fail.
+A(5)@HU-00000670: Final verdict of PTC: fail reason: "Intentionally fail"
+MTC@HU-00000670: Terminating component type HelloJTitan_parallel1.MTC.
+MTC@HU-00000670: Component type HelloJTitan_parallel1.MTC was shut down inside testcase tc_fail.
+MTC@HU-00000670: Waiting for PTCs to finish.
+MTC@HU-00000670: Setting final verdict of the test case.
+MTC@HU-00000670: Local verdict of MTC: none
+MTC@HU-00000670: Local verdict of PTC A(5): fail (none -> fail) reason: "Intentionally fail"
+MTC@HU-00000670: Test case tc_fail finished. Verdict: fail
+MTC@HU-00000670: Test case tc_error started.
+MTC@HU-00000670: Initializing variables, timers and ports of component type HelloJTitan_parallel1.MTC inside testcase tc_error.
+MTC@HU-00000670: Component type HelloJTitan_parallel1.MTC was initialized.
+MTC@HU-00000670: Creating new PTC with component type HelloJTitan_parallel1.CT, component name: A.
+HC@HU-00000670: TC A(5) finished.
+HC@HU-00000670: PTC was created. Component reference: 6, component type: HelloJTitan_parallel1.CT, component name: A, testcase name: tc_error, process id: 0.
+MTC@HU-00000670: PTC was created. Component reference: 6, alive: no, type: HelloJTitan_parallel1.CT, component name: A.
+MTC@HU-00000670: Starting function f_behavior_error() on component A(6).
+A(6)@HU-00000670: Initializing variables, timers and ports of component type HelloJTitan_parallel1.CT inside testcase tc_error.
+A(6)@HU-00000670: Port PCO1 was started.
+A(6)@HU-00000670: Port PCO2 was started.
+A(6)@HU-00000670: Component type HelloJTitan_parallel1.CT was initialized.
+A(6)@HU-00000670: Starting function f_behavior_error().
+A(6)@HU-00000670: Intentionally error:
+MTC@HU-00000670: Function was started.
+A(6)@HU-00000670: Dynamic test case error: Integer division by zero.
+A(6)@HU-00000670: setverdict(error): none -> error
+A(6)@HU-00000670: Performing error recovery.
+A(6)@HU-00000670: Function f_behavior_error finished with an error. PTC terminates.
+A(6)@HU-00000670: Terminating component type HelloJTitan_parallel1.CT.
+A(6)@HU-00000670: Port PCO1 was stopped.
+A(6)@HU-00000670: Port PCO2 was stopped.
+A(6)@HU-00000670: Component type HelloJTitan_parallel1.CT was shut down inside testcase tc_error.
+A(6)@HU-00000670: Final verdict of PTC: error
+MTC@HU-00000670: Terminating component type HelloJTitan_parallel1.MTC.
+MTC@HU-00000670: Component type HelloJTitan_parallel1.MTC was shut down inside testcase tc_error.
+MTC@HU-00000670: Waiting for PTCs to finish.
+MTC@HU-00000670: Setting final verdict of the test case.
+MTC@HU-00000670: Local verdict of MTC: none
+MTC@HU-00000670: Local verdict of PTC A(6): error (none -> error)
+MTC@HU-00000670: Test case tc_error finished. Verdict: error
+MTC@HU-00000670: Execution of control part in module  finished.
+MC@HU-00000670: Test execution finished.
+MC@HU-00000670: Terminating MTC.
+MTC@HU-00000670: Verdict Statistics: 0 none (0 %), 1 pass (33.333 %), 0 inconc (0 %), 1 fail (33.333 %), 1 error (33.333 %)
+MTC@HU-00000670: Test execution summary: 3 test cases were executed. Overall verdict: error
+MTC@HU-00000670: Exit was requested from MC. Terminating MTC.
+MC@HU-00000670: MTC terminated
+MC@HU-00000670: Shutting down session.
+HC@HU-00000670: MTC finished.
+HC@HU-00000670: TC A(6) finished.
+HC@HU-00000670: Exit was requested from MC. Terminating HC.
+MC@HU-00000670: Shutdown complete.
+----
+
+==== Status
+
+Passed
+
