@@ -4,7 +4,7 @@ Version: 7.2.0
 Date: 2020-11-27
 
 ---
-= Test Description for Main Controller of te TITAN TTCN-3 Test Executor
+= Test Description for the Main Controller of the Java Based TITAN TTCN-3 Test Executor
 :author: Jenő Balaskó
 :revnumber: 7.2.0
 :revdate: 2020-11-27
@@ -138,7 +138,7 @@ LocalAddress := 127.0.0.1
 
 ==== Test Steps
 
-. Start MC ( On Run menu, select "HelloJTitan_NativeJavaLaunchCfg_MC", see figure "Run Menu"). 
+. Start MC (execute automatically switched off) ( On Run menu, select "HelloJTitan_NativeJavaLaunchCfg_MC", see figure "Run Menu"). 
 +
 image::images/RunMenu.PNG[title="Run Menu"]
 +
@@ -155,18 +155,20 @@ image::images/MCListening.PNG[title="MC Listening"]
 ----
 MC@HU-00000670: New HC connected from 127.0.0.1 [127.0.0.1]. HU-00000670: Windows 10 10.0 on amd64.
 ----
-. Create MTC (not possible if xxx) (See figure "Create MTC log")
+. Create MTC (not possible if execute automatically switched on)) (See figure "Create MTC log")
 +
 image::images/HC_Connected.PNG[title="Create MTC log"]
 . Select "Execute" on Popup menu of the Main Controller.
 +
 image::images/Execute.PNG[title="Execute..."]
-. Select the config file on the Execute Dialog ( see figure "Execute Dialog" ). The execution of the testcases starts. 
+. Select the config file on the Execute Dialog (see figure "Execute Dialog"). The execution of the testcases starts. 
 +
 image::images/ExecuteDialog.PNG[title="Execute Dialog"]
 The execution logged (See figure "Execution Log")
 +
 image::images/ExecLog1.PNG[title="Execution Log"]
+.Select ""
+
 
 ==== Status
 
@@ -183,6 +185,9 @@ Passed
 . Select "MTC exit" on on Popup menu of the Main Controller. The MTC stops and statistics will be logged (See figure "MTC Exit" )
 +
 image::images/ExitMTC.PNG[title="MTC exit log"]
+
+==== Result
+
 
 ==== Status
 
@@ -210,13 +215,14 @@ LocalAddress := 127.0.0.1
 ----
 
 ==== Test Steps
-. Start MC
-. Start HC 
+. Start MC.
+. Start HC (execute automatically switched off).
 
-====Result: 
+==== Result: 
+
 [source]
 ----
-xxx
+Total execution took 1.6776762 seconds to complete
 ----
 
 ==== Status
@@ -227,4 +233,188 @@ Pass
 
 Output as expected. HC stops immediately, because MC is not listening yet
 
-=== TC7 
+=== TC7 Starting MC With Config File Without LocalAddress
+
+This test checks if missing LocalAddress in cfg file causes LocalAddress := 127.0.0.1 or not.
+
+==== Test Steps
+. Comment out the LocalAddress:
++
+[source]
+----
+[MAIN_CONTROLLER]
+TCPPort := 7392
+KillTimer := 100.0
+NumHCs := 1
+# LocalAddress := 127.0.0.1
+----
+. Start MC.
+. Start session
+. Start HC (execute automatically switched off).
+. Create MTC
+. Execute...
+. Exit MTC
+. Shutdown session
+
+==== Result
+
+[source]
+----
+MC@HU-00000670: Listening on IP address 127.0.0.1 and TCP port 7392.
+
+MC@HU-00000670: New HC connected from 127.0.0.1 [127.0.0.1]. HU-00000670: Windows 10 10.0 on amd64.
+MC@HU-00000670: Downloading configuration file to all HCs.
+HC@HU-00000670: Warning: The address of MC was set to a local IP address. This may cause incorrect behavior if a HC from a remote host also connects to MC.
+HC@HU-00000670: Warning: Option `LogFile' was given more than once in section [LOGGING] of the configuration file.
+HC@HU-00000670: Warning: Option `SourceInfoFormat' was given more than once in section [LOGGING] of the configuration file.
+MC@HU-00000670: Configuration file was processed on all HCs.
+MC@HU-00000670: Creating MTC on host 127.0.0.1.
+MC@HU-00000670: MTC is created.
+MTC@HU-00000670: Execution of control part in module HelloJTitan_parallel1 started.
+MTC@HU-00000670: Test case tc_1 started.
+...
+MTC@HU-00000670: Test case tc_1 finished. Verdict: none
+MTC@HU-00000670: Execution of control part in module  finished.
+MC@HU-00000670: Test execution finished.
+MC@HU-00000670: Terminating MTC.
+MTC@HU-00000670: Verdict Statistics: 1 none (100 %), 0 pass (0 %), 0 inconc (0 %), 0 fail (0 %), 0 error (0 %)
+MTC@HU-00000670: Test execution summary: 1 test case was executed. Overall verdict: none
+MC@HU-00000670: MTC terminated
+MC@HU-00000670: Shutting down session.
+MC@HU-00000670: Shutdown complete.
+----
+
+==== Status
+
+Pass (for the LocalAddress replacement)
+
+=== TC8 Starting MC With Config File With 
+
+This test checks if missing LocalAddress in cfg file causes LocalAddress := 127.0.0.1 or not.
+
+==== Test Steps
+. Set ConsoleMask for LOG_ALL
++
+[source]
+----
+ConsoleMask := LOG_ALL
+----
+. Start MC.
++
+[source]
+----
+ConsoleMask := LOG_ALL
+----
+. Start session
++
+[source]
+----
+MC@HU-00000670: Listening on IP address 127.0.0.1 and TCP port 7392.
+----
+. Start HC (execute automatically switched off).
++
+[source]
+----
+MC@HU-00000670: New HC connected from 127.0.0.1 [127.0.0.1]. HU-00000670: Windows 10 10.0 on amd64.
+----
+. Create MTC
++
+[source]
+----
+MC@HU-00000670: Downloading configuration file to all HCs.
+HC@HU-00000670: TTCN-3 Host Controller started on HU-00000670. Version: 7/CAX 105 7730 R2A. 
+HC@HU-00000670: TTCN Logger v2.2 options: TimeStampFormat:=DateTime; LogEntityName:=Yes; LogEventTypes:=Yes;SourceInfoFormat:=Single; *.FileMask:=LOG_ALL | MATCHING | DEBUG; *.ConsoleMask:=LOG_ALL;LogFileSize:=0; LogFileNumber:=1; DiskFullAction:=Error
+HC@HU-00000670: Warning: The address of MC was set to a local IP address. This may cause incorrect behavior if a HC from a remote host also connects to MC.
+HC@HU-00000670: The address of MC was set to 127.0.0.1[127.0.0.1]:7,392.
+HC@HU-00000670: Connected to MC.
+HC@HU-00000670: Processing configuration data received from MC.
+HC@HU-00000670: Warning: Option `LogFile' was given more than once in section [LOGGING] of the configuration file.
+HC@HU-00000670: Initializing module PreGenRecordOf.
+HC@HU-00000670: Initializing module PreGenRecordOf finished.
+HC@HU-00000670: Initializing module TitanLoggerApi.
+HC@HU-00000670: Initializing module TitanLoggerApi finished.
+HC@HU-00000670: Initializing module HelloJTitan_parallel1.
+HC@HU-00000670: Initializing module HelloJTitan_parallel1 finished.
+MC@HU-00000670: Configuration file was processed on all HCs.
+MC@HU-00000670: Creating MTC on host 127.0.0.1.
+HC@HU-00000670: Configuration data was processed successfully.
+HC@HU-00000670: MTC was created. Process id: 0.
+MC@HU-00000670: MTC is created.
+----
+. Execute...
++
+[source]
+----
+MTC@HU-00000670: Executing control part of module HelloJTitan_parallel1.
+MTC@HU-00000670: Execution of control part in module HelloJTitan_parallel1 started.
+MTC@HU-00000670: Test case tc_1 started.
+...
+A(3)@HU-00000670: Start timer t: 2 s
+A(3)@HU-00000670: Sent on PCO1 to B(4) charstring : "Hello B, A is here!"
+B(4)@HU-00000670: Start timer t: 2 s
+B(4)@HU-00000670: Message enqueued on PCO1 from A(3) charstring : "Hello B, A is here!" id 1
+B(4)@HU-00000670: Receive operation on port PCO1 succeeded, message from A(3): charstring : "Hello B, A is here!" id 1
+A(3)@HU-00000670: Message enqueued on PCO1 from B(4) charstring : "Bye" id 1
+A(3)@HU-00000670: Receive operation on port PCO1 succeeded, message from B(4): charstring : "Bye" id 1
+B(4)@HU-00000670: Successfully received
+B(4)@HU-00000670: Sent on PCO1 to A(3) charstring : "Bye"
+B(4)@HU-00000670: Function f_behavior_B finished. PTC terminates.
+B(4)@HU-00000670: Terminating component type HelloJTitan_parallel1.CT.
+B(4)@HU-00000670: Stop timer t: 2 s
+B(4)@HU-00000670: Removing unterminated connection between port PCO1 and A(3):PCO1.
+B(4)@HU-00000670: Port PCO1 was stopped.
+B(4)@HU-00000670: Port PCO2 was stopped.
+B(4)@HU-00000670: Component type HelloJTitan_parallel1.CT was shut down inside testcase tc_1.
+A(3)@HU-00000670: Successfully received Bye
+A(3)@HU-00000670: setverdict(pass): none -> pass
+A(3)@HU-00000670: Function f_behavior_A finished. PTC terminates.
+A(3)@HU-00000670: Terminating component type HelloJTitan_parallel1.CT.
+A(3)@HU-00000670: Stop timer t: 2 s
+A(3)@HU-00000670: Removing unterminated connection between port PCO1 and B(4):PCO1.
+A(3)@HU-00000670: Port PCO1 was stopped.
+A(3)@HU-00000670: Port PCO2 was stopped.
+A(3)@HU-00000670: Component type HelloJTitan_parallel1.CT was shut down inside testcase tc_1.
+A(3)@HU-00000670: Final verdict of PTC: pass
+B(4)@HU-00000670: Final verdict of PTC: none
+MTC@HU-00000670: Terminating component type HelloJTitan_parallel1.MTC.
+MTC@HU-00000670: Component type HelloJTitan_parallel1.MTC was shut down inside testcase tc_1.
+MTC@HU-00000670: Waiting for PTCs to finish.
+MTC@HU-00000670: Setting final verdict of the test case.
+MTC@HU-00000670: Local verdict of MTC: none
+MTC@HU-00000670: Local verdict of PTC A(3): pass (none -> pass)
+MTC@HU-00000670: Local verdict of PTC B(4): none (none -> none)
+MTC@HU-00000670: Test case tc_1 finished. Verdict: none
+MTC@HU-00000670: Execution of control part in module  finished.
+MC@HU-00000670: Test execution finished.
+----
+. Exit MTC
++
+[source]
+----
+MC@HU-00000670: Terminating MTC.
+MTC@HU-00000670: Verdict Statistics: 1 none (100 %), 0 pass (0 %), 0 inconc (0 %), 0 fail (0 %), 0 error (0 %)
+MTC@HU-00000670: Test execution summary: 1 test case was executed. Overall verdict: none
+MTC@HU-00000670: Exit was requested from MC. Terminating MTC.
+MC@HU-00000670: MTC terminated
+----
+. Shutdown session
++
+HC terminal:
++
+[source]
+----
+Total execution took 708.7359537000001 seconds to complete
+----
+MC runtime console:
++
+[source]
+----
+HC@HU-00000670: TC A(3) finished.
+HC@HU-00000670: TC B(4) finished.
+HC@HU-00000670: Exit was requested from MC. Terminating HC.
+MC@HU-00000670: Shutdown complete.
+----
+
+==== Result
+
+Pass
