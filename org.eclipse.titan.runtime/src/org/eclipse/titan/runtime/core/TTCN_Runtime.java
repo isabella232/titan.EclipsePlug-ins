@@ -2579,7 +2579,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Message PTC_VERDICT arrived in invalid state.");
 		}
 
-		final VerdictTypeEnum localVerdictEnum = localVerdict.get();
+		VerdictTypeEnum localVerdictEnum = localVerdict.get();
 		TTCN_Logger.log_final_verdict(false, localVerdictEnum, localVerdictEnum, localVerdictEnum, verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		TTCN_Logger.log_final_verdict(false, localVerdictEnum, localVerdictEnum, localVerdictEnum, verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 
@@ -2603,6 +2603,7 @@ public final class TTCN_Runtime {
 
 				TTCN_Logger.log_final_verdict(true, ptc_verdict, localVerdictEnum, newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
 				localVerdict.set(newVerdict);
+				localVerdictEnum = newVerdict;
 			}
 		} else {
 			TTCN_Logger.log_final_verdict(false, localVerdictEnum, localVerdictEnum, localVerdictEnum, verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
