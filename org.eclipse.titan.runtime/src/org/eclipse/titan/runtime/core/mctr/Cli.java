@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.titan.runtime.core.TTCN_Runtime;
@@ -59,7 +60,9 @@ public class Cli extends UserInterface {
 	private final ConfigData mycfg = new ConfigData();
 	private int executeListIndex;
 	private final ReentrantLock mutex;
+	private final Condition wakeup_condition;
 	private MainController mainController;
+	private File config_file;
 
 	public Cli() {
 		loggingEnabled = true;
@@ -67,6 +70,8 @@ public class Cli extends UserInterface {
 		waitState = waitStateEnum.WAIT_NOTHING;
 		executeListIndex = 0;
 		mutex = new ReentrantLock();
+		wakeup_condition = mutex.newCondition();
+		config_file = null;
 	}
 
 	public void setMainController(final MainController mainController) {
@@ -88,7 +93,7 @@ public class Cli extends UserInterface {
 		printWelcome();
 
 		if (args.length == 1) {
-			final File config_file = new File(args[0]);
+			config_file = new File(args[0]);
 			System.out.printf("Using configuration file: %s\n", config_file.getName());
 
 			final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
@@ -98,7 +103,8 @@ public class Cli extends UserInterface {
 				//cleanup?
 				return 1;
 			} else {
-				mycfg.set_log_file(args[0]);
+				//TODO: its the config file, not the log file
+				//mycfg.set_log_file(args[0]);
 				final MCSectionHandler mcSectionHandler = cfgAnalyzer.getMcSectionHandler();
 				final ExecuteSectionHandler executeSectionHandler = cfgAnalyzer.getExecuteSectionHandler();
 
@@ -153,6 +159,7 @@ public class Cli extends UserInterface {
 		try {
 			if (waitState != waitStateEnum.WAIT_NOTHING && conditionHolds(waitState)) {
 				waitState = waitStateEnum.WAIT_NOTHING;
+				signal();
 			}
 		} finally {
 			mutex.unlock();
@@ -168,7 +175,7 @@ public class Cli extends UserInterface {
 	@Override
 	public void notify(final Timeval timestamp, final String source, final int severity, final String message) {
 		// TODO Auto-generated method stub
-
+		System.out.printf("%s: %s\n", source, message);
 	}
 
 	@Override
@@ -327,9 +334,10 @@ public class Cli extends UserInterface {
 		waitMCState(waitStateEnum.WAIT_HC_CONNECTED);
 		// download config file
 		//FIXME incorrect we need to send the processed contents not the name of the file.
-		mainController.configure(mycfg.getLog_file_name());
+		mainController.configure(ConfigData.getConfigFileContent(config_file));
 		waitMCState(waitStateEnum.WAIT_ACTIVE);
 		if (mainController.get_state() != mcStateEnum.MC_ACTIVE) {
+			System.out.println(mainController.get_state());
 			System.out.println("Error during initialization. Cannot continue in batch mode.");
 			error_flag = true;
 		}
@@ -431,15 +439,41 @@ public class Cli extends UserInterface {
 	}
 
 	private void waitMCState(final waitStateEnum newWaitState) {
+		mutex.lock();
 		if (newWaitState != waitStateEnum.WAIT_NOTHING) {
-			if (conditionHolds(newWaitState) == true) {
+			if (conditionHolds(newWaitState)) {
 				waitState = waitStateEnum.WAIT_NOTHING;
 			} else {
 				waitState = newWaitState;
+				await();
 			}
 		} else {
 			System.err.println("Cli.waitMCState: invalid argument");
+			mutex.unlock();
 			return;
+		}
+		mutex.unlock();
+	}
+	
+	private void lock() {
+		mutex.lock();
+	}
+	
+	private void unlock() {
+		mutex.unlock();
+	}
+	
+	private void signal() {
+		wakeup_condition.signal();
+	}
+	
+	private void await() {
+		try {
+			wakeup_condition.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

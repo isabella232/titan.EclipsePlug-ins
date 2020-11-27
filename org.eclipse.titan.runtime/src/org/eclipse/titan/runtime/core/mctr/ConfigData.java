@@ -7,6 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core.mctr;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -125,4 +129,24 @@ public class ConfigData {
 	public void setKill_timer(final Double kill_timer) {
 		this.kill_timer = kill_timer;
 	}
+	
+	//Package-private
+	static String getConfigFileContent(File config_file) {
+		StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(config_file))) 
+        {
+            String currentLine;
+            while ((currentLine = br.readLine()) != null) 
+            {
+                contentBuilder.append(currentLine).append("\n");
+            }
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+        return contentBuilder.toString();
+	}
+	
+	
 }
