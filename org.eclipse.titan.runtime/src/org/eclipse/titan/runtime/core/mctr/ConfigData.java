@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.cfgparser.IOUtils;
 import org.eclipse.titan.runtime.core.cfgparser.ComponentSectionHandler.Component;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 import org.eclipse.titan.runtime.core.cfgparser.GroupSectionHandler.Group;
@@ -133,19 +134,21 @@ public class ConfigData {
 	//Package-private
 	static String getConfigFileContent(File config_file) {
 		StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(config_file))) 
-        {
-            String currentLine;
-            while ((currentLine = br.readLine()) != null) 
-            {
-                contentBuilder.append(currentLine).append("\n");
-            }
-        } 
-        catch (IOException e) 
-        {
-            e.printStackTrace();
-        }
-        return contentBuilder.toString();
+		BufferedReader br = null;
+
+		try {
+			br = new BufferedReader(new FileReader(config_file));
+			String currentLine;
+			while ((currentLine = br.readLine()) != null) {
+				contentBuilder.append(currentLine).append("\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		IOUtils.closeQuietly(br);
+
+		return contentBuilder.toString();
 	}
 	
 	
