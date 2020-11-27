@@ -22,10 +22,12 @@ public final class ProductIdentityHelper {
 
 	private static final Pattern PRODUCT_PATTERN1 = Pattern.compile("^([A-Z]{3,5}[ ][0-9]{3}[ ][0-9]{2,4})/([0-9]+)[ ](R.+)$");
 	private static final Matcher PRODUCT_PATTERN1_MATCHER = PRODUCT_PATTERN1.matcher("");
-	private static final Pattern PRODUCT_PATTERN2 = Pattern.compile("^([A-Z]{3,5}[ ][0-9]{3}[ ][0-9]{2,4})[ ](R.+)$");
+	private static final Pattern PRODUCT_PATTERN2 = Pattern.compile("^([0-9]{1,2})/([A-Z]{3,5}[ ][0-9]{3}[ ][0-9]{2,4})[ ](R.+)$");
 	private static final Matcher PRODUCT_PATTERN2_MATCHER = PRODUCT_PATTERN2.matcher("");
-	private static final Pattern PRODUCT_PATTERN3 = Pattern.compile("^(R.+)$");
+	private static final Pattern PRODUCT_PATTERN3 = Pattern.compile("^([A-Z]{3,5}[ ][0-9]{3}[ ][0-9]{2,4})[ ](R.+)$");
 	private static final Matcher PRODUCT_PATTERN3_MATCHER = PRODUCT_PATTERN3.matcher("");
+	private static final Pattern PRODUCT_PATTERN4 = Pattern.compile("^(R.+)$");
+	private static final Matcher PRODUCT_PATTERN4_MATCHER = PRODUCT_PATTERN4.matcher("");
 
 	private static final Pattern RNUMBER_PATTERN1 = Pattern.compile("^R([0-9]+)([A-Z]+)([0-9]+)$");
 	private static final Matcher RNUMBER_PATTERN1_MATCHER = RNUMBER_PATTERN1.matcher("");
@@ -63,10 +65,14 @@ public final class ProductIdentityHelper {
 			productNumberSuffix = PRODUCT_PATTERN1_MATCHER.group(2);
 			rNumber = PRODUCT_PATTERN1_MATCHER.group(3);
 		} else if (PRODUCT_PATTERN2_MATCHER.reset(versionString).matches()) {
-			productNumber = PRODUCT_PATTERN2_MATCHER.group(1);
-			rNumber = PRODUCT_PATTERN2_MATCHER.group(2);
+			productNumberSuffix = PRODUCT_PATTERN2_MATCHER.group(1);
+			productNumber = PRODUCT_PATTERN2_MATCHER.group(2);
+			rNumber = PRODUCT_PATTERN2_MATCHER.group(3);
 		} else if (PRODUCT_PATTERN3_MATCHER.reset(versionString).matches()) {
-			rNumber = PRODUCT_PATTERN3_MATCHER.group(1);
+			productNumber = PRODUCT_PATTERN3_MATCHER.group(1);
+			rNumber = PRODUCT_PATTERN3_MATCHER.group(2);
+		} else if (PRODUCT_PATTERN4_MATCHER.reset(versionString).matches()) {
+			rNumber = PRODUCT_PATTERN4_MATCHER.group(1);
 		} else {
 			if (location != null) {
 				location.reportSemanticError("Wrong format for product version information: The accepted formats resemble CRL 113 200/1 R9A or 7/CAX 105 7730 R2A");
