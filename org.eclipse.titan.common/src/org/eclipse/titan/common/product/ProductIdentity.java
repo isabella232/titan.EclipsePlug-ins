@@ -13,7 +13,7 @@ import org.eclipse.titan.common.utils.ObjectUtils;
  * For information on the product identity system please refer to 0012-073 Uen or to 1092-212 Uen
  * */
 public final class ProductIdentity implements Comparable<ProductIdentity> {
-	public static final String TITAN_PRODUCT_NUMBER = "CRL 113 200";
+	public static final String TITAN_PRODUCT_NUMBER = "CAX 105 7730";
 
 	private String productNumber = null;
 	private int productNumberSuffix = 1;
