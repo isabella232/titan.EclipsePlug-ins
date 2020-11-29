@@ -22,5 +22,8 @@ Build the update site:
 Build a plugin:
 	ant -f build_main.xml {common | designer | executor | help | logviewer}.plugin
 
+Build zip package:
+	ant -f build_main.xml zip
+
 clean:
 	ant -f build_main.xml clean-all  
