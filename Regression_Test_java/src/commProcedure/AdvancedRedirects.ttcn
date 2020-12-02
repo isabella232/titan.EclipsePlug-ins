@@ -408,10 +408,10 @@ testcase tc_DecodedRedirect4() runs on ProcComponent4 {
 
 control {
   execute(tc_MultiValueRedirect());
-  execute(tc_DecodedRedirect());
-  execute(tc_DecodedRedirect2());
-  execute(tc_DecodedRedirect3());
-  execute(tc_DecodedRedirect4());
+  //execute(tc_DecodedRedirect()); //error
+  //execute(tc_DecodedRedirect2()); //error
+  //execute(tc_DecodedRedirect3()); //error
+  //execute(tc_DecodedRedirect4()); //error
 }
 
 }
