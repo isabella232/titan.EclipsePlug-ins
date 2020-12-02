@@ -21,7 +21,9 @@ import org.eclipse.titan.designer.properties.data.FolderBuildPropertyData;
  */
 public final class GeneralConstants {
 	public static final ProductIdentity ON_THE_FLY_ANALYZER_VERSION =
-			ProductIdentity.getProductIdentity(ProductIdentity.TITAN_PRODUCT_NUMBER, 7, 2, 0, 0);
+			ProductIdentity.getProductIdentity(ProductIdentity.TITAN_PRODUCT_NUMBER, 
+					ProductIdentity.TITAN_VERSION_MAJOR, ProductIdentity.TITAN_VERSION_MINOR, 
+					ProductIdentity.TITAN_VERSION_PATCHLEVEL, 0);
 	public static final boolean DEBUG = true;
 	public static final boolean ETSI_BUILD = false;
 
