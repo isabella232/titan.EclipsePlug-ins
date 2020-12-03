@@ -367,7 +367,7 @@ public class CfgPreProcessor {
 	private boolean resolveMacro(final StringBuilder out, final Token token) {
 		final String tokenText = token.getText();
 		final String macroName = DefineSectionHandler.getMacroName(tokenText);
-		final String macroValue = getDefinitionValue( macroName );
+		final String macroValue = getDefinitionValue( macroName, true );
 		if ( macroValue == null ) {
 			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", macroName), null, token);
 			out.append(tokenText);
@@ -494,7 +494,7 @@ public class CfgPreProcessor {
 	private boolean resolveMacroCstr(final StringBuilder out, final Token token) {
 		final String tokenText = token.getText();
 		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
-		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		final String typedMacroValue = getDefinitionValue( typedMacroName, true );
 		if ( typedMacroValue == null ) {
 			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
 			out.append(tokenText);
@@ -659,6 +659,16 @@ public class CfgPreProcessor {
 	 * @return macro or environment variable value, or null if there is no such definition
 	 */
 	private String getDefinitionValue(final String definition) {
+		return getDefinitionValue(definition, false);
+	}
+
+	/**
+	 * Gets the value of a macro or an environment variable
+	 * @param definition macro or environment variable
+	 * @param needsQuote true if definition is a charstring and needs trailing quotes
+	 * @return macro or environment variable value, or null if there is no such definition
+	 */
+	private String getDefinitionValue(final String definition, boolean needsQuote) {
 		if ( resolvedDefinitions.containsKey(definition) ) {
 			// definition value is already calculated
 			return resolvedDefinitions.get(definition);
@@ -677,15 +687,15 @@ public class CfgPreProcessor {
 			return null;
 		}
 		final List<Token> tokenList = definitions.get( definition );
+		// true if macro definition is structured (starts with "{"). In this case the STRING keeps its beginning and ending quotes,
+		// in simple case beginning and ending quotes are removed
+		final boolean structured = tokenList.size() > 0 && tokenList.get(0).getType() == RuntimeCfgLexer.BEGINCHAR;
 		final StringBuilder out = new StringBuilder();
 		for (final Token token : tokenList) {
 			final int tokenType = token.getType();
 			switch (tokenType) {
 			case RuntimeCfgLexer.STRING: {
-				// true if macro definition is structured (starts with "{"). In this case the STRING keeps its beginning and ending quotes,
-				// in simple case beginning and ending quotes are removed
-				final boolean structured = tokenList.size() > 0 && tokenList.get(0).getType() == RuntimeCfgLexer.BEGINCHAR;
-				final CharstringExtractor cse = new CharstringExtractor( token.getText(), !structured );
+				final CharstringExtractor cse = new CharstringExtractor( token.getText(), !structured && !needsQuote);
 				final String text = cse.getExtractedString();
 				if ( cse.isErroneous() ) {
 					config_preproc_error( cse.getErrorMessage(), null, token );
@@ -700,6 +710,16 @@ public class CfgPreProcessor {
 					config_preproc_error( cse.getErrorMessage(), null, token );
 				}
 				out.append(text);
+				break;
+			}
+			case RuntimeCfgLexer.TTCN3IDENTIFIER: {
+				if (needsQuote) {
+					out.append('"');
+					out.append(token.getText());
+					out.append('"');
+				} else {
+					out.append(token.getText());
+				}
 				break;
 			}
 			default:
