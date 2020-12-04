@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 
 /**
  * Represents the JSON encoding related setting extracted from variant attributes.
