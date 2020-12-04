@@ -48,7 +48,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**

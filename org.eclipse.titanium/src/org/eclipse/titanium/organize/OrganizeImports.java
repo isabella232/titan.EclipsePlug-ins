@@ -50,7 +50,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titanium.Activator;
 import org.eclipse.titanium.preferences.PreferenceConstants;
 import org.eclipse.titanium.preferences.pages.OrganizeImportPreferencePage;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**
