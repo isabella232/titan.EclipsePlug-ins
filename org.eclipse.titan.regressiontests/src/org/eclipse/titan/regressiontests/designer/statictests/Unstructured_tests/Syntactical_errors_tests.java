@@ -20,7 +20,7 @@ public class Syntactical_errors_tests {
 	//SemanticErrors3_asn
 	//ReturnValueTest.ttcn
 	//SyntaxErrors.ttcn
-	
+
 	@Test
 	public void SemanticErrors2_asn() throws Exception {
 		Designer_plugin_tests.checkSyntaxMarkersOnFile(SemanticErrors2_asn_initializer(), "src/Unstructured_tests/SemanticErrors2.asn");
@@ -30,17 +30,17 @@ public class Syntactical_errors_tests {
 	public void SemanticErrors3_asn() throws Exception {
 		Designer_plugin_tests.checkSyntaxMarkersOnFile(SemanticErrors3_asn_initializer(), "src/Unstructured_tests/SemanticErrors3.asn");
 	}
-	
+
 	@Test
 	public void ReturnValueTest_ttcn() throws Exception {
 		Designer_plugin_tests.checkSyntaxMarkersOnFile(ReturnValueTest_ttcn_initializer(), "src/Unstructured_tests/ReturnValueTest.ttcn");
 	}
-	
+
 	@Test
 	public void SyntaxErrors_ttcn() throws Exception {
 		Designer_plugin_tests.checkSyntaxMarkersOnFile(SyntaxErrors_ttcn_initializer(), "src/Unstructured_tests/SyntaxErrors.ttcn");
 	}
-	
+
 	//===== Initializers =====
 
 	private ArrayList<MarkerToCheck> SemanticErrors2_asn_initializer() {
@@ -60,7 +60,7 @@ public class Syntactical_errors_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> ReturnValueTest_ttcn_initializer() {
 		//ReturnValueTest.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5);
@@ -77,7 +77,7 @@ public class Syntactical_errors_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> SyntaxErrors_ttcn_initializer() {
 		//SyntaxErrors.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(11);
