@@ -765,113 +765,74 @@ public final class ProjectSourceParser {
 		}
 
 		try {
-			final boolean useParallelSemanticChecking = preferenceService.getBoolean(
-					ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.USEPARALLELSEMATICCHECKING, true, null);
-			if (useParallelSemanticChecking) {
-				final ConcurrentLinkedQueue<IProject> tobeSemanticallyAnalyzed = new ConcurrentLinkedQueue<IProject>();
+			final ConcurrentLinkedQueue<IProject> tobeSemanticallyAnalyzed = new ConcurrentLinkedQueue<IProject>();
 
-				final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+			final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+				@Override
+				public Thread newThread(final Runnable r) {
+					final Thread t = new Thread(r);
+					t.setPriority(LoadBalancingUtilities.getThreadPriority());
+					return t;
+				}
+			});
+			final CountDownLatch latch = new CountDownLatch(tobeAnalyzed.size());
+			for (final IProject tempProject : tobeAnalyzed) {
+				executor.execute(new Runnable() {
 					@Override
-					public Thread newThread(final Runnable r) {
-						final Thread t = new Thread(r);
-						t.setPriority(LoadBalancingUtilities.getThreadPriority());
-						return t;
-					}
-				});
-				final CountDownLatch latch = new CountDownLatch(tobeAnalyzed.size());
-				for (final IProject tempProject : tobeAnalyzed) {
-					executor.execute(new Runnable() {
-						@Override
-						public void run() {
-							if (progress.isCanceled()) {
-								latch.countDown();
-								throw new OperationCanceledException();
-							}
+					public void run() {
+						if (progress.isCanceled()) {
+							latch.countDown();
+							throw new OperationCanceledException();
+						}
 
-							progress.subTask("Analyzing project " + tempProject.getName());
-							GlobalParser.getProjectSourceParser(tempProject).analyzesRunning = true;
+						progress.subTask("Analyzing project " + tempProject.getName());
+						GlobalParser.getProjectSourceParser(tempProject).analyzesRunning = true;
 
-							try {
-								if (tempProject.isAccessible()) {
-									if (TITANNature.hasTITANNature(tempProject)) {
-										GlobalParser.getProjectSourceParser(tempProject).syntacticAnalyzer
-										.internalDoAnalyzeSyntactically(progress.newChild(1));
-										tobeSemanticallyAnalyzed.add(tempProject);
-									} else {
-										final Location location = new Location(project, 0, 0, 0);
-										location.reportExternalProblem(MessageFormat.format(REQUIREDPROJECTNOTTITANPROJECT,
-												tempProject.getName(), project.getName()), IMarker.SEVERITY_ERROR,
-												GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
-										progress.worked(1);
-									}
+						try {
+							if (tempProject.isAccessible()) {
+								if (TITANNature.hasTITANNature(tempProject)) {
+									GlobalParser.getProjectSourceParser(tempProject).syntacticAnalyzer
+									.internalDoAnalyzeSyntactically(progress.newChild(1));
+									tobeSemanticallyAnalyzed.add(tempProject);
 								} else {
-									final Location location = new Location(project);
-									location.reportExternalProblem(
-											MessageFormat.format(REQUIREDPROJECTNOTACCESSIBLE, tempProject.getName(),
-													project.getName()), IMarker.SEVERITY_ERROR,
-													GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
+									final Location location = new Location(project, 0, 0, 0);
+									location.reportExternalProblem(MessageFormat.format(REQUIREDPROJECTNOTTITANPROJECT,
+											tempProject.getName(), project.getName()), IMarker.SEVERITY_ERROR,
+											GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
 									progress.worked(1);
 								}
-							} catch (Exception e) {
-								ErrorReporter.logExceptionStackTrace(e);
-							} finally {
-								latch.countDown();
+							} else {
+								final Location location = new Location(project);
+								location.reportExternalProblem(
+										MessageFormat.format(REQUIREDPROJECTNOTACCESSIBLE, tempProject.getName(),
+												project.getName()), IMarker.SEVERITY_ERROR,
+												GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
+								progress.worked(1);
 							}
+						} catch (Exception e) {
+							ErrorReporter.logExceptionStackTrace(e);
+						} finally {
+							latch.countDown();
 						}
-					});
-				}
-
-				try {
-					latch.await();
-				} catch (InterruptedException e) {
-					ErrorReporter.logExceptionStackTrace(e);
-				}
-
-				executor.shutdown();
-				try {
-					executor.awaitTermination(30, TimeUnit.SECONDS);
-				} catch (InterruptedException e) {
-					ErrorReporter.logExceptionStackTrace(e);
-				}
-				executor.shutdownNow();
-
-				ProjectSourceSemanticAnalyzer.analyzeMultipleProjectsSemantically(new ArrayList<IProject>(tobeSemanticallyAnalyzed), progress.newChild(tobeAnalyzed.size()), compilationCounter);
-			} else {
-				final ArrayList<IProject> tobeSemanticallyAnalyzed = new ArrayList<IProject>();
-
-				for (final IProject tempProject : tobeAnalyzed) {
-					if (progress.isCanceled()) {
-						throw new OperationCanceledException();
 					}
-
-					progress.subTask("Analyzing project " + tempProject.getName());
-					GlobalParser.getProjectSourceParser(tempProject).analyzesRunning = true;
-
-					if (tempProject.isAccessible()) {
-						if (TITANNature.hasTITANNature(tempProject)) {
-							GlobalParser.getProjectSourceParser(tempProject).syntacticAnalyzer
-							.internalDoAnalyzeSyntactically(progress.newChild(1));
-							tobeSemanticallyAnalyzed.add(tempProject);
-						} else {
-							final Location location = new Location(project, 0, 0, 0);
-							location.reportExternalProblem(MessageFormat.format(REQUIREDPROJECTNOTTITANPROJECT,
-									tempProject.getName(), project.getName()), IMarker.SEVERITY_ERROR,
-									GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
-							progress.worked(1);
-						}
-					} else {
-						final Location location = new Location(project);
-						location.reportExternalProblem(
-								MessageFormat.format(REQUIREDPROJECTNOTACCESSIBLE, tempProject.getName(),
-										project.getName()), IMarker.SEVERITY_ERROR,
-										GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
-						progress.worked(1);
-					}
-				}
-
-				ProjectSourceSemanticAnalyzer.analyzeMultipleProjectsSemantically(tobeSemanticallyAnalyzed, progress.newChild(tobeAnalyzed.size()), compilationCounter);
+				});
 			}
+
+			try {
+				latch.await();
+			} catch (InterruptedException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+			}
+
+			executor.shutdown();
+			try {
+				executor.awaitTermination(30, TimeUnit.SECONDS);
+			} catch (InterruptedException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+			}
+			executor.shutdownNow();
+
+			ProjectSourceSemanticAnalyzer.analyzeMultipleProjectsSemantically(new ArrayList<IProject>(tobeSemanticallyAnalyzed), progress.newChild(tobeAnalyzed.size()), compilationCounter);
 
 			// semantic check for config file
 			// GlobalParser.getConfigSourceParser(project).doSemanticCheck();
