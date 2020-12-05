@@ -15,12 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.titan.designer.Activator;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
@@ -61,8 +55,6 @@ import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3Keywords;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The FormalParameterList class represents the formal parameter lists found in
@@ -81,7 +73,6 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	private static final String ILLEGALACTIVATEPARAMETER = "Parameter {0} of {1} refers to {2},"
 			+ " which is a local definition within a statement block and may have shorter lifespan than the activated default."
 			+ " Only references to variables and timers defined in the component type can be passed to activated defaults";
-	private static final String TOOMANYPARAMETERS = "More than {0} parameters";
 	private static final String CANNOTBESTARTED = "a parameter or embedded in a parameter of a function used in a start operation."
 			+ " {0} `{1}'' cannot be start on a parallel test component";
 	private static final String WILLREMAINUNCHANGED =
@@ -114,39 +105,6 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	// stores whether functions with this formal parameter list can be
 	// started or not
 	private boolean isStartable;
-
-	/** whether to report the problem of having too many parameters or not */
-	private static String reportTooManyParameters;
-	/** the amount that counts to be too many */
-	private static int reportTooManyParametersSize;
-	static {
-		final IPreferencesService ps = Platform.getPreferencesService();
-		if ( ps != null ) {
-			reportTooManyParameters = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORT_TOOMANY_PARAMETERS, GeneralConstants.WARNING, null);
-			reportTooManyParametersSize = ps.getInt(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORT_TOOMANY_PARAMETERS_SIZE, 7, null);
-
-			final Activator activator = Activator.getDefault();
-			if (activator != null) {
-				activator.getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-
-					@Override
-					public void propertyChange(final PropertyChangeEvent event) {
-						final String property = event.getProperty();
-						if (PreferenceConstants.REPORT_TOOMANY_PARAMETERS.equals(property)) {
-							reportTooManyParameters = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORT_TOOMANY_PARAMETERS,
-									GeneralConstants.WARNING, null);
-						}
-						if (PreferenceConstants.REPORT_TOOMANY_PARAMETERS_SIZE.equals(property)) {
-							reportTooManyParametersSize = ps.getInt(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.REPORT_TOOMANY_PARAMETERS_SIZE, 7, null);
-						}
-					}
-				});
-			}
-		}
-	}
 
 	public FormalParameterList(final List<FormalParameter> parameters) {
 		for (final FormalParameter parameter : parameters) {
@@ -394,11 +352,6 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			if (!parameter.hasDefaultValue()) {
 				minimumNofParameters = i + 1;
 			}
-		}
-
-		if (parameters.size() > reportTooManyParametersSize) {
-			getLocation().reportConfigurableSemanticProblem(reportTooManyParameters,
-					MessageFormat.format(TOOMANYPARAMETERS, reportTooManyParametersSize));
 		}
 
 		checkUniqueness(timestamp);

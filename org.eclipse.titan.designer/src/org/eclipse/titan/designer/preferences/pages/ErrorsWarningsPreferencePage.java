@@ -62,10 +62,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String REPORT_NONPRIVATE_PRIVATE_TOOLTIP = "By default all definitions are public,"
 			+ " but by declaring some private one can make them invisible for importing modules.\n"
 			+ "This might be usefull in case of internal functions, types, constants";
-	private static final String REPORT_TOOMANY_PARAMETERS = "Report TTCN-3 definitions that have too many parameters";
-	private static final String REPORT_TOOMANY_PARAMETERS_SIZE = "The size the amount of parameters should not exceed";
-	private static final String REPORT_TOOMANY_PARAMETERS_TOOLTIP = "The more parameters some entity has,"
-			+ " the harder it becomes to fill them out correctly without introducing faults";
 	private static final String REPORT_EMPTY_STATEMENT_BLOCK = "Report empty statement blocks";
 	private static final String REPORT_EMPTY_STATEMENT_BLOCK_TOOLTIP = "Empty statement blocks in the source code usually means,\n"
 			+ "that the developer planned to write some code there to handle some use cases,\n"
@@ -334,28 +330,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		});
 		addField(comboedit);
 
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_TOOMANY_PARAMETERS, REPORT_TOOMANY_PARAMETERS, IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORT_TOOMANY_PARAMETERS_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-		IntegerFieldEditor integeredit = new IntegerFieldEditor(PreferenceConstants.REPORT_TOOMANY_PARAMETERS_SIZE,
-				REPORT_TOOMANY_PARAMETERS_SIZE, comp);
-		text = integeredit.getLabelControl(comp);
-		text.setToolTipText(REPORT_TOOMANY_PARAMETERS_TOOLTIP);
-		integeredit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(integeredit);
-
 		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK, REPORT_EMPTY_STATEMENT_BLOCK,
 				IGNORE_WARNING_ERROR, comp);
 		text = comboedit.getLabelControl(comp);
@@ -378,7 +352,8 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 			}
 		});
 		addField(comboedit);
-		integeredit = new IntegerFieldEditor(PreferenceConstants.REPORT_TOOMANY_STATEMENTS_SIZE, REPORT_TOOMANY_STATEMENTS_SIZE, comp);
+
+		IntegerFieldEditor integeredit = new IntegerFieldEditor(PreferenceConstants.REPORT_TOOMANY_STATEMENTS_SIZE, REPORT_TOOMANY_STATEMENTS_SIZE, comp);
 		text = integeredit.getLabelControl(comp);
 		text.setToolTipText(REPORT_TOOMANY_STATEMENTS_TOOLTIP);
 		integeredit.setPropertyChangeListener(new IPropertyChangeListener() {
