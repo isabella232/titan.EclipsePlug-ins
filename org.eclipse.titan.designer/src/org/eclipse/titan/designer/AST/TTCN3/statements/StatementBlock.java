@@ -83,7 +83,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	private static final String DUPLICATELABELAGAIN = "Duplicated label `{0}''";
 
 	private static final String EMPTY_STATEMENT_BLOCK = "Empty statement block";
-	private static final String TOOMANYSTATEMENTS = "More than {0} statements in a single statementblock";
 
 	public enum ReturnStatus_type {
 		/** the block does not have a return statement */
@@ -146,20 +145,12 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	/** whether to report the problem of an empty statement block */
 	private static String reportEmptyStatementBlock;
-	/** whether to report the problem of having too many parameters or not */
-	private static String reportTooManyStatements;
-	/** the amount that counts to be too many */
-	private static int reportTooManyStatementsSize;
 
 	static {
 		final IPreferencesService ps = Platform.getPreferencesService();
 		if ( ps != null ) {
 			reportEmptyStatementBlock = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK, GeneralConstants.WARNING, null);
-			reportTooManyStatements = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORT_TOOMANY_STATEMENTS, GeneralConstants.WARNING, null);
-			reportTooManyStatementsSize = ps.getInt(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORT_TOOMANY_STATEMENTS_SIZE, 150, null);
 
 			final Activator activator = Activator.getDefault();
 			if (activator != null) {
@@ -170,12 +161,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 						if (PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK.equals(property)) {
 							reportEmptyStatementBlock = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
 									PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK, GeneralConstants.WARNING, null);
-						} else if (PreferenceConstants.REPORT_TOOMANY_STATEMENTS.equals(property)) {
-							reportTooManyStatements = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORT_TOOMANY_STATEMENTS,
-									GeneralConstants.WARNING, null);
-						} else if (PreferenceConstants.REPORT_TOOMANY_STATEMENTS_SIZE.equals(property)) {
-							reportTooManyStatementsSize = ps.getInt(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.REPORT_TOOMANY_STATEMENTS_SIZE, 150, null);
 						}
 					}
 				});
@@ -630,9 +615,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 		if (statements.isEmpty()) {
 			getLocation().reportConfigurableSemanticProblem(reportEmptyStatementBlock, EMPTY_STATEMENT_BLOCK);
-		} else if (statements.size() > reportTooManyStatementsSize) {
-			getLocation().reportConfigurableSemanticProblem(reportTooManyStatements,
-					MessageFormat.format(TOOMANYSTATEMENTS, reportTooManyStatementsSize));
 		}
 
 		checkUnusedLabels(timestamp);

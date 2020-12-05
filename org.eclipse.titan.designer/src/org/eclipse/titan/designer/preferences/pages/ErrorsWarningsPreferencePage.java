@@ -11,7 +11,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -342,27 +341,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		});
 
 		addField(comboedit);
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_TOOMANY_STATEMENTS, REPORT_TOOMANY_STATEMENTS, IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORT_TOOMANY_STATEMENTS_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		IntegerFieldEditor integeredit = new IntegerFieldEditor(PreferenceConstants.REPORT_TOOMANY_STATEMENTS_SIZE, REPORT_TOOMANY_STATEMENTS_SIZE, comp);
-		text = integeredit.getLabelControl(comp);
-		text.setToolTipText(REPORT_TOOMANY_STATEMENTS_TOOLTIP);
-		integeredit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(integeredit);
 
 		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTINCORRECTSHIFTROTATESIZE, REPORTINCORRECTSHIFTROTATESIZE,
 				IGNORE_WARNING_ERROR, comp);

@@ -418,10 +418,6 @@ By default all definitions are public, but by declaring some private one can mak
 +
 Empty statement blocks in the source code usually means, that the developer planned to write some code there to handle some use cases, but forgot to finish it or is right now in the process of finishing it. The on-the-fly checker, when an empty statement block is detected, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Ignore*.
 
-* **Report statement blocks that have too many statements**
-+
-If a statement block becomes very long it becomes hard to understand. Therefore, long statement blocks should usually be refactored into several individual ones or into individual functions that focus on a specific task. The on-the-fly checker, when more lines are detected in a block than the limit specified in the next field ``The size the amount of statements should not exceed'' then triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Ignore*.
-
 * **Report too big or too small shift and rotation sizes**
 +
 If the on-the-fly checker detects too big (bigger than the string itself) or negative rotation size then triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Warning*
