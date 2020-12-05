@@ -115,7 +115,6 @@ public final class PreferenceConstants {
 	public static final String REPORT_NONPRIVATE_PRIVATE = ProductConstants.PRODUCT_ID_DESIGNER + ".reportNonPrivatePrivate";
 
 	public static final String REPORT_IF_WITHOUT_ELSE = ProductConstants.PRODUCT_ID_DESIGNER + ".reportIfWithoutElse";
-	public static final String REPORT_SETVERDICT_WITHOUT_REASON = ProductConstants.PRODUCT_ID_DESIGNER + ".reportSetverdictWithoutReason";
 
 	// Naming Conventions
 	public static final String REPORTNAMINGCONVENTIONPROBLEMS = ProductConstants.PRODUCT_ID_DESIGNER + ".reportNamingConventionProblems";

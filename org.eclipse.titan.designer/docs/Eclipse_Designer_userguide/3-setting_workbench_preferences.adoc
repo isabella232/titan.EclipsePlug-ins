@@ -422,10 +422,6 @@ If the on-the-fly checker detects too big (bigger than the string itself) or neg
 +
 The on-the-fly checker, when it detects that a conditional statement does not contain an else block, triggers one of the following behaviors: *Ignore, Warning, Error*. The default setting is: *Ignore*.
 
-* **Report setverdict without reason**
-+
-The on-the-fly checker, when it detects that a setverdict does not contain a reason, triggers one of the following behaviors: *Ignore, Warning, Error*. The default setting is: *Ignore*.
-
 * **Report incorrect syntax in extension attributes.**
 +
 According to the standard syntax errors in the extension attribute should not be reported, but should be assumed as correct for some other tool. The on-the-fly checker, when a syntax error is detected in an extension attribute, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Error*.

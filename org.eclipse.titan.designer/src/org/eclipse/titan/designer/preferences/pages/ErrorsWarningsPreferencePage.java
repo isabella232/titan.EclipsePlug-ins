@@ -70,9 +70,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String REPORT_IF_WITHOUT_ELSE = "Report conditional statements without else block";
 	private static final String REPORT_IF_WITHOUT_ELSE_TOOLTIP = "All possible execution paths should be handled,"
 			+ " at least on the level of logging information in case of unexpected events";
-	private static final String REPORT_SETVERDICT_WITHOUT_REASON = "Report setverdict without reason";
-	private static final String REPORT_SETVERDICT_WITHOUT_REASON_TOOLTIP = "Setting any other verdict reason then pass,"
-			+ " should be accompanied with a reason, with details for the verdict";
 
 	private static final String REPORTUNNECESSARYCONTROLS = "Report unnecessary controls:";
 	private static final String REPORTUNNECESSARYCONTROLS_TOOLTIP = "Report controls that can be identified to be unnecessary"
@@ -334,18 +331,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_IF_WITHOUT_ELSE, REPORT_IF_WITHOUT_ELSE, IGNORE_WARNING_ERROR, comp);
 		text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORT_IF_WITHOUT_ELSE_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_SETVERDICT_WITHOUT_REASON, REPORT_SETVERDICT_WITHOUT_REASON,
-				IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORT_SETVERDICT_WITHOUT_REASON_TOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent event) {

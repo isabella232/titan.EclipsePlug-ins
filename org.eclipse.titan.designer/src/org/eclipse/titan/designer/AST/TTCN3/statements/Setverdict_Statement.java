@@ -7,15 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
-import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.titan.designer.Activator;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -34,8 +27,6 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * @author Kristof Szabados
  * */
@@ -43,7 +34,6 @@ public final class Setverdict_Statement extends Statement {
 	private static final String OPERANDERROR = "The operand of the `setverdict' operation should be a verdict value";
 	private static final String INCONTROLPART = "Setverdict statement is not allowed in the control part";
 	private static final String ERRORCANNOTBESET = "Error verdict cannot be set by the setverdict operation";
-	private static final String WITHOUT_REASON = "{0} verdict should not be set without telling the reason";
 
 	private static final String FULLNAMEPART1 = ".verdictvalue";
 	private static final String FULLNAMEPART2 = ".verdictreason";
@@ -51,32 +41,6 @@ public final class Setverdict_Statement extends Statement {
 
 	private final Value verdictValue;
 	private final LogArguments verdictReason;
-
-	/** whether to report the problem of not having an else branch */
-	private static String reportSetverdictWithoutReason;
-
-	static {
-		final IPreferencesService ps = Platform.getPreferencesService();
-		if ( ps != null ) {
-			reportSetverdictWithoutReason = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORT_SETVERDICT_WITHOUT_REASON, GeneralConstants.IGNORE, null);
-
-			final Activator activator = Activator.getDefault();
-			if (activator != null) {
-				activator.getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-
-					@Override
-					public void propertyChange(final PropertyChangeEvent event) {
-						final String property = event.getProperty();
-						if (PreferenceConstants.REPORT_SETVERDICT_WITHOUT_REASON.equals(property)) {
-							reportSetverdictWithoutReason = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.REPORT_SETVERDICT_WITHOUT_REASON, GeneralConstants.IGNORE, null);
-						}
-					}
-				});
-			}
-		}
-	}
 
 	public Setverdict_Statement(final Value verdictValue, final LogArguments verdictReason) {
 		this.verdictValue = verdictValue;
@@ -161,11 +125,6 @@ public final class Setverdict_Statement extends Statement {
 					verdictValue.getLocation().reportSemanticError(ERRORCANNOTBESET);
 				}
 
-				if (Value_type.VERDICT_VALUE.equals(last.getValuetype())
-						&& !Verdict_type.PASS.equals(((Verdict_Value) last).getValue()) && verdictReason == null) {
-					getLocation().reportConfigurableSemanticProblem(reportSetverdictWithoutReason,
-							MessageFormat.format(WITHOUT_REASON, ((Verdict_Value) last).getValue()));
-				}
 				break;
 			default:
 				verdictValue.getLocation().reportSemanticError(OPERANDERROR);
