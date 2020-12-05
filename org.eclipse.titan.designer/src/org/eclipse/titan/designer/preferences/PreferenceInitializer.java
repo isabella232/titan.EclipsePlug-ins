@@ -130,7 +130,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.REPORT_GOTO, GeneralConstants.IGNORE);
 		preferenceStore.setDefault(PreferenceConstants.REPORT_NONPRIVATE_PRIVATE, GeneralConstants.IGNORE);
 
-		preferenceStore.setDefault(PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK, GeneralConstants.IGNORE);
 		preferenceStore.setDefault(PreferenceConstants.REPORT_IF_WITHOUT_ELSE, GeneralConstants.IGNORE);
 		preferenceStore.setDefault(PreferenceConstants.REPORT_SETVERDICT_WITHOUT_REASON, GeneralConstants.IGNORE);
 	}

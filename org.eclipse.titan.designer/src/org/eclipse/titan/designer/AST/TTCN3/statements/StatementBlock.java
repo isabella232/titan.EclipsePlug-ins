@@ -17,11 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -82,8 +78,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	private static final String DUPLICATEDLABELFIRST = "Previous definition of label `{0}'' is here";
 	private static final String DUPLICATELABELAGAIN = "Duplicated label `{0}''";
 
-	private static final String EMPTY_STATEMENT_BLOCK = "Empty statement block";
-
 	public enum ReturnStatus_type {
 		/** the block does not have a return statement */
 		RS_NO,
@@ -142,31 +136,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		}
 
 	};
-
-	/** whether to report the problem of an empty statement block */
-	private static String reportEmptyStatementBlock;
-
-	static {
-		final IPreferencesService ps = Platform.getPreferencesService();
-		if ( ps != null ) {
-			reportEmptyStatementBlock = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK, GeneralConstants.WARNING, null);
-
-			final Activator activator = Activator.getDefault();
-			if (activator != null) {
-				activator.getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-					@Override
-					public void propertyChange(final PropertyChangeEvent event) {
-						final String property = event.getProperty();
-						if (PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK.equals(property)) {
-							reportEmptyStatementBlock = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK, GeneralConstants.WARNING, null);
-						}
-					}
-				});
-			}
-		}
-	}
 
 	public StatementBlock() {
 		scopeName = "statementblock";
@@ -611,10 +580,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			}
 			// check try-catch statement block usage
 			previousStatement = statement;
-		}
-
-		if (statements.isEmpty()) {
-			getLocation().reportConfigurableSemanticProblem(reportEmptyStatementBlock, EMPTY_STATEMENT_BLOCK);
 		}
 
 		checkUnusedLabels(timestamp);

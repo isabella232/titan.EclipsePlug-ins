@@ -61,11 +61,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String REPORT_NONPRIVATE_PRIVATE_TOOLTIP = "By default all definitions are public,"
 			+ " but by declaring some private one can make them invisible for importing modules.\n"
 			+ "This might be usefull in case of internal functions, types, constants";
-	private static final String REPORT_EMPTY_STATEMENT_BLOCK = "Report empty statement blocks";
-	private static final String REPORT_EMPTY_STATEMENT_BLOCK_TOOLTIP = "Empty statement blocks in the source code usually means,\n"
-			+ "that the developer planned to write some code there to handle some use cases,\n"
-			+ "but forgot to finish his work ... or is right now in the process of finishing it";
-			+ " or into individual functions that focus on a specific task. ";
 	private static final String HANDLEDEFAULTASOPTIONAL = "DEFAULT elements of ASN.1 sequence and set types as OPTIONAL:";
 	private static final String HANDLEDEFAULTASOPTIONALTOOTIP = "Handle the DEFAULT elements of set and sequence ASN.1 types as being optional.\n"
 			+ "This is compatibility opition.";
@@ -322,19 +317,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 				changed = true;
 			}
 		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK, REPORT_EMPTY_STATEMENT_BLOCK,
-				IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORT_EMPTY_STATEMENT_BLOCK_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-
 		addField(comboedit);
 
 		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTINCORRECTSHIFTROTATESIZE, REPORTINCORRECTSHIFTROTATESIZE,
