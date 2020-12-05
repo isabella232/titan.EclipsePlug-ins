@@ -33,7 +33,7 @@ The option is UNCHECKED by default.
 
 * **Treat on-the-fly errors as fatal for build.**
 +
-By default if the on-the-fly analyzer recognizes a syntactic or semantic error, that has no effect on the build process of the project.However, most of the time this is not optimal behavior, because if the semantic analyzer finds something erroneous, the build process will also find it erroneous and as such the build process will not be able to fully complete (plus in such cases the time spent by the build process to detect and report the problem is actually wasted as the problem is already known). +
+By default if the on-the-fly analyzer recognizes a syntactic or semantic error, that has no effect on the build process of the project. However, most of the time this is not optimal behavior, because if the semantic analyzer finds something erroneous, the build process will also find it erroneous and as such the build process will not be able to fully complete (plus in such cases the time spent by the build process to detect and report the problem is actually wasted as the problem is already known). +
 The option is NOT CHECKED by default.
 
 * **When on-the-fly analysis ends the compiler markers.**
