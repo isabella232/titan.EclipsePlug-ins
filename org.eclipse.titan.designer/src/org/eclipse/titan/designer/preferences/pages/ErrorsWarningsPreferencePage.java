@@ -65,11 +65,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String REPORT_EMPTY_STATEMENT_BLOCK_TOOLTIP = "Empty statement blocks in the source code usually means,\n"
 			+ "that the developer planned to write some code there to handle some use cases,\n"
 			+ "but forgot to finish his work ... or is right now in the process of finishing it";
-	private static final String REPORT_TOOMANY_STATEMENTS = "Report statement blocks that have too many statements";
-	private static final String REPORT_TOOMANY_STATEMENTS_SIZE = "The size the amount of statements should not exceed";
-	private static final String REPORT_TOOMANY_STATEMENTS_TOOLTIP = "Rationale:"
-			+ " If a statement block becomes very long it is hard to understand."
-			+ " Therefore long statemen tblocks should usually be refactored into several individual ones,"
 			+ " or into individual functions that focus on a specific task. ";
 	private static final String HANDLEDEFAULTASOPTIONAL = "DEFAULT elements of ASN.1 sequence and set types as OPTIONAL:";
 	private static final String HANDLEDEFAULTASOPTIONALTOOTIP = "Handle the DEFAULT elements of set and sequence ASN.1 types as being optional.\n"
