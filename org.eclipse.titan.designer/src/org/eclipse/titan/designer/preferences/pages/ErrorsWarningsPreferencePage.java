@@ -69,9 +69,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String REPORT_STRICT_CONSTANTS = "Use stricter checks for constants, templates and variables";
 	private static final String REPORT_STRICT_CONSTANTS_TOOLTIP = "Although it is valid to leave fields of constants and literals unbound,"
 			+ " in some cases this was not the intention.";
-	private static final String REPORT_GOTO = "Report the usage of label and goto statements";
-	private static final String REPORT_GOTO_TOOLTIP = "In almost all cases the usage of goto should be forbidden"
-			+ " as it can very easily breaks the principles of structured/well designed source code.";
 
 	private static final String[][] IGNORE_WARNING_ERROR = new String[][] { { "Ignore", GeneralConstants.IGNORE },
 			{ "Warning", GeneralConstants.WARNING }, { "Error", GeneralConstants.ERROR } };
