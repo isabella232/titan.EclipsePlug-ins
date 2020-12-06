@@ -40,8 +40,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 
 	private static final String REPORTUNSUPPORTEDCONSTRUCTS = "Language constructs not supported yet:";
 	private static final String REPORTUNSUPPORTEDCONSTRUCTS_TOOLTIP = "For example pattern subtyping in TTCN-3.";
-	private static final String REPORTMISSINGIMPORTATION = "Report missing imported modules:";
-	private static final String REPORTMISSINGIMPORTATION_TOOLTIP = "When a module referred to in an import statement could not be found.";
 	private static final String REPORTUNUSEDMODULEIMPORTATION = "Report unused module importation:";
 	private static final String REPORTUNUSEDMODULEIMPORTATION_TOOLTIP = "When nothing is used in the module from the imported module.";
 	private static final String REPORTUNUSEDGLOBALDEFINITION = "Report unused module level definition:";
@@ -230,21 +228,9 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		expandable.setClient(comp);
 		expandable.setExpanded(false);
 
-		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTMISSINGIMPORTEDMODULE, REPORTMISSINGIMPORTATION,
+		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTERRORSINEXTENSIONSYNTAX, REPORTERRORSINEXTENSIONSYNTAX,
 				IGNORE_WARNING_ERROR, comp);
 		Label text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORTMISSINGIMPORTATION_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTERRORSINEXTENSIONSYNTAX, REPORTERRORSINEXTENSIONSYNTAX,
-				IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORTERRORSINEXTENSIONSYNTAX_TOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override

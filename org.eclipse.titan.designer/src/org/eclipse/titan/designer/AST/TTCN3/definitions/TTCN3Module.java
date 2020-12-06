@@ -18,7 +18,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.product.ProductIdentity;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -75,7 +74,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_reparser_optionalWithStatementContext;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * Represents a Module.
@@ -112,6 +110,7 @@ public final class TTCN3Module extends Module {
 	// The "supplied" version
 	private ProductIdentity versionNumber = null;
 
+	//TODO detecting missing references should be done in Titanium.
 	private final List<Reference> missingReferences;
 
 	//The MD5 hash of the module
@@ -898,12 +897,10 @@ public final class TTCN3Module extends Module {
 					return temporalAssignment;
 				}
 			}
-			referenceLocation.reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTMISSINGIMPORTEDMODULE, GeneralConstants.WARNING, null),
-							MessageFormat.format(ImportModule.MISSINGMODULE, moduleId.getDisplayName()));
+
 			missingReferences.add(reference);
 		}
+
 		return temporalAssignment;
 	}
 
