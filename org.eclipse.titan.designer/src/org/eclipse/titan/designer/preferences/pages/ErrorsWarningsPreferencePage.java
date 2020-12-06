@@ -40,9 +40,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 
 	private static final String REPORTUNSUPPORTEDCONSTRUCTS = "Language constructs not supported yet:";
 	private static final String REPORTUNSUPPORTEDCONSTRUCTS_TOOLTIP = "For example pattern subtyping in TTCN-3.";
-	private static final String REPORTUNUSEDGLOBALDEFINITION = "Report unused module level definition:";
-	private static final String REPORTUNUSEDGLOBALDEFINITIONTOOLTIP = "When a module level definition is never read/written.\n"
-			+ " Also when a type is not used to declare other definitions.";
 	private static final String REPORTUNUSEDLOCALDEFINITION = "Report unused local definition:";
 	private static final String REPORTUNUSEDLOCALDEFINITIONTOOLTIP = "When a local variable or formal parameter is never read/written.";
 	private static final String HANDLEDEFAULTASOPTIONAL = "DEFAULT elements of ASN.1 sequence and set types as OPTIONAL:";
@@ -240,21 +237,9 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		expandable.setClient(comp);
 		expandable.setExpanded(false);
 
-		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, REPORTUNUSEDGLOBALDEFINITION,
-				IGNORE_WARNING_ERROR, comp);
-		Label text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORTUNUSEDGLOBALDEFINITIONTOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, REPORTUNUSEDLOCALDEFINITION, IGNORE_WARNING_ERROR,
+		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, REPORTUNUSEDLOCALDEFINITION, IGNORE_WARNING_ERROR,
 				comp);
-		text = comboedit.getLabelControl(comp);
+		Label text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORTUNUSEDLOCALDEFINITIONTOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override

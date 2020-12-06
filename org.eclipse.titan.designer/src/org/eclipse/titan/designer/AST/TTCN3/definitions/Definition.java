@@ -116,7 +116,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	// The actual value of the severity level to report unused definitions
 	// on.
 	private static String unusedLocalDefinitionSeverity;
-	private static String unusedGlobalDefinitionSeverity;
 
 	protected static String getUnusedLocalDefinitionSeverity() {
 		return unusedLocalDefinitionSeverity;
@@ -129,8 +128,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 					PreferenceConstants.MARK_OCCURRENCES_TTCN3_ASSIGNMENTS, false, null);
 			unusedLocalDefinitionSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, GeneralConstants.WARNING, null);
-			unusedGlobalDefinitionSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, GeneralConstants.WARNING, null);
 
 			final Activator activator = Activator.getDefault();
 			if (activator != null) {
@@ -146,10 +143,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 						if (PreferenceConstants.REPORTUNUSEDLOCALDEFINITION.equals(property)) {
 							unusedLocalDefinitionSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
 									PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, GeneralConstants.WARNING, null);
-						}
-						if (PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION.equals(property)) {
-							unusedGlobalDefinitionSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, GeneralConstants.WARNING, null);
 						}
 					}
 				});
@@ -542,9 +535,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 			if (isLocal()) {
 				identifier.getLocation().reportConfigurableSemanticProblem(unusedLocalDefinitionSeverity,
 						MessageFormat.format(LOCALLY_UNUSED, getDescription()));
-			} else {
-				identifier.getLocation().reportConfigurableSemanticProblem(unusedGlobalDefinitionSeverity,
-						MessageFormat.format(GLOBALLY_UNUSED, getDescription()));
 			}
 		}
 	}

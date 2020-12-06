@@ -291,9 +291,6 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	 * that can only be checked after the semantic check was completely run. */
 	public void postCheck() {
 		if (!isUsed) {
-			final String reportUnused = Platform.getPreferencesService().getString(
-					ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, GeneralConstants.WARNING, null);
-			location.reportConfigurableSemanticProblem(reportUnused, MessageFormat.format(GLOBALLY_UNUSED, getDescription()));
 		}
 	}
 
