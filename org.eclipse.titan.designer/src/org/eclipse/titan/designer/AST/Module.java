@@ -10,19 +10,11 @@ package org.eclipse.titan.designer.AST;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.titan.designer.Activator;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ProjectStructureDataCollector;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * This class represents general Modules, on which both the TTCN-3 and the ASN.1
