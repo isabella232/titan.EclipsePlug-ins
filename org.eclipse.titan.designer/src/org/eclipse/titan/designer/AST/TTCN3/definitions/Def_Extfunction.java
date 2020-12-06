@@ -249,7 +249,6 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
-		postCheckPrivateness();
 	}
 
 	/**

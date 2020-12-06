@@ -256,7 +256,6 @@ public final class Def_Type extends Definition {
 	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
-		postCheckPrivateness();
 	}
 
 	/**

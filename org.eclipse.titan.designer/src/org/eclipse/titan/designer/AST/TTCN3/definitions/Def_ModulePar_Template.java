@@ -250,7 +250,6 @@ public final class Def_ModulePar_Template extends Definition {
 	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
-		postCheckPrivateness();
 	}
 
 	@Override

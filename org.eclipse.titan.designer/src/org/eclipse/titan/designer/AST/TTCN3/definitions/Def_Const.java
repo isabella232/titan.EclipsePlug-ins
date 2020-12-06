@@ -288,7 +288,6 @@ public final class Def_Const extends Definition {
 	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
-		postCheckPrivateness();
 	}
 
 	@Override

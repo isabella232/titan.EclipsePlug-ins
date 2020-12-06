@@ -157,7 +157,6 @@ public final class Def_ExternalConst extends Definition {
 	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
-		postCheckPrivateness();
 	}
 
 	@Override

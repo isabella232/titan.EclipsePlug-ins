@@ -664,7 +664,6 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
-		postCheckPrivateness();
 	}
 
 	@Override

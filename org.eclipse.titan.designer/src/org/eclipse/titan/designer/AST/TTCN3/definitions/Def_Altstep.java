@@ -347,7 +347,6 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		}
 
 		super.postCheck();
-		postCheckPrivateness();
 
 		formalParList.postCheck();
 	}

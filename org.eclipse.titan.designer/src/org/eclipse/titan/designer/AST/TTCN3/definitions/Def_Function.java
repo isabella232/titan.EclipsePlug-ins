@@ -717,7 +717,6 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		}
 
 		super.postCheck();
-		postCheckPrivateness();
 
 		formalParList.postCheck();
 	}

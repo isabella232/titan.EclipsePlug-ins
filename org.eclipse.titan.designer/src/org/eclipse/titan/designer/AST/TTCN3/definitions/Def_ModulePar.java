@@ -216,7 +216,6 @@ public final class Def_ModulePar extends Definition {
 	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
-		postCheckPrivateness();
 	}
 
 	@Override

@@ -535,13 +535,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		return false;
 	}
 
-	/**
-	 * Checks if the current definition could be set as private even though
-	 * it is not declared as one.
-	 * */
-	protected final void postCheckPrivateness() {
-	}
-
 	@Override
 	/** {@inheritDoc} */
 	public void postCheck() {
