@@ -7,11 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 
 /**
  * Represents the JSON encoding related setting extracted from variant attributes.
@@ -261,70 +263,69 @@ public class JsonAST {
 		}
 	}
 
-	//FIXME system.out is unreliable for such purposes !
 	public void print_JsonAST() {
-		System.out.printf("\n\rOmit encoding: ");
+		TITANDebugConsole.print("\n\rOmit encoding: ");
 		if (omit_as_null) {
-			System.out.printf("as null value\n\r");
+			TITANDebugConsole.print("as null value\n\r");
 		} else {
-			System.out.printf("skip field\n\r");
+			TITANDebugConsole.print("skip field\n\r");
 		}
 		if (alias != null) {
-			System.out.printf("Name as %s\n\r", alias);
+			TITANDebugConsole.print(MessageFormat.format("Name as {0}\n\r", alias));
 		}
 		if (as_value) {
-			System.out.printf("Encoding unions as JSON value\n\r");
+			TITANDebugConsole.print("Encoding unions as JSON value\n\r");
 		}
 		if (parsed_default_value != null) {
-			System.out.printf("Parsed default value: %s\n\r", parsed_default_value);
+			TITANDebugConsole.print(MessageFormat.format("Parsed default value: {0}\n\r", parsed_default_value));
 		}
 		if (as_number) {
-			System.out.printf("Encoding enumerated values as numbers\n\r");
+			TITANDebugConsole.print("Encoding enumerated values as numbers\n\r");
 		}
 		if (0 != schema_extensions.size()) {
-			System.out.printf("Extensions:");
+			TITANDebugConsole.print("Extensions:");
 			for (int i = 0; i < schema_extensions.size(); ++i) {
-				System.out.printf(" \"%s\" : \"%s\"", schema_extensions.get(i).key, schema_extensions.get(i).value);
+				TITANDebugConsole.print(MessageFormat.format(" \"{0}\" : \"{1}\"", schema_extensions.get(i).key, schema_extensions.get(i).value));
 			}
 		}
 		if (metainfo_unbound) {
-			System.out.printf("Metainfo for unbound field(s)\n\r");
+			TITANDebugConsole.print("Metainfo for unbound field(s)\n\r");
 		}
 		if (tag_list != null) {
-			System.out.printf("Chosen union fields:\n\r");
-			System.out.printf("  Number of rules: %d\n\r", tag_list.size());
+			TITANDebugConsole.print("Chosen union fields:\n\r");
+			TITANDebugConsole.print(MessageFormat.format("  Number of rules: {0}\n\r", tag_list.size()));
 			for (int i = 0; i < tag_list.size(); ++i) {
-				System.out.printf("  Rule #%d:\n\r", i);
-				System.out.printf("    Chosen field: %s\n\r", tag_list.get(i).fieldName != null ?
-						tag_list.get(i).fieldName : "omit");
-				System.out.printf("    Number of conditions: %d\n\r", tag_list.get(i).keyList.size());
+				TITANDebugConsole.print(MessageFormat.format("  Rule #{0}:\n\r", i));
+				TITANDebugConsole.print(MessageFormat.format("    Chosen field: {0}\n\r", tag_list.get(i).fieldName != null ?
+						tag_list.get(i).fieldName : "omit"));
+				TITANDebugConsole.print(MessageFormat.format("    Number of conditions: {0}\n\r", tag_list.get(i).keyList.size()));
 				for (int j = 0; j < tag_list.get(i).keyList.size(); ++j) {
-					System.out.printf("    Condition #%d:\n\r", j);
-					System.out.printf("      Value: %s\n\r", tag_list.get(i).keyList.get(j).value);
-					System.out.printf("      Field: ");
+					TITANDebugConsole.print(MessageFormat.format("    Condition #{0}:\n\r", j));
+					TITANDebugConsole.print(MessageFormat.format("      Value: {0}\n\r", tag_list.get(i).keyList.get(j).value));
+					TITANDebugConsole.print("      Field: ");
 					for (int k = 0; k < tag_list.get(i).keyList.get(j).keyField.names.size(); ++k) {
 						if (k != 0) {
-							System.out.printf(".");
+							TITANDebugConsole.print(".");
 						}
-						System.out.printf("%s", tag_list.get(i).keyList.get(j).keyField.names.get(k).getName());
+						TITANDebugConsole.print(tag_list.get(i).keyList.get(j).keyField.names.get(k).getName());
 					}
-					System.out.printf("\n\r");
+					TITANDebugConsole.print("\n\r");
 				}
 			}
-			System.out.printf("Type: %s\n\r", get_type_str());
+			TITANDebugConsole.print(MessageFormat.format("Type: {0}\n\r", get_type_str()));
 			if (string_escaping != json_string_escaping.ESCAPING_UNSET) {
-				System.out.printf("%s\n\r", get_escaping_str());
+				TITANDebugConsole.print(MessageFormat.format("{0}\n\r", get_escaping_str()));
 			}
 		}
 		if (as_map) {
-			System.out.printf("Encoding elements into a map of key-value pairs.\n\r");
+			TITANDebugConsole.print("Encoding elements into a map of key-value pairs.\n\r");
 		}
 		if (0 != enum_texts.size()) {
-			System.out.printf("Enum texts:");
+			TITANDebugConsole.print("Enum texts:");
 			for (int i = 0; i < enum_texts.size(); ++i) {
-				System.out.printf(" '%s' -> '%s'", enum_texts.get(i).from, enum_texts.get(i).to);
+				TITANDebugConsole.print(MessageFormat.format(" '{0}' -> '{1}'", enum_texts.get(i).from, enum_texts.get(i).to));
 			}
-			System.out.printf("\n\r");
+			TITANDebugConsole.print("\n\r");
 		}
 	}
 }
