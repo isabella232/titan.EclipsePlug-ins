@@ -44,8 +44,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String REPORTMISSINGIMPORTATION_TOOLTIP = "When a module referred to in an import statement could not be found.";
 	private static final String REPORTUNUSEDMODULEIMPORTATION = "Report unused module importation:";
 	private static final String REPORTUNUSEDMODULEIMPORTATION_TOOLTIP = "When nothing is used in the module from the imported module.";
-	private static final String REPORTMISSINGFRIEND = "Report friend declarations with missing modules:";
-	private static final String REPORTMISSINGFRIEND_TOOLTIP = "When the module referred to in a friend declaration doulc not be found..";
 	private static final String REPORTUNUSEDGLOBALDEFINITION = "Report unused module level definition:";
 	private static final String REPORTUNUSEDGLOBALDEFINITIONTOOLTIP = "When a module level definition is never read/written.\n"
 			+ " Also when a type is not used to declare other definitions.";
