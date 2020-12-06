@@ -60,22 +60,13 @@ public class Semantic_warnings_tests {
 		Designer_plugin_tests.checkSemanticMarkersOnFile(Syntax_warnings_ttcn_initializer(), "src/Unstructured_tests/Syntax_warnings.ttcn");
 	}
 
-	@Test
-	public void Syntax_warnings2_ttcn() throws Exception {
-		Designer_plugin_tests.checkSemanticMarkersOnFile(Syntax_warnings2_ttcn_initializer(), "src/Unstructured_tests/Syntax_warnings2.ttcn");
-	}
-
 	private ArrayList<MarkerToCheck> SemanticErrors1_asn_initializer() {
 		//SemanticErrors1.asn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(17);
 		int lineNum = 5;
 		markersToCheck.add(new MarkerToCheck("EXTENSIBILITY IMPLIED is not supported.",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
+		lineNum += 56;
 		int i = 0;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Possibly unused importation", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 51;
 		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 7;
 		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
@@ -114,9 +105,6 @@ public class Semantic_warnings_tests {
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1);
 		int lineNum = 1;
 		markersToCheck.add(new MarkerToCheck("EXTENSIBILITY IMPLIED is not supported.",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		int i = 0;
-		for (i = 0; i < 5; i++) { markersToCheck.add(new MarkerToCheck("Possibly unused importation", lineNum++, IMarker.SEVERITY_WARNING)); }
 
 		return markersToCheck;
 	}
@@ -133,19 +121,10 @@ public class Semantic_warnings_tests {
 	 private ArrayList<MarkerToCheck> Semantic_errors_ttcn_initializer() {
 		//Semantic_errors.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(21);
-		int lineNum = 11;
-		markersToCheck.add(new MarkerToCheck("Possibly unused importation",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
+		int lineNum = 13;
 		markersToCheck.add(new MarkerToCheck("Circular import chain is not recommended: Semantic_errors -> Semantic_errors3 -> Semantic_errors",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Possibly unused importation",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
+		lineNum += 33;
 		int i = 0;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Possibly unused importation", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 9;
-		markersToCheck.add(new MarkerToCheck("Possibly unused importation",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("The value parameter `b' with name b breaks the naming convention  `pl_.*'",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("The value parameter `h' with name h breaks the naming convention  `pl_.*'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 11;
@@ -243,15 +222,5 @@ public class Semantic_warnings_tests {
 
 		return markersToCheck;
 	}
-
-	 private ArrayList<MarkerToCheck> Syntax_warnings2_ttcn_initializer() {
-		//Syntax_warnings2.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1);
-		int lineNum = 10;
-		markersToCheck.add(new MarkerToCheck("Possibly unused importation",  lineNum, IMarker.SEVERITY_WARNING));
-
-		return markersToCheck;
-	}
-
 
 }

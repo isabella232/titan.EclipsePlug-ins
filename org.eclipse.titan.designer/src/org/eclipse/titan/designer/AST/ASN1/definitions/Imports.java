@@ -289,16 +289,6 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	}
 
 	/**
-	 * Checks if an importation was not used to import elements into the
-	 * module.
-	 * */
-	public void checkImportedness() {
-		for (final ImportModule importModule : importedModules_v) {
-			importModule.postCheck();
-		}
-	}
-
-	/**
 	 * Checks if a module with the provided id is imported in this module.
 	 *
 	 * @param id

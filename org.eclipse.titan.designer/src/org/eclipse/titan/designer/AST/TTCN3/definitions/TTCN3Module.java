@@ -551,12 +551,6 @@ public final class TTCN3Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public void postCheck() {
-		if (!getReportUnusedModuleImportationProblems()) {
-			for (final ImportModule impmod : importedModules) {
-				impmod.postCheck();
-			}
-		}
-
 		definitions.postCheck();
 
 		if (controlpart != null) {

@@ -53,46 +53,6 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	protected CompilationTimeStamp lastCompilationTimeStamp;
 	protected CompilationTimeStamp lastImportCheckTimeStamp;
 
-	// The actual value of the severity level to report unused importations
-	// on.
-	private static String unusedModuleImportationSeverity;
-
-	public static String getReportUnusedModuleImportationSeverity() {
-		return unusedModuleImportationSeverity;
-	}
-
-	// true if unused importation related problems should not be reported.
-	private static boolean silentMode = true;
-
-	public static boolean getReportUnusedModuleImportationProblems() {
-		return silentMode;
-	}
-
-	static {
-		final IPreferencesService ps = Platform.getPreferencesService();
-		if ( ps != null ) {
-			unusedModuleImportationSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORTUNUSEDMODULEIMPORTATION, GeneralConstants.WARNING, null);
-			silentMode = GeneralConstants.IGNORE.equals(unusedModuleImportationSeverity);
-
-			final Activator activator = Activator.getDefault();
-			if (activator != null) {
-				activator.getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-
-					@Override
-					public void propertyChange(final PropertyChangeEvent event) {
-						final String property = event.getProperty();
-						if (PreferenceConstants.REPORTUNUSEDMODULEIMPORTATION.equals(property)) {
-							unusedModuleImportationSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.REPORTUNUSEDMODULEIMPORTATION, GeneralConstants.WARNING, null);
-							silentMode = GeneralConstants.IGNORE.equals(unusedModuleImportationSeverity);
-						}
-					}
-				});
-			}
-		}
-	}
-
 	public Module(final Identifier identifier, final IProject project) {
 		this.project = project;
 		this.identifier = identifier;

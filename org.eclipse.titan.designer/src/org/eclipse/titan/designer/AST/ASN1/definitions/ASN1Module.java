@@ -234,10 +234,6 @@ public final class ASN1Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public void postCheck() {
-		if (!getReportUnusedModuleImportationProblems()) {
-			imports.checkImportedness();
-		}
-
 		assignments.postCheck();
 	}
 

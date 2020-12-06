@@ -191,17 +191,6 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	public abstract void check(final CompilationTimeStamp timestamp);
 
 	/**
-	 * Checks properties, that can only be checked after the semantic check
-	 * was completely run.
-	 */
-	public void postCheck() {
-		if (!usedForImportation) {
-			identifier.getLocation().reportConfigurableSemanticProblem(Module.getReportUnusedModuleImportationSeverity(),
-					UNUSEDIMPORTATION);
-		}
-	}
-
-	/**
 	 * Checks if there is an assignment that could be imported via this
 	 * importation with the provided identifier.
 	 *

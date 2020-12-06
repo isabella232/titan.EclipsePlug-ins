@@ -40,8 +40,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 
 	private static final String REPORTUNSUPPORTEDCONSTRUCTS = "Language constructs not supported yet:";
 	private static final String REPORTUNSUPPORTEDCONSTRUCTS_TOOLTIP = "For example pattern subtyping in TTCN-3.";
-	private static final String REPORTUNUSEDMODULEIMPORTATION = "Report unused module importation:";
-	private static final String REPORTUNUSEDMODULEIMPORTATION_TOOLTIP = "When nothing is used in the module from the imported module.";
 	private static final String REPORTUNUSEDGLOBALDEFINITION = "Report unused module level definition:";
 	private static final String REPORTUNUSEDGLOBALDEFINITIONTOOLTIP = "When a module level definition is never read/written.\n"
 			+ " Also when a type is not used to declare other definitions.";
@@ -242,21 +240,9 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		expandable.setClient(comp);
 		expandable.setExpanded(false);
 
-		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNUSEDMODULEIMPORTATION, REPORTUNUSEDMODULEIMPORTATION,
+		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, REPORTUNUSEDGLOBALDEFINITION,
 				IGNORE_WARNING_ERROR, comp);
 		Label text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORTUNUSEDMODULEIMPORTATION_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, REPORTUNUSEDGLOBALDEFINITION,
-				IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORTUNUSEDGLOBALDEFINITIONTOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override

@@ -69,7 +69,6 @@ public class Designer_plugin_tests {
 		 * Those options which would be assigned their default value, should not be set, but left as they are initialized.
 		 * */
 		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.LICENSE_FILE_PATH, MainTestSuite.LICENSE_FILE);
-		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.REPORTUNUSEDMODULEIMPORTATION, "warning");
 		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.REPORTUNSUPPORTEDCONSTRUCTS, "warning");
 		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, "ignore");
 		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, "ignore");
