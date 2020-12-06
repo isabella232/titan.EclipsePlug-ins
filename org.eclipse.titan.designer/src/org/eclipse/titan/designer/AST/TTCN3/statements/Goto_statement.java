@@ -10,12 +10,6 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.titan.designer.Activator;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -23,8 +17,6 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * @author Kristof Szabados
@@ -46,33 +38,6 @@ public final class Goto_statement extends Statement {
 
 	// only needed by the code generator
 	// private Statement label_statement;
-
-	// The actual value of the severity level to report stricter constant
-	// checking on.
-	public static String banishGOTO;
-
-	static {
-		final IPreferencesService ps = Platform.getPreferencesService();
-		if ( ps != null ) {
-			banishGOTO = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORT_GOTO,
-					GeneralConstants.WARNING, null);
-
-			final Activator activator = Activator.getDefault();
-			if (activator != null) {
-				activator.getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-
-					@Override
-					public void propertyChange(final PropertyChangeEvent event) {
-						final String property = event.getProperty();
-						if (PreferenceConstants.REPORT_GOTO.equals(property)) {
-							banishGOTO = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.REPORT_GOTO, GeneralConstants.WARNING, null);
-						}
-					}
-				});
-			}
-		}
-	}
 
 	public Goto_statement(final Identifier identifier) {
 		this.identifier = identifier;
@@ -158,11 +123,6 @@ public final class Goto_statement extends Statement {
 		} else {
 			// TODO infinite loop detection could be done here
 			jumpsForward = false;
-		}
-
-		if (!GeneralConstants.IGNORE.equals(banishGOTO)) {
-			location.reportConfigurableSemanticProblem(banishGOTO,
-					"Usage of goto and label statements is not recommended as they usually break the structure of the code");
 		}
 
 		lastTimeChecked = timestamp;

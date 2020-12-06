@@ -362,9 +362,6 @@ The on-the-fly checker, when a type compatibility check is detected, triggers on
 +
 Since version 4.2.1 of the TTCN-3 standard it is not required to completely initialize constant values, to allow more general operations. However, this also might introduce some hard to trace bugs. The option is UNCHECKED by default.
 
-* **Report the usage of label and goto statement**
-+
-The on-the-fly checker, when usage of label and goto is detected, triggers one of the following behaviors: *Ignore*, *Warning*, **Error.** The default setting is *Ignore*
 
 Unnecessary code:
 
@@ -389,10 +386,6 @@ The on-the-fly checker, when usage of unnecessary control is detected, triggers 
 The on-the-fly checker, suspecting that preprocessor directive is ignored, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Warning*.
 
 Potential programming problems:
-
-* **Report missing imported modules**
-+
-The on-the-fly checker, when missing imported module is detected, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Error*.
 
 * **Report incorrect syntax in extension attributes.**
 +

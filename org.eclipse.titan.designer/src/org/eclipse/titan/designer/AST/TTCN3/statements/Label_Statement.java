@@ -9,7 +9,6 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import java.util.List;
 
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -77,11 +76,6 @@ public final class Label_Statement extends Statement {
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
-		}
-
-		if (!GeneralConstants.IGNORE.equals(Goto_statement.banishGOTO)) {
-			location.reportConfigurableSemanticProblem(Goto_statement.banishGOTO,
-					"Usage of goto and label statements is not recommended as they usually break the structure of the code");
 		}
 
 		lastTimeChecked = timestamp;

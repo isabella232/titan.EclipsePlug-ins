@@ -198,17 +198,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 			}
 		});
 		addField(defaultAsOptional);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_GOTO, REPORT_GOTO, IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORT_GOTO_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
 	}
 
 	/**
