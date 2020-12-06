@@ -252,17 +252,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		});
 		addField(comboedit);
 
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTMISSINGFRIENDMODULE, REPORTMISSINGFRIEND, IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORTMISSINGFRIEND_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
 		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNUSEDFUNCTIONRETURNVALUES, REPORTUNUSEDFUNTIONRETURNVALUES,
 				IGNORE_WARNING_ERROR, comp);
 		text = comboedit.getLabelControl(comp);

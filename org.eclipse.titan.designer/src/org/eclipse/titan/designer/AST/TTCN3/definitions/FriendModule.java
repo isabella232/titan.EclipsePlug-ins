@@ -13,8 +13,6 @@ import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
@@ -38,8 +36,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_reparser_optionalWithStatementContext;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The FriendModule class represents a TTCN-3 module friendship declaration.
@@ -168,12 +164,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 
 		final Module referredModule = parser.getModuleByName(identifier.getName());
 
-		if (referredModule == null) {
-			identifier.getLocation().reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTMISSINGFRIENDMODULE, GeneralConstants.WARNING, null),
-							MessageFormat.format(MISSINGMODULE, identifier.getDisplayName()));
-		} else if (!module_type.TTCN3_MODULE.equals(referredModule.getModuletype())) {
+		if (referredModule != null && !module_type.TTCN3_MODULE.equals(referredModule.getModuletype())) {
 			identifier.getLocation().reportSemanticError(
 					MessageFormat.format("The friend module `{0}'' must be a TTCN-3 module", identifier.getDisplayName()));
 		}

@@ -394,10 +394,6 @@ Potential programming problems:
 +
 The on-the-fly checker, when missing imported module is detected, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Error*.
 
-* **Report friend declaration with missing modules**
-+
-The on-the-fly checker, when friend declaration with missing module is detected, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Ignore*.
-
 * **Report unused function return values**
 +
 The on-the-fly checker, when a function returns a value or a template, but it is not used, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Warning*.

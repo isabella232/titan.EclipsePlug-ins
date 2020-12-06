@@ -95,7 +95,6 @@ public final class PreferenceConstants {
 	// on-the-fly checker
 	public static final String REPORTUNSUPPORTEDCONSTRUCTS = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnsupportedConstructs";
 	public static final String REPORTMISSINGIMPORTEDMODULE = ProductConstants.PRODUCT_ID_DESIGNER + ".reportMissingImportedModule";
-	public static final String REPORTMISSINGFRIENDMODULE = ProductConstants.PRODUCT_ID_DESIGNER + ".reportMissingFriendModule";
 	public static final String REPORTUNUSEDMODULEIMPORTATION = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnusedModuleImportation";
 	public static final String REPORTUNUSEDGLOBALDEFINITION = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnusedGlobalDefinition";
 	public static final String REPORTUNUSEDLOCALDEFINITION = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnusedLocalDefinition";
