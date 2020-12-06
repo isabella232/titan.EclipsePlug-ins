@@ -104,7 +104,6 @@ public final class PreferenceConstants {
 	public static final String REPORTUNNECESSARYCONTROLS = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnnecessaryControls";
 	public static final String REPORT_IGNORED_PREPROCESSOR_DIRECTIVES = ProductConstants.PRODUCT_ID_DESIGNER
 			+ ".reportIgnoredPreprocessorDirectives";
-	public static final String REPORTREADONLY = ProductConstants.PRODUCT_ID_DESIGNER + ".reportReadOnly";
 	public static final String REPORTTYPECOMPATIBILITY = ProductConstants.PRODUCT_ID_DESIGNER + ".reportTypeCompatibility";
 	public static final String REPORTERRORSINEXTENSIONSYNTAX = ProductConstants.PRODUCT_ID_DESIGNER + ".reportErrorsInExtensionSyntax";
 	public static final String REPORT_STRICT_CONSTANTS = ProductConstants.PRODUCT_ID_DESIGNER + ".reportStrictConstants";

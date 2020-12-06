@@ -11,8 +11,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -48,7 +46,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * Represents a TTCN3 template variable.
@@ -250,18 +247,6 @@ public final class Def_Var_Template extends Definition {
 
 		initialValue.setGenNameRecursive(getGenName());
 		initialValue.setCodeSection(CodeSectionType.CS_INLINE);
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void postCheck() {
-		super.postCheck();
-		if (!wasAssigned) {
-			location.reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTREADONLY, GeneralConstants.WARNING, null),
-							MessageFormat.format("The {0} seems to be never written, maybe it could be a template", getDescription()));
-		}
 	}
 
 	public TTCN3Template getInitialValue() {

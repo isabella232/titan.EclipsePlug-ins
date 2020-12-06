@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
@@ -56,7 +54,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.ReparseUtilities;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The FormalParameter class represents TTCN3 formal parameters.
@@ -463,14 +460,7 @@ public final class FormalParameter extends Definition {
 				// can never produce this kind of problem.
 				break;
 			default:
-			{
-				final String message = MessageFormat.format(
-						"The {0} seems to be never written, maybe it could be an `in'' parameter", getDescription());
-				location.reportConfigurableSemanticProblem(
-						Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-								PreferenceConstants.REPORTREADONLY, GeneralConstants.WARNING, null), message);
 				break;
-			}
 			}
 
 		}

@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
+//FIXME improve to not depend on getWritten, so that that could be removed too
 public class ReadOnlyLocal {
 	private ReadOnlyLocal() {
 		throw new AssertionError("Noninstantiable");
