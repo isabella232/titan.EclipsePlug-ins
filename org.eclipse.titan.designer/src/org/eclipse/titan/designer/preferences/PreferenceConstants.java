@@ -108,7 +108,6 @@ public final class PreferenceConstants {
 	public static final String REPORTERRORSINEXTENSIONSYNTAX = ProductConstants.PRODUCT_ID_DESIGNER + ".reportErrorsInExtensionSyntax";
 	public static final String REPORT_STRICT_CONSTANTS = ProductConstants.PRODUCT_ID_DESIGNER + ".reportStrictConstants";
 	public static final String REPORT_GOTO = ProductConstants.PRODUCT_ID_DESIGNER + ".reportGOTO";
-	public static final String REPORT_NONPRIVATE_PRIVATE = ProductConstants.PRODUCT_ID_DESIGNER + ".reportNonPrivatePrivate";
 
 	// Naming Conventions
 	public static final String REPORTNAMINGCONVENTIONPROBLEMS = ProductConstants.PRODUCT_ID_DESIGNER + ".reportNamingConventionProblems";

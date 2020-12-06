@@ -82,7 +82,6 @@ import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
  * @author Arpad Lovassy
  */
 public abstract class Definition extends Assignment implements IAppendableSyntax, IIncrementallyUpdateable {
-	private static final String SHOULD_BE_PRIVATE = "{0} is referenced only locally, it should be private";
 
 	protected WithAttributesPath withAttributesPath = null;
 	protected ErroneousAttributes erroneousAttributes = null;
@@ -118,7 +117,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	// on.
 	private static String unusedLocalDefinitionSeverity;
 	private static String unusedGlobalDefinitionSeverity;
-	private static String nonPrivatePrivateSeverity;
 
 	protected static String getUnusedLocalDefinitionSeverity() {
 		return unusedLocalDefinitionSeverity;
@@ -133,8 +131,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 					PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, GeneralConstants.WARNING, null);
 			unusedGlobalDefinitionSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, GeneralConstants.WARNING, null);
-			nonPrivatePrivateSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORT_NONPRIVATE_PRIVATE, GeneralConstants.IGNORE, null);
 
 			final Activator activator = Activator.getDefault();
 			if (activator != null) {
@@ -154,10 +150,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 						if (PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION.equals(property)) {
 							unusedGlobalDefinitionSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
 									PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, GeneralConstants.WARNING, null);
-						}
-						if (PreferenceConstants.REPORT_NONPRIVATE_PRIVATE.equals(property)) {
-							nonPrivatePrivateSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.REPORT_NONPRIVATE_PRIVATE, GeneralConstants.IGNORE, null);
 						}
 					}
 				});
@@ -548,13 +540,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * it is not declared as one.
 	 * */
 	protected final void postCheckPrivateness() {
-		if (isUsed && referingHere.size() == 1 && !VisibilityModifier.Private.equals(visibilityModifier) && !isLocal()) {
-			final String moduleName = getMyScope().getModuleScope().getName();
-			if (referingHere.get(0).equals(moduleName)) {
-				identifier.getLocation().reportConfigurableSemanticProblem(nonPrivatePrivateSeverity,
-						MessageFormat.format(SHOULD_BE_PRIVATE, identifier.getDisplayName()));
-			}
-		}
 	}
 
 	@Override

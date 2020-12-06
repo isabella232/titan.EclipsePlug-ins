@@ -51,10 +51,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String REPORTUNUSEDLOCALDEFINITIONTOOLTIP = "When a local variable or formal parameter is never read/written.";
 	private static final String REPORTUNUSEDFUNTIONRETURNVALUES = "Report unused function return values:";
 	private static final String REPORTUNUSEDFUNCTIONRETURNVALUESTOOLTIP = "When a function returns a value or a template, but it is not used.";
-	private static final String REPORT_NONPRIVATE_PRIVATE = "Report TTCN-3 definitions that could be private, but are not set so";
-	private static final String REPORT_NONPRIVATE_PRIVATE_TOOLTIP = "By default all definitions are public,"
-			+ " but by declaring some private one can make them invisible for importing modules.\n"
-			+ "This might be usefull in case of internal functions, types, constants";
 	private static final String HANDLEDEFAULTASOPTIONAL = "DEFAULT elements of ASN.1 sequence and set types as OPTIONAL:";
 	private static final String HANDLEDEFAULTASOPTIONALTOOTIP = "Handle the DEFAULT elements of set and sequence ASN.1 types as being optional.\n"
 			+ "This is compatibility opition.";
@@ -252,17 +248,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 				IGNORE_WARNING_ERROR, comp);
 		text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORTUNUSEDFUNCTIONRETURNVALUESTOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_NONPRIVATE_PRIVATE, REPORT_NONPRIVATE_PRIVATE, IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORT_NONPRIVATE_PRIVATE_TOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent event) {

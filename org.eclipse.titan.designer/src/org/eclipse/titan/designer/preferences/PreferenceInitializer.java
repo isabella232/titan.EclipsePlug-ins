@@ -124,7 +124,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.REPORTERRORSINEXTENSIONSYNTAX, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORT_STRICT_CONSTANTS, false);
 		preferenceStore.setDefault(PreferenceConstants.REPORT_GOTO, GeneralConstants.IGNORE);
-		preferenceStore.setDefault(PreferenceConstants.REPORT_NONPRIVATE_PRIVATE, GeneralConstants.IGNORE);
 	}
 
 	private void titanActions(final IPreferenceStore preferenceStore) {
