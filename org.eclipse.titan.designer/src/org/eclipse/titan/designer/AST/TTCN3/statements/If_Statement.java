@@ -13,10 +13,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
@@ -43,7 +39,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * */
 public final class If_Statement extends Statement {
 	private static final String NEVERREACH = "Control never reaches this code because of previous effective condition(s)";
-	private static final String IFWITHOUTELSE = "Conditional operation without else clause";
 
 	private static final String FULLNAMEPART1 = ".ifclauses";
 	private static final String FULLNAMEPART2 = ".elseblock";
@@ -57,32 +52,6 @@ public final class If_Statement extends Statement {
 	 * Null is a valid value.
 	 * */
 	private final StatementBlock statementblock;
-
-	/** whether to report the problem of not having an else branch */
-	private static String reportIfWithoutElse;
-
-	static {
-		final IPreferencesService ps = Platform.getPreferencesService();
-		if ( ps != null ) {
-			reportIfWithoutElse = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORT_IF_WITHOUT_ELSE, GeneralConstants.IGNORE, null);
-
-			final Activator activator = Activator.getDefault();
-			if (activator != null) {
-				activator.getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-
-					@Override
-					public void propertyChange(final PropertyChangeEvent event) {
-						final String property = event.getProperty();
-						if (PreferenceConstants.REPORT_IF_WITHOUT_ELSE.equals(property)) {
-							reportIfWithoutElse = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORT_IF_WITHOUT_ELSE,
-									GeneralConstants.IGNORE, null);
-						}
-					}
-				});
-			}
-		}
-	}
 
 	public If_Statement(final If_Clauses ifClauses, final StatementBlock statementblock) {
 		this.ifClauses = ifClauses;
@@ -240,8 +209,6 @@ public final class If_Statement extends Statement {
 								NEVERREACH);
 			}
 			statementblock.check(timestamp);
-		} else {
-			getLocation().reportConfigurableSemanticProblem(reportIfWithoutElse, IFWITHOUTELSE);
 		}
 
 		lastTimeChecked = timestamp;

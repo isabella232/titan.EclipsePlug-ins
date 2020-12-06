@@ -414,10 +414,6 @@ The on-the-fly checker, when a definition was declared to be changeable, but is 
 +
 By default all definitions are public, but by declaring some private one can make them invisible to importing modules. This might be useful in case of internal functions, types, and constants. The on-the-fly checker, when it detects TTCN-3 definitions that could be private, but are not set so, triggers one of the following behaviors: *Ignore, Warning, Error*. The default setting is: *Ignore*.
 
-* **Report conditional statements without else block**
-+
-The on-the-fly checker, when it detects that a conditional statement does not contain an else block, triggers one of the following behaviors: *Ignore, Warning, Error*. The default setting is: *Ignore*.
-
 * **Report incorrect syntax in extension attributes.**
 +
 According to the standard syntax errors in the extension attribute should not be reported, but should be assumed as correct for some other tool. The on-the-fly checker, when a syntax error is detected in an extension attribute, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Error*.
