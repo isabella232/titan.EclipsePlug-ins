@@ -119,7 +119,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.REPORTMISSINGIMPORTEDMODULE, GeneralConstants.ERROR);
 		preferenceStore.setDefault(PreferenceConstants.REPORTMISSINGFRIENDMODULE, GeneralConstants.IGNORE);
 		preferenceStore.setDefault(PreferenceConstants.DEFAULTASOPTIONAL, false);
-		preferenceStore.setDefault(PreferenceConstants.REPORTINCORRECTSHIFTROTATESIZE, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORT_IGNORED_PREPROCESSOR_DIRECTIVES, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORTINFINITELOOPS, GeneralConstants.IGNORE);

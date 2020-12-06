@@ -64,9 +64,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String HANDLEDEFAULTASOPTIONAL = "DEFAULT elements of ASN.1 sequence and set types as OPTIONAL:";
 	private static final String HANDLEDEFAULTASOPTIONALTOOTIP = "Handle the DEFAULT elements of set and sequence ASN.1 types as being optional.\n"
 			+ "This is compatibility opition.";
-	private static final String REPORTINCORRECTSHIFTROTATESIZE = "Report too big or too small shift and rotation sizes:";
-	private static final String REPORTINCORRECTSHIFTROTATESIZE_TOOLTIP = "Report too big (bigger than the string itself) or negative"
-			+ " shift and rotation sizes.";
 	private static final String REPORT_IF_WITHOUT_ELSE = "Report conditional statements without else block";
 	private static final String REPORT_IF_WITHOUT_ELSE_TOOLTIP = "All possible execution paths should be handled,"
 			+ " at least on the level of logging information in case of unexpected events";
@@ -308,18 +305,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_NONPRIVATE_PRIVATE, REPORT_NONPRIVATE_PRIVATE, IGNORE_WARNING_ERROR, comp);
 		text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORT_NONPRIVATE_PRIVATE_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTINCORRECTSHIFTROTATESIZE, REPORTINCORRECTSHIFTROTATESIZE,
-				IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORTINCORRECTSHIFTROTATESIZE_TOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent event) {

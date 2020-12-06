@@ -10,8 +10,6 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -27,23 +25,18 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeFactory;
-import org.eclipse.titan.designer.AST.TTCN3.values.Array_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Hexstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
-import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
-import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * @author Kristof Szabados
@@ -52,12 +45,6 @@ public final class RotateLeftExpression extends Expression_Value {
 	private static final String FIRSTOPERANDERROR = "The first operand of the `<@' operation should be a string,"
 			+ " `record of', `set of' or an array value";
 	private static final String SECONDOPERANDERROR = "The second operand of the `<@' operation should be an integer value";
-	private static final String EFFECTLESSROTATION = "Rotating will not change the value";
-	private static final String NEGATIVEROTATEPROBLEM = "Rotating to the right should be used instead of rotating to the left"
-			+ " with a negative value";
-	private static final String ZEROROTATEPROBLEM = "Rotating to the left with 0 will not change the original value";
-	private static final String TOOBIGROTATEPROBLEM = "Rotating a {0} long value to the left with {1}"
-			+ " will have the same effect as rotating by {2}";
 	private static final String LARGEINTEGERSECONDOPERANDERROR = "Using a large integer value ({0})"
 			+ " as the second operand of the `<@'' operation is not supported";
 
@@ -259,8 +246,6 @@ public final class RotateLeftExpression extends Expression_Value {
 			final IReferenceChain referenceChain) {
 		Type_type tempType1 = null;
 		Type_type tempType2 = null;
-		long valueSize = 0;
-		long rotationSize = 0;
 		IValue tempValue;
 
 		if (value1 != null) {
@@ -270,41 +255,23 @@ public final class RotateLeftExpression extends Expression_Value {
 			switch (tempType1) {
 			case TYPE_BITSTRING:
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (Value_type.BITSTRING_VALUE.equals(tempValue.getValuetype())) {
-					valueSize = ((Bitstring_Value) tempValue).getValueLength();
-				}
 				break;
 			case TYPE_HEXSTRING:
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (Value_type.HEXSTRING_VALUE.equals(tempValue.getValuetype())) {
-					valueSize = ((Hexstring_Value) tempValue).getValueLength();
-				}
 				break;
 			case TYPE_OCTETSTRING:
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (Value_type.OCTETSTRING_VALUE.equals(tempValue.getValuetype())) {
-					valueSize = ((Octetstring_Value) tempValue).getValueLength();
-				}
 				break;
 			case TYPE_CHARSTRING:
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (Value_type.CHARSTRING_VALUE.equals(tempValue.getValuetype())) {
-					valueSize = ((Charstring_Value) tempValue).getValueLength();
-				}
 				break;
 			case TYPE_UCHARSTRING:
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(tempValue.getValuetype())) {
-					valueSize = ((UniversalCharstring_Value) tempValue).getValueLength();
-				}
 				break;
 			case TYPE_SET_OF: {
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (Value_type.SEQUENCEOF_VALUE.equals(tempValue.getValuetype())) {
 					tempValue = tempValue.setValuetype(timestamp, Value_type.SETOF_VALUE);
-				}
-				if (Value_type.SETOF_VALUE.equals(tempValue.getValuetype())) {
-					valueSize = ((SetOf_Value) tempValue).getNofComponents();
 				}
 
 				final IType v1_governor = tempValue.getExpressionGovernor(timestamp, expectedValue);
@@ -331,11 +298,6 @@ public final class RotateLeftExpression extends Expression_Value {
 			}
 			case TYPE_SEQUENCE_OF: {
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (Value_type.SEQUENCEOF_VALUE.equals(tempValue.getValuetype())) {
-					valueSize = ((SequenceOf_Value) tempValue).getNofComponents();
-				} else if (Value_type.SETOF_VALUE.equals(tempValue.getValuetype())) {
-					valueSize = ((SetOf_Value) tempValue).getNofComponents();
-				}
 
 				final IType v1_governor = value1.getExpressionGovernor(timestamp, expectedValue);
 				final IValue temp = v1_governor.checkThisValueRef(timestamp, value1);
@@ -365,9 +327,6 @@ public final class RotateLeftExpression extends Expression_Value {
 				if (Value_type.SEQUENCEOF_VALUE.equals(tempValue.getValuetype())) {
 					tempValue = tempValue.setValuetype(timestamp, Value_type.ARRAY_VALUE);
 				}
-				if (Value_type.ARRAY_VALUE.equals(tempValue.getValuetype())) {
-					valueSize = ((Array_Value) tempValue).getNofComponents();
-				}
 				break;
 			case TYPE_UNDEFINED:
 				setIsErroneous(true);
@@ -392,22 +351,6 @@ public final class RotateLeftExpression extends Expression_Value {
 								MessageFormat.format(LARGEINTEGERSECONDOPERANDERROR, ((Integer_Value) tempValue).getValueValue()));
 						setIsErroneous(true);
 						break;
-					}
-					rotationSize = ((Integer_Value) tempValue).getValue();
-					if (value1 != null && !value1.isUnfoldable(timestamp)) {
-						final String severtiy = Platform.getPreferencesService().getString(
-								ProductConstants.PRODUCT_ID_DESIGNER,
-								PreferenceConstants.REPORTINCORRECTSHIFTROTATESIZE, GeneralConstants.WARNING, null);
-						if (valueSize == 0 || valueSize == 1) {
-							location.reportConfigurableSemanticProblem(severtiy, EFFECTLESSROTATION);
-						} else if (rotationSize < 0) {
-							location.reportConfigurableSemanticProblem(severtiy, NEGATIVEROTATEPROBLEM);
-						} else if (rotationSize == 0) {
-							location.reportConfigurableSemanticProblem(severtiy, ZEROROTATEPROBLEM);
-						} else if (rotationSize > valueSize) {
-							location.reportConfigurableSemanticProblem(severtiy, MessageFormat.format(
-									TOOBIGROTATEPROBLEM, valueSize, rotationSize, rotationSize % valueSize));
-						}
 					}
 				}
 				break;

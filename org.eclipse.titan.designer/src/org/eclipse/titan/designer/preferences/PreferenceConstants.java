@@ -102,7 +102,6 @@ public final class PreferenceConstants {
 	public static final String REPORTUNUSEDFUNCTIONRETURNVALUES = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnusedFunctionReturnValues";
 	public static final String DEFAULTASOPTIONAL = ProductConstants.PRODUCT_ID_DESIGNER + ".defaultAsOptional";
 	// public static boolean defaultAsOptional = false;
-	public static final String REPORTINCORRECTSHIFTROTATESIZE = ProductConstants.PRODUCT_ID_DESIGNER + ".reportIncorrectShiftRotateSize";
 	public static final String REPORTUNNECESSARYCONTROLS = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnnecessaryControls";
 	public static final String REPORT_IGNORED_PREPROCESSOR_DIRECTIVES = ProductConstants.PRODUCT_ID_DESIGNER
 			+ ".reportIgnoredPreprocessorDirectives";
