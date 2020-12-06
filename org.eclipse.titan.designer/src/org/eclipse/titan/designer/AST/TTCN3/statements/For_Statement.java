@@ -10,8 +10,6 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -27,13 +25,10 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.For_Loop_Definitions;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
-import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The For_Statement class represents TTCN3 for statements.
@@ -42,8 +37,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * */
 public final class For_Statement extends Statement {
 	private static final String OPERANDERROR = "The final expression of a for statement should be a boolean value";
-	private static final String UNNECESSARYCONTROL = "This control is unnecessary because the final condition evaluates to true";
-	private static final String NEVERREACH = "Control never reaches this code because the final condition evaluates to false";
 
 	private static final String FULLNAMEPART1 = ".init";
 	private static final String FULLNAMEPART2 = ".final";
@@ -272,19 +265,6 @@ public final class For_Statement extends Statement {
 
 			switch (temp) {
 			case TYPE_BOOL:
-				if (!lastValue.isUnfoldable(timestamp)) {
-					if (((Boolean_Value) lastValue).getValue()) {
-						finalExpression.getLocation().reportConfigurableSemanticProblem(
-								Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-										PreferenceConstants.REPORTUNNECESSARYCONTROLS,
-										GeneralConstants.WARNING, null), UNNECESSARYCONTROL);
-					} else {
-						finalExpression.getLocation().reportConfigurableSemanticProblem(
-								Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-										PreferenceConstants.REPORTUNNECESSARYCONTROLS,
-										GeneralConstants.WARNING, null), NEVERREACH);
-					}
-				}
 				break;
 			default:
 				location.reportSemanticError(OPERANDERROR);

@@ -10,8 +10,6 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -31,8 +29,6 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The DoWhile_Statement class represents a TTCN3 do{}while() statement.
@@ -41,7 +37,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * */
 public final class DoWhile_Statement extends Statement {
 	private static final String BOOLEANEXPECTED = "A value or expression of type boolean was expected";
-	private static final String UNNECESSARYCONTROL = "This control is unnecessary because the conditional expression evaluates to false";
 
 	private static final String FULLNAMEPART1 = ".expr";
 	private static final String FULLNAMEPART2 = ".block";
@@ -197,12 +192,7 @@ public final class DoWhile_Statement extends Statement {
 					last.getLocation().reportSemanticError(BOOLEANEXPECTED);
 					expression.setIsErroneous(true);
 				} else if (!expression.isUnfoldable(timestamp)) {
-					if (!((Boolean_Value) last).getValue()) {
-						final String severity = Platform.getPreferencesService().getString(
-								ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTUNNECESSARYCONTROLS,
-								GeneralConstants.WARNING, null);
-						expression.getLocation().reportConfigurableSemanticProblem(severity, UNNECESSARYCONTROL);
-					} else if (ReturnStatus_type.RS_NO.equals(hasReturn(timestamp))) {
+					if (((Boolean_Value) last).getValue() && ReturnStatus_type.RS_NO.equals(hasReturn(timestamp))) {
 						isInfiniteLoop = true;
 					}
 				}

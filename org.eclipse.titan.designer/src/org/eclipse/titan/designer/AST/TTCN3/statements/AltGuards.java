@@ -13,9 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -41,8 +39,6 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The AltGuards class represents the list of branches in a TTCN3
@@ -56,8 +52,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @author Kristof Szabados
  * */
 public final class AltGuards extends ASTNode implements IIncrementallyUpdateable {
-	private static final String SHADOWEDBYELSE = "Control never reaches this branch of alternative because of a previous [else] branch";
-
 	private static final String FULLNAMEPART = ".alt_guard_";
 	private final ArrayList<AltGuard> altGuards;
 
@@ -275,19 +269,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
 	public void check(final CompilationTimeStamp timestamp) {
-		boolean unreachableFound = false;
 		for (final AltGuard guard : altGuards) {
 			guard.check(timestamp);
-
-			if (unreachableFound) {
-				guard.getLocation().reportConfigurableSemanticProblem(
-						Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-								PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null),
-								SHADOWEDBYELSE);
-			}
-			if (altguard_type.AG_ELSE.equals(guard.getType())) {
-				unreachableFound = true;
-			}
 		}
 	}
 

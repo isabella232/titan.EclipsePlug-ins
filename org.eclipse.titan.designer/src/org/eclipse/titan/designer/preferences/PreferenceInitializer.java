@@ -113,7 +113,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		//on-the-fly checker
 		preferenceStore.setDefault(PreferenceConstants.REPORTUNSUPPORTEDCONSTRUCTS, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.DEFAULTASOPTIONAL, false);
-		preferenceStore.setDefault(PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORT_IGNORED_PREPROCESSOR_DIRECTIVES, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORTTYPECOMPATIBILITY, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORTERRORSINEXTENSIONSYNTAX, GeneralConstants.WARNING);

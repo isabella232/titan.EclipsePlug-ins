@@ -9,8 +9,6 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -31,8 +29,6 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * @author Kristof Szabados
@@ -250,10 +246,6 @@ public final class ValueofExpression extends Expression_Value {
 			lastValue = templateInstance.getTemplateBody().getValue();
 			lastValue = lastValue.setLoweridToReference(timestamp);
 			lastValue = lastValue.getValueRefdLast(timestamp, expectedValue, referenceChain);
-			getLocation().reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null),
-					"Applying the `valueof' operation to a value will result in the original value");
 		}
 
 		return lastValue;

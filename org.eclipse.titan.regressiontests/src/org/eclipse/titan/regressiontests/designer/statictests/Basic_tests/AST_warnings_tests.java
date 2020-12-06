@@ -510,121 +510,24 @@ public class AST_warnings_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(483);
-		int lineNum = 118;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 53;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 30;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 34;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 34;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 34;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 36;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 26;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 26;
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(104);
+		int lineNum = 1018;
 		int i = 0;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 23;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 22;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 25;
-		for (i = 0; i < 13; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 29;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 36;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 36;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 38;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 41;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 50;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 66;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 66;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 50;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 60;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.c11' and `@expression_tests.c22'", lineNum++, IMarker.SEVERITY_WARNING));
 		}
 		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.recR' and `@expression_tests.recofR'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.recofR' and `@expression_tests.recR'",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 61;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 1;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 2;
-		for (i = 0; i < 15; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 2;
-		for (i = 0; i < 12; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrec2' and `@expression_tests.myrec1'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 102;
 		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrec1' and `@expression_tests.myrec2'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrec2' and `@expression_tests.myrec1'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrec1' and `@expression_tests.myrec2'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrecof2' and `@expression_tests.myrecof1'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrecof1' and `@expression_tests.myrecof2'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrecof2' and `@expression_tests.myrecof1'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrecof1' and `@expression_tests.myrecof2'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrec2' and `@expression_tests.myrec1'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrec1' and `@expression_tests.myrec2'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrec2' and `@expression_tests.myrec1'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrecof1' and `@expression_tests.myrecof2'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrecof2' and `@expression_tests.myrecof1'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrecof1' and `@expression_tests.myrecof2'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myrecof2' and `@expression_tests.myrecof1'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Type compatibility between `integer[1]' and `integer[1]'", lineNum, IMarker.SEVERITY_WARNING));
@@ -633,157 +536,19 @@ public class AST_warnings_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Type compatibility between `integer[1]' and `integer[1]'", lineNum, IMarker.SEVERITY_WARNING));
 		}
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myset2' and `@expression_tests.myset1'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myset1' and `@expression_tests.myset2'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myset2' and `@expression_tests.myset1'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myset1' and `@expression_tests.myset2'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.mysetof2' and `@expression_tests.mysetof1'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.mysetof1' and `@expression_tests.mysetof2'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.mysetof2' and `@expression_tests.mysetof1'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.mysetof1' and `@expression_tests.mysetof2'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myuni2' and `@expression_tests.myuni1'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myuni1' and `@expression_tests.myuni2'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myuni2' and `@expression_tests.myuni1'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myuni1' and `@expression_tests.myuni2'",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 110;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 6;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 7;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 6;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 6;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 6;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 85;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 32;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 32;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 32;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 30;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 28;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 28;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 29;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 26;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 29;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 28;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 28;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 28;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 28;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 29;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 32;
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myset1' and `@expression_tests.myset2'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myset2' and `@expression_tests.myset1'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myset1' and `@expression_tests.myset2'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myset2' and `@expression_tests.myset1'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.mysetof1' and `@expression_tests.mysetof2'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.mysetof2' and `@expression_tests.mysetof1'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.mysetof1' and `@expression_tests.mysetof2'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.mysetof2' and `@expression_tests.mysetof1'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myuni1' and `@expression_tests.myuni2'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myuni2' and `@expression_tests.myuni1'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myuni1' and `@expression_tests.myuni2'",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Type compatibility between `@expression_tests.myuni2' and `@expression_tests.myuni1'",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 1031;
 		markersToCheck.add(new MarkerToCheck("Leading zero digit was detected and ignored in the operand of operation `str2float''",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 13;
 		for (i = 0; i < 2; i++) {
@@ -792,153 +557,8 @@ public class AST_warnings_tests {
 		lineNum += 6;
 		markersToCheck.add(new MarkerToCheck("Leading zero digit was detected and ignored in the operand of operation `str2float''",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 10;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Leading zero digit was detected and ignored in the operand of operation `str2float''",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 7; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 31;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 31;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 33;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 29;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 27;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 34;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 28;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 28;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 56;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 58;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 4;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 5;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 5;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 4;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 9;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 5;
-		for (i = 0; i < 6; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 23;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 22;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 21;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		for (i = 0; i < 6; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 403;
-		for (i = 0; i < 18; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 4;
+		lineNum += 979;
 		markersToCheck.add(new MarkerToCheck("The variable `minus_zero' with name minus_zero breaks the naming convention  `vl.*'",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("The variable `plus_zero' with name plus_zero breaks the naming convention  `vl.*'",  ++lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 23;
@@ -950,62 +570,12 @@ public class AST_warnings_tests {
 		lineNum += 5;
 		markersToCheck.add(new MarkerToCheck("The constant `minus_zero' with name minus_zero breaks the naming convention  `cl.*'",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("The constant `plus_zero' with name plus_zero breaks the naming convention  `cl.*'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 4;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 4;
+		lineNum += 23;
 		markersToCheck.add(new MarkerToCheck("The constant `plus_inf' with name plus_inf breaks the naming convention  `cl.*'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 4;
+		lineNum += 9;
 		markersToCheck.add(new MarkerToCheck("The constant `minus_inf' with name minus_inf breaks the naming convention  `cl.*'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 4;
+		lineNum += 7;
 		markersToCheck.add(new MarkerToCheck("The constant `NaN' with name NaN breaks the naming convention  `cl.*'",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  lineNum, IMarker.SEVERITY_WARNING));
 
 		return markersToCheck;
 	}
@@ -1081,40 +651,10 @@ public class AST_warnings_tests {
 
 	private ArrayList<MarkerToCheck> statement_tests_ttcn_initializer() {
 		//statement_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(42);
-		int lineNum = 134;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the final condition evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the final condition evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the final condition evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the final condition evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 14;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		int i = 0;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += -1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 8;
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 9;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 127;
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>();
+		int lineNum = 301;
 		markersToCheck.add(new MarkerToCheck("If the first statement of the [else] branch is a repeat statement, it will result in busy waiting",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Control never reaches this branch of alternative because of a previous [else] branch", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 45;
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective cases(s)",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 372;
+		lineNum += 420;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 12;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
@@ -1254,25 +794,16 @@ public class AST_warnings_tests {
 
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(58);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>();
 		int lineNum = 2110;
 		markersToCheck.add(new MarkerToCheck("All elements of value list notation for type `@value_tests.myrecordType' are not used symbols (`-')",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 256;
 		markersToCheck.add(new MarkerToCheck("The variable `f' with name f breaks the naming convention  `vl.*'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 18;
 		markersToCheck.add(new MarkerToCheck("The variable `i' with name i breaks the naming convention  `vl.*'",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 661;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 116;
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2213;
+		lineNum += 2990;
 		markersToCheck.add(new MarkerToCheck("All elements of value list notation for type `@ASNTypes.ASNSequenceType' are not used symbols (`-')",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 255;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 139;
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 205;
+		lineNum += 599;
 		markersToCheck.add(new MarkerToCheck("Identifier `itu_r' should not be used as NameForm",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Identifier `r_recommendation' should not be used as NumberForm",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Identifier `presentation' should not be used as NumberForm",  ++lineNum, IMarker.SEVERITY_WARNING));

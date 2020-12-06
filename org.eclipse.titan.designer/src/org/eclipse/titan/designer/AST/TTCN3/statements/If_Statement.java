@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -26,8 +24,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The If_Statement class represents TTCN3 if statements.
@@ -38,8 +34,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @author Kristof Szabados
  * */
 public final class If_Statement extends Statement {
-	private static final String NEVERREACH = "Control never reaches this code because of previous effective condition(s)";
-
 	private static final String FULLNAMEPART1 = ".ifclauses";
 	private static final String FULLNAMEPART2 = ".elseblock";
 	private static final String STATEMENT_NAME = "if";
@@ -202,12 +196,6 @@ public final class If_Statement extends Statement {
 		}
 
 		if (statementblock != null) {
-			if (unreachable) {
-				statementblock.getLocation().reportConfigurableSemanticProblem(
-						Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-								PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null),
-								NEVERREACH);
-			}
 			statementblock.check(timestamp);
 		}
 

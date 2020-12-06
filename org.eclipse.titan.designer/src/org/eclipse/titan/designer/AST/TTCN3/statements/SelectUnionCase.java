@@ -11,9 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -35,8 +33,6 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * Helper class for the SelectUnionCase_Statement class.
@@ -51,7 +47,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 public final class SelectUnionCase extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 
 	//Error/warning messages
-	private static final String NEVER_REACH = "Control never reaches this code because of previous effective cases(s)";
 	private static final String INVALID_UNION_FIELD = "Union `{0}'' has no field `{1}''";
 	private static final String INVALID_ANYTYPE_FIELD = "Anytype `{0}'' has no field `{1}''";
 	private static final String CASE_ALREADY_COVERED = "Case `{0}'' is already covered";
@@ -203,12 +198,6 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 */
 	public boolean check( final CompilationTimeStamp aTimestamp, final TTCN3_Choice_Type aUnionType, final boolean aUnreachable,
 			final List<String> aFieldNames ) {
-		if ( aUnreachable ) {
-			location.reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null), NEVER_REACH);
-		}
-
 		boolean unreachable2 = aUnreachable;
 		if ( items != null ) {
 			check( aUnionType, aFieldNames );
@@ -243,12 +232,6 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 */
 	public boolean check( final CompilationTimeStamp aTimestamp, final ASN1_Choice_Type aChoiceType, final boolean aUnreachable,
 			final List<String> aFieldNames ) {
-		if ( aUnreachable ) {
-			location.reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null), NEVER_REACH);
-		}
-
 		boolean unreachable2 = aUnreachable;
 		if ( items != null ) {
 			check( aChoiceType, aFieldNames );
@@ -291,12 +274,6 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 */
 	public boolean check( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType, final boolean aUnreachable,
 			final List<String> aTypesCovered ) {
-		if ( aUnreachable ) {
-			location.reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null), NEVER_REACH);
-		}
-
 		boolean unreachable2 = aUnreachable;
 		if ( items != null ) {
 			check( aAnytypeType, aTypesCovered );

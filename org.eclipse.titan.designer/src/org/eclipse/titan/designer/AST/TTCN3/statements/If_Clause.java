@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
@@ -38,8 +36,6 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The If_Clause class represents a single clause (branch) of a TTCN3 if
@@ -52,10 +48,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * */
 public final class If_Clause extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	private static final String BOOLEANEXPECTED = "A value or expression of type boolean was expected";
-	private static final String UNNECESSARYCONTROL1 = "This control is unnecessary because the conditional expression evaluates to true";
-	private static final String UNNECESSARYCONTROL2 = "This control is unnecessary because the conditional expression evaluates to false";
-	private static final String NEVERREACH1 = "Control never reaches this code because of previous effective condition(s)";
-	private static final String NEVERREACH2 = "Control never reaches this code because the conditional expression evaluates to false";
 
 	private static final String FULLNAMEPART1 = ".expr";
 	private static final String FULLNAMEPART2 = ".block";
@@ -196,12 +188,6 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 	 * @return true if following clauses are unreachable
 	 * */
 	public boolean check(final CompilationTimeStamp timestamp, final boolean unreachable) {
-		if (unreachable) {
-			location.reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null), NEVERREACH1);
-		}
-
 		boolean unreachable2 = unreachable;
 		if (expression != null) {
 			final IValue last = expression.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
@@ -212,20 +198,7 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 					expression.setIsErroneous(true);
 				} else if (!expression.isUnfoldable(timestamp)) {
 					if (((Boolean_Value) last).getValue()) {
-						expression.getLocation().reportConfigurableSemanticProblem(
-								Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-										PreferenceConstants.REPORTUNNECESSARYCONTROLS,
-										GeneralConstants.WARNING, null), UNNECESSARYCONTROL1);
 						unreachable2 = true;
-					} else {
-						expression.getLocation().reportConfigurableSemanticProblem(
-								Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-										PreferenceConstants.REPORTUNNECESSARYCONTROLS,
-										GeneralConstants.WARNING, null), UNNECESSARYCONTROL2);
-						statementblock.getLocation().reportConfigurableSemanticProblem(
-								Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-										PreferenceConstants.REPORTUNNECESSARYCONTROLS,
-										GeneralConstants.WARNING, null), NEVERREACH2);
 					}
 				}
 

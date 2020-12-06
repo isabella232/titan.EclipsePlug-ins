@@ -365,10 +365,6 @@ Since version 4.2.1 of the TTCN-3 standard it is not required to completely init
 
 Unnecessary code:
 
-* **Report unnecessary controls**
-+
-The on-the-fly checker, when usage of unnecessary control is detected, triggers one of the following behaviors: *Ignore*, *Warning*, **Error.** The default setting is: *Warning*.
-
 * **Report ignored preprocessor directives.**
 +
 The on-the-fly checker, suspecting that preprocessor directive is ignored, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Warning*.

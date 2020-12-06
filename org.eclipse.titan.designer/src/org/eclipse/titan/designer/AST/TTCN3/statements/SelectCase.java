@@ -11,8 +11,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
@@ -37,8 +35,6 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The SelectCase class is helper class for the SelectCase_Statement class.
@@ -50,8 +46,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @author Kristof Szabados
  * */
 public final class SelectCase extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
-	private static final String NEVERREACH1 = "Control never reaches this code because of previous effective cases(s)";
-
 	private static final String FULLNAMEPART1 = ".templateinstances";
 	private static final String FULLNAMEPART2 = ".block";
 
@@ -202,12 +196,6 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	 *         otherwise.
 	 * */
 	public boolean check(final CompilationTimeStamp timestamp, final IType governor, final boolean unreachable) {
-		if (unreachable) {
-			location.reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null), NEVERREACH1);
-		}
-
 		boolean unreachable2 = unreachable;
 		if (templateInstances != null) {
 			for (int i = 0; i < templateInstances.getNofTis(); i++) {

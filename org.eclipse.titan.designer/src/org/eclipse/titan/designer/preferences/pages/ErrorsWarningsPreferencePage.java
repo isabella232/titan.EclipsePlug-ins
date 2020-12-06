@@ -44,10 +44,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String HANDLEDEFAULTASOPTIONALTOOTIP = "Handle the DEFAULT elements of set and sequence ASN.1 types as being optional.\n"
 			+ "This is compatibility opition.";
 
-	private static final String REPORTUNNECESSARYCONTROLS = "Report unnecessary controls:";
-	private static final String REPORTUNNECESSARYCONTROLS_TOOLTIP = "Report controls that can be identified to be unnecessary"
-			+ " in compilation time.\n"
-			+ "For example when the conditional expression of an if statements evaluates to false in compilation time.";
 	private static final String REPORT_IGNORED_PREPROCESSOR_DIRECTIVES = "Report ignored preprocessor directives:";
 	private static final String REPORT_IGNORED_PREPROCESSOR_DIRECTIVES_TOOLTIP = "Some preprocessor directives (#line,#pragma,etc.) are ignored.\n"
 			+ "These should either be removed or the file is an intermediate file (already preprocessed ttcnpp)"
@@ -235,20 +231,9 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		expandable.setClient(comp);
 		expandable.setExpanded(false);
 
-		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNNECESSARYCONTROLS, REPORTUNNECESSARYCONTROLS, IGNORE_WARNING_ERROR, comp);
-		Label text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORTUNNECESSARYCONTROLS_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_IGNORED_PREPROCESSOR_DIRECTIVES, REPORT_IGNORED_PREPROCESSOR_DIRECTIVES,
+		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORT_IGNORED_PREPROCESSOR_DIRECTIVES, REPORT_IGNORED_PREPROCESSOR_DIRECTIVES,
 				IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
+		Label text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORT_IGNORED_PREPROCESSOR_DIRECTIVES_TOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override

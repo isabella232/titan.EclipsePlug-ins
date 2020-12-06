@@ -10,8 +10,6 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -30,8 +28,6 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The While_Statement class represents TTCN3 while statements.
@@ -40,7 +36,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * */
 public final class While_Statement extends Statement {
 	private static final String BOOLEANEXPECTED = "A value or expression of type boolean was expected";
-	private static final String NEVERREACH = "Control never reaches this code because the conditional expression evaluates to false";
 
 	private static final String FULLNAMEPART1 = ".expr";
 	private static final String FULLNAMEPART2 = ".block";
@@ -204,12 +199,7 @@ public final class While_Statement extends Statement {
 					last.getLocation().reportSemanticError(BOOLEANEXPECTED);
 					expression.setIsErroneous(true);
 				} else if (!expression.isUnfoldable(timestamp)) {
-					if (!((Boolean_Value) last).getValue()) {
-						expression.getLocation().reportConfigurableSemanticProblem(
-								Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-										PreferenceConstants.REPORTUNNECESSARYCONTROLS,
-										GeneralConstants.WARNING, null), NEVERREACH);
-					} else {
+					if (((Boolean_Value) last).getValue()) {
 						loopAlwaysEntered = true;
 						if (ReturnStatus_type.RS_NO.equals(hasReturn(timestamp))) {
 							isInfiniteLoop = true;
