@@ -516,8 +516,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	@Override
 	/** {@inheritDoc} */
 	public void postCheck() {
-		if (!isUsed) {
-		}
 	}
 
 	@Override

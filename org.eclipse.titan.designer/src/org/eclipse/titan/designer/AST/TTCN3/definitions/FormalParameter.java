@@ -446,20 +446,6 @@ public final class FormalParameter extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void postCheck() {
-		if (!wasAssigned) {
-			switch (getAssignmentType()) {
-			case A_PAR_VAL:
-			case A_PAR_VAL_IN:
-			case A_PAR_TEMP_IN:
-			case A_PAR_TIMER:
-			case A_PORT:
-				// can never produce this kind of problem.
-				break;
-			default:
-				break;
-			}
-
-		}
 	}
 
 	/**

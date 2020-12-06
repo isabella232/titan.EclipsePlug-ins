@@ -284,8 +284,6 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	/** Checks the properties of the assignment,
 	 * that can only be checked after the semantic check was completely run. */
 	public void postCheck() {
-		if (!isUsed) {
-		}
 	}
 
 	/**
