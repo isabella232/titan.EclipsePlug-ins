@@ -574,123 +574,19 @@ public class AST_warnings_tests {
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 2;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("Shifting to the right should be used instead of shifting to the left with a negative value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("Shifting to the left with 0 will not change the original value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Shifting a 4 long string to the left with 5 will always result in a string of same size, but filled with 0 -s.",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Shifting a 1 long string to the left with 5 will always result in a string of same size, but filled with 0 -s.", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 30;
+		lineNum += 41;
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 2;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("Shifting to the left should be used instead of shifting to the right with a negative value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("Shifting to the right with 0 will not change the original value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Shifting a 4 long string to the right with 5 will always result in a string of same size, but filled with 0 -s.",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Shifting a 1 long string to the right with 5 will always result in a string of same size, but filled with 0 -s.", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 30;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 9;
+		lineNum += 50;
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 2;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating will not change the value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating to the right should be used instead of rotating to the left with a negative value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating will not change the value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating to the right should be used instead of rotating to the left with a negative value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating to the left with 0 will not change the original value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating will not change the value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating to the left with 0 will not change the original value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating a 4 long value to the left with 5 will have the same effect as rotating by 1",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating will not change the value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating a 6 long value to the left with 10 will have the same effect as rotating by 4",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Rotating a 2 long value to the left with 10 will have the same effect as rotating by 0",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  ++lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating a 4 long value to the left with 5 will have the same effect as rotating by 1", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating to the right should be used instead of rotating to the left with a negative value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 9;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 23;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 9;
+		lineNum += 66;
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 2;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating will not change the value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating to the left should be used instead of rotating to the right with a negative value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating will not change the value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating to the left should be used instead of rotating to the right with a negative value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating to the right with 0 will not change the original value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating will not change the value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating to the right with 0 will not change the original value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating a 4 long value to the right with 5 will have the same effect as rotating by 1",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating will not change the value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating a 6 long value to the right with 10 will have the same effect as rotating by 4",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Rotating a 2 long value to the right with 10 will have the same effect as rotating by 0",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  ++lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating a 4 long value to the right with 5 will have the same effect as rotating by 1", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Rotating to the left should be used instead of rotating to the right with a negative value", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 9;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 33;
+		lineNum += 66;
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
@@ -1172,27 +1068,7 @@ public class AST_warnings_tests {
 	private ArrayList<MarkerToCheck> specificValue_template_tests_ttcn_initializer() {
 		//specificValue_template_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(14);
-		int lineNum = 152;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 124;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 134;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 112;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 125;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1025;
+		int lineNum = 1685;
 		markersToCheck.add(new MarkerToCheck("`*'' in subset. This template will match everything",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("`*'' in superset has no effect during matching",  ++lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 246;
@@ -1307,27 +1183,7 @@ public class AST_warnings_tests {
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(30);
-		int lineNum = 153;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 125;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 140;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 114;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 129;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1051;
+		int lineNum = 1725;
 		markersToCheck.add(new MarkerToCheck("`*'' in subset. This template will match everything",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("`*'' in superset has no effect during matching",  ++lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 251;
@@ -1378,27 +1234,7 @@ public class AST_warnings_tests {
 	private ArrayList<MarkerToCheck> value_assignment_tests_ttcn_initializer() {
 		//value_assignment_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(27);
-		int lineNum = 148;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 127;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 132;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 110;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 125;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1271;
+		int lineNum = 1926;
 		markersToCheck.add(new MarkerToCheck("All elements of value list notation for type `@assignment_tests.myrecordType' are not used symbols (`-')",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 2707;
 		markersToCheck.add(new MarkerToCheck("All elements of value list notation for type `@ASNTypes.ASNSequenceType' are not used symbols (`-')",  lineNum, IMarker.SEVERITY_WARNING));
@@ -1426,27 +1262,7 @@ public class AST_warnings_tests {
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(58);
-		int lineNum = 200;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 136;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 137;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 115;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 132;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1377;
+		int lineNum = 2110;
 		markersToCheck.add(new MarkerToCheck("All elements of value list notation for type `@value_tests.myrecordType' are not used symbols (`-')",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 256;
 		markersToCheck.add(new MarkerToCheck("The variable `f' with name f breaks the naming convention  `vl.*'",  lineNum, IMarker.SEVERITY_WARNING));
@@ -1454,11 +1270,7 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("The variable `i' with name i breaks the naming convention  `vl.*'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 661;
 		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 39;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 75;
+		lineNum += 116;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 2213;
