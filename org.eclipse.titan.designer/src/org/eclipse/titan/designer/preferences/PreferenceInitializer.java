@@ -112,7 +112,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	private void onTheFlyChecker(final IPreferenceStore preferenceStore) {
 		//on-the-fly checker
 		preferenceStore.setDefault(PreferenceConstants.REPORTUNSUPPORTEDCONSTRUCTS, GeneralConstants.WARNING);
-		preferenceStore.setDefault(PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.DEFAULTASOPTIONAL, false);
 		preferenceStore.setDefault(PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORT_IGNORED_PREPROCESSOR_DIRECTIVES, GeneralConstants.WARNING);

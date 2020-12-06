@@ -70,7 +70,6 @@ public class Designer_plugin_tests {
 		 * */
 		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.LICENSE_FILE_PATH, MainTestSuite.LICENSE_FILE);
 		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.REPORTUNSUPPORTEDCONSTRUCTS, "warning");
-		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, "ignore");
 		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.REPORTTYPECOMPATIBILITY, "warning");
 		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.REPORTNAMINGCONVENTIONPROBLEMS, "warning");
 		Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.REPORT_STRICT_CONSTANTS, true);

@@ -9,7 +9,6 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,21 +112,11 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 	private static boolean markOccurrences;
 
-	// The actual value of the severity level to report unused definitions
-	// on.
-	private static String unusedLocalDefinitionSeverity;
-
-	protected static String getUnusedLocalDefinitionSeverity() {
-		return unusedLocalDefinitionSeverity;
-	}
-
 	static {
 		final IPreferencesService ps = Platform.getPreferencesService();
 		if ( ps != null ) {
 			markOccurrences = ps.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.MARK_OCCURRENCES_TTCN3_ASSIGNMENTS, false, null);
-			unusedLocalDefinitionSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, GeneralConstants.WARNING, null);
 
 			final Activator activator = Activator.getDefault();
 			if (activator != null) {
@@ -139,10 +128,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 							markOccurrences = ps.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 									PreferenceConstants.MARK_OCCURRENCES_TTCN3_ASSIGNMENTS, false, null);
 							return;
-						}
-						if (PreferenceConstants.REPORTUNUSEDLOCALDEFINITION.equals(property)) {
-							unusedLocalDefinitionSeverity = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, GeneralConstants.WARNING, null);
 						}
 					}
 				});
@@ -532,10 +517,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	/** {@inheritDoc} */
 	public void postCheck() {
 		if (!isUsed) {
-			if (isLocal()) {
-				identifier.getLocation().reportConfigurableSemanticProblem(unusedLocalDefinitionSeverity,
-						MessageFormat.format(LOCALLY_UNUSED, getDescription()));
-			}
 		}
 	}
 

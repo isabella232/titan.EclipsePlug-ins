@@ -40,8 +40,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 
 	private static final String REPORTUNSUPPORTEDCONSTRUCTS = "Language constructs not supported yet:";
 	private static final String REPORTUNSUPPORTEDCONSTRUCTS_TOOLTIP = "For example pattern subtyping in TTCN-3.";
-	private static final String REPORTUNUSEDLOCALDEFINITION = "Report unused local definition:";
-	private static final String REPORTUNUSEDLOCALDEFINITIONTOOLTIP = "When a local variable or formal parameter is never read/written.";
 	private static final String HANDLEDEFAULTASOPTIONAL = "DEFAULT elements of ASN.1 sequence and set types as OPTIONAL:";
 	private static final String HANDLEDEFAULTASOPTIONALTOOTIP = "Handle the DEFAULT elements of set and sequence ASN.1 types as being optional.\n"
 			+ "This is compatibility opition.";
@@ -237,20 +235,8 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 		expandable.setClient(comp);
 		expandable.setExpanded(false);
 
-		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, REPORTUNUSEDLOCALDEFINITION, IGNORE_WARNING_ERROR,
-				comp);
+		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNNECESSARYCONTROLS, REPORTUNNECESSARYCONTROLS, IGNORE_WARNING_ERROR, comp);
 		Label text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORTUNUSEDLOCALDEFINITIONTOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNNECESSARYCONTROLS, REPORTUNNECESSARYCONTROLS, IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORTUNNECESSARYCONTROLS_TOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override

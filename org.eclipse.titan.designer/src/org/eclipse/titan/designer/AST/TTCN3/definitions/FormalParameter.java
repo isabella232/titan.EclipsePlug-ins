@@ -446,10 +446,6 @@ public final class FormalParameter extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void postCheck() {
-		if (!isUsed) {
-			location.reportConfigurableSemanticProblem(getUnusedLocalDefinitionSeverity(),
-					MessageFormat.format(LOCALLY_UNUSED, getDescription()));
-		}
 		if (!wasAssigned) {
 			switch (getAssignmentType()) {
 			case A_PAR_VAL:
