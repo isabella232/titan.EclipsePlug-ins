@@ -98,7 +98,6 @@ public final class PreferenceConstants {
 	public static final String REPORTUNUSEDMODULEIMPORTATION = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnusedModuleImportation";
 	public static final String REPORTUNUSEDGLOBALDEFINITION = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnusedGlobalDefinition";
 	public static final String REPORTUNUSEDLOCALDEFINITION = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnusedLocalDefinition";
-	public static final String REPORTUNUSEDFUNCTIONRETURNVALUES = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnusedFunctionReturnValues";
 	public static final String DEFAULTASOPTIONAL = ProductConstants.PRODUCT_ID_DESIGNER + ".defaultAsOptional";
 	// public static boolean defaultAsOptional = false;
 	public static final String REPORTUNNECESSARYCONTROLS = ProductConstants.PRODUCT_ID_DESIGNER + ".reportUnnecessaryControls";

@@ -1144,14 +1144,7 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 9;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 15;
-		markersToCheck.add(new MarkerToCheck("The value returned by @statement_tests.f_functionwith_return is not used",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("The template returned by @statement_tests.f_functionwith_returntemplate is not used",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("The value returned by @statement_tests.ef_f_externalfunctionwith_return is not used",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("The template returned by @statement_tests.ef_f_externalfunctionwith_returntemplate is not used",  ++lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 48;
-		markersToCheck.add(new MarkerToCheck("The value returned by function type `@statement_tests.t_function' is not used",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 14;
+		lineNum += 80;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 10;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));

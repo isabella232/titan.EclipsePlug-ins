@@ -7,11 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
-import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
@@ -26,16 +23,11 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * @author Kristof Szabados
  * */
 public final class Function_Instance_Statement extends Statement {
-	private static final String UNUSEDRETURN2 = "The template returned by {0} is not used";
-	private static final String UNUSEDRETURN1 = "The value returned by {0} is not used";
-
 	private static final String FULLNAMEPART = ".reference";
 	private static final String STATEMENT_NAME = "function instance";
 
@@ -119,19 +111,6 @@ public final class Function_Instance_Statement extends Statement {
 			if (((Def_Function)assignment).getPortType(timestamp) != null) {
 				location.reportSemanticError("Function with `port' clause cannot be called directly.");
 			}
-			// fall through
-		case A_EXT_FUNCTION_RVAL:
-			location.reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTUNUSEDFUNCTIONRETURNVALUES, GeneralConstants.WARNING, null),
-							MessageFormat.format(UNUSEDRETURN1, assignment.getFullName()));
-			break;
-		case A_FUNCTION_RTEMP:
-		case A_EXT_FUNCTION_RTEMP:
-			location.reportConfigurableSemanticProblem(
-					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTUNUSEDFUNCTIONRETURNVALUES, GeneralConstants.WARNING, null),
-							MessageFormat.format(UNUSEDRETURN2, assignment.getFullName()));
 			break;
 		default:
 			break;

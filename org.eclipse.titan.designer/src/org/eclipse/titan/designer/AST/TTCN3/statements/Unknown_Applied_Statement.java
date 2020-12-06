@@ -10,9 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -31,14 +29,11 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * @author Kristof Szabados
  * */
 public final class Unknown_Applied_Statement extends Statement {
 	private static final String FUNCTIONORALTSTEPVALUEXPECTED = "A value of type function or altstep was expected instead of `{0}''";
-	private static final String UNUSEDRETURNVALUE = "The value returned by function type `{0}'' is not used";
 
 	private static final String FULLNAMEPART1 = ".reference";
 	private static final String FULLNAMEPART2 = ".<parameters>";
@@ -163,12 +158,6 @@ public final class Unknown_Applied_Statement extends Statement {
 				realStatement.setMyStatementBlock(getMyStatementBlock(), statementIndex);
 			}
 			realStatement.check(timestamp);
-			if (((Function_Type) type).getReturnType() != null) {
-				location.reportConfigurableSemanticProblem(
-						Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-								PreferenceConstants.REPORTUNUSEDFUNCTIONRETURNVALUES, GeneralConstants.WARNING, null),
-								MessageFormat.format(UNUSEDRETURNVALUE, type.getTypename()));
-			}
 
 			formalParameterList = ((Function_Type) type).getFormalParameters();
 			formalParameterList.checkActualParameterList(timestamp, actualParameterList, tempActualParameters);

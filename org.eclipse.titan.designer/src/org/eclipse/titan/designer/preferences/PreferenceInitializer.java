@@ -115,7 +115,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.REPORTUNUSEDMODULEIMPORTATION, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORTUNUSEDGLOBALDEFINITION, GeneralConstants.IGNORE);
 		preferenceStore.setDefault(PreferenceConstants.REPORTUNUSEDLOCALDEFINITION, GeneralConstants.WARNING);
-		preferenceStore.setDefault(PreferenceConstants.REPORTUNUSEDFUNCTIONRETURNVALUES, GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.REPORTMISSINGIMPORTEDMODULE, GeneralConstants.ERROR);
 		preferenceStore.setDefault(PreferenceConstants.DEFAULTASOPTIONAL, false);
 		preferenceStore.setDefault(PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING);

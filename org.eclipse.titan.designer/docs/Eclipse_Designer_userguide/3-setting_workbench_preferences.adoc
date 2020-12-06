@@ -394,10 +394,6 @@ Potential programming problems:
 +
 The on-the-fly checker, when missing imported module is detected, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Error*.
 
-* **Report unused function return values**
-+
-The on-the-fly checker, when a function returns a value or a template, but it is not used, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Warning*.
-
 * **Report incorrect syntax in extension attributes.**
 +
 According to the standard syntax errors in the extension attribute should not be reported, but should be assumed as correct for some other tool. The on-the-fly checker, when a syntax error is detected in an extension attribute, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Error*.

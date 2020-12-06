@@ -49,8 +49,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 			+ " Also when a type is not used to declare other definitions.";
 	private static final String REPORTUNUSEDLOCALDEFINITION = "Report unused local definition:";
 	private static final String REPORTUNUSEDLOCALDEFINITIONTOOLTIP = "When a local variable or formal parameter is never read/written.";
-	private static final String REPORTUNUSEDFUNTIONRETURNVALUES = "Report unused function return values:";
-	private static final String REPORTUNUSEDFUNCTIONRETURNVALUESTOOLTIP = "When a function returns a value or a template, but it is not used.";
 	private static final String HANDLEDEFAULTASOPTIONAL = "DEFAULT elements of ASN.1 sequence and set types as OPTIONAL:";
 	private static final String HANDLEDEFAULTASOPTIONALTOOTIP = "Handle the DEFAULT elements of set and sequence ASN.1 types as being optional.\n"
 			+ "This is compatibility opition.";
@@ -236,18 +234,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 				IGNORE_WARNING_ERROR, comp);
 		Label text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORTMISSINGIMPORTATION_TOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTUNUSEDFUNCTIONRETURNVALUES, REPORTUNUSEDFUNTIONRETURNVALUES,
-				IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORTUNUSEDFUNCTIONRETURNVALUESTOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent event) {
