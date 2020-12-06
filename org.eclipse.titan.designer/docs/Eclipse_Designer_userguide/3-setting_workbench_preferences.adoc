@@ -402,10 +402,6 @@ The on-the-fly checker, when friend declaration with missing module is detected,
 +
 The on-the-fly checker, when a function returns a value or a template, but it is not used, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Warning*.
 
-* **Report infinite loops**
-+
-The on-the-fly checker, when infinite loop is detected, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Ignore*.
-
 * **Report read only variables**
 +
 The on-the-fly checker, when a definition was declared to be changeable, but is never modified, triggers one of the following behaviors: *Ignore*, *Warning*, *Error*. The default setting is: *Ignore*.

@@ -41,7 +41,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 public final class While_Statement extends Statement {
 	private static final String BOOLEANEXPECTED = "A value or expression of type boolean was expected";
 	private static final String NEVERREACH = "Control never reaches this code because the conditional expression evaluates to false";
-	private static final String INFINITELOOP = "Inifinite loop detected: the program can not escape from this while statement";
 
 	private static final String FULLNAMEPART1 = ".expr";
 	private static final String FULLNAMEPART2 = ".block";
@@ -214,10 +213,6 @@ public final class While_Statement extends Statement {
 						loopAlwaysEntered = true;
 						if (ReturnStatus_type.RS_NO.equals(hasReturn(timestamp))) {
 							isInfiniteLoop = true;
-							location.reportConfigurableSemanticProblem(
-									Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-											PreferenceConstants.REPORTINFINITELOOPS, GeneralConstants.WARNING,
-											null), INFINITELOOP);
 						}
 					}
 				}

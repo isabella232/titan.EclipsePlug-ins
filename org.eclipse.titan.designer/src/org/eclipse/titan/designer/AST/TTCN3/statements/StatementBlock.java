@@ -16,9 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
@@ -58,8 +56,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_reparse_FunctionStatementOrDefListContext;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The StatementBlock class represents TTCN3 statement block (the scope unit).
@@ -69,7 +65,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  */
 public final class StatementBlock extends TTCN3Scope implements ILocateableNode, IIncrementallyUpdateable {
 	private static final String FULLNAMEPART = ".statement_";
-	private static final String INFINITELOOP = "Inifinite loop detected: the program can not escape from this goto statement";
 	public static final String HIDINGSCOPEELEMENT = "Definition with identifier `{0}'' is not unique in the scope hierarchy";
 	public static final String HIDDENSCOPEELEMENT = "Previous definition with identifier `{0}'' in higher scope unit is here";
 	public static final String HIDINGMODULEIDENTIFIER = "Definition with name `{0}'' hides a module identifier";
@@ -433,13 +428,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 						}
 					}
 				} else {
-					if (ReturnStatus_type.RS_NO.equals(returnStatus)) {
-						statement.getLocation().reportConfigurableSemanticProblem(
-								Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-										PreferenceConstants.REPORTINFINITELOOPS, GeneralConstants.WARNING,
-										null), INFINITELOOP);
-					}
-
 					return returnStatus;
 				}
 			}

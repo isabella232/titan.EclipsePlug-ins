@@ -42,7 +42,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 public final class DoWhile_Statement extends Statement {
 	private static final String BOOLEANEXPECTED = "A value or expression of type boolean was expected";
 	private static final String UNNECESSARYCONTROL = "This control is unnecessary because the conditional expression evaluates to false";
-	private static final String INFINITELOOP = "Inifinite loop detected: the program can not escape from this do-while statement";
 
 	private static final String FULLNAMEPART1 = ".expr";
 	private static final String FULLNAMEPART2 = ".block";
@@ -205,10 +204,6 @@ public final class DoWhile_Statement extends Statement {
 						expression.getLocation().reportConfigurableSemanticProblem(severity, UNNECESSARYCONTROL);
 					} else if (ReturnStatus_type.RS_NO.equals(hasReturn(timestamp))) {
 						isInfiniteLoop = true;
-						final String severity = Platform.getPreferencesService().getString(
-								ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTINFINITELOOPS,
-								GeneralConstants.WARNING, null);
-						location.reportConfigurableSemanticProblem(severity, INFINITELOOP);
 					}
 				}
 

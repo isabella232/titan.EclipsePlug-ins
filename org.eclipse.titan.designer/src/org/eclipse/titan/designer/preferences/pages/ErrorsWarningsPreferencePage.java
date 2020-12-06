@@ -53,8 +53,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	private static final String REPORTUNUSEDLOCALDEFINITIONTOOLTIP = "When a local variable or formal parameter is never read/written.";
 	private static final String REPORTUNUSEDFUNTIONRETURNVALUES = "Report unused function return values:";
 	private static final String REPORTUNUSEDFUNCTIONRETURNVALUESTOOLTIP = "When a function returns a value or a template, but it is not used.";
-	private static final String REPORT_INFINITE_LOOP = "Report infinite loops";
-	private static final String REPORT_INFINITE_LOOP_TOOLTIP = "When there is no way to escape the loop";
 	private static final String REPORT_READONLY = "Report read only variables";
 	private static final String REPORT_READONLY_TOOLTIP = "When a definition was declared to be changeable, but is never modified";
 	private static final String REPORT_NONPRIVATE_PRIVATE = "Report TTCN-3 definitions that could be private, but are not set so";
@@ -269,17 +267,6 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 				IGNORE_WARNING_ERROR, comp);
 		text = comboedit.getLabelControl(comp);
 		text.setToolTipText(REPORTUNUSEDFUNCTIONRETURNVALUESTOOLTIP);
-		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent event) {
-				changed = true;
-			}
-		});
-		addField(comboedit);
-
-		comboedit = new ComboFieldEditor(PreferenceConstants.REPORTINFINITELOOPS, REPORT_INFINITE_LOOP, IGNORE_WARNING_ERROR, comp);
-		text = comboedit.getLabelControl(comp);
-		text.setToolTipText(REPORT_INFINITE_LOOP_TOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent event) {
