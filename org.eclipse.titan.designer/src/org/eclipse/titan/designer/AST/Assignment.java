@@ -92,6 +92,8 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	protected boolean isErroneous;
 
 	/** Stores whether this assignment was found to be used in this semantic check cycle. */
+	//TODO this should be removed and the same functionality implemented in Titanium as part of already existing codesmells.
+	@Deprecated
 	protected boolean isUsed;
 
 	/** used by the incremental processing to signal if the assignment can eb the root of a change */
