@@ -13,7 +13,7 @@ Java 1.6 or higher, recommended: 1.7. To compile Titanium, Java 1.8 is required.
 XText 2.7.3 (Prerequisite for antlr), available at http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/
 
 ANTLR 4 SDK 0.3.5, available on Eclipse Marketplace
-ANTLR Runtime 4.3 or higher, recommended: 4.3, available at Eclipse Orbit
+ANTLR Runtime 4.3, recommended: 4.3, available at Eclipse Orbit
 Ant 1.9.2 or higher 
 NOTE: Build will not work below 1.8 for sure!
 Eclipse Standard or Java 4.3 (Juno) or higher, recommended: 4.7.1 (Oxygen)
