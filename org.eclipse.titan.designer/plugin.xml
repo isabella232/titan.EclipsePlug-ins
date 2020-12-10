@@ -1132,7 +1132,7 @@
       contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
       schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
       sequence="Ctrl+Shift+H" />
-	<key commandId="org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyAction"
+    <key commandId="org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyAction"
       contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
       schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
       sequence="Ctrl+Alt+H" />
