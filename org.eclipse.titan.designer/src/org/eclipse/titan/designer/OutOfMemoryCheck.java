@@ -82,7 +82,7 @@ public class OutOfMemoryCheck {
 				}
 			});
 		}
-		
+
 		GlobalParser.clearAllInformation();
 		System.gc();
 	}
