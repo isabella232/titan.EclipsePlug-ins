@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.VisibilityModifier;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
+//TODO usage calculation should be moved here completely
 public class NonprivatePrivate extends BaseModuleCodeSmellSpotter {
 	private static final String SHOULD_BE_PRIVATE = "{0} is referenced only locally, it should be private";
 
