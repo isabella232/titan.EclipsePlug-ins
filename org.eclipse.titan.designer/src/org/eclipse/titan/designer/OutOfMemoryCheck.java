@@ -90,6 +90,7 @@ public class OutOfMemoryCheck {
 	public static void resetOutOfMemoryflag() {
 		isOutOfMemory = false;
 	}
+
 	/**
 	 * Check if remaining free memory is low
 	 *
