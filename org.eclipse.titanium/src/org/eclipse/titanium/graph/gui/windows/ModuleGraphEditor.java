@@ -57,7 +57,7 @@ public class ModuleGraphEditor extends GraphEditor {
 	protected final ButtonGroup metricsGroup = new ButtonGroup();
 	protected final JMenu metricsMenu = new JMenu("Metrics");
 	protected final JMenu clusteringMenu = new JMenu("Clustering");
-	protected final JMenu knotClusteringMenu = new JMenu("Groupping clusterer");
+	protected final JMenu knotClusteringMenu = new JMenu("Grouping clusterer");
 	protected final JMenu graphClusteringMenu = new JMenu("Graph generating clusterer");
 	protected final JMenuItem nameKnotCluster = new JMenuItem("By module names");
 	protected final JMenu nameClusteringMenu = new JMenu("By module names");
