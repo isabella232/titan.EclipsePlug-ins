@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -976,7 +977,7 @@ public final class Component_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final Map<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
 
 		final String genname = getGenNameOwn();

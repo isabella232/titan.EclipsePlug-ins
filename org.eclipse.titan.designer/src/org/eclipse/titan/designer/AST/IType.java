@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.titan.designer.AST.Type.CompatibilityLevel;
@@ -1221,7 +1222,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *                fields.
 	 * */
 	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget,
-			final HashMap<String, String> attributeRegistry);
+			final Map<String, String> attributeRegistry);
 
 	/**
 	 * Generates the default coding descriptor for the types

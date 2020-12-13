@@ -2689,7 +2689,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *                static coding attributes of complex types and their
 	 *                fields.
 	 * */
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final Map<String, String> attributeRegistry) {
 		if (lastTimeTypeDescriptorGenerated != null && !lastTimeTypeDescriptorGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
 		}
