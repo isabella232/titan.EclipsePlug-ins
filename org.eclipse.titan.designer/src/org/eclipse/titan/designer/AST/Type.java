@@ -1133,7 +1133,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	/** {@inheritDoc} */
 	public final void checkJsonDefault(final CompilationTimeStamp timestamp) {
-		CharstringExtractor extractor = new CharstringExtractor(jsonAttribute.parsed_default_value, true);
+		final CharstringExtractor extractor = new CharstringExtractor(jsonAttribute.parsed_default_value, true);
 		final String defaultValue = extractor.getExtractedString();
 		final JSONDefaultAnalyzer refAnalyzer = new JSONDefaultAnalyzer();
 		final IValue parsedValue = refAnalyzer.parseJSONDefaultValue(defaultValue, jsonAttribute.defaultLocation);
@@ -3153,7 +3153,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					final Identifier curr_field_id = curr_single_Tag.keyList.get(a).keyField.names.get(b);
 					final int current_field_index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(curr_field_id);
 					final CompField current_field = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByIndex(current_field_index);
-					RawASTStruct.rawAST_coding_fields current_coding_fields = new RawASTStruct.rawAST_coding_fields();
+					final RawASTStruct.rawAST_coding_fields current_coding_fields = new RawASTStruct.rawAST_coding_fields();
 					current_coding_fields.nthfield = current_field_index;
 					current_coding_fields.nthfieldname = curr_field_id.getName();
 					if (t.getTypetype() == Type_type.TYPE_TTCN3_CHOICE) {
