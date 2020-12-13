@@ -123,7 +123,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	// TODO as this is only used for TTCN-3 types maybe we could save some
 	// memory, by moving it ... but than we waste runtime.
 	protected WithAttributesPath withAttributesPath = null;
-	public ArrayList<MessageEncoding_type> codersToGenerate = new ArrayList<IType.MessageEncoding_type>();
+	public List<MessageEncoding_type> codersToGenerate = new ArrayList<IType.MessageEncoding_type>();
 	public RawAST rawAttribute = null;
 	public JsonAST jsonAttribute = null;
 
@@ -139,7 +139,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** The sub-type restriction created from the parsed restrictions */
 	protected SubType subType = null;
 
-	protected ArrayList<Coding_Type> codingTable = new ArrayList<IType.Coding_Type>();
+	protected List<Coding_Type> codingTable = new ArrayList<IType.Coding_Type>();
 
 	/** What kind of AST element owns the type.
 	 *  It may not be known at creation type, so it's initially OT_UNKNOWN.
@@ -3606,7 +3606,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		// if it has its own custom encoder or decoder functions set, then it needs its own coder functions
-		final ArrayList<Coding_Type> ct_codingTable = ((Type)t_ct).codingTable;;
+		final List<Coding_Type> ct_codingTable = ((Type)t_ct).codingTable;;
 		for (int i = 0; i < ct_codingTable.size(); i++) {
 			final Coding_Type tempCodingType = ct_codingTable.get(i);
 			if (!tempCodingType.builtIn && (tempCodingType.customCoding.encoders.containsKey(this) ||
