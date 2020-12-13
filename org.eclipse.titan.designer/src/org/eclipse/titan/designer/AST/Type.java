@@ -3115,7 +3115,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 	}
 
-	protected List<rawAST_coding_taglist> convertJsonCodingAttributes(JsonAST jsonattrib, final JavaGenData aData, final StringBuilder source, final IType lastType) {
+	protected List<rawAST_coding_taglist> convertJsonCodingAttributes(final JsonAST jsonattrib, final JavaGenData aData, final StringBuilder source, final IType lastType) {
 		if (jsonattrib == null || jsonattrib.tag_list == null) {
 			return null;
 		}
