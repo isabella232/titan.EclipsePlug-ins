@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -2796,7 +2797,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *                static coding attributes of complex types and their
 	 *                fields.
 	 * */
-	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
+	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final Map<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
 		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.raw_sign_t");
@@ -3013,7 +3014,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *                static coding attributes of complex types and their
 	 *                fields.
 	 * */
-	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
+	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final Map<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("JSON.TTCN_JSONdescriptor");
 		aData.addBuiltinTypeImport("JSON.json_string_escaping");
 
