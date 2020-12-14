@@ -9,11 +9,15 @@ package org.eclipse.titan.runtime.core.mctr;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -22,7 +26,9 @@ import org.eclipse.titan.runtime.core.TitanComponent;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler;
+import org.eclipse.titan.runtime.core.cfgparser.IOUtils;
 import org.eclipse.titan.runtime.core.cfgparser.MCSectionHandler;
+import org.eclipse.titan.runtime.core.mctr.ConfigData.cf_timestamp_format;
 import org.eclipse.titan.runtime.core.mctr.MainController.ComponentStruct;
 import org.eclipse.titan.runtime.core.mctr.MainController.Host;
 import org.eclipse.titan.runtime.core.mctr.MainController.mcStateEnum;
@@ -88,6 +94,8 @@ public class Cli extends UserInterface {
 			null, "Display test configuration information.");
 
 	private static final int EXIT_FAILURE = 1;
+	private static final int EXIT_SUCCESS = 0;
+	private static final String PROMPT = "MC2> ";
 
 	public boolean loggingEnabled;
 	private boolean exitFlag;
@@ -205,20 +213,59 @@ public class Cli extends UserInterface {
 
 	@Override
 	public void error(final int severity, final String message) {
-		System.err.printf("Error: %s\n", message);
-		// TODO: flush?
+		System.out.printf("Error: %s\n", message);
+		System.out.flush();
 	}
 
 	@Override
 	public void notify(final Timeval timestamp, final String source, final int severity, final String message) {
-		//TODO:implement
-		System.out.printf("%s: %s\n", source, message);
+		if (loggingEnabled) {
+			switch (mycfg.getTsformat()) {
+			case TSF_TIME:	// handled together
+			case TSF_DATE_TIME:
+				Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault(Locale.Category.FORMAT));
+				if (mycfg.getTsformat() == cf_timestamp_format.TSF_TIME) {
+					final long tv_timestamp = timestamp.tv_sec * 1000 + timestamp.tv_usec;
+					calendar.setTimeInMillis(tv_timestamp);
+					System.out.printf("%02d:%02d:%02d.%06d %s: %s\n", calendar.get(Calendar.HOUR_OF_DAY), timestamp.tv_usec, calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND), source, message);
+				} else {
+					final long tv_timestamp = timestamp.tv_sec * 1000 + timestamp.tv_usec;
+					calendar.setTimeInMillis(tv_timestamp);
+					final String month_names[] = {	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+					System.out.printf("%4d/%s/%02d %02d:%02d:%02d.%06d  %s: %s\n", calendar.get(Calendar.YEAR), month_names[calendar.get(Calendar.MONTH)], calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND), source, message);
+				}
+				System.out.flush();
+				break;
+			case TSF_SEC:
+				System.out.printf("%d.%06d %s: %s\n", (timestamp.tv_sec / 1000), (timestamp.tv_usec % 1000), source, message);
+				System.out.flush();
+				break;
+			default:
+				System.out.printf("%s: %s\n", source, message);
+				System.out.flush();
+				break;
+			}
+		}
+		
 	}
 
 	@Override
 	public void executeBatchFile(final String filename) {
-		// TODO Auto-generated method stub
-
+		System.out.printf("Executing batch file '%s'.\n", filename);
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(filename));
+			String currentLine;
+			while ((currentLine = br.readLine()) != null) {
+				if (!currentLine.isEmpty()) {
+					System.out.printf("%s\n", currentLine);
+					processCommand(currentLine);
+				}
+			}
+		} catch (IOException e) {
+			System.out.printf("Error occurred while reading batch file '%s' (error: %s).\n", filename, e.getMessage());
+		}
+		IOUtils.closeQuietly(br);
 	}
 
 	private void cmtcCallback(final String arguments) {
@@ -532,7 +579,7 @@ public class Cli extends UserInterface {
 				e.printStackTrace();
 			}
 		} while (!exitFlag);
-		return 0; // EXIT_SUCCESS
+		return EXIT_SUCCESS; // EXIT_SUCCESS
 	}
 
 	/**
