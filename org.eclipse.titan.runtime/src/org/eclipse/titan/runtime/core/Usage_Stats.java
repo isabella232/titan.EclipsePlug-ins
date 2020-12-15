@@ -28,8 +28,8 @@ public final class Usage_Stats {
 		//intentionally empty
 	}
 
-	private static StringBuilder collectSystemData() {
-		final StringBuilder urlparameters = new StringBuilder(400);
+	private static StringBuilder collectSystemData(final String message) {
+		final StringBuilder urlparameters = new StringBuilder(400 + message.length());
 
 		urlparameters.append("plugin_id=").append("org.eclipse.titan.runtime");
 		//does not really know yet how to add the full qualifier, without depending on eclipse
@@ -54,7 +54,7 @@ public final class Usage_Stats {
 			urlparameters.append('&').append("hostname=").append("UNKNOWN");
 		}
 
-		urlparameters.append('&').append("info=").append("Java runtime(just experimenting)");
+		urlparameters.append('&').append("info=").append(message);
 		return urlparameters;
 	}
 
@@ -82,7 +82,7 @@ public final class Usage_Stats {
 		try {
 			socket.connect(new InetSocketAddress(HOST, PORT));
 
-			final String urlParameters = collectSystemData().toString();
+			final String urlParameters = collectSystemData(message).toString();
 			final DataOutputStream wr = new DataOutputStream(socket.getOutputStream());
 			wr.writeBytes("POST " + PAGE + " HTTP/1.0\r\n" +
 					"Host: " + HOST + "\r\n" +
