@@ -21,6 +21,12 @@ import org.eclipse.titan.runtime.core.cfgparser.GroupSectionHandler.Group;
 
 public class ConfigData {
 
+	public static enum cf_timestamp_format { 
+		TSF_NONE,
+		TSF_TIME,
+		TSF_DATE_TIME,
+		TSF_SEC
+	}
 	private String log_file_name;
 	private List<ExecuteItem> executeItems;
 	private List<Group> group_list;
@@ -29,6 +35,7 @@ public class ConfigData {
 	private int tcp_listen_port;
 	private BigInteger num_hcs;
 	private Double kill_timer;
+	private cf_timestamp_format tsformat = cf_timestamp_format.TSF_NONE;
 
 	public ConfigData() {
 		log_file_name = null;
@@ -130,7 +137,7 @@ public class ConfigData {
 	public void setKill_timer(final Double kill_timer) {
 		this.kill_timer = kill_timer;
 	}
-	
+
 	//Package-private
 	static String getConfigFileContent(File config_file) {
 		StringBuilder contentBuilder = new StringBuilder();
@@ -150,6 +157,16 @@ public class ConfigData {
 
 		return contentBuilder.toString();
 	}
+
+	public cf_timestamp_format getTsformat() {
+		return tsformat;
+	}
+
+	public void setTsformat(cf_timestamp_format tsformat) {
+		this.tsformat = tsformat;
+	}
 	
 	
+
+
 }
