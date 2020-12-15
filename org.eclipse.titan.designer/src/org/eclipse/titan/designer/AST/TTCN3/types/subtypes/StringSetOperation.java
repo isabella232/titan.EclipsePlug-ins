@@ -198,6 +198,12 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 			case SIZE_CONSTRAINT:
 			case ALPHABET_CONSTRAINT:
 				return ((StringSetConstraint) b.complement()).evaluate();
+			case PATTERN_CONSTRAINT:
+				break;
+			case VALUE_CONSTRAINT:
+				break;
+			default:
+				break;
 			}
 		}
 
