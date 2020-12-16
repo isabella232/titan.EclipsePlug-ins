@@ -246,6 +246,7 @@ public final class UniversalCharstring_Type extends Type {
 
 		PatternString ps = null;
 		boolean selfReference = false;
+		boolean report_error = false;
 
 		switch (template.getTemplatetype()) {
 		case VALUE_RANGE: {
@@ -277,29 +278,35 @@ public final class UniversalCharstring_Type extends Type {
 		}
 		case CSTR_PATTERN: {
 			// Change the pattern type
-			final CharString_Pattern_Template cstrpt = (CharString_Pattern_Template) template;
-			ps = cstrpt.getPatternstring();
+			ps = ((CharString_Pattern_Template) template).getPatternstring();
 			ps.setPatterntype(PatternType.UNIVCHARSTRING_PATTERN);
 			ps.check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, timestamp);
 			if (!ps.has_refs()) {
-				//FIXME check pattern
-			}
+				ps.check_pattern();
+			} else
+				report_error = true;
 			break;
 		}
-		case USTR_PATTERN:
+		case USTR_PATTERN: {
 			ps = ((UnivCharString_Pattern_Template) template).getPatternstring();
 			ps.check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, timestamp);
 			if (!ps.has_refs()) {
-				//FIXME check pattern
-			}
+				ps.check_pattern();
+			} else  
+				report_error = true;
 			break;
+		}
 		case DECODE_MATCH:
 			selfReference = ((DecodeMatch_template)template).checkThisTemplateString(timestamp, type, implicitOmit, lhs);
 			break;
 		default:
+			report_error = true;
+			break;
+		} // end of 'switch (template.getTemplatetype())'
+		
+		if (report_error) {
 			template.getLocation().reportSemanticError(
 					MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName(), type.getTypename()));
-			break;
 		}
 
 		return selfReference;

@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
@@ -242,7 +243,14 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		return true;
 	}
 
-	//FIXME comment
+	/**
+	 * Add generated java code for this pattern string
+	 * 
+	 * @param aData only used to update imports if needed
+	 * @param module Not used
+	 * @param preamble Contains error handling related code parts
+	 * @return the source code generated
+	 */
 	public String create_charstring_literals(final JavaGenData aData, final Module module, final StringBuilder preamble) {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
@@ -303,7 +311,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				// Known in compile time: string type with(out) range or list
 			case PSE_REFDSET:{
 				if (pse.t == null) {
-					System.err.println("PatternString.create_charstring_literals()");
+					ErrorReporter.INTERNAL_ERROR("PatternString.create_charstring_literals()");
 					break;
 				}
 				if (pse.t.getSubtype()== null) {
@@ -372,7 +380,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 								s.append('\"');
 								break;
 							default:
-								System.err.println("PatternString.create_charstring_literals()");
+								ErrorReporter.INTERNAL_ERROR("PatternString.create_charstring_literals()");
 								break;
 							}
 							s.append(" + \"]\"");
@@ -394,13 +402,13 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 								s.append('\"');
 								break;
 							default:
-								System.err.println("PatternString.create_charstring_literals()");
+								ErrorReporter.INTERNAL_ERROR("PatternString.create_charstring_literals()");
 								break;
 							}
 						}
 						break;
 					default:
-						System.err.println("PatternString.create_charstring_literals()");
+						ErrorReporter.INTERNAL_ERROR("PatternString.create_charstring_literals()");
 						break;
 					}
 					s.append("+\"");
@@ -417,7 +425,6 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				ExpressionStruct expr = new ExpressionStruct();
 				pse.ref.generateConstRef(aData, expr);
 				Value.generateCodeExpressionOptionalFieldReference(aData, expr, pse.ref);
-				//TODO: preamble, postamble check
 				s.append(expr.expression);
 				String str = "";
 				if (pse.with_N && assign != null) {
@@ -479,11 +486,11 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				expr = null;
 				break;
 			}
-			} //for
+			} //end of 'switch (pse.kind)'
 			if(i > 0) {
 				s.append(')');
 			}
-		}
+		} // end of for 
 		s.append(") ,");
 		s.append(nocase ? "true" : "false");
 		s.append(')');
@@ -535,6 +542,27 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		}
 		return false;
 	}
+	
+	// TODO: finish implementation if TTCN_pattern_to_regexp is available
+	public void check_pattern() {
+		//String str = "";
+		
+		for (int i = 0; i < elems.size(); i++) {
+			final ps_elem_t pse = elems.get(i);
+			if (pse.kind != ps_elem_t.kind_t.PSE_STR)
+				ErrorReporter.INTERNAL_ERROR("PatternString.check_pattern()");
+			//str += pse.str;
+	    }
+	    //char* posix_str = 0;
+	    switch (patterntype) {
+	    	case CHARSTRING_PATTERN:
+	    		//posix_str = TTCN_pattern_to_regexp(str);
+	    		break;
+	    	case UNIVCHARSTRING_PATTERN:
+	    	  	//posix_str = TTCN_pattern_to_regexp_uni(str, nocase);
+	    }
+	    //Free(posix_str);
+	}
 
 	// =================================
 	// ===== PatternString.ps_elem_t
@@ -568,7 +596,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			is_charstring = false;
 			is_universal_charstring = false;
 			if (p_ref == null) {
-				System.err.println("PatternString.ps_elem_t.ps_elem_t()");
+				ErrorReporter.INTERNAL_ERROR("PatternString.ps_elem_t.ps_elem_t()");
 			} else {
 				ref = p_ref;
 			}
@@ -590,7 +618,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				ref = p.ref;
 				break;
 			case PSE_REFDSET:
-				System.err.println("PatternString.ps_elem_t.ps_elem_t");
+				ErrorReporter.INTERNAL_ERROR("PatternString.ps_elem_t.ps_elem_t");
 			default:
 				break;
 			}
@@ -636,7 +664,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 		public void checkRef(final PatternType pstr_type, final Expected_Value_type expected_value, final CompilationTimeStamp timestamp) {
 			if (kind != kind_t.PSE_REF) {
-				System.err.println("PatternString.ps_elem_t.chk_ref()");
+				ErrorReporter.INTERNAL_ERROR("PatternString.ps_elem_t.chk_ref()");
 				return;
 			}
 
@@ -665,18 +693,19 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			case CHARSTRING_PATTERN:
 				tt = Type_type.TYPE_CHARSTRING;
 				if (ref_type.getTypetype() != Type_type.TYPE_CHARSTRING) {
-					//FIXME: initial implement
-					ref.getLocation().reportSemanticError("Type of the referenced %s '%s' should be 'charstring'");
+					ref.getLocation().reportSemanticError("Type of the referenced " + ass.getAssignmentName() 
+						+ " '" + ref.getDisplayName() + "' should be 'charstring'");
 				}
 				break;
 			case UNIVCHARSTRING_PATTERN:
 				tt = ref_type.getTypetype();
 				if (tt != Type_type.TYPE_CHARSTRING && tt != Type_type.TYPE_UCHARSTRING) {
-					ref.getLocation().reportSemanticError("Type of the referenced %s '%s' should be either 'charstring' or 'universal charstring'");
+					ref.getLocation().reportSemanticError("Type of the referenced " + ass.getAssignmentName() 
+						+ " '" + ref.getDisplayName() + "' should be either 'charstring' or 'universal charstring'");
 				}
 				break;
 			default:
-				System.err.println("Unknown pattern string type");
+				ref.getLocation().reportSemanticError("Unknown pattern string type");
 				return;
 			}
 			IType refcheckertype = null;
@@ -715,8 +744,8 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 						break;
 					}
 				default:
-					//TODO:error report
-					System.err.println("Unable to resolve referenced '%s' to character string type. '%s' template cannot be used.");
+					ref.getLocation().reportSemanticError("Unable to resolve referenced '" + ref.getDisplayName() 
+						+ "' to character string type. '" + templ.getTemplateTypeName() + "' template cannot be used.");
 					break;
 				}
 				break;
