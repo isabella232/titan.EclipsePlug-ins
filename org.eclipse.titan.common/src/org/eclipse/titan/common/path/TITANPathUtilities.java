@@ -31,20 +31,19 @@ public final class TITANPathUtilities {
 	}
 
 	/**
-	 * Resolves the provided URI relative to the base URI Environment variables
+	 * Resolves the provided URI relative to the base URI Environment variables,
 	 * and path variables will be resolved if it is possible for all. If all
 	 * variable can be resolved and the path is not absolute then the path will
-	 * be prefixed with the basePath If there is any unresolved variable then
+	 * be prefixed with the basePath. If there is any unresolved variable then
 	 * the pathToBeResolved will not resolved but Unresolved path variables of
 	 * form "[VAR]" will be replaced with "${VAR}. This way the return value of
 	 * this function always can be used to build a Makefile content. This last
-	 * feature is the extra related to resolvePathURI
+	 * feature is the extra related to resolvePathURI.
 	 *
-	 * @param pathToBeResolved
-	 * @param basePath
+	 * @param pathToBeResolved the path to be resolved.
+	 * @param basePath the full path to which the resolvable one might be relative to.
 	 * @return the resolved string
 	 */
-	//TODO update documentation
 	public static String resolvePathURIForMakefile(final String pathToBeResolved, final String basePath,
 			final boolean reportDebugInformation, final StringBuilder output) {
 		final URI uri = resolvePathURI(pathToBeResolved, basePath);
@@ -65,38 +64,11 @@ public final class TITANPathUtilities {
 	 *            the full path to which the resolvable one might be relative
 	 *            to.
 	 *
-	 * @return the resolved uri.
+	 * @return the resolved uri or null on error.
 	 */
-	// TODO: call resolvePathURI, it is the same functionality!!!
 	public static URI resolvePath(final String pathToBeResolved, final URI basePath) {
-		Map<?, ?> envVariables;
-		if (DebugPlugin.getDefault() == null) {
-			envVariables = null;
-		} else {
-			envVariables = DebugPlugin.getDefault().getLaunchManager().getNativeEnvironmentCasePreserved();
-		}
-
-		String tmp2 = null;
-		try {
-			final String tmp1 = EnvironmentVariableResolver.eclipseStyle().resolve(pathToBeResolved, envVariables);
-			tmp2 = EnvironmentVariableResolver.unixStyle().resolveIgnoreErrors(tmp1, envVariables);
-		} catch (VariableNotFoundException e) {
-			ErrorReporter.logError("There was an error while resolving `" + pathToBeResolved + "'");
-			return null;
-		}
-
-		final IPathVariableManager pathVariableManager = ResourcesPlugin.getWorkspace().getPathVariableManager();
-		URI uri = URIUtil.toURI(tmp2);// the trailing dots are removed but later corrected
-		uri = pathVariableManager.resolveURI(uri);
-
-		if (basePath != null && uri != null && !uri.isAbsolute()) {
-			final String basePathString = URIUtil.toPath(basePath).toOSString();
-			final String temp = PathUtil.getAbsolutePath(basePathString, tmp2);
-			if (temp != null) {
-				uri = URIUtil.toURI(temp);
-			}
-		}
-		return uri;
+		final String basePathString = URIUtil.toPath(basePath).toOSString();
+		return resolvePathURI(pathToBeResolved, basePathString);
 
 	}
 
@@ -109,7 +81,7 @@ public final class TITANPathUtilities {
 	 *            the full path to which the resolvable one might be relative
 	 *            to.
 	 *
-	 * @return the resolved path.
+	 * @return the resolved path or null on error.
 	 */
 	public static URI resolvePathURI(final String pathToBeResolved, final String basePath) {
 		final DebugPlugin debugPlugin = DebugPlugin.getDefault();
@@ -136,7 +108,7 @@ public final class TITANPathUtilities {
 	 *            the full path to which the resolvable one might be relative
 	 *            to.
 	 *
-	 * @return the resolved path.
+	 * @return the resolved path or null on error.
 	 */
 	private static URI resolvePathURI(final String pathToBeResolved, final String basePath,
 			final Map<?, ?> envVariables, final IPathVariableManager pathVariableManager) {
@@ -144,17 +116,17 @@ public final class TITANPathUtilities {
 		String tmp2 = null;
 		try {
 			final String tmp1 = EnvironmentVariableResolver.eclipseStyle().resolve(pathToBeResolved, envVariables);
-			tmp2 = EnvironmentVariableResolver.unixStyle().resolve(tmp1, envVariables); // In case of error,
-			// it throws exception
+			tmp2 = EnvironmentVariableResolver.unixStyle().resolve(tmp1, envVariables);
+			// In case of error, it throws exception
 		} catch (VariableNotFoundException e) {
 			ErrorReporter.logWarning("There was an error while resolving `" + pathToBeResolved + "'"); // this is a normal behavior
 			return null;
 		}
 
-		final URI uri = URIUtil.toURI(tmp2);
+		final URI uri = URIUtil.toURI(tmp2); // the trailing dots are removed but later corrected
 		URI resolvedURI = pathVariableManager.resolveURI(uri);
 
-		if (basePath != null && !"".equals(basePath) && !resolvedURI.isAbsolute()) {
+		if (basePath != null && !"".equals(basePath) && uri != null && !resolvedURI.isAbsolute()) {
 			final String temp = PathUtil.getAbsolutePath(basePath, tmp2);
 			if (temp != null) {
 				resolvedURI = URIUtil.toURI(temp);
