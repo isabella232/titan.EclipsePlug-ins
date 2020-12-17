@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -109,7 +110,7 @@ public final class Continue_Statement extends Statement {
 				source.append("continue;\n");
 			}
 		} else {
-			// FIXME: FATAL_ERROR("Statement::generate_code_continue()");
+			ErrorReporter.INTERNAL_ERROR("Statement::generate_code_continue()");
 		}
 	}
 }
