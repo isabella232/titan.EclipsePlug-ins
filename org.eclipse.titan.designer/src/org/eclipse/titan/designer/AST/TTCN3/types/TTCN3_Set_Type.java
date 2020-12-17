@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.ISetTypeMessages;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -59,41 +60,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * @author Kristof Szabados
  * */
-public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
-	public static final String INCOMPLETEPRESENTERROR = "Not used symbol `-' is not allowed in this context";
-	private static final String UNSUPPORTED_FIELDNAME =
-			"Sorry, but it is not supported for set types to have a field with a name (`{0}'') "
-					+ "which exactly matches the name of the type definition.";
-	private static final String NONEMPTYEXPECTED = "A non-empty value was expected for type `{0}''";
-
-	private static final String VALUELISTNOTATIONERRORASN1 = "Value list notation cannot be used for SET type `{0}''";
-	private static final String SETVALUEXPECTEDASN1 = "SET value was expected for type `{0}''";
-	private static final String NONEXISTENTFIELDASN1 = "Reference to a non-existent component `{0}'' of SET type `{1}''";
-	private static final String DUPLICATEFIELDFIRSTASN1 = "Component `{0}'' is already given here";
-	private static final String DUPLICATEFIELDAGAINASN1 = "Duplicated SET component `{0}''";
-	private static final String MISSINGFIELDASN1 = "Mandatory component `{0}'' is missing from SET value";
-
-	private static final String VALUELISTNOTATIONERRORTTCN3 = "Value list notation cannot be used for set type `{0}''";
-	private static final String SETVALUEXPECTEDTTCN3 = "set value was expected for type `{0}''";
-	private static final String NONEXISTENTFIELDTTCN3 = "Reference to a non-existent field `{0}'' in set value for type `{1}''";
-	private static final String DUPLICATEFIELDFIRSTTTCN3 = "Field `{0}'' is already given here";
-	private static final String DUPLICATEFIELDAGAINTTCN3 = "Duplicated set field `{0}''";
-	private static final String MISSINGFIELDTTCN3 = "Field `{0}'' is missing from set value";
-
-	private static final String VALUELISTNOTATIONNOTALLOWED = "Value list notation is not allowed for set type `{0}''";
-	private static final String NONEMPTYSETTEMPLATEEXPECTED = "A non-empty set template was expected for type `{0}''";
-	private static final String TEMPLATENOTALLOWED = "{0} cannot be used for set type `{1}''";
-	private static final String LENGTHRESTRICTIONNOTALLOWED = "Length restriction is not allowed for set type `{0}''";
-	private static final String DUPLICATETEMPLATEFIELDFIRST = "Duplicate field `{0}'' in template";
-	private static final String DUPLICATETEMPLATEFIELDAGAIN = "Field `{0}'' is already given here";
-	private static final String NONEXISTENTTEMPLATEFIELDREFERENCE = "Reference to non-existing field `{0}'' in set template for type `{1}''";
-	private static final String MISSINGTEMPLATEFIELD = "Field `{0}'' is missing from template for set type `{1}''";
-
-	private static final String NOFFIELDSDONTMATCH = "The number of fields in set/SET types must be the same";
-	private static final String BADOPTIONALITY = "The optionality of fields in set/SET types must be the same";
-	private static final String NOTCOMPATIBLESETSETOF = "set/SET and set of/SET OF types are compatible only with other set/SET and set of/SET OF types";
-	private static final String NOTCOMPATIBLEUNIONANYTYPE = "union/CHOICE/anytype types are compatible only with other union/CHOICE/anytype types";
-
+public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType implements ISetTypeMessages {
 	// The actual value of the severity level to report stricter constant checking on.
 	private static boolean strictConstantCheckingSeverity;
 
