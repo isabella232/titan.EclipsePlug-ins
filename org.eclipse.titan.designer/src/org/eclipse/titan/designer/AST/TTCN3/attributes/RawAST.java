@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
  *
  * @author Kristof Szabados
  * */
-public class RawAST {
+public class RawAST implements IRawASTVersions {
 	public static class rawAST_toplevel {
 		public int bitorder; /* Invert bitorder of the encoded data */
 	}
@@ -54,25 +54,6 @@ public class RawAST {
 //	public static class rawAST_tag_list {
 //		public ArrayList<rawAST_single_tag> tag;
 //	}
-
-	//Logic kept to be in-line with the compiler side
-	public static final int XDEFUNSIGNED = 1;
-	public static final int XDEFCOMPL = 2;
-	public static final int XDEFSIGNBIT = 3;
-	public static final int XDEFYES = 2;
-	public static final int XDEFNO = 1;
-	public static final int XDEFREVERSE = 3;
-	public static final int XDEFMSB = 1;
-	public static final int XDEFLSB = 2;
-	public static final int XDEFBITS = 1;
-	public static final int XDEFOCTETS = 2;
-	public static final int XDEFLEFT = 1;
-	public static final int XDEFRIGHT = 2;
-	public static final int XDEFFIRST = 1;
-	public static final int XDEFLAST = 2;
-	public static final int XDEFLOW = 1;
-	public static final int XDEFHIGH = 2;
-	public static final int XDEFDEFAULT = -1;
 
 	public int fieldlength; // Nr of bits per character, hexstring : 4, octetstring and charstring : 8, etc
 	public int comp; // Handling of sign: no, 2scomp, signbit

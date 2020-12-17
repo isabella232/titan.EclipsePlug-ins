@@ -16,26 +16,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
  *
  * @author Kristof Szabados
  * */
-public class RawASTStruct {
-	//Logic kept to be in-line with the compiler side
-	//TODO we could reuse the RawAST versions
-	public static final int XDEFUNSIGNED = 1;
-	public static final int XDEFCOMPL = 2;
-	public static final int XDEFSIGNBIT = 3;
-	public static final int XDEFYES = 2;
-	public static final int XDEFNO = 1;
-	public static final int XDEFREVERSE = 3;
-	public static final int XDEFMSB = 1;
-	public static final int XDEFLSB = 2;
-	public static final int XDEFBITS = 1;
-	public static final int XDEFOCTETS = 2;
-	public static final int XDEFLEFT = 1;
-	public static final int XDEFRIGHT = 2;
-	public static final int XDEFFIRST = 1;
-	public static final int XDEFLAST = 2;
-	public static final int XDEFLOW = 1;
-	public static final int XDEFHIGH = 2;
-	public static final int XDEFDEFAULT = -1;
+public class RawASTStruct implements IRawASTVersions {
 
 	public static class rawAST_toplevel {
 		public int bitorder; /* Invert bitorder of the encoded data */
