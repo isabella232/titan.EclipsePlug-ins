@@ -54,8 +54,8 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 		S_STOP_UNKNOWN,
 		/** unknown instance. */
 		S_UNKNOWN_INSTANCE,
-		/** unknonwn applied inst. */
-		S_UNKNOWN_APPLIED_INSTANE,
+		/** unknown applied inst. */
+		S_UNKNOWN_APPLIED_INSTANCE,
 		// basic statements
 		/** definition. */
 		S_DEF,
