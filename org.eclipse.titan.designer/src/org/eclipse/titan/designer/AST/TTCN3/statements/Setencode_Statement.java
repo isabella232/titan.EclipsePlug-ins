@@ -102,7 +102,6 @@ public class Setencode_Statement extends Statement {
 		}
 	}
 
-	//TODO: better variable names than C++ variable names
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
