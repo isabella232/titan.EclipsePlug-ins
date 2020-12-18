@@ -528,27 +528,13 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * */
 	public abstract void setCodeSection(final CodeSectionType codeSection);
 
-	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
-	/**
-	 * Add generated java code on this level
-	 * @param aData the generated java code with other info
-	 */
-	//public abstract void generateCode( final JavaGenData aData, final StringBuilder source );
-
-	//TODO: remove
 	/**
 	 * Generate code for this statement.
 	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
-	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		//default implementation
-		source.append( "\t\t" );
-		source.append( "//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() is not implemented!\n" );
-	}
+	public abstract void generateCode( final JavaGenData aData, final StringBuilder source );
 
 	/**
 	 * Some statements can be used in altguards.

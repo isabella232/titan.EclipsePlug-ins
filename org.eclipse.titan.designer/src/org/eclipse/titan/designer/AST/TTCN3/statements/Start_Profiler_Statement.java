@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -93,5 +94,15 @@ public final class Start_Profiler_Statement extends Statement {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		//TODO: implement properly
+		source.append( "\t\t" );
+		source.append( "//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateCode() is not implemented!\n" );
 	}
 }
