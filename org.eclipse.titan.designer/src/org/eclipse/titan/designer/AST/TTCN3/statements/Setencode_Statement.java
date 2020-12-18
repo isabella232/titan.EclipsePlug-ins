@@ -104,27 +104,28 @@ public class Setencode_Statement extends Statement {
 
 	//TODO: better variable names than C++ variable names
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
 
-		boolean type_error = false;
+		boolean typeError = false;
 		type.check(timestamp);
-		final Type t_ct = (Type) type.getTypeWithCodingTable(timestamp, false);
-		if (t_ct == null) {
+		final Type codingTableType = (Type) type.getTypeWithCodingTable(timestamp, false);
+		if (codingTableType == null) {
 			type.getLocation().reportSemanticError(OPERANDERROR1);
-			type_error = true;
-		} else if (t_ct.getCodingTable().size() == 1) {
+			typeError = true;
+		} else if (codingTableType.getCodingTable().size() == 1) {
 			type.getLocation().reportSemanticWarning("The type argument has only one encoding rule defined. The 'setencode' statement will be ignored");
 		}
 
 		if (encoding != null) {
-			final Value enc_str = this.encoding;
-			IValue lastValue = enc_str.setLoweridToReference(timestamp);
+			final Value encodingString = this.encoding;
+			IValue lastValue = encodingString.setLoweridToReference(timestamp);
 			final UniversalCharstring_Type tempType = new UniversalCharstring_Type();
-			tempType.checkThisValue(timestamp, enc_str, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, false, false, false));
-			if (!type_error && !enc_str.getIsErroneous(timestamp) && !enc_str.isUnfoldable(timestamp)) {
+			tempType.checkThisValue(timestamp, encodingString, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, false, false, false));
+			if (!typeError && !encodingString.getIsErroneous(timestamp) && !encodingString.isUnfoldable(timestamp)) {
 				lastValue = lastValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 				boolean errorFound = false;
 				if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(lastValue.getValuetype())) {
@@ -133,7 +134,7 @@ public class Setencode_Statement extends Statement {
 					errorFound = ((Charstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
 				}
 				if (errorFound) {
-					enc_str.getLocation().reportSemanticError(MessageFormat.format("The encoding string does not match any encodings of type `{0}''", type.getTypename()));
+					encodingString.getLocation().reportSemanticError(MessageFormat.format("The encoding string does not match any encodings of type `{0}''", type.getTypename()));
 				}
 			}
 		}
@@ -141,7 +142,7 @@ public class Setencode_Statement extends Statement {
 		final RunsOnScope runs_on_scope = myStatementBlock.getScopeRunsOn();
 		if (runs_on_scope == null) {
 			getLocation().reportSemanticError("'self.setencode' must be in a definition with a runs-on clause");
-		} else if (!type_error && t_ct.getCodingTable().size() >= 2){
+		} else if (!typeError && codingTableType.getCodingTable().size() >= 2){
 			//TODO add default coding
 		}
 

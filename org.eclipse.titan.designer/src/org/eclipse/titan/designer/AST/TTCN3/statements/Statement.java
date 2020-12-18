@@ -526,10 +526,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 *
 	 * @param codeSection the code section where this statement should be generated.
 	 * */
-	public void setCodeSection(final CodeSectionType codeSection) {
-		//Do nothing by default
-		//FIXME implement in child classes
-	}
+	public abstract void setCodeSection(final CodeSectionType codeSection);
 
 	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
 	/**

@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ControlPart;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -94,6 +95,18 @@ public final class Definition_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		myDefinition = definition;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		// TODO setCodeSection for Definition is not available
+		if (definition != null) {
+			; //definition.setCodeSection(codeSection);
+		}
+		if (myDefinition != null) {
+			; //myDefinition.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -51,6 +52,17 @@ public final class Continue_Statement extends Statement {
 			loop_stmt = pLoopStmt;
 		}
 		altGuards = pAltGuards;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (loop_stmt != null) {
+			loop_stmt.setCodeSection(codeSection);
+		}
+		if (altGuards != null) {
+			altGuards.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

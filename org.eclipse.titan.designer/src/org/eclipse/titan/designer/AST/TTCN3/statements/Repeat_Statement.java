@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -48,6 +49,14 @@ public final class Repeat_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
 		this.myAltGuards = altGuards;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (myAltGuards != null) {
+			myAltGuards.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
