@@ -435,7 +435,7 @@ pr_MainControllerItemUnixDomainSocketValue:
 pr_MainControllerItemKillTimer:
 	KILLTIMER
 	ASSIGNMENTCHAR
-	k = pr_ArithmeticValueExpression
+	k = pr_FloatValueExpression
 	SEMICOLON?
 	{	mcSectionHandler.setKillTimer( $k.floatnum );
 	}
@@ -1703,22 +1703,21 @@ pr_IndexItemIndex returns [int integer]:
 	}
 ;
 
-//TODO: rename Arithmetic -> Float
-pr_ArithmeticValueExpression returns [double floatnum]:
-	a = pr_ArithmeticAddExpression	{	$floatnum = $a.floatnum;	}
+pr_FloatValueExpression returns [double floatnum]:
+	a = pr_FloatAddExpression	{	$floatnum = $a.floatnum;	}
 ;
 
-pr_ArithmeticAddExpression returns [double floatnum]:
-	a = pr_ArithmeticMulExpression	{	$floatnum = $a.floatnum;	}
-	(	PLUS	b1 = pr_ArithmeticMulExpression	{	$floatnum += $b1.floatnum;	}
-	|	MINUS	b2 = pr_ArithmeticMulExpression	{	$floatnum -= $b2.floatnum;	}
+pr_FloatAddExpression returns [double floatnum]:
+	a = pr_FloatMulExpression	{	$floatnum = $a.floatnum;	}
+	(	PLUS	b1 = pr_FloatMulExpression	{	$floatnum += $b1.floatnum;	}
+	|	MINUS	b2 = pr_FloatMulExpression	{	$floatnum -= $b2.floatnum;	}
 	)*
 ;
 
-pr_ArithmeticMulExpression returns [double floatnum]:
-	a = pr_ArithmeticUnaryExpression	{	$floatnum = $a.floatnum;	}
-	(	STAR	b1 = pr_ArithmeticUnaryExpression	{	$floatnum *= $b1.floatnum;	}
-	|	SLASH	b2 = pr_ArithmeticUnaryExpression
+pr_FloatMulExpression returns [double floatnum]:
+	a = pr_FloatUnaryExpression	{	$floatnum = $a.floatnum;	}
+	(	STAR	b1 = pr_FloatUnaryExpression	{	$floatnum *= $b1.floatnum;	}
+	|	SLASH	b2 = pr_FloatUnaryExpression
 		{	try {
 				$floatnum /= $b2.floatnum;
 			} catch ( ArithmeticException e ) {
@@ -1729,21 +1728,21 @@ pr_ArithmeticMulExpression returns [double floatnum]:
 	)*
 ;
 
-pr_ArithmeticUnaryExpression returns [double floatnum]:
+pr_FloatUnaryExpression returns [double floatnum]:
 {	boolean negate = false;
 }
 	(	PLUS
 	|	MINUS	{	negate = !negate;	}
 	)*
-	a = pr_ArithmeticPrimaryExpression
+	a = pr_FloatPrimaryExpression
 		{	$floatnum = negate ? -$a.floatnum : $a.floatnum;
 		}
 ;
 
-pr_ArithmeticPrimaryExpression returns [double floatnum]:
+pr_FloatPrimaryExpression returns [double floatnum]:
 (	a = pr_Float	{$floatnum = $a.floatnum;}
 |	b = pr_NaturalNumber	{$floatnum = $b.integer.doubleValue();}
-|	LPAREN c = pr_ArithmeticAddExpression RPAREN {$floatnum = $c.floatnum;}
+|	LPAREN c = pr_FloatAddExpression RPAREN {$floatnum = $c.floatnum;}
 )
 ;
 
