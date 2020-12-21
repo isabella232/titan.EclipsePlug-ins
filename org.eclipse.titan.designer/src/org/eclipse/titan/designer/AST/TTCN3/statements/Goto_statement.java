@@ -170,10 +170,7 @@ public final class Goto_statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		//TODO: implement properly
-		source.append( "\t\t" );
-		source.append( "//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() is not implemented!\n" );
+		// goto is not supported by Java -> do nothing
+		source.append("/* 'goto' instruction is not supported */\n");
 	}
 }

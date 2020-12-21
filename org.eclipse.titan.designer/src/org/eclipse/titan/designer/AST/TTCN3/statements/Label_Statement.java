@@ -123,10 +123,7 @@ public final class Label_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		//TODO: implement properly
-		source.append( "\t\t" );
-		source.append( "//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() is not implemented!\n" );
+		// label can actually never be used
+		source.append("/* 'label' instruction is not supported */\n");
 	}
 }
