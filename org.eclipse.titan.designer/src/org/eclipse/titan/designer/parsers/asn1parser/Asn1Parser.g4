@@ -846,7 +846,6 @@ locals [Token endcol, Identifier identifier, ObjectClassSyntax_literal literal]
 			if ($identifier != null) {
 				if ($fieldSpecifications.hasFieldSpecificationWithId($identifier)) {
 					FieldSpecification fieldSpec = $fieldSpecifications.getFieldSpecificationByIdentifier($identifier).getLast();
-					ObjectClassSyntax_setting setting;
 					switch (fieldSpec.getFieldSpecificationType()) {
 					case FS_T:
 						$nodes.add(new ObjectClassSyntax_setting(SyntaxSetting_types.S_T, $identifier));
@@ -869,7 +868,7 @@ locals [Token endcol, Identifier identifier, ObjectClassSyntax_literal literal]
 						break;
 					case FS_UNDEFINED:
 					default:
-						// TODO mark as error
+						(getLocation($endcol, $endcol)).reportSemanticError("Undefined field specification `" + $identifier.getDisplayName() + "'");
 						break;
 					}
 				} else {
