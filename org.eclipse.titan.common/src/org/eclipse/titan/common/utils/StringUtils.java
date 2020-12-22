@@ -36,4 +36,25 @@ public final class StringUtils {
 		return string == null || string.isEmpty();
 	}
 
+	/**
+	 * Calculates the ordinal indicator for an integer number, like 5th, it can be 1st, 2nd, 3rd, but 11th, 12th, 13th
+	 * @param n integer number
+	 * @return st, nd, rd or th
+	 */
+	public static String getOrdinalIndicator(final int n) {
+		if (11 <= n % 100 && n % 100 <= 13) {
+			// exception case
+			return "th";
+		}
+		switch (n % 10) {
+		case 1:
+			return "st";
+		case 2:
+			return "nd";
+		case 3:
+			return "rd";
+		default:
+			return "th";
+		}
+	}
 }
