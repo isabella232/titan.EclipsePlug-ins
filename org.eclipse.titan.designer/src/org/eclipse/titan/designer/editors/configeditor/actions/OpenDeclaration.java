@@ -12,16 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextSelection;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.Interval;
@@ -35,8 +30,8 @@ import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
-import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.editors.GlobalIntervalHandler;
+import org.eclipse.titan.designer.editors.actions.OpenDeclarationBase;
 import org.eclipse.titan.designer.editors.configeditor.ConfigEditor;
 import org.eclipse.titan.designer.editors.configeditor.ConfigReferenceParser;
 import org.eclipse.titan.designer.editors.configeditor.ConfigTextEditor;
@@ -44,7 +39,6 @@ import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
-import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -56,74 +50,15 @@ import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
  * @author Ferenc Kovacs
+ * @author Adam Knapp
  * */
-public final class OpenDeclaration extends AbstractHandler implements IEditorActionDelegate {
-	public static final String NOTIDENTIFIABLEFILE = "The file related to the editor could not be identified";
+public final class OpenDeclaration extends OpenDeclarationBase {
 	public static final String NOTDEFINITION = "Selected text does not resolve to a definition";
 	public static final String NOTMODULEPARDECLARATION = "Selected text does not resolve to a module parameter declaration";
 	public static final String NOTCONSTANTDEFINITION = "Current text selection does not resolve to a constant definition";
 	public static final String WRONGSELECTION = "Selected text cannot be mapped to a file name";
-	public static final String EDITORNOTFOUND = "The configuration file editor could not be found";
+	public static final String CONFIGEDITOR = "configuration file";
 	public static final String FILENOTFOUND = "Could not find included configuration file `{0}'' on include paths";
-
-	private IEditorPart targetEditor = null;
-	private ISelection selection = TextSelection.emptySelection();
-
-	@Override
-	public void run(final IAction action) {
-		if (targetEditor instanceof ConfigEditor) {
-			targetEditor = ((ConfigEditor) targetEditor).getEditor();
-		}
-
-		if (targetEditor == null || !(targetEditor instanceof ConfigTextEditor)) {
-			return;
-		}
-
-		targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
-		final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
-		if (file == null) {
-			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(NOTIDENTIFIABLEFILE);
-			return;
-		}
-
-		if (!TITANNature.hasTITANNature(file.getProject())) {
-			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(TITANNature.NO_TITAN_FILE_NATURE_FOUND);
-			return;
-		}
-
-		int offset;
-		if (!selection.isEmpty() && selection instanceof TextSelection && !"".equals(((TextSelection) selection).getText())) {
-			final IPreferencesService prefs = Platform.getPreferencesService();
-			if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null)) {
-				TITANDebugConsole.println("Selected: " + ((TextSelection) selection).getText());
-			}
-			final TextSelection textSelection = (TextSelection) selection;
-			offset = textSelection.getOffset() + textSelection.getLength();
-		} else {
-			offset = ((ConfigTextEditor) targetEditor).getCarretOffset();
-		}
-
-		final IDocument document = ((ConfigTextEditor) targetEditor).getDocument();
-		final section_type section = getSection(document, offset);
-
-		if (section_type.UNKNOWN.equals(section)) {
-			return;
-		} else if (section_type.INCLUDE.equals(section)) {
-			handleIncludes(file, offset, document);
-			return;
-		} else if (section_type.MODULE_PARAMETERS.equals(section)) {
-			// Module parameters are always defined in
-			// [MODULE_PARAMETERS]
-			// section. Don't go further if the selected text can be
-			// identifiable as a module parameter.
-			if (handleModuleParameters(file, offset, document)) {
-				return;
-			}
-		}
-
-		// Fall back.
-		handleDefinitions(file, offset, document);
-	}
 
 	/**
 	 * Opens an editor for the provided declaration, and in this editor the
@@ -141,7 +76,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	private void selectAndRevealRegion(final IFile file, final int offset, final int endOffset, final boolean select) {
 		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
 		if (desc == null) {
-			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(EDITORNOTFOUND);
+			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(MessageFormat.format(EDITORNOTFOUND, CONFIGEDITOR));
 			return;
 		}
 
@@ -166,16 +101,6 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 		} catch (PartInitException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-	}
-
-	@Override
-	public void selectionChanged(final IAction action, final ISelection selection) {
-		this.selection = selection;
-	}
-
-	@Override
-	public void setActiveEditor(final IAction action, final IEditorPart targetEditor) {
-		this.targetEditor = targetEditor;
 	}
 
 	/**
@@ -414,31 +339,23 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 					true);
 		}
 	}
-
+	
 	@Override
-	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-
+	/** {@inheritDoc} */
+	protected final void doOpenDeclaration() {
 		if (targetEditor instanceof ConfigEditor) {
 			targetEditor = ((ConfigEditor) targetEditor).getEditor();
 		}
 
 		if (targetEditor == null || !(targetEditor instanceof ConfigTextEditor)) {
-			return null;
+			return;
 		}
 
-		targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
+		if (!check()) {
+			return;
+		}
+
 		final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
-		if (file == null) {
-			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(NOTIDENTIFIABLEFILE);
-			return null;
-		}
-
-		if (!TITANNature.hasTITANNature(file.getProject())) {
-			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(TITANNature.NO_TITAN_FILE_NATURE_FOUND);
-			return null;
-		}
-
 		int offset;
 		if (!selection.isEmpty() && selection instanceof TextSelection && !"".equals(((TextSelection) selection).getText())) {
 			final IPreferencesService prefs = Platform.getPreferencesService();
@@ -456,24 +373,21 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 		if (section_type.UNKNOWN.equals(section)) {
 			if (handleModuleParameters(file, offset, document)) {
-				return null;
+				return;
 			}
-			return null;
+			return;
 		} else if (section_type.INCLUDE.equals(section)) {
 			handleIncludes(file, offset, document);
-			return null;
+			return;
 		} else if (section_type.MODULE_PARAMETERS.equals(section)) {
-			// Module parameters are always defined in
-			// [MODULE_PARAMETERS]
-			// section. Don't go further if the selected text can be
-			// identifiable as a module parameter.
+			// Module parameters are always defined in [MODULE_PARAMETERS] section. 
+			// Don't go further if the selected text can be identifiable as a module parameter.
 			if (handleModuleParameters(file, offset, document)) {
-				return null;
+				return;
 			}
 		}
 
 		// Fall back.
 		handleDefinitions(file, offset, document);
-		return null;
 	}
 }
