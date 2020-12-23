@@ -407,34 +407,103 @@ public abstract class Base_Type {
 		throw new TtcnError(MessageFormat.format("RAW decoding requested for type `{0}'' which has no RAW encoding method.", p_td.name));
 	}
 
-//TODO: remove abstract methods
-/*
-	public abstract int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map);
-	public abstract int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field);
-/*/
-
-	//TODO: comment
-	//It is assumed that when calling this function p_td.json is not null
+	/**
+	 * Encode with JSON coding.
+	 *
+	 * @param p_td
+	 *                type descriptor
+	 * @param p_tok
+	 *                filled with JSON encoding data
+	 * @param p_parent_is_map
+	 * 				  whether the parent is map
+	 * @return the length of the encoding
+	 *
+	 * @throws TtcnError
+	 *                 in case of not being implemented
+	 * @note It is assumed that when calling this function p_td.json is not null
+	 * @note TODO: p_parent_is_map is never used in any type (yet?)
+	 * */
 	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 		throw new TtcnError(MessageFormat.format("JSON encoding requested for type `{0}'' which has no JSON encoding method.", p_td.name));
 	}
 
-	//TODO: comment
-	//It is assumed that when calling this function p_td.json is not null
+	/**
+	 * Decode with JSON coding.
+	 *
+	 * @param p_td
+	 *                type descriptor
+	 * @param p_tok
+	 *                filled with JSON encoding data
+	 * @param p_silent
+	 * 				  whether error is reported or not
+	 * @param p_parent_is_map
+	 * 				  whether the parent is map
+	 * @param p_chosen_field
+	 * 				  determines the type of the chosen field
+	 * @return length of decoded field, or a negative number for error
+	 *
+	 * @throws TtcnError
+	 *                 in case of not being implemented
+	 * @note It is assumed that when calling this function p_td.json is not null
+	 * @note TODO: p_parent_is_map is never used in any type (yet?)
+	 * */
 	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 		throw new TtcnError(MessageFormat.format("JSON decoding requested for type `{0}'' which has no JSON decoding method.", p_td.name));
 	}
-//*/
-	
+
+	/**
+	 * Encode with JSON coding.
+	 *
+	 * @param p_td
+	 *                type descriptor
+	 * @param p_tok
+	 *                filled with JSON encoding data
+	 * @return the length of the encoding
+	 *
+	 * @throws TtcnError
+	 *                 in case of not being implemented
+	 * @note It is assumed that when calling this function p_td.json is not null
+	 * */
 	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 		return JSON_encode(p_td, p_tok, false);
 	}
 
-	//It is assumed that when calling this function p_td.json is not null
+	/**
+	 * Decode with JSON coding.
+	 *
+	 * @param p_td
+	 *                type descriptor
+	 * @param p_tok
+	 *                filled with JSON encoding data
+	 * @param p_silent
+	 * 				  whether error is reported or not
+	 * @return length of decoded field, or a negative number for error
+	 *
+	 * @throws TtcnError
+	 *                 in case of not being implemented
+	 * @note It is assumed that when calling this function p_td.json is not null
+	 * */
 	public final int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent) {
 		return JSON_decode(p_td, p_tok, p_silent, false, JSON.CHOSEN_FIELD_UNSET);
 	}
 
+	/**
+	 * Decode with JSON coding.
+	 *
+	 * @param p_td
+	 *                type descriptor
+	 * @param p_tok
+	 *                filled with JSON encoding data
+	 * @param p_silent
+	 * 				  whether error is reported or not
+	 * @param p_parent_is_map
+	 * 				  whether the parent is map
+	 * @return length of decoded field, or a negative number for error
+	 *
+	 * @throws TtcnError
+	 *                 in case of not being implemented
+	 * @note It is assumed that when calling this function p_td.json is not null
+	 * */
 	public final int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map) {
 		return JSON_decode(p_td, p_tok, p_silent, p_parent_is_map, JSON.CHOSEN_FIELD_UNSET);
 	}
