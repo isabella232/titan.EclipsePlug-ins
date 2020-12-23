@@ -37,6 +37,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.utils.FileUtils;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 import org.eclipse.titan.designer.core.TITANNature;
@@ -264,7 +265,7 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 	
 	private void createUserProvidedPackageFolder() throws CoreException {
 		final IFolder folder = newProject.getFolder(getUserProvidedRoot(newProject));
-		ProjectSourceCompiler.createDir(folder);
+		FileUtils.createDir(folder);
 	}
 
 	@Override
