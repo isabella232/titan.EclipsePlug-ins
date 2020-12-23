@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.utils.StringUtils;
 import org.eclipse.titan.designer.core.ProjectBasedBuilder;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.w3c.dom.Document;
@@ -68,11 +69,11 @@ public class ProjectConfigurationsPropertyData {
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace("While loading requirements of `" + project.getName() + "'", e);
 		}
-		final List<String> splittedList = ProjectRemoteBuildPropertyData.intelligentSplit(temp, '#', '\\');
+		final List<String> splittedList = StringUtils.intelligentSplit(temp, '#', '\\');
 		final List<ConfigurationRequirement> result = new ArrayList<ConfigurationRequirement>(splittedList.size());
 
 		for (final String split : splittedList) {
-			final List<String> requirement = ProjectRemoteBuildPropertyData.intelligentSplit(split, ':', '\\');
+			final List<String> requirement = StringUtils.intelligentSplit(split, ':', '\\');
 			if (requirement != null && requirement.size() == 2) {
 				result.add(new ConfigurationRequirement(requirement.get(0), requirement.get(1)));
 			}

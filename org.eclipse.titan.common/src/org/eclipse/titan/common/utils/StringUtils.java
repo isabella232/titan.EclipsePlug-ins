@@ -7,6 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.common.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class StringUtils {
 
 	private StringUtils() {
@@ -57,4 +60,45 @@ public final class StringUtils {
 			return "th";
 		}
 	}
+	
+	/**
+	 * Splits the input string into a list of strings.
+	 * 
+	 * @param input
+	 *                the input string to split.
+	 * @param delimiter
+	 *                the delimiter according which to split.
+	 * @param escape
+	 *                the escape character noting the delimiters not to be
+	 *                used as delimiters.
+	 * */
+	public static final List<String> intelligentSplit(final String input, final char delimiter, final char escape) {
+		final List<String> results = new ArrayList<String>();
+		if (input == null || input.length() == 0) {
+			return results;
+		}
+
+		final StringBuilder tempResult = new StringBuilder();
+		// no over indexing is possible if the input was converted
+		// correctly, as an escape must be escaping something
+		char c;
+		for (int i = 0; i < input.length();) {
+			c = input.charAt(i);
+			if (escape == c) {
+				// this is either a delimiter or an escape character
+				tempResult.append(c);
+				i++;
+			} else if (delimiter == c) {
+				results.add(tempResult.toString());
+				tempResult.setLength(0);
+				i++;
+			} else {
+				tempResult.append(c);
+				i++;
+			}
+		}
+		results.add(tempResult.toString());
+		return results;
+	}
+	
 }

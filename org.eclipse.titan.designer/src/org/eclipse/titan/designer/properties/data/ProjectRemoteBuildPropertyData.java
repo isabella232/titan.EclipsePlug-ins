@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.utils.StringUtils;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,37 +48,6 @@ public final class ProjectRemoteBuildPropertyData {
 		// Do nothing
 	}
 
-	// \\->\ , \#->#
-	public static List<String> intelligentSplit(final String input, final char delimeter, final char escape) {
-		final List<String> results = new ArrayList<String>();
-		if (input == null || input.length() == 0) {
-			return results;
-		}
-		StringBuilder tempResult = new StringBuilder();
-		int i;
-		// no over indexing is possible if the input was converted
-		// correctly, as an escape must be escaping something
-		char c;
-		for (i = 0; i < input.length();) {
-			c = input.charAt(i);
-			if (escape == c) {
-				// this is either a delimiter or an escape
-				// character
-				tempResult.append(input.charAt(i + 1));
-				i += 2;
-			} else if (delimeter == c) {
-				results.add(tempResult.toString());
-				tempResult = new StringBuilder();
-				i++;
-			} else {
-				tempResult.append(c);
-				i++;
-			}
-		}
-		results.add(tempResult.toString());
-		return results;
-	}
-
 	public static BuildLocation[] getBuildLocations(final IProject project) {
 		String temp = null;
 		try {
@@ -85,7 +55,7 @@ public final class ProjectRemoteBuildPropertyData {
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace("While getting build locations of `" + project.getName() + "'", e);
 		}
-		final List<String> splittedList = intelligentSplit(temp, '#', '\\');
+		final List<String> splittedList = StringUtils.intelligentSplit(temp, '#', '\\');
 		final String[] tempArray = splittedList.toArray(new String[splittedList.size()]);
 		final BuildLocation[] result = new BuildLocation[tempArray.length];
 		for (int i = 0; i < tempArray.length; i++) {

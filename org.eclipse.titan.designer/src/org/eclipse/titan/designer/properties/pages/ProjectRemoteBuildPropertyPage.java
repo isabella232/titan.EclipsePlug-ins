@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.utils.StringUtils;
 import org.eclipse.titan.designer.core.TITANBuilder;
 import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.properties.PropertyNotificationManager;
@@ -379,7 +380,7 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 			ErrorReporter.logExceptionStackTrace(ce);
 		}
 
-		final List<String> splittedList = ProjectRemoteBuildPropertyData.intelligentSplit(temp, '#', '\\');
+		final List<String> splittedList = StringUtils.intelligentSplit(temp, '#', '\\');
 		hostViewer.setInput(splittedList.toArray(new String[splittedList.size()]));
 	}
 
@@ -497,7 +498,7 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 			temp = null;
 		}
 
-		final List<String> splittedList = ProjectRemoteBuildPropertyData.intelligentSplit(temp, '#', '\\');
+		final List<String> splittedList = StringUtils.intelligentSplit(temp, '#', '\\');
 		hostViewer.setInput(splittedList.toArray(new String[splittedList.size()]));
 		return super.performCancel();
 	}
