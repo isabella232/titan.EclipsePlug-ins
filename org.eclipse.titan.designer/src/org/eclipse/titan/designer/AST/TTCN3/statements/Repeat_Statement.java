@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * */
 public final class Repeat_Statement extends Statement {
 	private static final String INCORRECTUSAGE = "Repeat statement cannot be used outside alt statements,"
-			+ " altsteps or resonse and exception handling part of call operations";
+			+ " altsteps or response and exception handling part of call operations";
 
 	private static final String STATEMENT_NAME = "repeat";
 
@@ -54,9 +54,7 @@ public final class Repeat_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		if (myAltGuards != null) {
-			myAltGuards.setCodeSection(codeSection);
-		}
+		// Do nothing
 	}
 
 	@Override

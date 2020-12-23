@@ -100,13 +100,7 @@ public final class Definition_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		// TODO setCodeSection for Definition is not available
-		if (definition != null) {
-			; //definition.setCodeSection(codeSection);
-		}
-		if (myDefinition != null) {
-			; //myDefinition.setCodeSection(codeSection);
-		}
+		// Do nothing
 	}
 
 	@Override

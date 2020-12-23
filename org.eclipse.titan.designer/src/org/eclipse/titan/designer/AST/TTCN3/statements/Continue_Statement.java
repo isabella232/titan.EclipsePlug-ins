@@ -57,12 +57,7 @@ public final class Continue_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		if (loop_stmt != null) {
-			loop_stmt.setCodeSection(codeSection);
-		}
-		if (altGuards != null) {
-			altGuards.setCodeSection(codeSection);
-		}
+		// Do nothing
 	}
 
 	@Override
