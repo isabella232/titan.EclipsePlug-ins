@@ -188,10 +188,6 @@ public final class Object_Definition extends ASN1Object {
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
 
-		if (isErroneous) {
-			return true;
-		}
-
 		if (fieldSettingMap.containsKey(identifier.getName())) {
 			return true;
 		}
