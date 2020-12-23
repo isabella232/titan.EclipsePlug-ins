@@ -97,7 +97,7 @@ public final class PathConverter {
 			ErrorReporter.logExceptionStackTrace("The process could not be started due to I/O exception", e);
 			return path;
 		} catch (Exception e) {
-			ErrorReporter.logExceptionStackTrace("The process could not be started due to othe reasons", e);
+			ErrorReporter.logExceptionStackTrace("The process could not be started due to other reason", e);
 			return path;
 		}
 
