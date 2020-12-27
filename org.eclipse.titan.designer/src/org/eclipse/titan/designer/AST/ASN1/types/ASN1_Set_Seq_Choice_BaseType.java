@@ -386,8 +386,13 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 				return true; // coding already added
 			}
 		}
+		
+		if (components == null) {
+			insideCanHaveCoding = false;
+			return false;
+		}
 
-		for ( int i = 0; i < components.getNofComps(); i++) {
+		for (int i = 0; i < components.getNofComps(); i++) {
 			final CompField compField = components.getCompByIndex(i);
 			if (!compField.getType().getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding)) {
 				insideCanHaveCoding = false;

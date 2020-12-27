@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -40,6 +41,12 @@ public final class Stop_Execution_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		//Do nothing
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		// Do nothing
 	}
 
 	@Override

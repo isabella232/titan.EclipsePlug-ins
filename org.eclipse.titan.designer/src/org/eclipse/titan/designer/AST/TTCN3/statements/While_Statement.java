@@ -318,46 +318,41 @@ public final class While_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		boolean condition_always_true = false;
-		boolean condition_always_false = false;
 		final IValue last = expression.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 		if (!last.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 			if (((Boolean_Value) expression).getValue()) {
 				condition_always_true = true;
 			} else {
-				condition_always_false = true;
+				source.append("/* never occurs */;\n");
+				return;
 			}
 		}
+		
+		source.append("for ( ; ; ) {\n");
+		//FIXME implement loop label if needed
 
-		//TODO this could be merged before
-		if (condition_always_false) {
-			source.append("/* never occurs */;\n");
-		} else {
-			source.append("for ( ; ; ) {\n");
-			//FIXME implement loop label if needed
+		// do not generate the exit condition for infinite loops
+		if (!condition_always_true) {
+			getLocation().update_location_object(aData, source);
+			final AtomicInteger blockCount = new AtomicInteger(0);
+			if (last.returnsNative()) {
+				last.generateCodeTmp(aData, source, "if (!", blockCount);
+				source.append(") {\n");
+			} else {
+				aData.addBuiltinTypeImport( "TitanBoolean" );
 
-			// do not generate the exit condition for infinite loops
-			if (!condition_always_true) {
-				getLocation().update_location_object(aData, source);
-				final AtomicInteger blockCount = new AtomicInteger(0);
-				if (last.returnsNative()) {
-					last.generateCodeTmp(aData, source, "if (!", blockCount);
-					source.append(") {\n");
-				} else {
-					aData.addBuiltinTypeImport( "TitanBoolean" );
-
-					last.generateCodeTmp(aData, source, "if (!TitanBoolean.get_native(", blockCount);
-					source.append(")) {\n");
-				}
-				source.append("break;\n");
-				source.append("}\n");
-				for(int i = 0 ; i < blockCount.get(); i++) {
-					source.append("}\n");
-				}
+				last.generateCodeTmp(aData, source, "if (!TitanBoolean.get_native(", blockCount);
+				source.append(")) {\n");
 			}
-			//FIXME add debugger support
-
-			statementblock.generateCode(aData, source);
+			source.append("break;\n");
 			source.append("}\n");
+			for(int i = 0 ; i < blockCount.get(); i++) {
+				source.append("}\n");
+			}
 		}
+		//FIXME add debugger support
+
+		statementblock.generateCode(aData, source);
+		source.append("}\n");
 	}
 }

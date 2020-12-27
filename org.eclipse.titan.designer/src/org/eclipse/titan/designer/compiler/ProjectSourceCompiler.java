@@ -16,14 +16,13 @@ import java.net.UnknownHostException;
 import java.text.MessageFormat;
 import java.util.Set;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.titan.common.utils.FileUtils;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.AST.Module;
@@ -75,7 +74,7 @@ public final class ProjectSourceCompiler {
 
 	public static void generateSourceFolder(final IProject project) throws CoreException {
 		final IFolder folder = project.getFolder( getGeneratedRoot(project) );
-		createDir( folder );
+		FileUtils.createDir( folder );
 	}
 
 	/**
@@ -137,7 +136,7 @@ public final class ProjectSourceCompiler {
 		
 		final IFolder folder = project.getFolder( getGeneratedRoot(project) );
 		final IFile file = folder.getFile( aModule.getName() + ".java");
-		createDir( folder );
+		FileUtils.createDir( folder );
 
 		//write to file if changed
 		final String content = sourceCode.toString();
@@ -165,7 +164,7 @@ public final class ProjectSourceCompiler {
 	public static void generateGeneratedPackageInfo(final IProject project) throws CoreException {
 		final IFolder folder = project.getFolder( getGeneratedRoot(project) );
 		final IFile file = folder.getFile( "package-info.java");
-		createDir( folder );
+		FileUtils.createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
 
@@ -214,7 +213,7 @@ public final class ProjectSourceCompiler {
 	public static void generateUserProvidedPackageInfo(final IProject project) throws CoreException {
 		final IFolder folder = project.getFolder( getUserProvidedRoot(project) );
 		final IFile file = folder.getFile( "package-info.java");
-		createDir( folder );
+		FileUtils.createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
 
@@ -264,7 +263,7 @@ public final class ProjectSourceCompiler {
 	public static void generateSingleMain(final IProject project, final Set<String> knownModuleNames) throws CoreException {
 		final IFolder folder = project.getFolder( getGeneratedRoot(project) );
 		final IFile file = folder.getFile( "Single_main.java");
-		createDir( folder );
+		FileUtils.createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
 
@@ -337,7 +336,7 @@ public final class ProjectSourceCompiler {
 	public static void generateParallelMain(final IProject project, final Set<String> knownModuleNames) throws CoreException {
 		final IFolder folder = project.getFolder( getGeneratedRoot(project) );
 		final IFile file = folder.getFile( "Parallel_main.java");
-		createDir( folder );
+		FileUtils.createDir( folder );
 
 		final StringBuilder contentBuilder = new StringBuilder();
 
@@ -429,24 +428,6 @@ public final class ProjectSourceCompiler {
 		}
 
 		return result;
-	}
-
-
-	//TODO: move it into titan.common
-	/**
-	 * RECURSIVE
-	 * Creates full directory path
-	 * @param aFolder directory to create
-	 * @throws CoreException
-	 */
-	public static void createDir( final IFolder aFolder ) throws CoreException {
-		if (!aFolder.exists()) {
-			final IContainer parent = aFolder.getParent();
-			if (parent instanceof IFolder) {
-				createDir( (IFolder) parent );
-			}
-			aFolder.create( true, true, new NullProgressMonitor() );
-		}
 	}
 
 	/**

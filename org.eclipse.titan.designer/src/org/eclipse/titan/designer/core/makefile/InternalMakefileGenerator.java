@@ -1970,7 +1970,7 @@ public final class InternalMakefileGenerator {
 					} else {
 						contents.append(' ');
 					}
-					if (!".".equals(dir.name())) {
+					if (!".".equals(dir.name().toString())) {
 						contents.append(dir.name()).append("/compile");
 					}
 				}

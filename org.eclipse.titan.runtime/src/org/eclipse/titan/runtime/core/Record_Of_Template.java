@@ -10,6 +10,7 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.titan.runtime.utils.StringUtils;
 
 /**
  * Record_Of_Template in titan.core
@@ -118,9 +119,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		final int number_of_permutations = get_number_of_permutations();
 		if (number_of_permutations > 0 &&
 				permutation_intervals.get(number_of_permutations - 1).end_index >= start_index) {
-			//TODO: fix {0}th (also in titan.core), it can be 1st, 2nd, 3rd, but 11th, 12th, 13th
-			//throw new TtcnError( MessageFormat.format( "the {0}{1} permutation overlaps the previous one", number_of_permutations, getOrdinalIndicator(number_of_permutations) ) );
-			throw new TtcnError(MessageFormat.format("the {0}th permutation overlaps the previous one", number_of_permutations));
+			throw new TtcnError( MessageFormat.format( "the {0}{1} permutation overlaps the previous one", number_of_permutations, StringUtils.getOrdinalIndicator(number_of_permutations) ) );
 		}
 
 		if (permutation_intervals == null) {
@@ -135,29 +134,6 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	 * */
 	public void remove_all_permutations() {
 		clean_up_intervals();
-	}
-
-	//TODO: move it to a utility class
-	/**
-	 * Calculates the ordinal indicator for an integer number, like 5th, it can be 1st, 2nd, 3rd, but 11th, 12th, 13th
-	 * @param n integer number
-	 * @return st, nd, rd or th
-	 */
-	private static String get_ordinal_indicator(final int n) {
-		if (11 <= n % 100 && n % 100 <= 13) {
-			// exception case
-			return "th";
-		}
-		switch (n % 10) {
-		case 1:
-			return "st";
-		case 2:
-			return "nd";
-		case 3:
-			return "rd";
-		default:
-			return "th";
-		}
 	}
 
 	public int get_number_of_permutations() {

@@ -17,7 +17,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
+import org.eclipse.titan.common.utils.StringUtils;
 import org.eclipse.titanium.Activator;
 import org.eclipse.titanium.graph.clustering.visualization.ClusterEdge;
 import org.eclipse.titanium.graph.clustering.visualization.ClusterNode;
@@ -64,7 +64,7 @@ public final class ClusteringTools {
 		final List<String> list = new ArrayList<String>();
 
 		final String stringList = Platform.getPreferencesService().getString(Activator.PLUGIN_ID, PreferenceConstants.CLUSTER_TRUNCATE, "", null);
-		final List<String> splittedList = ResourceExclusionHelper.intelligentSplit(stringList, '#', '\\');
+		final List<String> splittedList = StringUtils.intelligentSplit(stringList, '#', '\\');
 
 		for (final String item : splittedList) {
 			list.add(item);

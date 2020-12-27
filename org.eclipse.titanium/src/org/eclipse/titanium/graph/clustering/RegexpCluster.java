@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
+import org.eclipse.titan.common.utils.StringUtils;
 import org.eclipse.titanium.Activator;
 import org.eclipse.titanium.graph.components.EdgeDescriptor;
 import org.eclipse.titanium.graph.components.NodeDescriptor;
@@ -70,8 +70,7 @@ public class RegexpCluster extends BaseCluster {
 		final String stringList = Platform.getPreferencesService().getString(
 				Activator.PLUGIN_ID, PreferenceConstants.CLUSTER_REGEXP, "",
 				null);
-		final List<String> splittedList = ResourceExclusionHelper.intelligentSplit(
-				stringList, '#', '\\');
+		final List<String> splittedList = StringUtils.intelligentSplit(stringList, '#', '\\');
 
 		if (splittedList.isEmpty()) {
 			setErronous("No regular expressions were defined.\n"

@@ -57,15 +57,6 @@ public class Code {
 			}
 			break;
 		case '?':
-			//TODO: remove
-			/*
-			// to avoid recognition of trigraphs
-			if (in_string) {
-				str.append("\\?");
-			} else {
-				str.append('?');
-			}
-			*/
 			str.append('?');
 			break;
 		default:

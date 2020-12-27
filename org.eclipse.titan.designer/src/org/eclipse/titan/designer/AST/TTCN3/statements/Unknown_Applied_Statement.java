@@ -61,7 +61,7 @@ public final class Unknown_Applied_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public Statement_type getType() {
-		return Statement_type.S_UNKNOWN_APPLIED_INSTANE;
+		return Statement_type.S_UNKNOWN_APPLIED_INSTANCE;
 	}
 
 	@Override

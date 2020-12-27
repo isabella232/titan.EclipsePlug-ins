@@ -94,7 +94,10 @@ public final class PathConverter {
 		try {
 			proc = pb.start();
 		} catch (IOException e) {
-			ErrorReporter.logExceptionStackTrace("The process could not be started", e);
+			ErrorReporter.logExceptionStackTrace("The process could not be started due to I/O exception", e);
+			return path;
+		} catch (Exception e) {
+			ErrorReporter.logExceptionStackTrace("The process could not be started due to other reason", e);
 			return path;
 		}
 
@@ -116,13 +119,6 @@ public final class PathConverter {
 			if (exitValue != 0) {
 				ErrorReporter.logError("The path:`" + path + "' could not be converted");
 				return path;
-			}
-
-			line = stdout.readLine();//TODO check should have reached end by now.
-			while (line != null) {
-				printDebug(output, line);
-				solution.append(line);
-				line = stdout.readLine();
 			}
 
 			final String temp = solution.toString();

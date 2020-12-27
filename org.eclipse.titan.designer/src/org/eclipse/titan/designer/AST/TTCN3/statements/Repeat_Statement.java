@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -20,7 +21,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * */
 public final class Repeat_Statement extends Statement {
 	private static final String INCORRECTUSAGE = "Repeat statement cannot be used outside alt statements,"
-			+ " altsteps or resonse and exception handling part of call operations";
+			+ " altsteps or response and exception handling part of call operations";
 
 	private static final String STATEMENT_NAME = "repeat";
 
@@ -48,6 +49,12 @@ public final class Repeat_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
 		this.myAltGuards = altGuards;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		// Do nothing
 	}
 
 	@Override

@@ -10,11 +10,12 @@ lexer grammar PatternStringLexer;
  ******************************************************************************
 */
 
-/* TODO: better comment
- * Lexer for a TTCN-3 pattern string to convert it to Java Pattern.
+/*
+ * Lexical analyzer for TTCN-3 character patterns.
  * 
- * @author Gergo Ujhelyi
+ * author Gergo Ujhelyi
  */
+
 @header {
 import java.util.ArrayList;
 import java.util.List;

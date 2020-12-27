@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
+import org.eclipse.titan.common.utils.StringUtils;
 
 /**
  * @author Kristof Szabados
@@ -461,7 +461,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	 * @see #createList
 	 */
 	protected String[] parseString(final String stringList) {
-		final java.util.List<String> splittedList = ResourceExclusionHelper.intelligentSplit(stringList, '#', '\\');
+		final java.util.List<String> splittedList = StringUtils.intelligentSplit(stringList, '#', '\\');
 		return splittedList.toArray(new String[splittedList.size()]);
 
 	}

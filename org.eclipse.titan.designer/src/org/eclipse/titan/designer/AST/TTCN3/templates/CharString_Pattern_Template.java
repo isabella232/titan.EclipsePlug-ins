@@ -281,7 +281,12 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		return result;
 	}
 
-	//TODO: comments
+	/**
+	 * Add generated java code for this template
+	 * 
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 */
 	public void generateCodeStrPattern(final JavaGenData aData, final StringBuilder source) {
 		source.append(patternstring.create_charstring_literals(aData,myScope.getModuleScopeGen(),source));
 	}

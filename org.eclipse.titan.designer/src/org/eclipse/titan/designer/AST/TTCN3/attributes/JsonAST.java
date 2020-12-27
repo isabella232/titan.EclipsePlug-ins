@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
@@ -226,8 +227,7 @@ public class JsonAST {
 		case JSON_LITERAL:
 			return "JSON:literal";
 		default:
-			//TODO
-			//FATAL_ERROR("JsonAST.get_type_str");
+			ErrorReporter.INTERNAL_ERROR("JsonAST.get_type_str");
 			return null;
 		}
 	}
@@ -241,8 +241,7 @@ public class JsonAST {
 		case ESCAPE_AS_TRANSPARENT:
 			return "escape as transparent";
 		default:
-			//TODO
-			//FATAL_ERROR("JsonAST.get_escaping_str");
+			ErrorReporter.INTERNAL_ERROR("JsonAST.get_escaping_str");
 			return null;
 		}
 	}
@@ -257,8 +256,7 @@ public class JsonAST {
 		case ESCAPE_AS_TRANSPARENT:
 			return "ESCAPE_AS_TRANSPARENT";
 		default:
-			//TODO
-			//FATAL_ERROR("JsonAST.get_escaping_gen_str");
+			ErrorReporter.INTERNAL_ERROR("JsonAST.get_escaping_gen_str");
 			return null;
 		}
 	}

@@ -26,6 +26,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.RecordOf_Match.answer;
 import org.eclipse.titan.runtime.core.RecordOf_Match.match_function_t;
 import org.eclipse.titan.runtime.core.RecordOf_Match.type_of_matching;
+import org.eclipse.titan.runtime.utils.StringUtils;
 
 /**
  * @author Farkas Izabella Ingrid
@@ -138,7 +139,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 
 		final int number_of_permutations = get_number_of_permutations();
 		if (number_of_permutations > 0 && permutationIntervals.get(number_of_permutations - 1).end_index >= start_index) {
-			throw new TtcnError(MessageFormat.format("the {0}th permutation overlaps the previous one", number_of_permutations));
+			throw new TtcnError( MessageFormat.format( "the {0}{1} permutation overlaps the previous one", number_of_permutations, StringUtils.getOrdinalIndicator(number_of_permutations) ) );
 		}
 
 		if (permutationIntervals == null) {

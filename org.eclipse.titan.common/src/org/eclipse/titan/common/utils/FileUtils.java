@@ -10,6 +10,10 @@ package org.eclipse.titan.common.utils;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.titan.common.logging.ErrorReporter;
 
 public final class FileUtils {
@@ -45,5 +49,21 @@ public final class FileUtils {
 
 	private static boolean deleteIfExists(final File file) {
 		return file.exists() && !file.delete();
+	}
+	
+	/**
+	 * RECURSIVE
+	 * Creates full directory path
+	 * @param aFolder directory to create
+	 * @throws CoreException
+	 */
+	public static void createDir( final IFolder aFolder ) throws CoreException {
+		if (!aFolder.exists()) {
+			final IContainer parent = aFolder.getParent();
+			if (parent instanceof IFolder) {
+				createDir( (IFolder) parent );
+			}
+			aFolder.create( true, true, new NullProgressMonitor() );
+		}
 	}
 }

@@ -193,9 +193,8 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
-						// TODO optimize for incremental
-						// usage
-						List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(getDocument());
+						// TODO optimize for incremental usage
+						final List<Position> positions = (new TTCN3FoldingSupport()).calculatePositions(getDocument());
 						getEditor().updateFoldingStructure(positions);
 					}
 				});
