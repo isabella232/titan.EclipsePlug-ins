@@ -77,7 +77,7 @@ pr_MainControllerItemUnixDomainSocketValue:
 pr_MainControllerItemKillTimer:
 	KILLTIMER
 	ASSIGNMENTCHAR
-	pr_ArithmeticValueExpression
+	pr_FloatValueExpression
 	SEMICOLON?
 ;
 
@@ -1006,35 +1006,35 @@ pr_IndexItemIndex:
 	SQUARECLOSE
 ;
 
-pr_ArithmeticValueExpression:
-	pr_ArithmeticAddExpression
+pr_FloatValueExpression:
+	pr_FloatAddExpression
 ;
 
-pr_ArithmeticAddExpression:
-	pr_ArithmeticMulExpression
-	(	PLUS	pr_ArithmeticMulExpression
-	|	MINUS	pr_ArithmeticMulExpression
+pr_FloatAddExpression:
+	pr_FloatMulExpression
+	(	PLUS	pr_FloatMulExpression
+	|	MINUS	pr_FloatMulExpression
 	)*
 ;
 
-pr_ArithmeticMulExpression:
-	pr_ArithmeticUnaryExpression
-	(	STAR	pr_ArithmeticUnaryExpression
-	|	SLASH	pr_ArithmeticUnaryExpression
+pr_FloatMulExpression:
+	pr_FloatUnaryExpression
+	(	STAR	pr_FloatUnaryExpression
+	|	SLASH	pr_FloatUnaryExpression
 	)*
 ;
 
-pr_ArithmeticUnaryExpression:
+pr_FloatUnaryExpression:
 	(	PLUS
 	|	MINUS
 	)*
-	pr_ArithmeticPrimaryExpression
+	pr_FloatPrimaryExpression
 ;
 
-pr_ArithmeticPrimaryExpression:
+pr_FloatPrimaryExpression:
 (	pr_Float
 |	pr_NaturalNumber
-|	LPAREN	pr_ArithmeticAddExpression RPAREN
+|	LPAREN	pr_FloatAddExpression RPAREN
 )
 ;
 
