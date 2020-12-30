@@ -16,7 +16,7 @@ public interface ISetTypeMessages {
 	String MISSINGFIELDASN1 = "Mandatory component `{0}'' is missing from SET value";
 
 	String VALUELISTNOTATIONERRORTTCN3 = "Value list notation cannot be used for set type `{0}''";
-	String SETVALUEXPECTEDTTCN3 = "Set value was expected for type `{0}''";
+	String SETVALUEXPECTEDTTCN3 = "set value was expected for type `{0}''";
 	String NONEXISTENTFIELDTTCN3 = "Reference to a non-existent field `{0}'' in set value for type `{1}''";
 	String DUPLICATEFIELDFIRSTTTCN3 = "Field `{0}'' is already given here";
 	String DUPLICATEFIELDAGAINTTCN3 = "Duplicated set field `{0}''";
