@@ -4877,7 +4877,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("A definition without `runs on' clause cannot call a value of altstep type `@statement_tests.t_altstep', which runs on component type `@statement_tests.mycomponent'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Label statement is not allowed within an interleave statment",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Repeat statement cannot be used outside alt statements, altsteps or resonse and exception handling part of call operations",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Repeat statement cannot be used outside alt statements, altsteps or response and exception handling part of call operations",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Repeat statement is not allowed within an interleave statement",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Continue statement cannot be used outside loops",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Return statement is not allowed within an interleave statement",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -7305,17 +7305,17 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 8;
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for set type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("A non-empty set template was expected for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for set type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for set type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for set type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in set template for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for set type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Value list notation is not allowed for set type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));

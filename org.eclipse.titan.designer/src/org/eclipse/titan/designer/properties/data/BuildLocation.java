@@ -9,6 +9,8 @@ package org.eclipse.titan.designer.properties.data;
 
 import java.util.List;
 
+import org.eclipse.titan.common.utils.StringUtils;
+
 /**
  * This class represents a build location, with its name, the paired command to
  * execute, and a flag telling if it will be active or not in the next remote
@@ -49,7 +51,7 @@ public final class BuildLocation implements Cloneable {
 	 *                the property part describing the build location.
 	 * */
 	public BuildLocation(final String propertyPart) {
-		final List<String> temp = ProjectRemoteBuildPropertyData.intelligentSplit(propertyPart, ',', '\\');
+		final List<String> temp = StringUtils.intelligentSplit(propertyPart, ',', '\\');
 
 		if (temp.size() == 3) {
 			if (TRUE.equals(temp.get(0))) {

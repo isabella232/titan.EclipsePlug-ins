@@ -373,7 +373,7 @@ pr_MainControllerItemUnixDomainSocketValue:
 pr_MainControllerItemKillTimer:
 	KILLTIMER
 	ASSIGNMENTCHAR
-	k = pr_ArithmeticValueExpression
+	k = pr_FloatValueExpression
 	SEMICOLON?
 	{	if ( $k.number != null ) {
 			mCfgParseResult.setKillTimer( $k.number.getValue() );
@@ -1585,23 +1585,23 @@ pr_IndexItemIndex:
 	SQUARECLOSE
 ;
 
-pr_ArithmeticValueExpression returns [CFGNumber number]:
-	a = pr_ArithmeticAddExpression	{	$number = $a.number;	}
+pr_FloatValueExpression returns [CFGNumber number]:
+	a = pr_FloatAddExpression	{	$number = $a.number;	}
 ;
 
-pr_ArithmeticAddExpression returns [CFGNumber number]:
-	a = pr_ArithmeticMulExpression	{	$number = $a.number;	}
+pr_FloatAddExpression returns [CFGNumber number]:
+	a = pr_FloatMulExpression	{	$number = $a.number;	}
 	(	(	PLUS
 		|	MINUS	{	$b.number.mul(-1);	}
 		)
-		b = pr_ArithmeticMulExpression	{	$number.add($b.number);	}
+		b = pr_FloatMulExpression	{	$number.add($b.number);	}
 	)*
 ;
 
-pr_ArithmeticMulExpression returns [CFGNumber number]:
-	a = pr_ArithmeticUnaryExpression	{	$number = $a.number;	}
-	(	STAR	b1 = pr_ArithmeticUnaryExpression	{	$number.mul($b1.number);	}
-	|	SLASH	b2 = pr_ArithmeticUnaryExpression
+pr_FloatMulExpression returns [CFGNumber number]:
+	a = pr_FloatUnaryExpression	{	$number = $a.number;	}
+	(	STAR	b1 = pr_FloatUnaryExpression	{	$number.mul($b1.number);	}
+	|	SLASH	b2 = pr_FloatUnaryExpression
 		{	try {
 				$number.div($b2.number);
 			} catch ( ArithmeticException e ) {
@@ -1613,13 +1613,13 @@ pr_ArithmeticMulExpression returns [CFGNumber number]:
 	)*
 ;
 
-pr_ArithmeticUnaryExpression returns [CFGNumber number]:
+pr_FloatUnaryExpression returns [CFGNumber number]:
 {	boolean negate = false;
 }
 	(	PLUS
 	|	MINUS	{	negate = !negate;	}
 	)*
-	a = pr_ArithmeticPrimaryExpression
+	a = pr_FloatPrimaryExpression
 		{	$number = $a.number;
 			if ( negate ) {
 				$number.mul( -1 );
@@ -1627,10 +1627,10 @@ pr_ArithmeticUnaryExpression returns [CFGNumber number]:
 		}
 ;
 
-pr_ArithmeticPrimaryExpression returns [CFGNumber number]:
+pr_FloatPrimaryExpression returns [CFGNumber number]:
 (	a = pr_Float	{$number = $a.number;}
 |	b = pr_NaturalNumber	{$number = $b.number;}
-|	LPAREN c = pr_ArithmeticAddExpression RPAREN {$number = $c.number;}
+|	LPAREN c = pr_FloatAddExpression RPAREN {$number = $c.number;}
 )
 ;
 
