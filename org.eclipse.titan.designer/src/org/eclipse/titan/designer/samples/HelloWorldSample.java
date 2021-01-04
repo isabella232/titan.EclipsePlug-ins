@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2020 Ericsson Telecom AB
+ * Copyright (c) 2000-2021 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -86,7 +86,7 @@ public class HelloWorldSample extends SampleProject {
 			+ "// TTCN-3 Compiler of the TTCN-3 Test Executor version 7/CAX 105 7730 R2A" + NEWLINE
 			+ "// for Arpad Lovassy (earplov@esekilxxen1841) on Wed Nov 18 16:49:55 2020" + NEWLINE
 			+ NEWLINE
-			+ "// Copyright (c) 2000-2020 Ericsson Telecom AB" + NEWLINE
+			+ "// Copyright (c) 2000-2021 Ericsson Telecom AB" + NEWLINE
 			+ NEWLINE
 			+ "// You may modify this file. Add your attributes and prototypes of your" + NEWLINE
 			+ "// member functions here." + NEWLINE
@@ -137,7 +137,7 @@ public class HelloWorldSample extends SampleProject {
 			+ "// TTCN-3 Compiler of the TTCN-3 Test Executor version CRL 113 200/4 R2A" + NEWLINE
 			+ "// for Arpad Lovassy (earplov@esekilxxen1841) on Tue Jul 22 16:49:55 2014" + NEWLINE
 			+ NEWLINE
-			+ "// Copyright (c) 2000-2020 Ericsson Telecom AB" + NEWLINE
+			+ "// Copyright (c) 2000-2021 Ericsson Telecom AB" + NEWLINE
 			+ NEWLINE
 			+ "// You may modify this file. Complete the body of empty functions and"
 			+ "// add your member functions here." + NEWLINE
