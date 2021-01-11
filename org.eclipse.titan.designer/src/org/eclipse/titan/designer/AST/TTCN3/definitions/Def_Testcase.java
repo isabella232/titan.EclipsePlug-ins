@@ -585,7 +585,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			formalParList.generateCodeShadowObjects(aData, source);
 		}
 
-		source.append("\t\ttry{\n");
+		source.append("\t\ttry {\n");
 		source.append(MessageFormat.format("\t\t\tTTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", \"{3}\", ", getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
 		if (systemType == null) {
 			source.append(MessageFormat.format(" \"{0}\", \"{1}\", ", runsOnType.getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
@@ -607,7 +607,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		}
 		source.append("\t\t}\n");
 		source.append("\t\treturn new TitanVerdictType(TTCN_Runtime.end_testcase());\n");
-		source.append( "\t}\n" );
+		source.append( "\t}\n\n" );
 		sb.append(source);
 
 		if (formalParList == null || formalParList.getNofParameters() == 0) {

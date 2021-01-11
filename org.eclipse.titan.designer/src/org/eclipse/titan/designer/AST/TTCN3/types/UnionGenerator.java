@@ -821,7 +821,7 @@ public final class UnionGenerator {
 				source.append("\t\t\t\t}");
 			}
 
-			source.append(" else {\n");
+			source.append("\t\t\t\telse {\n");
 			source.append(MessageFormat.format("\t\t\t\t\tparam.error(MessageFormat.format(\"Field `'{'0'}''' not found in union template type `{0}''\", param_field));\n", displayName));
 			source.append("\t\t\t\t}\n");
 		}
@@ -2933,7 +2933,7 @@ public final class UnionGenerator {
 				source.append("\t\t\t\t}");
 			}
 
-			source.append(" else {\n");
+			source.append("\t\t\t\telse {\n");
 			source.append(MessageFormat.format("\t\t\t\t\tparam.error(MessageFormat.format(\"Field `'{'0'}''' not found in union template type `{0}''\", param_field));\n", displayName));
 			source.append("\t\t\t\t}\n");
 		}

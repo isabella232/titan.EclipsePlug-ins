@@ -138,7 +138,7 @@ public final class Log_Statement extends Statement {
 				case String: {
 					// the argument is a simple string: use non-buffered mode
 					final String escaped = Code.translate_string(((String_InternalLogArgument) firstArgument.getRealArgument()).getString());
-					source.append(MessageFormat.format("TTCN_Logger.log_str(TTCN_Logger.Severity.USER_UNQUALIFIED, \"{0}\");\n", escaped));
+					source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_str(TTCN_Logger.Severity.USER_UNQUALIFIED, \"{0}\");\n", escaped));
 					bufferedMode = false;
 					break;
 				}
@@ -147,7 +147,7 @@ public final class Log_Statement extends Statement {
 					if (value.canGenerateSingleExpression()) {
 						// the argument is a simple macro call: use non-buffered mode
 						final String escaped = Code.translate_string(value.generateSingleExpression(aData).toString());
-						source.append(MessageFormat.format("TTCN_Logger.log_str(TTCN_Logger.Severity.USER_UNQUALIFIED, \"{0}\");\n", escaped));
+						source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_str(TTCN_Logger.Severity.USER_UNQUALIFIED, \"{0}\");\n", escaped));
 						bufferedMode = false;
 					}
 					break;

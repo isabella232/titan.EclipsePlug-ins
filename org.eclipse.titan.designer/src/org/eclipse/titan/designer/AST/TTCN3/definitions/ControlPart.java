@@ -409,9 +409,9 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 		} else {
 			sb.append( "\t\tTTCN_Runtime.end_controlpart();\n" );
 		}
-		sb.append( "\t}\n" );
+		sb.append( "\t}\n\n" );
 
 		final StringBuilder listTestcases = aData.getListTestcases();
-		listTestcases.append(MessageFormat.format("System.out.println(\"{0}.control\");\n", getMyScope().getModuleScope().getIdentifier().getDisplayName()));
+		listTestcases.append(MessageFormat.format("\t\tSystem.out.println(\"{0}.control\");\n", getMyScope().getModuleScope().getIdentifier().getDisplayName()));
 	}
 }

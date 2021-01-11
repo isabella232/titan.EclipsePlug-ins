@@ -992,8 +992,8 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			}
 		}
 
-		init_comp.append("return true;\n");
-		init_comp.append("} else ");
+		init_comp.append("\t\t\treturn true;\n");
+		init_comp.append("\t\t} else ");
 
 		// system port initializer function
 		boolean first_port_found = false;
