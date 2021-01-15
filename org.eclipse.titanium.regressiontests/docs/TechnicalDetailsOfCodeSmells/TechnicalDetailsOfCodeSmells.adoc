@@ -5,7 +5,7 @@
 
 One feature of Titanium is to find code smells, that is, highlight bad code patterns in ttcn3 projects. The implementation focused on being flexible and extensible, while still being fast enough that it can be executed on-the-fly immediately after semantic analyses.
 
-The code of the implementation resides in the `com.ericsson.titanium.markers` and its submodules. A rough overview of the interaction of entities during an analysis of a project is depicted below.
+The code of the implementation resides in the `org.eclipse.titanium.markers` and its submodules. A rough overview of the interaction of entities during an analysis of a project is depicted below.
 
 image::images/communication_code_smell_analysis.png[Communication of code smell analysis of a project]
 

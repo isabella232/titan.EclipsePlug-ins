@@ -179,7 +179,7 @@ It is possible to invoke the build process of Eclipse from the command line, wit
 An example invocation:
 [source]
 ----
-eclipse.exe -noSplash -consoleLog -data location_of_workspace -application com.ericsson.titan.designer.application.InvokeBuild project_name_to_build
+eclipse.exe -noSplash -consoleLog -data location_of_workspace -application org.eclipse.titan.designer.application.InvokeBuild project_name_to_build
 ----
 
 This command instructs Eclipse to call our application with the name of the project to be built, while not displaying even the splash screen, redirecting all error log to the console too and using the workspace from the provided location.
