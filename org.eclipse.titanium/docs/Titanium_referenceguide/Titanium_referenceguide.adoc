@@ -338,7 +338,7 @@ One of the core features of Titanium is the code metrics for TTCN-3 projects. Co
 
 Calculating metrics is planned to happen rarely, only when the user opens explicitly an eclipse view that requires the metrics, thus it was not designed to be lightweight.
 
-The code of the implementation resides in the `com.ericsson.titanium.markers` and its submodules. A rough overview of some notable classes and its associations is depicted below.
+The code of the implementation resides in the `org.eclipse.titanium.markers` and its submodules. A rough overview of some notable classes and its associations is depicted below.
 
 image::images/2_F2.png[title="Associations of notable classes related to the metrics package"]
 
