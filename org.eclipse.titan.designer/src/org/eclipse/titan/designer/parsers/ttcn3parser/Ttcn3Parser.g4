@@ -1061,10 +1061,12 @@ pr_UnionDefBody[CompFieldMap compFieldMap] returns[Identifier identifier]
 	|	ADDRESS { $identifier = new Identifier(Identifier_type.ID_TTCN, "address", getLocation( $ADDRESS)); }
 	)
 	(	begin = pr_BeginChar
-		c = pr_UnionFieldDef { compFieldMap.addComp($c.compField); }
-		(	pr_Comma
-			c = pr_UnionFieldDef { compFieldMap.addComp($c.compField); }
-		)*
+		(	{	reportError( "Union must have at least one field", $begin.start, $begin.stop );	}
+		|	c = pr_UnionFieldDef { compFieldMap.addComp($c.compField); }
+			(	pr_Comma
+				c = pr_UnionFieldDef { compFieldMap.addComp($c.compField); }
+			)*
+		)
 		endcol = pr_EndChar
 	)
 )
