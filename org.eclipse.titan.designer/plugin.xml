@@ -944,13 +944,13 @@
     <wizard category="org.eclipse.titan.designer.wizards.NewTITANWizard"
       class="org.eclipse.titan.designer.wizards.NewTITANProjectWizard"
       icon="icons/titan.gif" id="org.eclipse.titan.designer.wizards.NewTITANProjectWizard"
-      name="TITAN Project" finalPerspective="org.eclipse.titan.designer.perspectives.EditingPerspective"
+      name="TITAN Project (C++)" finalPerspective="org.eclipse.titan.designer.perspectives.EditingPerspective"
       preferredPerspectives="org.eclipse.titan.designer.perspectives.EditingPerspective"
       project="true" />
     <wizard category="org.eclipse.titan.designer.wizards.NewTITANWizard"
       class="org.eclipse.titan.designer.wizards.NewTITANJavaProjectWizard"
       icon="icons/titan.gif" id="org.eclipse.titan.designer.wizards.NewTITANJavaProjectWizard"
-      name="TITAN Java Project" finalPerspective="org.eclipse.titan.designer.perspectives.EditingPerspective"
+      name="TITAN Project (Java)" finalPerspective="org.eclipse.titan.designer.perspectives.EditingPerspective"
       preferredPerspectives="org.eclipse.titan.designer.perspectives.EditingPerspective"
       project="true" />
     <wizard category="org.eclipse.titan.designer.wizards.NewTITANWizard"
