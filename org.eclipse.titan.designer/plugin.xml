@@ -84,6 +84,16 @@
           id="org.eclipse.titan.designer.actions.FindDefinitionAction"
           name="Find definition">
     </command>
+    <command
+          defaultHandler="org.eclipse.titan.designer.actions.runconfiggenerator.GenerateRunConfigSingle"
+          id="org.eclipse.titan.designer.actions.GenerateRunConfigSingle"
+          name="Generate single run configuration for Eclipse Titan">
+    </command>
+    <command
+          defaultHandler="org.eclipse.titan.designer.actions.runconfiggenerator.GenerateRunConfigParallel"
+          id="org.eclipse.titan.designer.actions.GenerateRunConfigParallel"
+          name="Generate parallel run configuration for Eclipse Titan">
+    </command>
   </extension>
   <extension
         name="Designer Editor Commands"
@@ -410,7 +420,7 @@
             </with>
           </visibleWhen>
         </command>
-        <separator name="org.eclipse.titan.designer.separator1"
+        <separator name="separator1"
           visible="true">
         </separator>
         <command
@@ -475,6 +485,48 @@
             </with>
           </visibleWhen>
         </command>
+        <separator name="separator2"
+          visible="true">
+        </separator>
+        <command
+          commandId="org.eclipse.titan.designer.actions.GenerateRunConfigSingle"
+          label="Generate single run configuration for Eclipse Titan">
+          <visibleWhen checkEnabled="false">
+            <with variable="selection">
+              <count value="1">
+              </count>
+              <iterate operator="and">
+	            <instanceof value="org.eclipse.core.resources.IFile">
+                </instanceof>
+                <test property="org.eclipse.core.resources.projectNature"
+                  value="org.eclipse.titan.designer.core.TITANNature" />
+                <test property="org.eclipse.core.resources.extension" value="cfg" />
+                <test property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanJavaBuilder" />
+              </iterate>
+            </with>
+          </visibleWhen>
+        </command>
+        <command
+          commandId="org.eclipse.titan.designer.actions.GenerateRunConfigParallel"
+          label="Generate parallel run configuration for Eclipse Titan">
+          <visibleWhen checkEnabled="false">
+            <with variable="selection">
+              <count value="1">
+              </count>
+              <iterate operator="and">
+	            <instanceof value="org.eclipse.core.resources.IFile">
+                </instanceof>
+                <test property="org.eclipse.core.resources.projectNature"
+                  value="org.eclipse.titan.designer.core.TITANNature" />
+                <test property="org.eclipse.core.resources.extension" value="cfg" />
+                <test property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanJavaBuilder" />
+              </iterate>
+            </with>
+          </visibleWhen>
+        </command>
+        <separator name="separator3"
+          visible="true">
+        </separator>
       </menu>
     </menuContribution>
 
@@ -581,8 +633,6 @@
         label="Rename refactoring">
       </command>
     </menuContribution>
-
-
   </extension>
 
 

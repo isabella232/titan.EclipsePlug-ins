@@ -24,6 +24,7 @@ import org.eclipse.titan.common.utils.Joiner;
  * location, to what the result should be relative to.
  *
  * @author Kristof Szabados
+ * @author Adam Knapp
  */
 public final class PathUtil {
 
@@ -246,5 +247,37 @@ public final class PathUtil {
 		}
 
 		return calculateRelativePath(Arrays.asList(basePath.segments()), Arrays.asList(whatPath.segments()));
+	}
+	
+	/**
+	 * Validates the file path string
+	 * 
+	 * @param path Path to validate
+	 * @return Whether the path is valid or not
+	 * @see    java.io.File#getCanonicalPath
+	 */
+	public static boolean isValidFilePath(String path) {
+		File f = new File(path);
+		try {
+			f.getCanonicalPath();
+			return true;
+		}
+		catch (IOException e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Validates the file name string
+	 * 
+	 * @param filename File name to validate
+	 * @return Whether the name is valid or not
+	 * @see    org.eclipse.titan.common.path.PathUtil#isValidFilePath
+	 */
+	public static boolean isValidFileName(String filename) {
+		if (filename.contains("/") || filename.contains("\\")) {
+			return false;
+		}
+		return isValidFilePath(filename);
 	}
 }
