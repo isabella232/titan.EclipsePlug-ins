@@ -360,14 +360,14 @@ public final class CliExecutor extends BaseExecutor {
 				configHandler = readConfigFile();
 				if (configHandler == null) {
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
-							"An error was found while processing the configuration file",
+							"Error while processing the configuration file",
 							"Please refer to the Error Log view for further information.");
 					return true;
 				} else if( configHandler.isErroneous() ) {
 
 					if (configHandler.parseExceptions().isEmpty()) {
 						ErrorReporter.parallelErrorDisplayInMessageDialog(
-								"An error was found while processing the configuration file",
+								"Error while processing the configuration file",
 								"Please refer to the Error Log view for further information.");
 					} else {
 						final Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);

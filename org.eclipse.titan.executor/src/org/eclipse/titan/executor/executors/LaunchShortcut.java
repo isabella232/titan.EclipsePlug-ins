@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.path.PathUtil;
 import org.eclipse.titan.designer.properties.data.ProjectFileHandler;
 import org.eclipse.titan.executor.tabpages.hostcontrollers.HostControllersTab;
 import org.eclipse.ui.IEditorPart;
@@ -38,10 +39,29 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  * If this is a new launch configuration it is saved with a temporal name, if something with the same selection input can be found it is reused.
  *
  * @author Kristof Szabados
+ * @author Adam Knapp
  * */
 public abstract class LaunchShortcut implements ILaunchShortcut {
+	
+	/**
+	 * Returns the configuration ID, e.g. 
+	 * org.eclipse.titan.executor.executors.single.LaunchConfigurationDelegate
+	 * @return Configuration ID
+	 */
 	protected abstract String getConfigurationId();
+	
+	/**
+	 * Returns the title string for the dialog 
+	 * @return Title of dialog
+	 */
 	protected abstract String getDialogTitle();
+	
+	/**
+	 * Returns the launch configuration type:
+	 * Single, Parallel, Parallel-JNI, Parallel-Java
+	 * @return Type of launch configuration
+	 */
+	protected abstract String getLaunchConfigurationType();
 
 	/**
 	 * Initializes the provided launch configuration for execution.
@@ -101,7 +121,9 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 
 				labelProvider.dispose();
 			}
-			final String configurationName = "new configuration (" + file.getFullPath().toString().replace("/", "__") + ")";
+			
+			final String configurationName = file.getFullPath().toString().substring(1).replace("/", "-") 
+					+ "-" + getLaunchConfigurationType();
 			final ILaunchConfigurationWorkingCopy wc = configurationType.newInstance(null, configurationName);
 			wc.setMappedResources(new IResource[] {project});
 			wc.setAttribute(EXECUTECONFIGFILEONLAUNCH, true);
@@ -153,7 +175,7 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 			} else {
 				ErrorReporter.logError("Config file not found");
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
-						"An error was found while creating the default launch configuration for project "
+						"Error while creating the default launch configuration for project "
 								+ project.getName(),
 								"Config file not found in project " + project.getName());
 				return;
@@ -171,7 +193,8 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 			return; // successful launch happened
 		}
 
-		boolean result = initLaunchConfiguration(wc, project, cfgFile.getLocation().toOSString());
+		boolean result = initLaunchConfiguration(wc, project, 
+				PathUtil.getRelativePath(project.getLocation().toOSString(), cfgFile.getLocation().toOSString()));
 		if (result) {
 			result = HostControllersTab.initLaunchConfiguration(wc);
 		}

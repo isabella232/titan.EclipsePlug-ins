@@ -16,6 +16,13 @@
       namespace="org.eclipse.titan.executor.propertyTesters" properties="SingleModeBuild, ParallelModeBuild"
       type="org.eclipse.core.resources.IResource">
     </propertyTester>
+    <propertyTester
+      class="org.eclipse.titan.designer.properties.propertytesters.TitanBuilderEnabled"
+      id="org.eclipse.titan.designer.properties.TitanBuilderTester"
+      namespace="org.eclipse.titan.designer.properties.TitanBuilder"
+      properties="isTitanBuilder, isTitanJavaBuilder"
+      type="java.lang.Object">
+    </propertyTester>
   </extension>
   <extension point="org.eclipse.debug.core.launchConfigurationTypes">
     <launchConfigurationType name="TITAN Parallel launcher"
@@ -59,6 +66,8 @@
               <test
                 property="org.eclipse.titan.executor.propertyTesters.SingleModeBuild"
                 forcePluginActivation="true" />
+              <test 
+                property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanBuilder" />
             </iterate>
           </with>
         </enablement>
@@ -89,6 +98,8 @@
               <test
                 property="org.eclipse.titan.executor.propertyTesters.SingleModeBuild"
                 forcePluginActivation="true" />
+              <test 
+                property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanBuilder" />
             </iterate>
           </with>
         </enablement>
@@ -116,6 +127,8 @@
               <test
                 property="org.eclipse.titan.executor.propertyTesters.ParallelModeBuild"
                 forcePluginActivation="true" />
+              <test 
+                property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanBuilder" />
             </iterate>
           </with>
         </enablement>
@@ -146,6 +159,8 @@
               <test
                 property="org.eclipse.titan.executor.propertyTesters.ParallelModeBuild"
                 forcePluginActivation="true" />
+              <test 
+                property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanBuilder" />
             </iterate>
           </with>
         </enablement>
@@ -172,37 +187,14 @@
               <test
                 property="org.eclipse.titan.executor.propertyTesters.ParallelModeBuild"
                 forcePluginActivation="true" />
+              <test 
+                property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanBuilder" />
             </iterate>
           </with>
         </enablement>
       </contextualLaunch>
       <configurationType
         id="org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate" />
-    </shortcut>
-    <shortcut class="org.eclipse.titan.executor.executors.java_mctr.LaunchShortcut"
-      id="org.eclipse.titan.executor.executors.java_mctr.LaunchShortcut"
-      label="TITAN Native Java launcher" icon="icons/launch_jni.gif"
-      description="Launch an execution in native Java mode" modes="run">
-      <description description="Runs a local TITAN application"
-        mode="run">
-      </description>
-      <contextualLaunch>
-        <enablement>
-          <with variable="selection">
-            <count value="1" />
-            <iterate>
-              <instanceof value="org.eclipse.core.resources.IProject" />
-              <test value="org.eclipse.titan.designer.core.TITANNature"
-                property="org.eclipse.core.resources.projectNature" />
-              <test
-                property="org.eclipse.titan.executor.propertyTesters.ParallelModeBuild"
-                forcePluginActivation="true" />
-            </iterate>
-          </with>
-        </enablement>
-      </contextualLaunch>
-      <configurationType
-        id="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate" />
     </shortcut>
     <shortcut
       class="org.eclipse.titan.executor.executors.jni.LaunchShortcutConfig"
@@ -227,6 +219,8 @@
               <test
                 property="org.eclipse.titan.executor.propertyTesters.ParallelModeBuild"
                 forcePluginActivation="true" />
+              <test 
+                property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanBuilder" />
             </iterate>
           </with>
         </enablement>
@@ -234,6 +228,33 @@
       <configurationType
         id="org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate">
       </configurationType>
+    </shortcut>
+    <shortcut class="org.eclipse.titan.executor.executors.java_mctr.LaunchShortcut"
+      id="org.eclipse.titan.executor.executors.java_mctr.LaunchShortcut"
+      label="TITAN Native Java launcher" icon="icons/launch_jni.gif"
+      description="Launch an execution in native Java mode" modes="run">
+      <description description="Runs a local TITAN application"
+        mode="run">
+      </description>
+      <contextualLaunch>
+        <enablement>
+          <with variable="selection">
+            <count value="1" />
+            <iterate operator="and">
+              <instanceof value="org.eclipse.core.resources.IProject" />
+              <test value="org.eclipse.titan.designer.core.TITANNature"
+                property="org.eclipse.core.resources.projectNature" />
+              <test
+                property="org.eclipse.titan.executor.propertyTesters.ParallelModeBuild"
+                forcePluginActivation="true" />
+              <test 
+                property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanJavaBuilder" />
+            </iterate>
+          </with>
+        </enablement>
+      </contextualLaunch>
+      <configurationType
+        id="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate" />
     </shortcut>
     <shortcut
       class="org.eclipse.titan.executor.executors.java_mctr.LaunchShortcutConfig"
@@ -258,6 +279,8 @@
               <test
                 property="org.eclipse.titan.executor.propertyTesters.ParallelModeBuild"
                 forcePluginActivation="true" />
+              <test 
+                property="org.eclipse.titan.designer.properties.TitanBuilder.isTitanJavaBuilder" />
             </iterate>
           </with>
         </enablement>

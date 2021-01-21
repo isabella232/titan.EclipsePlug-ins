@@ -13,6 +13,7 @@ import org.eclipse.titan.executor.tabpages.maincontroller.SingleMainControllerTa
 
 /**
  * @author Kristof Szabados
+ * @author Adam Knapp
  * */
 public final class LaunchShortcut extends org.eclipse.titan.executor.executors.LaunchShortcut {
 
@@ -26,6 +27,12 @@ public final class LaunchShortcut extends org.eclipse.titan.executor.executors.L
 	/** {@inheritDoc} */
 	protected String getDialogTitle() {
 		return "Select single mode execution configuration";
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	protected String getLaunchConfigurationType() {
+		return "Single";
 	}
 
 	@Override

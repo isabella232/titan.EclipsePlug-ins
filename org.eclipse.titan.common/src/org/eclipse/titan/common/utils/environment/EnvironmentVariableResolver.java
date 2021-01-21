@@ -90,6 +90,9 @@ public class EnvironmentVariableResolver {
 	}
 
 	public static class VariableNotFoundException extends Exception {
+
+		private static final long serialVersionUID = -7371992259580603430L;
+
 		public VariableNotFoundException(final String variableName) {
 			super("Variable " + variableName + " cannot be resolved.");
 		}

@@ -26,6 +26,12 @@ public final class LaunchShortcutConfig extends org.eclipse.titan.executor.execu
 	protected String getDialogTitle() {
 		return "Select jni mode execution";
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	protected String getLaunchConfigurationType() {
+		return "Parallel-JNI";
+	}
 
 	@Override
 	/** {@inheritDoc} */

@@ -525,14 +525,14 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 
 			if (configHandler == null) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
-						"An error was found while processing the configuration file",
+						"Error while processing the configuration file",
 						"Please refer to the Error Log view for further information.");
 				return;
 			} else if( configHandler.isErroneous() ) {
 
 				if (configHandler.parseExceptions().isEmpty()) {
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
-							"An error was found while processing the configuration file",
+							"Error while processing the configuration file",
 							"Please refer to the Error Log view for further information.");
 				} else {
 					final Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);

@@ -21,6 +21,34 @@ from Eclipse as Java projects and executing exported jar files.
 === Executing TITAN Java Projects from Eclipse
 
 To execute TITAN Java projects inside Eclipse requires the creation of a Launch configuration.
+For that two options are available for the users at the moment: automatic generation of a default launch configuration or manual creation.
+
+NOTE: It is recommended to use the automatic generation to reduce the number of possible mistakes. The generated launch configuration is still editable via the Eclipse embedded launch configurator.
+
+NOTE: In newer Eclipse versions "Launch configuration" is called "Run configuration", however throughout in this document "Launch configuration" is used.
+
+==== Generating Launch configuration for TITAN Java Project automatically
+
+The generation of launch configuration is available from the pop-up menu of a Titan configuration file under *Titan* menu group. The user can choose to generate launch configuration for single operation mode or parallel operation mode as shown in <<Figure-7-lc-popup,Figure 43>>.
+
+[[Figure-7-lc-popup]]
+image::images/7_lc_popup.png[title="Pop-up menu items for launch configuration generation"]
+
+NOTE: This feature is only available for TITAN Java Projects, and the menu only appears if Titan configuration file is selected.
+
+After selecting one of the menu items, the user is asked for a file name prefix that will be used during the generation process (see <<Figure-7-lc-dialog,Figure 44>>). It is possible to overwrite the existing launch configuration with the same name. The given name is extended with "-Single" or "-Parallel" according the selected operation mode.
+
+NOTE: By using this feature, launch configuration files are created under the *launch* folder of project root. For single operation mode one launch configuration file is generated, while for parallel operation mode three launch configuration files are generated.
+
+[[Figure-7-lc-dialog]]
+image::images/7_lc_dialog.png[title="Dialog for naming the launch configuration"]
+
+After the successful generation of the launch configuration, it will appear immediately between the available launch configurations on the toolbar. The user is able to run the project by clicking on the newly created launch configuration or to further edit it (see <<Figure-7-lc-toolbar,Figure 45>>).
+
+[[Figure-7-lc-toolbar]]
+image::images/7_lc_toolbar.png[title="Launch configuration options"]
+
+==== Creating Launch configuration for TITAN Java Project manually
 
 In the toolbar, click the down arrow at the *Launch Commands*, and select *Run Configurations...* . +
 If not visible, modify the Launch properties in the *Windows > Customize Perspective* (see <<Figure-4-F8,Figure 4>>).
@@ -45,7 +73,7 @@ To create a new Launch Configuration for executing a TITAN Java Project:
 
 2. On the toolbar select *New*.
 +
-At this point a new Launch Configuration should appear, similar to "New_Configuration (2)" on figure <<Figure-7-F43,Figure 43>>.
+At this point a new Launch Configuration should appear, similar to "New_Configuration (2)" on figure <<Figure-7-F43,Figure 46>>.
 +
 [[Figure-7-F43]]
 image::images/7_F43.png[title="Launch configuration options"]
@@ -67,12 +95,12 @@ image::images/7_F43.png[title="Launch configuration options"]
 [[Figure-7-F44]]
 image::images/7_F44.png[title="Example Arguments page for single mode execution"]
 
-Figure <<Figure-7-F44,Figure 44>> shows an example for configuring a single mode execution. The "minimal1.cfg" will be the configuration file used for execution. The Java Virtual Machine will be configured to execute in server mode, using the Garbage First (G1) garbage collector.
+Figure <<Figure-7-F44,Figure 47>> shows an example for configuring a single mode execution. The "minimal1.cfg" will be the configuration file used for execution. The Java Virtual Machine will be configured to execute in server mode, using the Garbage First (G1) garbage collector.
 
 [[Figure-7-F45]]
 image::images/7_F45.png[title="Example Arguments page for parallel mode execution"]
 
-Figure <<Figure-7-F45,Figure 45>> shows an example for configuring a parallel mode execution. The main controller is expecting the host controller to connect to the "localhost" to port number "7339" for execution. The Java Virtual Machine will be configured to execute in server mode, using the Garbage First (G1) garbage collector, and to use 1024 MBs of memory during its execution.
+Figure <<Figure-7-F45,Figure 48>> shows an example for configuring a parallel mode execution. The main controller is expecting the host controller to connect to the "localhost" to port number "7339" for execution. The Java Virtual Machine will be configured to execute in server mode, using the Garbage First (G1) garbage collector, and to use 1024 MBs of memory during its execution.
 
 All launch configuration types supported by the Executor plug-in can be found in the panel.
 
@@ -90,12 +118,12 @@ To export a .jar file from a TITAN Java project:
 
 2. In the right click menu, select *Export...*.
 
-3. In the window appearing select *Java / Runnable JAR file* and than *Next* (see <<Figure-7-F46,Figure 46>>).
+3. In the window appearing select *Java / Runnable JAR file* and than *Next* (see <<Figure-7-F46,Figure 49>>).
 +
 [[Figure-7-F46]]
 image::images/7_F46.png[title="Export wizard"]
 
-4. Configure the export (see <<Figure-7-F47,Figure 47>>).
+4. Configure the export (see <<Figure-7-F47,Figure 50>>).
 +
 [[Figure-7-F47]]
 image::images/7_F47.png[title="Export wizard for JAR file"]
