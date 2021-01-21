@@ -77,7 +77,7 @@ public final class SingleMainControllerTab extends BaseMainControllerTab {
 
 		if ("".equals(executable)) {
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
-					"An error was found while creating the default launch configuration for project " + project.getName(),
+					"Error while creating the default launch configuration for project " + project.getName(),
 					"The executable file must be set.");
 			return false;
 		}

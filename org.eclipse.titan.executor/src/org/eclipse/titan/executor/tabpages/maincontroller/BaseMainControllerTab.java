@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.filesystem.URIUtil;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -35,6 +36,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
+import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.debug.ui.ILaunchConfigurationTabGroup;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -59,6 +61,8 @@ import org.eclipse.titan.common.parsers.cfg.ConfigFileHandler;
 import org.eclipse.titan.common.path.PathConverter;
 import org.eclipse.titan.common.path.TITANPathUtilities;
 import org.eclipse.titan.common.utils.IOUtils;
+import org.eclipse.titan.designer.core.TITANBuilder;
+import org.eclipse.titan.designer.properties.data.ProjectFileHandler;
 import org.eclipse.titan.executor.TITANConsole;
 import org.eclipse.titan.executor.TITANDebugConsole;
 import org.eclipse.titan.executor.designerconnection.DesignerHelper;
@@ -365,18 +369,27 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		final ILabelProvider labelProvider = new WorkbenchLabelProvider();
 		final ElementListSelectionDialog dialog = new ElementListSelectionDialog(getShell(), labelProvider);
 		dialog.setTitle("Project selection");
-		dialog.setMessage("Select a project to constrain your search.");
+		dialog.setMessage("Assign a project to the run configuration");
 		final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		final List<IProject> availableProjects = new ArrayList<IProject>(projects.length);
 		for (final IProject project : projects) {
 			try {
-				if (project.isAccessible() && project.hasNature(DesignerHelper.NATURE_ID)) {
+				if (project.isAccessible() && project.hasNature(DesignerHelper.NATURE_ID)
+						&& TITANBuilder.isBuilderEnabled(project)) {
 					availableProjects.add(project);
 				}
 			} catch (CoreException e) {
 				ErrorReporter.logExceptionStackTrace(e);
 			}
 		}
+		
+		if (availableProjects.isEmpty()) {
+			ErrorReporter.parallelErrorDisplayInMessageDialog(
+					"Error while searching for projects in the workspace",
+					"No proper project was found in the workspace for this run configuration type");
+			return;
+		}
+		
 		dialog.setElements(availableProjects.toArray(new IProject[availableProjects.size()]));
 		if (dialog.open() == Window.OK) {
 			final String projectName = ((IProject) dialog.getFirstResult()).getName();
@@ -410,10 +423,31 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		}
 
 		projectIsValid = true;
+		
+		final String projectPath = project.getLocation().toOSString();
+		workingdirectoryText.setRootPath(projectPath);
+		executableFileText.setRootPath(projectPath);
+		configurationFileText.setRootPath(projectPath);
+		
 		workingdirectoryText.setStringValue(getRAWWorkingDirectoryForProject(project));
 		final String executable = getExecutableForProject(project);
 		if (executable != null) {
 			executableFileText.setStringValue(executable);
+		}
+		
+		final List<IFile> cfgFiles = ProjectFileHandler.getCfgFiles(project);
+		if (cfgFiles.size() == 1) {
+			configurationFileText.setStringValue(cfgFiles.get(0).getProjectRelativePath().toOSString());
+		} else if (cfgFiles.size() > 1) {
+			final ILabelProvider labelProvider = DebugUITools.newDebugModelPresentation();
+			final ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
+			dialog.setTitle("Config File Selection");
+			dialog.setMessage("Select existing cfg file:");
+			dialog.setElements(cfgFiles.toArray(new IFile[cfgFiles.size()]));
+			if (dialog.open() == Window.OK) {
+				configurationFileText.setStringValue(
+						((IFile) dialog.getFirstResult()).getProjectRelativePath().toOSString());
+			}
 		}
 	}
 
@@ -673,7 +707,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	public static String getRAWWorkingDirectoryForProject(final IProject project) {
 		try {
 			final String workingDirectory = project.getPersistentProperty(
-					new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER,	DesignerHelper.WORKINGDIR_PROPERTY));
+					new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER, DesignerHelper.WORKINGDIR_PROPERTY));
 			return workingDirectory;
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
@@ -762,7 +796,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		final String workingDirectory = getRAWWorkingDirectoryForProject(project);
 		if (isNullOrEmpty(workingDirectory)) {
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
-					"An error was found while creating the default launch configuration for project " + project.getName(),
+					"Error while creating the default launch configuration for project " + project.getName(),
 					"The working directory must be set.");
 			return false;
 		}
@@ -771,13 +805,13 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		File file = new File(uri);
 		if (!file.exists()) {
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
-					"An error was found while creating the default launch configuration for project " + project.getName(),
+					"Error while creating the default launch configuration for project " + project.getName(),
 					"The working directory does not exist.");
 			return false;
 		}
 		if (!file.isDirectory()) {
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
-				"An error was found while creating the default launch configuration for project " + project.getName(),
+				"Error while creating the default launch configuration for project " + project.getName(),
 				"The path set as working directory does not point to a folder.");
 			return false;
 		}
@@ -791,19 +825,19 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			helper = ExecutableCalculationHelper.checkExecutable(configuration, project, uri2);
 			if (!file.exists()) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
-					"An error was found while creating the default launch configuration for project " + project.getName(),
+					"Error while creating the default launch configuration for project " + project.getName(),
 					"The executable file does not exist.");
 				return false;
 			}
 			if (file.isDirectory()) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
-					"An error was found while creating the default launch configuration for project " + project.getName(),
+					"Error while creating the default launch configuration for project " + project.getName(),
 					"The file set as the executable is a folder.");
 				return false;
 			}
 			if (!helper.executableFileIsValid) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
-					"An error was found while creating the default launch configuration for project " + project.getName(),
+					"Error while creating the default launch configuration for project " + project.getName(),
 					"The executable file is not valid.");
 				return false;
 			}
@@ -812,7 +846,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		}
 		if (!helper.executableIsExecutable) {
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
-				"An error was found while creating the default launch configuration for project " + project.getName(),
+				"Error while creating the default launch configuration for project " + project.getName(),
 				"The executable is not actually executable. Please set an executable generated for parallel mode execution as the executable.");
 			return false;
 		}
@@ -820,14 +854,14 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		if (singleMode) {
 			if (!helper.executableIsForSingleMode) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
-					"An error was found while creating the default launch configuration for project " + project.getName(),
+					"Error while creating the default launch configuration for project " + project.getName(),
 					"The executable was built for parallel mode execution, it can not be launched using a single mode launcher.");
 				return false;
 			}
 		} else {
 			if (helper.executableIsForSingleMode) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
-					"An error was found while creating the default launch configuration for project " + project.getName(),
+					"Error while creating the default launch configuration for project " + project.getName(),
 					"The executable was built for single mode execution, it can not be launched in a parallel mode launcher.");
 				return false;
 			}
@@ -841,12 +875,12 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			file = new File(uri3);
 			if (!file.exists()) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
-					"An error was found while creating the default launch configuration for project " + project.getName(),
+					"Error while creating the default launch configuration for project " + project.getName(),
 					"The configurationfile does not exist.");
 			}
 			if (!file.isFile()) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
-						"An error was found while creating the default launch configuration for project " + project.getName(),
+						"Error while creating the default launch configuration for project " + project.getName(),
 						"The file set as the configuration file is a folder.");
 			}
 		}

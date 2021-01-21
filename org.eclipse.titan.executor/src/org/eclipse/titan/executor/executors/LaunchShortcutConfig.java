@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.path.PathUtil;
 import org.eclipse.titan.executor.tabpages.hostcontrollers.HostControllersTab;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -37,10 +38,29 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  * If this is a new launch configuration it is saved with a temporal name, if something with the same selection input can be found it is reused.
  *
  * @author Kristof Szabados
+ * @author Adam Knapp
  * */
 public abstract class LaunchShortcutConfig implements ILaunchShortcut {
+	
+	/**
+	 * Returns the configuration ID, e.g. 
+	 * org.eclipse.titan.executor.executors.single.LaunchConfigurationDelegate
+	 * @return Configuration ID
+	 */
 	protected abstract String getConfigurationId();
+	
+	/**
+	 * Returns the title string for the dialog 
+	 * @return Title of dialog
+	 */
 	protected abstract String getDialogTitle();
+	
+	/**
+	 * Returns the launch configuration type:
+	 * Single, Parallel, Parallel-JNI, Parallel-Java
+	 * @return Type of launch configuration
+	 */
+	protected abstract String getLaunchConfigurationType();
 
 	/**
 	 * Initializes the provided launch configuration for execution.
@@ -100,7 +120,8 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 				labelProvider.dispose();
 			}
 			// size() == 0 case: create new configuration
-			final String configurationName = "new configuration (" + file.getFullPath().toString().replace("/", "__") + ")";
+			final String configurationName = file.getFullPath().toString().substring(1).replace("/", "-") 
+					+ "-" + getLaunchConfigurationType();
 			final ILaunchConfigurationWorkingCopy wc = configurationType.newInstance(null, configurationName);
 			wc.setMappedResources(new IResource[] {project, file});
 			wc.setAttribute(EXECUTECONFIGFILEONLAUNCH, true);
@@ -145,12 +166,13 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 			return;
 		}
 		try {
-			final ILaunchConfigurationWorkingCopy wc = getWorkingCopy(project,file, mode);
+			final ILaunchConfigurationWorkingCopy wc = getWorkingCopy(project, file, mode);
 			if (wc == null) {
 				return; //successful launch
 			}
 
-			boolean result = initLaunchConfiguration(wc, project, file.getLocation().toOSString());
+			boolean result = initLaunchConfiguration(wc, project, 
+					PathUtil.getRelativePath(project.getLocation().toOSString(), file.getLocation().toOSString()));
 			if (result) {
 				result = HostControllersTab.initLaunchConfiguration(wc);
 			}
