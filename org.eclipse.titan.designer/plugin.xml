@@ -1473,4 +1473,14 @@
       icon="icons/titan.gif">
     </view>
   </extension>
+  <extension point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension
+          targetID="*">
+          <newWizardShortcut id="org.eclipse.titan.designer.wizards.NewTITANJavaProjectWizard"/>
+    </perspectiveExtension>
+    <perspectiveExtension
+          targetID="*">
+          <newWizardShortcut id="org.eclipse.titan.designer.wizards.NewTITANProjectWizard"/>
+    </perspectiveExtension>
+  </extension>
 </plugin>
