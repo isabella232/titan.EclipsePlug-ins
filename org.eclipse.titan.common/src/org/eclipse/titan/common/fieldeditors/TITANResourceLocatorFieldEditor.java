@@ -46,6 +46,7 @@ import org.eclipse.ui.ide.dialogs.PathVariableSelectionDialog;
 
 /**
  * @author Kristof Szabados
+ * @author Adam Knapp
  * */
 public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 	private final int type;
@@ -254,7 +255,11 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 			final FileDialog dialog = new FileDialog(getTextControl().getShell());
 			dialog.setText("Select the target file.");
 			final IPath path = URIUtil.toPath(resolvedPath);
-			dialog.setFilterPath(path.removeLastSegments(1).toOSString());
+			if ( "".equals(getStringValue()) ) {
+				dialog.setFilterPath(path.toOSString());
+			} else {
+				dialog.setFilterPath(path.removeLastSegments(1).toOSString());
+			}
 			selection = dialog.open();
 		} else {
 			final DirectoryDialog dialog = new DirectoryDialog(getTextControl().getShell());
@@ -289,7 +294,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 		if(resolvedPath == null) {
 			message = "Resolved location: cannot be calculated from " + target;
 		} else {
-			message = "Resolved location: " + URIUtil.toPath(resolvedPath);
+			message = "Resolved location: " + URIUtil.toPath(resolvedPath).toOSString();
 		}
 		resolvedPathLabelText.setText(message);
 
