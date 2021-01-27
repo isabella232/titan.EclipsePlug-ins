@@ -84,18 +84,21 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			"This field is required.\n" +
 					"When an existing project is selected and the Designer plug-in is also present the working directory " +
 					"and executable fields are filled out automatically\n  with the values set as project properties.";
-	private static final String WORKING_DIR = "Working directory:";
+	private static final String WORKING_DIR = "  Working directory:";
 	private static final String WORKING_DIR_REQUIRED = "Working directory (REQUIRED):";
+	private static final String WORKING_DIR_NOT_REQUIRED = "Working directory:";
 	private static final String WORKING_DIR_TOOLTIP = "The directory the main controller should be started from.";
-	private static final String EXECUTABLE = "Executable (REQUIRED):";
+	private static final String EXECUTABLE = "  Executable:";
 	private static final String EXECUTABLE_TOOLTIP =
 			"This field is required.\nThe executable file used to make the creation and validation of testsets possible.";
 	private static final String EXECUTABLE_REQUIRED = "Executable (REQUIRED):";
+	private static final String EXECUTABLE_NOT_REQUIRED = "Executable:";
 	private static final String EXECUTABLE_REQUIRED_TOOLTIP =
 			"The executable file used to execute testcases and to make the creation and validation of testsets possible.";
-	private static final String CONFIGFILE = "Configuration file (REQUIRED):";
+	private static final String CONFIGFILE = "  Configuration file:";
 	private static final String CONFIGFILE_TOOLTIP = "This field is required.\n" +
 			"The runtime configuration file used to describe the runtime behaviour of the executable test program.";
+	private static final String CONFIGFILE_REQUIRED = "Configuration file (REQUIRED):";
 	private static final String BROWSE_WORKSPACE = "Browse Workspace..";
 
 	private final class BasicProjectSelectorListener extends SelectionAdapter implements ModifyListener {
@@ -233,6 +236,13 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
+		
+		projectSelectionButton.addSelectionListener(generalListener);
+		projectNameText.addModifyListener(generalListener);
+		workingdirectoryText.getTextControl(workingDirGroup).addModifyListener(generalListener);
+		executableFileText.getTextControl(executableGroup).addModifyListener(generalListener);
+		configurationFileText.getTextControl(configFileGroup).addModifyListener(generalListener);
+		automaticExecuteSectionExecution.addSelectionListener(generalListener);
 	}
 
 	@Override
@@ -272,9 +282,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		projectNameText.setLayoutData(gd);
 		projectNameText.setFont(font);
-		projectNameText.addModifyListener(generalListener);
 		projectSelectionButton = createPushButton(group, BROWSE_WORKSPACE, null);
-		projectSelectionButton.addSelectionListener(generalListener);
 	}
 
 	protected final void createWorkingdirectoryEditor(final Composite parent) {
@@ -283,7 +291,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		if (workingDirectoryRequired) {
 			workingDirGroup.setText(WORKING_DIR_REQUIRED);
 		} else {
-			workingDirGroup.setText(WORKING_DIR);
+			workingDirGroup.setText(WORKING_DIR_NOT_REQUIRED);
 		}
 		workingDirGroup.setToolTipText(WORKING_DIR_TOOLTIP);
 		final GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -295,13 +303,12 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 
 		final IProject project = getProject();
 		if (project == null) {
-			workingdirectoryText = new TITANResourceLocator("working directory:", workingDirGroup, IResource.FOLDER, "");
+			workingdirectoryText = new TITANResourceLocator(WORKING_DIR, workingDirGroup, IResource.FOLDER, "");
 		} else {
-			workingdirectoryText = new TITANResourceLocator("working directory:", workingDirGroup, IResource.FOLDER, getProject().getLocation().toOSString());
+			workingdirectoryText = new TITANResourceLocator(WORKING_DIR, workingDirGroup, IResource.FOLDER, getProject().getLocation().toOSString());
 		}
 		workingdirectoryText.getLabelControl(workingDirGroup).setToolTipText(
 				"The location of the working directory. Where the build process will take place");
-		workingdirectoryText.getTextControl(workingDirGroup).addModifyListener(generalListener);
 	}
 
 	protected final void createExecutableEditor(final Composite parent) {
@@ -311,7 +318,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			executableGroup.setText(EXECUTABLE_REQUIRED);
 			executableGroup.setToolTipText(EXECUTABLE_REQUIRED_TOOLTIP);
 		} else {
-			executableGroup.setText(EXECUTABLE);
+			executableGroup.setText(EXECUTABLE_NOT_REQUIRED);
 			executableGroup.setToolTipText(EXECUTABLE_TOOLTIP);
 		}
 
@@ -329,13 +336,12 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			executableFileText = new TITANResourceLocator(EXECUTABLE, executableGroup, IResource.FILE, getProject().getLocation().toOSString());
 		}
 		executableFileText.getLabelControl(executableGroup).setToolTipText(EXECUTABLE_TOOLTIP);
-		executableFileText.getTextControl(executableGroup).addModifyListener(generalListener);
 	}
 
 	protected final void createConfigurationEditor(final Composite parent) {
 		final Font font = parent.getFont();
 		configFileGroup = new Group(parent, SWT.NONE);
-		configFileGroup.setText(CONFIGFILE);
+		configFileGroup.setText(CONFIGFILE_REQUIRED);
 		configFileGroup.setToolTipText(CONFIGFILE_TOOLTIP);
 		final GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		configFileGroup.setLayoutData(gd);
@@ -351,13 +357,11 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			configurationFileText = new TITANResourceLocator(CONFIGFILE, configFileGroup, IResource.FILE, getProject().getLocation().toOSString());
 		}
 		configurationFileText.getLabelControl(configFileGroup).setToolTipText(CONFIGFILE_TOOLTIP);
-		configurationFileText.getTextControl(configFileGroup).addModifyListener(generalListener);
 
 		automaticExecuteSectionExecution = new Button(configFileGroup, SWT.CHECK);
 		automaticExecuteSectionExecution.setText("Execute automatically");
 		automaticExecuteSectionExecution.setToolTipText("Execute the `EXECUTE' section of the configuration file automatically when launched");
 		automaticExecuteSectionExecution.setSelection(false);
-		automaticExecuteSectionExecution.addSelectionListener(generalListener);
 		automaticExecuteSectionExecution.setEnabled(true);
 	}
 
