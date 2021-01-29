@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.views.executormonitor;
 
+import static org.eclipse.titan.executor.GeneralConstants.SINGLEMODEJAVAEXECUTOR;
+
 import java.util.Iterator;
 
 import org.eclipse.core.runtime.CoreException;
@@ -571,8 +573,11 @@ public final class ExecutorMonitorView extends ViewPart {
 			return false;
 		}
 		try {
-			return NATIVE_JAVA_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType())
-					|| JNI_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType())
+			// TODO: this extra filter should be removed if Titan Java executor is properly implemented 
+			if (NATIVE_JAVA_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType())) {
+				return !launchConfiguration.getAttribute(SINGLEMODEJAVAEXECUTOR, false);
+			}
+			return JNI_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType())
 					|| SINGLE_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType())
 					|| MCTR_CLI_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType());
 		} catch (CoreException e) {

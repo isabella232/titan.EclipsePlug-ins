@@ -11,6 +11,7 @@ import static org.eclipse.titan.executor.GeneralConstants.CONFIGFILEPATH;
 import static org.eclipse.titan.executor.GeneralConstants.EXECUTABLEFILEPATH;
 import static org.eclipse.titan.executor.GeneralConstants.EXECUTECONFIGFILEONLAUNCH;
 import static org.eclipse.titan.executor.GeneralConstants.PROJECTNAME;
+import static org.eclipse.titan.executor.GeneralConstants.SINGLEMODEJAVAEXECUTOR;
 import static org.eclipse.titan.executor.GeneralConstants.WORKINGDIRECTORYPATH;
 
 import java.io.File;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.resources.ICommand;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
@@ -32,6 +34,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
+import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.ILaunchConfigurationTabGroup;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.window.Window;
@@ -52,16 +55,20 @@ import org.eclipse.titan.common.fieldeditors.TITANResourceLocator;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.cfg.ConfigFileHandler;
 import org.eclipse.titan.common.path.TITANPathUtilities;
+import org.eclipse.titan.designer.core.TITANJavaBuilder;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
+import org.eclipse.titan.designer.properties.data.ProjectFileHandler;
 import org.eclipse.titan.executor.designerconnection.DesignerHelper;
 import org.eclipse.titan.executor.designerconnection.DynamicLinkingHelper;
 import org.eclipse.titan.executor.designerconnection.EnvironmentHelper;
+import org.eclipse.titan.executor.executors.LaunchConfigurationUtil;
 import org.eclipse.titan.executor.graphics.ImageCache;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 /**
  * @author Kristof Szabados
+ * @author Adam Knapp
  * */
 public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab {
 	protected static final String EMPTY = "";
@@ -71,7 +78,8 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 			"This field is required.\n" +
 					"When an existing project is selected and the Designer plug-in is also present the working directory " +
 					"and executable fields are filled out automatically\n  with the values set as project properties.";
-	private static final String CONFIGFILE = "Configuration file (REQUIRED):";
+	private static final String CONFIGFILE = "  Configuration file:";
+	private static final String CONFIGFILE_REQUIRED = "Configuration file (REQUIRED):";
 	private static final String CONFIGFILE_TOOLTIP = "This field is required.\n" +
 			"The runtime configuration file used to describe the runtime behaviour of the executable test program.";
 	private static final String BROWSE_WORKSPACE = "Browse Workspace..";
@@ -117,6 +125,7 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 	private Group configFileGroup;
 	private Button projectSelectionButton;
 	private Button automaticExecuteSectionExecution;
+	private Button singleModeExecutionCheckBox;
 	protected boolean projectIsValid;
 	private boolean projectIsJava;
 	protected boolean configurationFileIsValid;
@@ -129,6 +138,14 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 		projectIsValid = true;
 		projectIsJava = true;
 		configurationFileIsValid = false;
+	}
+	
+	protected void addListeners() {
+		projectNameText.addModifyListener(generalListener);
+		projectSelectionButton.addSelectionListener(generalListener);
+		configurationFileText.getTextControl(configFileGroup).addModifyListener(generalListener);
+		automaticExecuteSectionExecution.addSelectionListener(generalListener);
+		singleModeExecutionCheckBox.addSelectionListener(generalListener);
 	}
 
 	@Override
@@ -166,37 +183,70 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 			if (!temp.equals(projectNameText.getText())) {
 				projectNameText.setText(temp);
 			}
-
+			addListeners();
 			temp = configuration.getAttribute(CONFIGFILEPATH, EMPTY);
 			if (!temp.equals(configurationFileText.getStringValue())) {
 				configurationFileText.setStringValue(temp);
 			}
-
-			final boolean tempBoolean = configuration.getAttribute(EXECUTECONFIGFILEONLAUNCH, false);
+			boolean tempBoolean = configuration.getAttribute(EXECUTECONFIGFILEONLAUNCH, false);
 			if (tempBoolean != automaticExecuteSectionExecution.getSelection()) {
 				automaticExecuteSectionExecution.setSelection(tempBoolean);
 			}
-
+			tempBoolean = configuration.getAttribute(SINGLEMODEJAVAEXECUTOR, false);
+			if (tempBoolean != singleModeExecutionCheckBox.getSelection()) {
+				singleModeExecutionCheckBox.setSelection(tempBoolean);
+			}
 			final IProject project = getProject();
 			if (project == null) {
 				return;
 			}
-
 			final String projectPath = project.getLocation().toOSString(); //TODO should use URI based addresses
 			configurationFileText.setRootPath(projectPath);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
+
 	}
 
 	@Override
 	public final void performApply(final ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(PROJECTNAME, projectNameText.getText());
-		configuration.setAttribute(CONFIGFILEPATH, configurationFileText.getStringValue());
+		final String configFileName = configurationFileText.getStringValue();
+		configuration.setAttribute(CONFIGFILEPATH, configFileName);
 		configuration.setAttribute(EXECUTECONFIGFILEONLAUNCH, automaticExecuteSectionExecution.getSelection());
+		final boolean singleMode = singleModeExecutionCheckBox.getSelection();
+		configuration.setAttribute(SINGLEMODEJAVAEXECUTOR, singleMode);
 
 		final IProject project = getProject();
-		configuration.setMappedResources(new IResource[] {project});
+		IFile configFile = null;
+		if (project != null) {
+			configFile = project.getFile(configFileName);
+		}
+		configuration.setMappedResources(new IResource[] {project, configFile});
+		
+		ArrayList<String> list = new ArrayList<String>(2);
+		try {
+			if (singleMode) {
+				final ILaunchConfiguration confSingle = LaunchConfigurationUtil.createJavaAppLaunchConfiguration(configuration);
+				if (confSingle == null) {
+					return;
+				}
+				LaunchConfigurationUtil.disableHCinGroupLaunchConfiguration(configuration);
+				list.add(confSingle.getName());
+				LaunchConfigurationUtil.setLinkedLaunchConfigurations(configuration, list);
+				return;
+			}
+			final ILaunchConfiguration confHC = LaunchConfigurationUtil.createJavaAppLaunchConfiguration(configuration);
+			final ILaunchConfiguration confGroup = LaunchConfigurationUtil.createGroupLaunchConfiguration(configuration, confHC);
+			if (confHC == null || confGroup == null) {
+				return;
+			}
+			list.add(confHC.getName());
+			list.add(confGroup.getName());
+			LaunchConfigurationUtil.setLinkedLaunchConfigurations(configuration, list);
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
 	}
 
 	@Override
@@ -206,6 +256,7 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 		configuration.setAttribute(EXECUTABLEFILEPATH, EMPTY);
 		configuration.setAttribute(CONFIGFILEPATH, EMPTY);
 		configuration.setAttribute(EXECUTECONFIGFILEONLAUNCH, false);
+		configuration.setAttribute(SINGLEMODEJAVAEXECUTOR, false);
 		configuration.setMappedResources(new IResource[0]);
 	}
 
@@ -224,15 +275,13 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		projectNameText.setLayoutData(gd);
 		projectNameText.setFont(font);
-		projectNameText.addModifyListener(generalListener);
 		projectSelectionButton = createPushButton(group, BROWSE_WORKSPACE, null);
-		projectSelectionButton.addSelectionListener(generalListener);
 	}
 
 	protected final void createConfigurationEditor(final Composite parent) {
 		final Font font = parent.getFont();
 		configFileGroup = new Group(parent, SWT.NONE);
-		configFileGroup.setText(CONFIGFILE);
+		configFileGroup.setText(CONFIGFILE_REQUIRED);
 		configFileGroup.setToolTipText(CONFIGFILE_TOOLTIP);
 		final GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		configFileGroup.setLayoutData(gd);
@@ -248,14 +297,18 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 			configurationFileText = new TITANResourceLocator(CONFIGFILE, configFileGroup, IResource.FILE, getProject().getLocation().toOSString());
 		}
 		configurationFileText.getLabelControl(configFileGroup).setToolTipText(CONFIGFILE_TOOLTIP);
-		configurationFileText.getTextControl(configFileGroup).addModifyListener(generalListener);
 
 		automaticExecuteSectionExecution = new Button(configFileGroup, SWT.CHECK);
 		automaticExecuteSectionExecution.setText("Execute automatically");
 		automaticExecuteSectionExecution.setToolTipText("Execute the `EXECUTE' section of the configuration file automatically when launched");
 		automaticExecuteSectionExecution.setSelection(false);
-		automaticExecuteSectionExecution.addSelectionListener(generalListener);
 		automaticExecuteSectionExecution.setEnabled(true);
+		
+		singleModeExecutionCheckBox = new Button(configFileGroup, SWT.CHECK);
+		singleModeExecutionCheckBox.setText("Execute in single mode");
+		singleModeExecutionCheckBox.setToolTipText("Executes the Titan Java project in single mode");
+		singleModeExecutionCheckBox.setSelection(false);
+		singleModeExecutionCheckBox.setEnabled(true);
 	}
 
 	/**
@@ -266,12 +319,13 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 		final ILabelProvider labelProvider = new WorkbenchLabelProvider();
 		final ElementListSelectionDialog dialog = new ElementListSelectionDialog(getShell(), labelProvider);
 		dialog.setTitle("Project selection");
-		dialog.setMessage("Select a project to constrain your search.");
+		dialog.setMessage("Assign a project to the run configuration");
 		final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		final List<IProject> availableProjects = new ArrayList<IProject>(projects.length);
 		for (final IProject project : projects) {
 			try {
-				if (project.isAccessible() && project.hasNature(DesignerHelper.NATURE_ID)) {
+				if (project.isAccessible() && project.hasNature(DesignerHelper.NATURE_ID)
+						&& TITANJavaBuilder.isBuilderEnabled(project)) {
 					availableProjects.add(project);
 				}
 			} catch (CoreException e) {
@@ -279,6 +333,13 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 			}
 		}
 
+		if (availableProjects.isEmpty()) {
+			ErrorReporter.parallelErrorDisplayInMessageDialog(
+					"Error while searching for projects in the workspace",
+					"No proper project was found in the workspace for this run configuration type");
+			return;
+		}
+		
 		dialog.setElements(availableProjects.toArray(new IProject[availableProjects.size()]));
 		if (dialog.open() == Window.OK) {
 			final String projectName = ((IProject) dialog.getFirstResult()).getName();
@@ -313,6 +374,24 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 		}
 
 		projectIsValid = true;
+		
+		final String projectPath = project.getLocation().toOSString();
+		configurationFileText.setRootPath(projectPath);
+		
+		final List<IFile> cfgFiles = ProjectFileHandler.getCfgFiles(project);
+		if (cfgFiles.size() == 1) {
+			configurationFileText.setStringValue(cfgFiles.get(0).getProjectRelativePath().toOSString());
+		} else if (cfgFiles.size() > 1) {
+			final ILabelProvider labelProvider = DebugUITools.newDebugModelPresentation();
+			final ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
+			dialog.setTitle("Config File Selection");
+			dialog.setMessage("Select existing cfg file:");
+			dialog.setElements(cfgFiles.toArray(new IFile[cfgFiles.size()]));
+			if (dialog.open() == Window.OK) {
+				configurationFileText.setStringValue(
+						((IFile) dialog.getFirstResult()).getProjectRelativePath().toOSString());
+			}
+		}
 
 		checkJavaBuilder(project);
 	}
@@ -345,6 +424,7 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 	protected final void handleConfigurationModified() {
 		if (EMPTY.equals(configurationFileText.getStringValue())) {
 			automaticExecuteSectionExecution.setEnabled(false);
+			singleModeExecutionCheckBox.setEnabled(false);
 			return;
 		}
 
@@ -380,6 +460,7 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 			if (exceptions.isEmpty()) {
 				configurationFileIsValid = true;
 				automaticExecuteSectionExecution.setEnabled(true);
+				singleModeExecutionCheckBox.setEnabled(true);
 				return;
 			}
 		}
@@ -387,6 +468,7 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 		exceptions.clear();
 		exceptions.add(new Exception("The path `" + URIUtil.toPath(uri) + "' does not seem to be correct."));
 		automaticExecuteSectionExecution.setEnabled(false);
+		singleModeExecutionCheckBox.setEnabled(false);
 	}
 
 	/**
