@@ -10,6 +10,7 @@ package org.eclipse.titan.executor.executors.single;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.titan.executor.tabpages.maincontroller.SingleMainControllerTab;
+import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
 
 /**
  * @author Kristof Szabados
@@ -20,7 +21,7 @@ public final class LaunchShortcut extends org.eclipse.titan.executor.executors.L
 	@Override
 	/** {@inheritDoc} */
 	protected String getConfigurationId() {
-		return "org.eclipse.titan.executor.executors.single.LaunchConfigurationDelegate";
+		return ExecutorMonitorView.SINGLE_MODE_LAUNCHCONFIGURATION_ID;
 	}
 
 	@Override

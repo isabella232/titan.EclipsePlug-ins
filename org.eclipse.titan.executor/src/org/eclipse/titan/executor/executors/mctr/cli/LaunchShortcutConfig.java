@@ -10,6 +10,7 @@ package org.eclipse.titan.executor.executors.mctr.cli;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.titan.executor.tabpages.maincontroller.MctrCliMainControllerTab;
+import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
 
 /**
  * @author Kristof Szabados
@@ -18,7 +19,7 @@ public final class LaunchShortcutConfig extends org.eclipse.titan.executor.execu
 	@Override
 	/** {@inheritDoc} */
 	protected String getConfigurationId() {
-		return "org.eclipse.titan.executor.executors.mctr.cli.LaunchConfigurationDelegate";
+		return ExecutorMonitorView.MCTR_CLI_MODE_LAUNCHCONFIGURATION_ID;
 	}
 
 	@Override
