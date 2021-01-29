@@ -151,7 +151,13 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Launches the given configuration in the specified mode 
+	 * @param configuration launch configuration to start
+	 * @param mode one of the launch modes defined by the launchmanager
+	 * @throws CoreException
+	 */
 	protected void performLaunch(ILaunchConfiguration configuration, final String mode) throws CoreException {
 		if (configuration.isWorkingCopy()) {
 			configuration = ((ILaunchConfigurationWorkingCopy)configuration).doSave();
