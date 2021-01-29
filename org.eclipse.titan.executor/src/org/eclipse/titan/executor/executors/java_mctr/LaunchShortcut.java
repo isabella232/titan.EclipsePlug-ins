@@ -7,19 +7,28 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.executors.java_mctr;
 
+import static org.eclipse.titan.executor.GeneralConstants.SINGLEMODEJAVAEXECUTOR;
+
+import java.util.ArrayList;
+
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.titan.executor.executors.LaunchConfigurationUtil;
 import org.eclipse.titan.executor.tabpages.maincontroller.NativeJavaMainControllerTab;
+import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
 
 /**
  * @author Kristof Szabados
+ * @author Adam Knapp
  * */
 public final class LaunchShortcut extends org.eclipse.titan.executor.executors.LaunchShortcut {
 
 	@Override
 	/** {@inheritDoc} */
 	protected String getConfigurationId() {
-		return "org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate";
+		return ExecutorMonitorView.NATIVE_JAVA_LAUNCHCONFIGURATION_ID;
 	}
 
 	@Override
@@ -27,11 +36,45 @@ public final class LaunchShortcut extends org.eclipse.titan.executor.executors.L
 	protected String getDialogTitle() {
 		return "Select (parallel) native Java mode execution configuration";
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected String getLaunchConfigurationType() {
-		return "Parallel-Java";
+		return "MC-Java";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	protected void performLaunch(ILaunchConfiguration configuration, final String mode) throws CoreException {
+		ILaunchConfigurationWorkingCopy wc = null;
+		if (configuration.isWorkingCopy()) {
+			wc = (ILaunchConfigurationWorkingCopy)configuration;
+		} else {
+			wc = configuration.getWorkingCopy();
+		}
+		final boolean singleMode = wc.getAttribute(SINGLEMODEJAVAEXECUTOR, false);
+		ArrayList<String> list = new ArrayList<String>(2);
+		if (singleMode) {
+			final ILaunchConfiguration confSingle = LaunchConfigurationUtil.createJavaAppLaunchConfiguration(wc);
+			if (confSingle == null) {
+				return;
+			}
+			list.add(confSingle.getName());
+			LaunchConfigurationUtil.setLinkedLaunchConfigurations(wc, list);
+			configuration = wc.doSave();
+			configuration.launch(mode, null);
+			return;
+		}
+		final ILaunchConfiguration confHC = LaunchConfigurationUtil.createJavaAppLaunchConfiguration(wc);
+		final ILaunchConfiguration confGroup = LaunchConfigurationUtil.createGroupLaunchConfiguration(wc, confHC);
+		if (confHC == null || confGroup == null) {
+			return;
+		}
+		list.add(confHC.getName());
+		list.add(confGroup.getName());
+		LaunchConfigurationUtil.setLinkedLaunchConfigurations(wc, list);
+		configuration = wc.doSave();
+		//confGroup.launch(mode, null);
 	}
 
 	@Override
@@ -39,6 +82,5 @@ public final class LaunchShortcut extends org.eclipse.titan.executor.executors.L
 	public boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration, final IProject project, final String configFilePath) {
 		return NativeJavaMainControllerTab.initLaunchConfiguration(configuration, project, configFilePath);
 	}
-
 
 }

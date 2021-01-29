@@ -31,6 +31,7 @@ public final class GeneralConstants {
 	public static final String CONFIGFILEPATH = PLUGIN_ID + ".configurationFilePath";
 	public static final String SHORTCUTEXECUTION = PLUGIN_ID + ".executeStartedFromShortCut";
 	public static final String EXECUTECONFIGFILEONLAUNCH = PLUGIN_ID + ".executeConfigurationFileOnLaunch";
+	public static final String SINGLEMODEJAVAEXECUTOR = PLUGIN_ID + ".singleModeJavaExecutor";
 	public static final String HOSTNAMES = PLUGIN_ID + ".hostNames";
 	public static final String HOSTWORKINGDIRECTORIES = PLUGIN_ID + ".hostWorkingDirectories";
 	public static final String HOSTEXECUTABLES = PLUGIN_ID + ".hostExecutables";
