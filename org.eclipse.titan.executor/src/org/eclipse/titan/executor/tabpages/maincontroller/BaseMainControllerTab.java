@@ -75,6 +75,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 /**
  * @author Kristof Szabados
+ * @author Adam Knapp
  * */
 public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationTab {
 	protected static final String EMPTY = "";
@@ -168,6 +169,15 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		configurationFileIsValid = false;
 		executableFileIsValid = false;
 	}
+	
+	protected void addListeners() {
+		projectSelectionButton.addSelectionListener(generalListener);
+		projectNameText.addModifyListener(generalListener);
+		workingdirectoryText.getTextControl(workingDirGroup).addModifyListener(generalListener);
+		executableFileText.getTextControl(executableGroup).addModifyListener(generalListener);
+		configurationFileText.getTextControl(configFileGroup).addModifyListener(generalListener);
+		automaticExecuteSectionExecution.addSelectionListener(generalListener);
+	}
 
 	@Override
 	public final void createControl(final Composite parent) {
@@ -206,6 +216,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			if (!temp.equals(projectNameText.getText())) {
 				projectNameText.setText(temp);
 			}
+			addListeners();
 			temp = configuration.getAttribute(WORKINGDIRECTORYPATH, EMPTY);
 			if (!temp.equals(workingdirectoryText.getStringValue())) {
 				workingdirectoryText.setStringValue(temp);
@@ -218,17 +229,14 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			if (!temp.equals(configurationFileText.getStringValue())) {
 				configurationFileText.setStringValue(temp);
 			}
-
 			final boolean tempBoolean = configuration.getAttribute(EXECUTECONFIGFILEONLAUNCH, false);
 			if (tempBoolean != automaticExecuteSectionExecution.getSelection()) {
 				automaticExecuteSectionExecution.setSelection(tempBoolean);
 			}
-
 			final IProject project = getProject();
 			if (project == null) {
 				return;
 			}
-
 			final String projectPath = project.getLocation().toOSString(); //TODO should use URI based addresses
 			workingdirectoryText.setRootPath(projectPath);
 			configurationFileText.setRootPath(projectPath);
@@ -236,13 +244,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-		
-		projectSelectionButton.addSelectionListener(generalListener);
-		projectNameText.addModifyListener(generalListener);
-		workingdirectoryText.getTextControl(workingDirGroup).addModifyListener(generalListener);
-		executableFileText.getTextControl(executableGroup).addModifyListener(generalListener);
-		configurationFileText.getTextControl(configFileGroup).addModifyListener(generalListener);
-		automaticExecuteSectionExecution.addSelectionListener(generalListener);
+
 	}
 
 	@Override
