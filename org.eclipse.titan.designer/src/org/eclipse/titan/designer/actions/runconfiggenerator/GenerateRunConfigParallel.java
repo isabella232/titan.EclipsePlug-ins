@@ -93,8 +93,11 @@ public class GenerateRunConfigParallel extends GenerateRunConfigBase {
 		String localAddress = configHandler.getLocalAddress();
 		if (isNullOrEmpty(localAddress)) {
 			localAddress = "127.0.0.1";
-			TITANConsole.println("\"LocalAddress\" parameter is missing from configuration file: " 
-					+ file.getFullPath().toOSString());
+			ErrorReporter.parallelWarningDisplayInMessageDialog(
+					"Error while generating the default launch configuration for project " + projectName, 
+					"\"LocalAddress\" parameter is missing from configuration file: " + file.getFullPath().toOSString() +
+					"\nUsing default: " + localAddress);
+			TITANConsole.println("\"LocalAddress\" parameter is missing from configuration file: " + file.getFullPath().toOSString());
 			TITANConsole.println("Using default: " + localAddress);
 			
 		}
@@ -103,6 +106,10 @@ public class GenerateRunConfigParallel extends GenerateRunConfigBase {
 		if (tcpPort == 0) {
 			ErrorReporter.logError("\"TCPPort\" parameter is missing from configuration file: " 
 					+ file.getFullPath().toOSString());
+			ErrorReporter.parallelErrorDisplayInMessageDialog(
+					"Error while generating the default launch configuration for project " + projectName, 
+					"\"TCPPort\" parameter is missing from configuration file: " + file.getFullPath().toOSString() +
+					"\nCannot continue");
 			TITANConsole.println("\"TCPPort\" parameter is missing from configuration file: " 
 					+ file.getFullPath().toOSString());
 			TITANConsole.println("Cannot continue");
