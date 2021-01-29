@@ -283,8 +283,7 @@ public final class UniversalCharstring_Type extends Type {
 			ps.check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, timestamp);
 			if (!ps.has_refs()) {
 				ps.check_pattern();
-			} else
-				report_error = true;
+			}
 			break;
 		}
 		case USTR_PATTERN: {
@@ -292,8 +291,7 @@ public final class UniversalCharstring_Type extends Type {
 			ps.check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, timestamp);
 			if (!ps.has_refs()) {
 				ps.check_pattern();
-			} else  
-				report_error = true;
+			}
 			break;
 		}
 		case DECODE_MATCH:
