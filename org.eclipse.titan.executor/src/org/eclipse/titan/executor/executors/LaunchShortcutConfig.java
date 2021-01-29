@@ -16,7 +16,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -57,7 +56,7 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 	
 	/**
 	 * Returns the launch configuration type:
-	 * Single, Parallel, Parallel-JNI, Parallel-Java
+	 * Single, Parallel, Parallel-JNI, MC-Java
 	 * @return Type of launch configuration
 	 */
 	protected abstract String getLaunchConfigurationType();
@@ -83,26 +82,37 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 	protected ILaunchConfigurationWorkingCopy getWorkingCopy(final IProject project, final IFile file, final String mode) {
 
 		try {
-			final ILaunchConfigurationType configurationType = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurationType(getConfigurationId());
-			final ILaunchConfiguration[] configurations = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations(configurationType);
+			final ILaunchConfigurationType configurationType = LaunchConfigurationUtil.getLaunchManager().getLaunchConfigurationType(getConfigurationId());
+			final ILaunchConfiguration[] configurations = LaunchConfigurationUtil.getLaunchManager().getLaunchConfigurations(configurationType);
 			final List<ILaunchConfiguration> candidateConfigurations = new ArrayList<ILaunchConfiguration>();
 			for (final ILaunchConfiguration configuration : configurations) {
 				final IResource[] resources = configuration.getMappedResources();
-				if (null != resources) {
-					boolean found = false;
+				if (resources == null || resources.length < 2) {
+					continue;
+				}
+				boolean found = false;
+				for (final IResource resource : resources) {
+					if (resource.equals(project)) {
+						found = true;
+						break;
+					}
+				}
+				if (found) {
+					found = false;
 					for (final IResource resource : resources) {
 						if (file.equals(resource)) {
 							found = true;
+							break;
 						}
 					}
-					if (found) {
-						candidateConfigurations.add(configuration);
-					}
+				}
+				if (found) {
+					candidateConfigurations.add(configuration);
 				}
 			}
 
 			if (1 == candidateConfigurations.size()) {
-				candidateConfigurations.get(0).launch(mode, null);
+				performLaunch(candidateConfigurations.get(0), mode);
 				return null;
 			} else if (candidateConfigurations.size() > 1) {
 				final ILabelProvider labelProvider = DebugUITools.newDebugModelPresentation();
@@ -112,7 +122,7 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 				dialog.setElements(candidateConfigurations.toArray(new ILaunchConfiguration[candidateConfigurations.size()]));
 				if (dialog.open() == Window.OK) {
 					final ILaunchConfiguration result = (ILaunchConfiguration) dialog.getFirstResult();
-					result.launch(mode, null);
+					performLaunch(result, mode);
 					labelProvider.dispose();
 					return null;
 				}
@@ -122,7 +132,14 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 			// size() == 0 case: create new configuration
 			final String configurationName = file.getFullPath().toString().substring(1).replace("/", "-") 
 					+ "-" + getLaunchConfigurationType();
-			final ILaunchConfigurationWorkingCopy wc = configurationType.newInstance(null, configurationName);
+			ILaunchConfiguration config = LaunchConfigurationUtil.findLaunchConfigurationByName(configurationName, configurationType);
+			ILaunchConfigurationWorkingCopy wc = null;
+			if (config != null) {
+				wc = config.getWorkingCopy();
+			} else {
+				wc = configurationType.newInstance(null, 
+						LaunchConfigurationUtil.getLaunchManager().generateLaunchConfigurationName(configurationName));
+			}
 			wc.setMappedResources(new IResource[] {project, file});
 			wc.setAttribute(EXECUTECONFIGFILEONLAUNCH, true);
 
@@ -132,7 +149,13 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 			return null;
 		}
 	}
-
+	
+	protected void performLaunch(ILaunchConfiguration configuration, final String mode) throws CoreException {
+		if (configuration.isWorkingCopy()) {
+			configuration = ((ILaunchConfigurationWorkingCopy)configuration).doSave();
+		}
+		configuration.launch(mode, null);
+	}
 
 	@Override
 	/** {@inheritDoc} */
@@ -165,23 +188,22 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 			ErrorReporter.logError("Project file not found");
 			return;
 		}
+		
+		final ILaunchConfigurationWorkingCopy wc = getWorkingCopy(project, file, mode);
+		if (wc == null) {
+			return; //successful launch
+		}
+
+		boolean result = initLaunchConfiguration(wc, project, 
+				PathUtil.getRelativePath(project.getLocation().toOSString(), file.getLocation().toOSString()));
+		if (result) {
+			result = HostControllersTab.initLaunchConfiguration(wc);
+		}
 		try {
-			final ILaunchConfigurationWorkingCopy wc = getWorkingCopy(project, file, mode);
-			if (wc == null) {
-				return; //successful launch
-			}
-
-			boolean result = initLaunchConfiguration(wc, project, 
-					PathUtil.getRelativePath(project.getLocation().toOSString(), file.getLocation().toOSString()));
-			if (result) {
-				result = HostControllersTab.initLaunchConfiguration(wc);
-			}
-
 			if (result) {
 				wc.setMappedResources(new IResource[] {project, file});
 				wc.setAttribute(EXECUTECONFIGFILEONLAUNCH, true);
-				final ILaunchConfiguration conf = wc.doSave();
-				conf.launch(mode, null);
+				performLaunch(wc, mode);
 			}
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
