@@ -22,10 +22,7 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.internal.core.groups.GroupLaunchConfigurationDelegate;
 import org.eclipse.debug.internal.core.groups.GroupLaunchElement;
 import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IModuleDescription;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
@@ -144,11 +141,6 @@ public final class LaunchConfigurationUtil {
 
 		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, type.getFullyQualifiedName());
 		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, projectName);
-		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MODULE_NAME, getModuleName(type));
-		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_USE_ARGFILE, false);
-		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_USE_CLASSPATH_ONLY_JAR, false);
-		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES, true);
-		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_USE_START_ON_FIRST_THREAD, true);
 		if (singleMode) {
 			wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, configFile);
 			List<String> list = new ArrayList<String>(1);
@@ -419,24 +411,6 @@ public final class LaunchConfigurationUtil {
 		elHC.enabled = enableHC;
 		configList.add(elHC);
 		return configList;
-	}
-
-	/**
-	 * Extracts the module name from the specified type. Originates from 
-	 * org.eclipse.jdt.debug.ui.launchConfigurations.JavaApplicationLaunchShortcut#getModuleName 
-	 * @param type Type from which the module name is extracted
-	 * @return The extracted module name
-	 * @see org.eclipse.jdt.debug.ui.launchConfigurations.JavaApplicationLaunchShortcut#getModuleName
-	 */
-	private static String getModuleName(IType type) {
-		IJavaElement javaElement = type.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
-		if (javaElement instanceof IPackageFragmentRoot) {
-			IModuleDescription moduleDescription = ((IPackageFragmentRoot) (javaElement)).getModuleDescription();
-			if (moduleDescription != null) {
-				return moduleDescription.getElementName();
-			}
-		}
-		return "";
 	}
 
 }
