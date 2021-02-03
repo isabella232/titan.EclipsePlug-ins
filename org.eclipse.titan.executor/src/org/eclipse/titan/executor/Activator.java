@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.executor;
 
+import org.eclipse.titan.executor.executors.java_mctr.LinkedLaunchConfigurationChangeListener;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -23,6 +24,7 @@ public final class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin = null;
 	private static ExecutorMonitorView mainView = null;
+	private static LinkedLaunchConfigurationChangeListener changeListener = null;
 
 	/**
 	 * Default constructor for the activator.
@@ -30,12 +32,13 @@ public final class Activator extends AbstractUIPlugin {
 	 * */
 	public Activator() {
 		setDefault(this);
+		changeListener = new LinkedLaunchConfigurationChangeListener();
 	}
 
 	@Override
 	public void stop(final BundleContext context) throws Exception {
 		setDefault(null);
-
+		changeListener.deregister();
 		super.stop(context);
 	}
 

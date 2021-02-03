@@ -64,7 +64,7 @@ public final class LaunchConfigurationUtil {
 			return null;
 		}
 		String configurationName = getLinkedGroupLaunchConfigurationName(configMC);
-		if (configurationName == null) {
+		if (configurationName.isEmpty()) {
 			configurationName = projectName + "-" + configFile.replace("/", "-") + "-Parallel-Java";
 		}
 		ILaunchConfiguration config = findGroupLaunchConfigurationByName(configurationName);
@@ -114,12 +114,12 @@ public final class LaunchConfigurationUtil {
 		String mainType = "";
 		String configurationName = getLinkedJavaAppLaunchConfigurationName(configuration);
 		if (singleMode) {
-			if (configurationName == null) {
+			if (configurationName.isEmpty()) {
 				configurationName = projectName + "-" + configFile.replace("/", "-") + "-Single-Java";
 			}
 			mainType = MessageFormat.format(MAIN_SINGLE, projectName);
 		} else {
-			if (configurationName == null) {
+			if (configurationName.isEmpty()) {
 				configurationName = projectName + "-" + configFile.replace("/", "-") + "-HC-Java";
 			}
 			mainType = MessageFormat.format(MAIN_PARALLEL, projectName);
@@ -333,7 +333,7 @@ public final class LaunchConfigurationUtil {
 	/**
 	 * Returns the name of the linked launch group configuration.
 	 * @param configuration Launch configuration of the Main Controller
-	 * @return The name of the linked launch group configuration or {@code null} if no launch group configuration is linked
+	 * @return The name of the linked launch group configuration or empty string if no launch group configuration is linked
 	 * @throws CoreException
 	 */
 	public static String getLinkedGroupLaunchConfigurationName(final ILaunchConfiguration configuration) throws CoreException {
@@ -341,13 +341,13 @@ public final class LaunchConfigurationUtil {
 		if (list != null && list.size() == 2) {
 			return list.get(1);
 		}
-		return null;
+		return "";
 	}
 
 	/**
 	 * Returns the name of the linked java app launch configuration.
 	 * @param configuration Launch configuration of the Main Controller
-	 * @return The name of the linked java app launch configuration or {@code null} if no java app launch configuration is linked
+	 * @return The name of the linked java app launch configuration or empty string if no Java app launch configuration is linked
 	 * @throws CoreException
 	 */
 	public static String getLinkedJavaAppLaunchConfigurationName(final ILaunchConfiguration configuration) throws CoreException {
@@ -355,7 +355,7 @@ public final class LaunchConfigurationUtil {
 		if (list != null && !list.isEmpty()) {
 			return list.get(0);
 		}
-		return null;
+		return "";
 	}
 
 	/**
