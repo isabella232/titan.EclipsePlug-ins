@@ -140,6 +140,11 @@ public class Cli extends UserInterface {
 			System.out.printf("Using configuration file: %s\n", config_file.getName());
 
 			final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
+			if (config_file == null) {
+				System.out.println("Error was found in the configuration file. Exiting");
+				cleanUp();
+				return EXIT_FAILURE;
+			}
 			final boolean config_file_failure = cfgAnalyzer.parse(config_file);
 			if (config_file_failure) {
 				System.out.println("Error was found in the configuration file. Exiting");
