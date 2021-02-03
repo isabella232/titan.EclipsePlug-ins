@@ -6,6 +6,7 @@ import static org.eclipse.titan.executor.GeneralConstants.CONFIGFILEPATH;
 import static org.eclipse.titan.executor.GeneralConstants.PROJECTNAME;
 import static org.eclipse.titan.executor.GeneralConstants.SINGLEMODEJAVAEXECUTOR;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,6 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.internal.core.groups.GroupLaunchConfigurationDelegate;
 import org.eclipse.debug.internal.core.groups.GroupLaunchElement;
 import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.cfg.ConfigFileHandler;
@@ -41,6 +39,7 @@ public final class LaunchConfigurationUtil {
 
 	private static final String MAIN_SINGLE = "org.eclipse.titan.{0}.generated.Single_main";
 	private static final String MAIN_PARALLEL = "org.eclipse.titan.{0}.generated.Parallel_main";
+	private static final String PATH_PREFIX = "java_src";
 	private static final String GROUP_LAUNCH_CONFIGURATION_ID = "org.eclipse.debug.core.groups.GroupLaunchConfigurationType";
 	private static final String LAUNCH_CONFIGURATION_LIST_ATTR = PLUGIN_ID + ".linkedLaunchConfigurations";
 
@@ -112,22 +111,18 @@ public final class LaunchConfigurationUtil {
 		if (project == null) {
 			return null;
 		}
-		final IJavaProject javaProject = JavaCore.create(project);
 		String mainType = "";
-		IType type = null;
 		String configurationName = getLinkedJavaAppLaunchConfigurationName(configuration);
 		if (singleMode) {
 			if (configurationName == null) {
 				configurationName = projectName + "-" + configFile.replace("/", "-") + "-Single-Java";
 			}
 			mainType = MessageFormat.format(MAIN_SINGLE, projectName);
-			type = javaProject.findType(mainType);
 		} else {
 			if (configurationName == null) {
 				configurationName = projectName + "-" + configFile.replace("/", "-") + "-HC-Java";
 			}
 			mainType = MessageFormat.format(MAIN_PARALLEL, projectName);
-			type = javaProject.findType(mainType);
 		}
 
 		ILaunchConfiguration config = findJavaAppLaunchConfigurationByName(configurationName);
@@ -139,7 +134,7 @@ public final class LaunchConfigurationUtil {
 					getLaunchManager().generateLaunchConfigurationName(configurationName));
 		}
 
-		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, type.getFullyQualifiedName());
+		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, mainType);
 		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, projectName);
 		if (singleMode) {
 			wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, configFile);
@@ -150,7 +145,8 @@ public final class LaunchConfigurationUtil {
 			final String args = getArgsForParallelLaunch(project, configFile);
 			wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, args);
 		}
-		wc.setMappedResources(new IResource[] {type.getUnderlyingResource()});
+		final IFile mainFile = project.getFile(PATH_PREFIX + File.separator + mainType.replace('.', File.separatorChar));
+		wc.setMappedResources(new IResource[] {mainFile});
 
 		config = wc.doSave();
 		return config;
