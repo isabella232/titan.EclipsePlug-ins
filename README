@@ -5,7 +5,10 @@
 # which accompanies this distribution, and is available at
 # https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
 ###############################################################################
-#README file for the innersourced Titan Eclipse plugins project
+
+The intended audience of this README file are the Titan Eclipse plugins project developers.
+This file describes the main steps to create the development environment for the Titan Eclipse plugins project.
+
 ----------------------------------------------------------------------
 1. VERSION REQUIREMENTS
 ----------------------------------------------------------------------
@@ -16,7 +19,7 @@ ANTLR 4 SDK 0.3.5, available on Eclipse Marketplace
 ANTLR Runtime 4.3, recommended: 4.3, available at Eclipse Orbit
 Ant 1.9.2 or higher 
 NOTE: Build will not work below 1.8 for sure!
-Eclipse Standard or Java 4.3 (Juno) or higher, recommended: 4.7.1 (Oxygen)
+Eclipse Standard or Java 4.7.0 (Oxygen) or higher, recommended: 4.18.0
 ANTLR 4.3
 ----------------------------------------------------------------------
 2. SETTING UP ECLIPSE FOR TITAN PLUGIN DEVELOPMENT
