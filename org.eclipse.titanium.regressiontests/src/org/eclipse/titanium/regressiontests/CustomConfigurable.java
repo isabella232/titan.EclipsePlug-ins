@@ -21,10 +21,10 @@ package org.eclipse.titanium.regressiontests;
  */
 public class CustomConfigurable {
 	/** Location of the license file. Set to <code>null</code> to omit the regarded checks */
-	public static String LICENSE_FILE = "C:\\cygwin\\home\\ekrisza\\license_1484.dat";
+	public static String LICENSE_FILE = System.getenv("TTCN3_LICENSE_FILE");
 
 	/** The folder, where the project directory resides */
-	public static String PROJECT_FOLDER = "file:///C:/Users/ekrisza/runtime-New_configuration/";
+	public static String PROJECT_FOLDER = "file:///" + System.getProperty("user.dir") + "/../";
 	/** The name of the tested project */
 	public static final String PROJECT_TO_USE = "Regression_test_project";
 
