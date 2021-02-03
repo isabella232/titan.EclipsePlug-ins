@@ -35,7 +35,7 @@
       modes="run"
       id="org.eclipse.titan.executor.executors.single.LaunchConfigurationDelegate">
     </launchConfigurationType>
-    <launchConfigurationType name="TITAN JNI launcher"
+    <launchConfigurationType name="TITAN JNI launcher (obsolete)"
       delegate="org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate"
       modes="run"
       id="org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate">
@@ -171,7 +171,7 @@
     </shortcut>
     <shortcut class="org.eclipse.titan.executor.executors.jni.LaunchShortcut"
       id="org.eclipse.titan.executor.executors.jni.LaunchShortcut"
-      label="TITAN JNI launcher" icon="icons/launch_jni.gif"
+      label="TITAN JNI launcher (obsolete)" icon="icons/launch_jni.gif"
       description="Launch an execution in jni mode" modes="run">
       <description description="Runs a local TITAN application"
         mode="run">
@@ -200,7 +200,7 @@
       class="org.eclipse.titan.executor.executors.jni.LaunchShortcutConfig"
       description="Launch an execution in jni mode" icon="icons/launch_jni.gif"
       id="org.eclipse.titan.executor.executors.jni.LaunchShortcutConfig"
-      label="TITAN JNI launcher" modes="run">
+      label="TITAN JNI launcher (obsolete)" modes="run">
       <description description="Runs a local TITAN application"
         mode="run">
       </description>
