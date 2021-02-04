@@ -74,7 +74,7 @@ public final class LaunchShortcut extends org.eclipse.titan.executor.executors.L
 		list.add(confGroup.getName());
 		LaunchConfigurationUtil.setLinkedLaunchConfigurations(wc, list);
 		configuration = wc.doSave();
-		//confGroup.launch(mode, null);
+		confGroup.launch(mode, null);
 	}
 
 	@Override

@@ -402,8 +402,6 @@ public final class LaunchConfigurationUtil {
 		GroupLaunchElement elHC = new GroupLaunchElement();
 		elHC.index = 1;
 		elHC.name = HCName;
-		elHC.action = GroupLaunchElement.GroupElementPostLaunchAction.OUTPUT_REGEXP;
-		elHC.actionParam = new String("Listening on IP address");
 		elHC.enabled = enableHC;
 		configList.add(elHC);
 		return configList;
