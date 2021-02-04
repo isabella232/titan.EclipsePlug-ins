@@ -19,7 +19,7 @@ ANTLR 4 SDK 0.3.5, available on Eclipse Marketplace
 ANTLR Runtime 4.3, recommended: 4.3, available at Eclipse Orbit
 Ant 1.9.2 or higher 
 NOTE: Build will not work below 1.8 for sure!
-Eclipse Standard or Java 4.7.0 (Oxygen) or higher, recommended: 4.18.0
+Eclipse IDE for Eclipse Committers 4.7.0 or higher, recommended: 4.18.0
 ANTLR 4.3
 ----------------------------------------------------------------------
 2. SETTING UP ECLIPSE FOR TITAN PLUGIN DEVELOPMENT
