@@ -140,6 +140,9 @@ public class ConfigData {
 
 	//Package-private
 	static String getConfigFileContent(File config_file) {
+		if (config_file == null) {
+			return "";
+		}
 		StringBuilder contentBuilder = new StringBuilder();
 		BufferedReader br = null;
 
