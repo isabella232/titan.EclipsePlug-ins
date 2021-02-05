@@ -962,7 +962,10 @@ public final class InternalMakefileGenerator {
 		}
 		contents.append("\n\n");
 		contents.append("# Flags for the linker:\n");
-		contents.append("LDFLAGS = ").append(useCrossCompilation ? "-L$(CROSSTOOL_DIR)/lib " : "");
+		contents.append("LDFLAGS = ");
+		if (useCrossCompilation) {
+			contents.append("-L$(CROSSTOOL_DIR)/lib ");
+		}
 		contents.append( LinkerFlagsOptionsData.getLinkerFlags(project));
 		if (dynamicLinking) {
 			contents.append(" -fPIC");
@@ -2469,7 +2472,11 @@ public final class InternalMakefileGenerator {
 			}
 		}
 		contents.append(" \\\n");
-		contents.append("\t-L$(TTCN3_").append(useCrossCompilation ? "TARGET_" : "").append("DIR)/lib");
+		contents.append("\t-L$(TTCN3_");
+		if (useCrossCompilation) {
+			contents.append("TARGET_");
+		}
+		contents.append("DIR)/lib");
 		if (!externalLibrariesDisabled) {
 			contents.append(" -L$(OPENSSL_DIR)/lib -L$(XMLDIR)/lib");
 		}
