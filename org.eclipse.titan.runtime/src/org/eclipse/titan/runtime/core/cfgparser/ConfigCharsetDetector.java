@@ -49,7 +49,7 @@ public final class ConfigCharsetDetector {
 			 * Files.readAllBytes(p_file.toPath());
 			 **/
 		} catch (IOException e) {
-			throw new TtcnError(e);
+			throw new TtcnError(e.getMessage());
 		} finally {
 			try {
 				if (file_input != null) {
@@ -59,7 +59,7 @@ public final class ConfigCharsetDetector {
 					file_channel.close();
 				}
 			} catch (IOException e) {
-				throw new TtcnError(e);
+				throw new TtcnError(e.getMessage());
 			}
 		}
 	}
