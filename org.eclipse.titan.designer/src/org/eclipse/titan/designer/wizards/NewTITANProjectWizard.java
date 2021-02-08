@@ -59,9 +59,9 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 	private NewTITANProjectOptionsWizardPage optionsPage;
 	private NewTITANProjectContentPage contentPage;
 	private IProject newProject;
-	private static final String NEWPROJECT_WINDOWTITLE = "New TITAN Project";
-	private static final String NEWPROJECT_TITLE = "Create a TITAN Project";
-	private static final String NEWPROJECT_DESCRIPTION = "Create a new TITAN project in the workspace or in an external location";
+	private static final String NEWPROJECT_WINDOWTITLE = "New TITAN Project (C++)";
+	private static final String NEWPROJECT_TITLE = "Create a TITAN Project (C++)";
+	private static final String NEWPROJECT_DESCRIPTION = "Create a new TITAN C++ project in the workspace or in an external location";
 	private static final String CREATING_PROJECT = "creating project";
 	private static final String CREATION_FAILED = "Project creation failed";
 	private static final String TRUE = "true";

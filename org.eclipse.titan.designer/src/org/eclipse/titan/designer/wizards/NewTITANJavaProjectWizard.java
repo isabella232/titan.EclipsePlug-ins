@@ -59,8 +59,8 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
  *   Users should not be able to activate this feature before it is ready and stable.
  * */
 public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements IExecutableExtension {
-	private static final String NEWPROJECT_WINDOWTITLE = "New TITAN Java Project";
-	private static final String NEWPROJECT_TITLE = "Create a TITAN Java Project";
+	private static final String NEWPROJECT_WINDOWTITLE = "New TITAN Project (Java)";
+	private static final String NEWPROJECT_TITLE = "Create a TITAN Project (Java)";
 	private static final String NEWPROJECT_DESCRIPTION = "Create a new TITAN Java project in the workspace or in an external location";
 	private static final String CREATING_PROJECT = "creating project";
 	private static final String CREATION_FAILED = "Project creation failed";

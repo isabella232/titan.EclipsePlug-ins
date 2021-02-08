@@ -35,8 +35,8 @@ import org.eclipse.ui.dialogs.PropertyPage;
  * @author Kristof Szabados
  * */
 public final class ProjectBuildPropertyPage extends PropertyPage {
-	public static final String BUILDER_IS_ENABLED = "This TITAN project has the TITAN builder enabled.";
-	public static final String BUILDER_IS_NOT_ENABLED = "This TITAN project has the TITAN builder disabled.";
+	public static final String BUILDER_IS_ENABLED = "This TITAN project has the TITAN C++ builder enabled.";
+	public static final String BUILDER_IS_NOT_ENABLED = "This TITAN project has the TITAN C++ builder disabled.";
 
 	private Composite pageComposite;
 	private Label headLabel;

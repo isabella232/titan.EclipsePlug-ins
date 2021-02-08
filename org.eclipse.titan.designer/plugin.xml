@@ -722,7 +722,7 @@
     </propertyTester>
   </extension>
   <extension point="org.eclipse.ui.propertyPages">
-    <page name="TITAN Project Property" nameFilter="*"
+    <page name="TITAN Project Property (C++)" nameFilter="*"
       class="org.eclipse.titan.designer.properties.pages.ProjectBuildPropertyPage"
       id="org.eclipse.titan.designer.properties.pages.ProjectBuildPropertyPage">
       <filter name="projectNature" value="org.eclipse.titan.designer.core.TITANNature">
@@ -736,7 +736,7 @@
       </and>
       </enabledWhen>
     </page>
-    <page name="TITAN Java Project Property" nameFilter="*"
+    <page name="TITAN Project Property (Java)" nameFilter="*"
       class="org.eclipse.titan.designer.properties.pages.ProjectJavaBuildPropertyPage"
       id="org.eclipse.titan.designer.properties.pages.ProjectJavaBuildPropertyPage">
       <filter name="projectNature" value="org.eclipse.titan.designer.core.TITANNature">
