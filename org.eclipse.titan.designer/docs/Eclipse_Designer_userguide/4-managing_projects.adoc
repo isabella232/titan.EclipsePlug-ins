@@ -15,28 +15,28 @@ For advanced users it is advised to take also a look on the other navigators, as
 Projects that are handled by the TITAN Designer plug-in will be referred to as TITAN projects although in the Eclipse terminology they should be called TITAN natured projects. More information on natures can be found in the Eclipse documentation.
 
 From the release of TITAN version 6.6.0 the Designer supports 2 types of TITAN Projects:
-* TITAN Project: is the original way of working, supporting a build system that translates TTCN-3 and ASN.1 modules using C as the intermediate language.
+* TITAN {cpp} Project: is the original way of working, supporting a build system that translates TTCN-3 and ASN.1 modules using C as the intermediate language.
 * TITAN Java Project: if a way of working that supports a build system, that translates TTCN-3 and ASN.1 modules using Java as the intermediate language.
 
 When not specified explicitly the expression "TITAN Project" might refer to both modes.
 As they only differ in a few settings and their way of building, most of the advanced editing features will work exactly the same way on both project types.
 
 [[creating-a-new-titan-project]]
-== Creating a New TITAN Project
+== Creating a New TITAN {cpp} Project
 
 Using the TITAN Designer, new TITAN projects can be created following these three steps:
 
-1. Select *File / New / TITAN Project…* from the main menu (see <<new-resources-menu, the next figure>>).(The corresponding TITAN shortcut must be enabled, see section <<2-getting_started.adoc#_enabling_titan_shortcuts,Enabling TITAN Shortcuts>> )
+1. Select *File / New / TITAN Project ({cpp})* from the main menu (see <<new-resources-menu, the next figure>>).(The corresponding TITAN shortcut must be enabled, see section <<2-getting_started.adoc#_enabling_titan_shortcuts,Enabling TITAN Shortcuts>>)
 +
 [[new-resources-menu]]
 image::images/4_F26.png[title="New resources menu"]
 
-2. Enter project name and location (see <<first-page-of-the-new-titan-project-wizard, the next figure>> ).
+2. Enter project name and location (see <<first-page-of-the-new-titan-project-wizard, the next figure>>).
 By default, the project will be created in the directory of the workbench.
 It is not recommended to select a path that contains special characters (like the spaces in "Documents and Settings").
 +
 [[first-page-of-the-new-titan-project-wizard]]
-image::images/4_F27.png[title="First page of the new TITAN Project wizard"]
+image::images/4_F27.png[title="First page of the new TITAN Project ({cpp}) wizard"]
 
 3. At this point you can either select either *Finish* or *Next*.
 +
@@ -44,7 +44,7 @@ If you select *Finish,* the new TITAN project will be created immediately.
 +
 If you select *Next,* you can customize some project properties (see the next figure): the name of the folder containing the sources, and the name of the working directory (containing the generated binaries).In case the project to be created will need a long time to set up, before it can be used it is possible to set that the source folder should be generated as excluded from build.
 
-image::images/4_F28.png[title="Second page of the new TITAN Project wizard"]
+image::images/4_F28.png[title="Second page of the new TITAN Project ({cpp}) wizard"]
 
 The final project is only created when you select *Finish*.
 
@@ -61,9 +61,9 @@ Once the new project is created the property page of that project will be displa
 
 Using the TITAN Designer, new TITAN Java projects can be created following these three steps:
 
-1. Select *File / New / TITAN Java Project…* from the main menu (see <<new-resources-menu, the next figure>>).(The corresponding TITAN shortcut must be enabled, see section <<2-getting_started.adoc#_enabling_titan_shortcuts,Enabling TITAN Shortcuts>> )
+1. Select *File / New / TITAN Project (Java)* from the main menu (see <<new-resources-menu, the next figure>>).(The corresponding TITAN shortcut must be enabled, see section <<2-getting_started.adoc#_enabling_titan_shortcuts,Enabling TITAN Shortcuts>>)
 
-2. Enter project name and location (see <<first-page-of-the-new-titan-project-wizard, the next figure>> ).
+2. Enter project name and location (see <<first-page-of-the-new-titan-project-wizard, the next figure>>).
 By default, the project will be created in the directory of the workbench.
 It is not recommended to select a path that contains special characters (like the spaces in "Documents and Settings").
 
@@ -119,7 +119,7 @@ Wizards are available to create some of the TITAN modules
 footnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files).
 This functionality is reached by selecting *File / New* (see figure <<new-resources-menu,New resources menu>>).
 
-In the Project Explorer view, the wizards "TTCN-3 Module", "ASN.1 Module" and "Configuration file" can be reached by **right click**ing the content area and selecting *New / Other…* .
+NOTE: In the Project Explorer view, the wizards "TTCN-3 Module", "ASN.1 Module" and "Configuration file" can be also reached by **right click**ing the content area and selecting *New / Other…*.
 
 In the example below, the "TTCN-3 Module" wizard is shown. The wizard is launched by selecting *File / New / TTCN3 Module*.
 
@@ -128,7 +128,7 @@ image::images/4_F33.png[title="First page of the New TTCN3 Module wizard"]
 
 On the <<first-page-of-the-new-ttcn3-module-wizard,First page of the New TTCN3 Module wizard>> the correctness of the new module name is verified. The file extension is checked against the type of module being created. If the extension is not set, it is automatically appended when the file is created (the defaults are: `ttcn`, `asn` and `cfg` for the respective wizards). The on-the-fly checker, if it has enough data collected, verifies that a module name is unique in the project (right now this only works for TTCN-3 modules).
 
-On the second page of the wizard there is a checkbox and a combo box:
+On the second page of the wizard there are a checkbox and a combo box:
 
 image::images/4_F34.png[title="Second page of the New TTCN3 Module wizard"]
 
@@ -169,7 +169,7 @@ image::images/4_F35.png[title="New file"]
 Once the file created, you should see something like shown on <<new-file-created,New file created>>.
 You have created a project, added a folder and a file to it.
 
-NOTE: Files handled by the TITAN Designer plug-in also have the TITAN moon to the left of their names, just like projects do. Decorators used by TITAN Designer are described <<2-getting_started.adoc#_enabling_titan_decorations, here>>.
+NOTE: Files handled by the TITAN Designer plug-in also have the TITAN logo to the left of their names, just like projects do. Decorators used by TITAN Designer are described <<2-getting_started.adoc#_enabling_titan_decorations, here>>.
 
 == Setting Project Properties
 
@@ -182,7 +182,7 @@ This means that it is possible to create sets of build settings, which can be sw
 
 One excellent usage tip would be, to have "Development" and "Release" modes for projects.
 Debug could have settings tuned for very fast compilation, at the expense of generating slowly executing code:
-This way development could be sped up considerably while only loosing features not relevant at development time.
+This way development could be speed up considerably while only loosing features not relevant at development time.
 Release mode could be fine-tuned for runtime performance, at the cost of increase in build times.
 This way once the development is over, and the product is ready to be tested/investigated/used,
 the build system could be set to use the most aggressive optimization methods available.
@@ -214,24 +214,24 @@ To set the project properties for local build first *right click* the project an
 
 On the main window three options can be set:
 
-* Automatic Makefile management
+* **Automatic Makefile management**
 +
-configures the TITAN Designer to automatically manage the `Makefile`
+configures the TITAN Designer to automatically manage the `Makefile`.
 +
 NOTE: disabling the automatic `Makefile` management makes it the users’ responsibility to update the file when it is needed.
-In case it is unchecked, the buttons on the *Makefile creation attributes* tab and on the *Internal makefile creation attributes* tab will be disabled; +
+In case it is unchecked, the buttons on the *Makefile creation attributes* tab and on the *Internal makefile creation attributes* tab will be disabled. +
 Default: selected.
 
-* Generate the Makefile using Eclipse internal Makefile generator.
+* **Generate the Makefile using Eclipse internal Makefile generator**
 +
-figures the TITAN Designer to use its own `Makefile` generator instead of the one provided by TITAN; +
-Default: selected
+figures the TITAN Designer to use its own `Makefile` generator instead of the one provided by TITAN. +
+Default: selected.
 
-* Don’t use symbolic links in the build process
+* **Don’t use symbolic links in the build process**
 +
-Figures the internal Makefile generator and the builder to drive the build process in a way that does not requires the creation of symbolic links.
+figures the internal Makefile generator and the builder to drive the build process in a way that does not requires the creation of symbolic links.
 +
-NOTE: This option requires the internal Makefile generation option to be set; +
+NOTE: This option requires the internal Makefile generation option to be set. +
 Default: selected.
 [[makefile-creation-attributes]]
 image::images/4_F37.png[title="Makefile creation attributes"]
@@ -296,11 +296,11 @@ On the Internal makefile creation attributes tab the options to be generated int
 +
 image::images/4_F39.png[title="TTCN-3 preprocessor"]
 +
-On the TTCN-3 Preprocessor page it is possible to specify the preprocessor tool used to pre-process the .ttcnpp and .ttcnin.
+On the TTCN-3 Preprocessor page it is possible to specify the preprocessor tool used to pre-process the `.ttcnpp` and `.ttcnin`.
 +
 This will be applied to the *CPP* macro. By default it is set to be: *cpp*
 +
-The pre-processing of .ttcnpp and .ttcnin files is the very first step of the build process, as the compiler is not able to analyze these file formats.
+The pre-processing of `.ttcnpp` and `.ttcnin` files is the very first step of the build process, as the compiler is not able to analyze these file formats.
 
 . TTCN-3 Preprocessor Symbols
 +
@@ -337,7 +337,7 @@ For more information on the meanings of these options please refer to section 5.
 +
 image::images/4_F43.png[title="Preprocessor"]
 +
-The Preprocessor page only functions as reminder to the fact, that the generated `Makefile` uses the same tool for pre-processing the .ttcnpp, .ttcnin and C/{cpp} files.
+The Preprocessor page only functions as reminder to the fact, that the generated `Makefile` uses the same tool for pre-processing the `.ttcnpp`, `.ttcnin` and C/{cpp} files.
 
 . Preprocessor Symbols
 +
@@ -381,7 +381,7 @@ Both options will be applied the *CXXFLAGS* macro.
 +
 NOTE: The *–Wall* option is not displayed here, but is generated into the `Makefile`. It is required for proper operation.
 +
-For more information on the optimization flags please refer to the documentation of your C/{cpp} compiler. In case of the default C/{cpp} compiler g\++ is the manual pages of g++ (invoked with the *man g++* command line command).
+For more information on the optimization flags please refer to the documentation of your C/{cpp} compiler. In case of the default C/{cpp} compiler g\+\+ is the manual pages of g\+\+ (invoked with the *man g\+\+* command line command).
 
 . Platform Specific Libraries
 +
@@ -395,7 +395,7 @@ NOTE: Some libraries are not displayed here, but are generated into the `Makefil
 
 . Linker
 +
-image::images/4_F49.png[title="Figure"]
+image::images/4_F49.png[title="Linker"]
 +
 The Linker page only functions as reminder to the fact, that the generated `Makefile` uses the same tool for compiling C/{cpp} sources and linking the generated object files.
 
@@ -462,7 +462,7 @@ Specifies the make command suffixes.
 +
 specifies a directory used by the build operations: symbolic links and generated files will be placed in this directory. This field is checked for validity.
 
-In our resource based project representation it is impossible to tell which files are source files and which ones are generated files. For this reason, we assume that every file in the working directory is a generated file and every file outside the working directory is a source file (if it is not excluded from build). For this reason, the user is forced to set a working directory, or otherwise we wouldn’t know which files to build.
+In the resource based project representation of TITAN projects it is impossible to tell which files are source files and which ones are generated files. For this reason, it is assumed that every file in the working directory is a generated file and every file outside the working directory is a source file (if it is not excluded from build). For this reason, the user is forced to set a working directory, or otherwise the Designer plugin does not know which files to build.
 
 NOTE: if the provided directories are in the project, either as actual directories or linked folders, the generated files can be seen from the workbench.
 
@@ -519,13 +519,13 @@ image::images/4_F54.png[title="Folder level naming convention settings"]
 
 These are same options that are available as on the workspace level.
 
-The overriding rules are evaluated in the following order:
+The overriding rules are evaluated by the following algorithm:
 
-. We start from the folder immediately containing the module in question.
-. We walk search the folder hierarchy upwards to the project either till we find a folder that overrides the naming conventions or till we reach the project.
-. If the folder overrides the naming conventions, we use the settings found there.
-. If we reached the project and it overrides the naming conventions, we use the settings found there.
-. If we reached the project, but even the project itself is not overriding the naming conventions we will use the workspace level settings.
+. It starts from the folder immediately containing the module in question.
+. It walk-searches the folder hierarchy upwards to the project either till it finds a folder that overrides the naming conventions or till it reaches the project.
+. If the folder overrides the naming conventions, it uses the settings found there.
+. If it reached the project and the project overrides the naming conventions, it uses the settings found there.
+. If it reached the project, but even the project itself is not overriding the naming conventions it will use the workspace level settings.
 
 NOTE: It is suggested to switch off checking the naming convention because it significantly decreases the speed of the analysis. It should be switched only on at code cleaning.
 
@@ -562,7 +562,7 @@ image::images/4_F57.png[title="Remote build attributes"]
 
 On this property page one or more hosts can be chosen to build the project remotely. The modalities of the remote build process on these hosts are also set.
 
-To set the project properties for remote build first *right click* the project and select *Properties* than select *Remote build* on the left pane(Figure 57). (If *Remote build* is missing from the left pane, *left click* the triangle sign next to the *TITAN Project Property*; see Figure 52.)
+To set the project properties for remote build, first *right click* the project and select *Properties*, then select *Remote build* on the left pane (Figure 57). (If *Remote build* is missing from the left pane, *left click* the triangle sign next to the *TITAN Project Property*; see Figure 52.)
 
 The checkbox *Execute the build commands in parallel* controls how the provided build commands should be executed.
 
@@ -629,7 +629,7 @@ To access File properties (the first alternative): *right click* the file and se
 
 image::images/4_F60.png[title="TITAN file property"]
 
-To access the Pop-up menu (the second alternative), *right click* the fileand select *TITAN / Toggle exclude from build state*. This method has the advantage that the exclusion state of several selected files can be changed all at once.
+To access the Pop-up menu (the second alternative), *right click* the file and select *TITAN / Toggle exclude from build state*. This method has the advantage that the exclusion state of several selected files can be changed all at once.
 
 image::images/4_F61.png[title="Toggle exclude from build menu"]
 
@@ -643,12 +643,12 @@ To access Folder properties (the first alternative), *right click* the folder an
 
 image::images/4_F62.png[title="TITAN folder property"]
 
-To access the Pop-up menu (the second alternative), *right click* the folderand select *TITAN / Toggle exclude from build state*. This method has the advantage that the exclusion state of several selected folders can be changed all at once (see Figure 61 above).
+To access the Pop-up menu (the second alternative), *right click* the folder and select *TITAN / Toggle exclude from build state*. This method has the advantage that the exclusion state of several selected folders can be changed all at once (see Figure 61 above).
 
 [[converting-a-folder-into-a-central-storage]]
 == Converting a Folder into a Central Storage
 
-A folder marked as Central Storage is assumed to have its own `Makefile`. For this reason, when this property of a directory is toggled, the `Makefile` and the symbolic links are updated (provided that automatic `Makefile` management is enabled for the project). For description of the Central Storage concept, please refer to the TITAN User Guide (<<12-references.adoc#_3, [3]>>), section 11.3.1.
+A folder marked as Central Storage is assumed to have its own `Makefile`. For this reason, when this property of a directory is toggled, the `Makefile` and the symbolic links are updated (provided that automatic `Makefile` management is enabled for the project). For description of the Central Storage concept, please refer to the TITAN User Guide (<<12-references.adoc#_3, [3]>>).
 
 A directory’s Central storage property can be toggled the following way:
 
@@ -658,7 +658,7 @@ A directory’s Central storage property can be toggled the following way:
 
 A closed project cannot be edited; even its contents are hidden. This is useful to decrease memory occupation and computational load: a closed project does not use any resources.
 
-In Eclipse, projects can be opened and closedby *right clicking* the project and selecting *open project* respective *close project*.
+In Eclipse, projects can be opened and closed by *right clicking* the project and selecting *open project* respective *close project*.
 
 == Saving and Loading Project Properties
 
@@ -737,7 +737,7 @@ image::images/4_F71.png[title="Create the included projects automatically"]
 
 The wizard will now create the new project, populate it with the files referring to the ones provided by the mctr_gui project file and set all options for the project which can be transferred.
 
-For more information on how the project is converted to this format please refer <<5-converting_existing_projects.adoc#convert-an-existing-mctr-gui-project-using-an-import-wizard, here>>.
+For more information on how the project is converted to this format please refer to <<5-converting_existing_projects.adoc#convert-an-existing-mctr-gui-project-using-an-import-wizard, Section 5>>.
 
 [[importing-files-as-linked-resources]]
 === Importing Files as Linked Resources
@@ -746,29 +746,29 @@ Linked resources are files and folders which are not physically copied into the 
 
 To import folders and files as "linked resources" follow the steps described below.
 
-. Create an empty project without src subfolder according to <<creating-a-new-titan-project, this section>>. The project name should be the same as the name of the project to be imported.
+. Create an empty project without `src` subfolder according to <<creating-a-new-titan-project, Creating a New TITAN {cpp} Project>>. The project name should be the same as the name of the project to be imported.
 . Right click on the project name and select *Import*, as shown on Figure 63 above. On the *Import* window select *General / File System* and press *Next* as shown on below.
 +
 image::images/4_F72.png[title=""]
-. In The Import File system dialog select *Browse* near to field *``From directory''* (as seen below) then find and select the src folder of the project to be imported.
+. In the Import / File system dialog select *Browse* (as seen below), then find and select the `src` folder of the project to be imported.
 +
 image::images/4_F73.png[title=""]
-. Click on the button "*Advanced>>*" in the "Import file system" dialog, select the options "*Create link in workspace*" an unselect options "*create virtual folders*" and "*create link locations relative to:*" as shown on below.
+. Click on the button *Advanced>>* in the dialog, select the options *Create link in workspace* and unselect options *Create virtual folders* and *Create link locations relative to:* as shown on below.
 +
 image::images/4_F74.png[title=""]
-. Push Finish. The src folder appears under the project name in the Project Explorer as linked resource (the icon before the src contains a little link arrow) as shown below.
+. Push Finish. The `src` folder appears under the project name in the Project Explorer as linked resource (the icon before the `src` folder contains a little link arrow) as shown below.
 +
 image::images/4_F75.png[title="The result of the import"]
 
 [[exporting-projects-into-the-titan-project-descriptor-tpd-format]]
 === Exporting Projects into the TITAN Project Descriptor (tpd) Format
 
-Exporting only project information into TITAN project Descriptor (tpd) format can be performed manually or automatically.
+Exporting only project information into TITAN Project Descriptor (tpd) format can be performed manually or automatically.
 
 [[exporting-project-manually-into-the-titan-project-descriptor-tpd-format]]
 ==== Exporting Project manually into the TITAN Project Descriptor (tpd) Format
 
-To export the project information into a tpd file, follow the steps described below:
+To export the project information into a `tpd` file, follow the steps described below:
 
 . *Right click* on the project to be exported and select *Export*.
 . On the *Export* window select *TITAN / TITAN project settings* and press *Next* (see the figure below):
@@ -797,11 +797,11 @@ In Eclipse this naming convention is used to signal that a resource stores some 
 +
 In many cases such links are intentionally used to connect to an existing folder whose content might change externally. For example, version handling of files can also be done like that.
 +
-NOTE:  It is recommended to use this feature with care: as there is not much connection between the Eclipse internal resource system, and the file system, the activation of this option can cause unexpected side effects. Its default value is on.
+NOTE:  It is recommended to use this feature with care as there is not much connection between the Eclipse internal resource system, and the file system, the activation of this option can cause unexpected side effects. Its default value is on.
 
 * *Save default values:*
 +
-By default we do not include any information on any option/setting in the descriptor file, which has its default value as the actual one. This makes for a very compact description, but in cases where all information needs to be saved, this might not be ideal. Its default value is off. If it is switched on, the size of the tpd file is unnecessarily big. This is not a problem but perhaps it is not so easy to analyze by the user.
+By default it is not include any information on any option/setting in the descriptor file, which has its default value as the actual one. This makes for a very compact description, but in cases where all information needs to be saved, this might not be ideal. Its default value is off. If it is switched on, the size of the `tpd` file is unnecessarily big. This is not a problem but perhaps it is not so easy to analyze by the user.
 
 * *Pack all data of related projects:*
 +
@@ -809,15 +809,15 @@ Project references in Eclipse are a great way to structure one’s work into man
 
 * *Export tpdName attribute to referenced projects:*
 +
-If this option is on, then the referenced projects will have a `tpdName` attribute. The value of the `tpdName` attribute by default is the project’s name and the .tpd suffix. If the referenced project had a `tpdName` attribute during the import, then that value will be stored.By default this option is on, if the project was imported from a `tpd` file using `–I` switches.
+If this option is on, then the referenced projects will have a `tpdName` attribute. The value of the `tpdName` attribute by default is the project’s name and the `.tpd` suffix. If the referenced project had a `tpdName` attribute during the import, then that value will be stored. By default this option is on, if the project was imported from a `tpd` file using `–I` switches.
 
-The default settings can be changed under *Window / Preferences / TITAN Preferences / Export* (see <<3-setting_workbench_preferences.adoc#export, here>>).
+The default settings can be changed under *Window / Preferences / TITAN Preferences / Export* (see <<3-setting_workbench_preferences.adoc#export, Setting Workbench Preferences>>).
 
-For more information, related to this file format, please refer to section 8 of the Programmer’s Technical Reference guide.
+For more information, related to this file format, please refer to Section 8 of the TITAN Programmer’s Technical Reference <<12-references.adoc#_4, [4]>>.
 
 ==== Exporting Projects automatically into the TITAN Project Descriptor (tpd) Format
 
-The automatic export of projects can be set on workspace level. The fine tuning of the information can be set. It can be set to ask/request the location of the tpd file when the first automatic save happens.
+The automatic export of projects can be set on workspace level. The fine tuning of the information can be set. It can be set to ask/request the location of the `tpd` file when the first automatic save happens.
 
 To export your projects automatically, follow the steps below:
 
@@ -836,7 +836,7 @@ To import a project using an existing TITAN project descriptor file follow the s
 +
 image::images/4_F79.png[title="Import from project descriptor"]
 
-. On the *Import new TITAN Project from .tpd file* page select the original project file to import from. There is an optional field where search paths can be entered in the format of `–Ipath` where path must be an absolute path. The mechanism of the `–I` flag is described in the Referred project usage with `–I` switch in the TITAN Reference guide see ref. <<12-references.adoc#_4, [4]>>.
+. On the *Import new TITAN Project from .tpd file* page select the original project file to import from. There is an optional field where search paths can be entered in the format of `–Ipath` where path must be an absolute path. The mechanism of the `–I` flag is described in the Referred project usage with `–I` switch in the TITAN Programmer’s Technical Reference <<12-references.adoc#_4, [4]>>.
 . Press *Next*.
 +
 image::images/4_F80.png[title="Press Next"]
@@ -858,7 +858,7 @@ Available options:
 
 During the importation there might be several behaviors which might look strange at first.
 
-When importing a project description containing Eclipse path variables, we will ask permission from the user to add new variables, or in case the variable exists with a different value, override variables in his system.
+When importing a project description containing Eclipse path variables, it is asked for permission from the user to add new variables, or in case the variable exists with a different value, override variables in his system.
 
 However, if the project description does not store, or the user does not add the necessary Eclipse path variable to his own system, this will not be treated as an error by our tool. Instead either the platform, or any other tool trying to access a resource being unavailable, will report this error.
 
@@ -874,7 +874,7 @@ It is worth to mention, that in order to re-import a project from a project desc
 
 As an example, in the `mctr_gui` the process of closing the user interface and re-opening it while loading the same project, will load the newest version of the project description (and if it is not saved it will also lose all intermediate changes). However, as the closing of Eclipse does not change any state of the imported projects, after re-opening it, the original project with the original settings will be present. In order to load the new settings, the old project has to be explicitly removed from the working environment.
 
-For more information, related to this file format, please refer to section 8 of the Programmer’s Technical Reference guide.
+For more information, related to this file format, please refer to Section 8 of the TITAN Programmer’s Technical Reference <<12-references.adoc#_4, [4]>>.
 
 ==== Native Export and Import
 
@@ -899,20 +899,20 @@ General requirements
 
 Suppose that the source codes are created and hierarchically stored under the source root folder. Follow the steps for each project of our complex project.
 
-. Create an empty project in the workspace with the same name as the source project (see <<_creating_a_new_project, here>>).
-. Import the src folder of the project as linked resources according to <<importing-files-as-linked-resources, this section>>.
-. Fill in project properties according to <<setting-the-local-build-properties-of-a-project, this section>>.
-. Export project properties into tpd according to <<exporting-projects-into-the-titan-project-descriptor-tpd-format, this section>>.
+. Create an empty project in the workspace with the same name as the source project (see <<creating-a-new-titan-project, Creating a New TITAN {cpp} Project>>).
+. Import the `src` folder of the project as linked resources according to <<importing-files-as-linked-resources, Importing Files as Linked Resources>>.
+. Fill in project properties according to <<setting-the-local-build-properties-of-a-project, Setting the Local Build Properties of a TITAN Project>>.
+. Export project properties into tpd format according to <<exporting-projects-into-the-titan-project-descriptor-tpd-format, Exporting Projects into the TITAN Project Descriptor (tpd) Format>>.
 +
 NOTE: The target place should be the folder of the original project where the project was imported from.
-. Import the tpd file from the source project into the Eclipse project.
-. Export the project into tpd as in step 4.
+. Import the `tpd` file from the source project into the Eclipse project.
+. Export the project into tpd format as in step 4.
 +
-NOTE: This way the new tpd will contain the information about itself. It is extremely important if the whole set of project should be exported as a compressed file for example to send to a test lab as a product or to the TITAN support to report a bug.
+NOTE: This way the new `tpd` file will contain the information about itself. It is extremely important if the whole set of project should be exported as a compressed file for example to send to a test lab as a product or to the TITAN support to report a bug.
 
 ==== Exporting Project Content from Command Line Using TPDs
 
-To export the content of whole project sets if each project has a tpd, follow the steps described below.
+To export the content of whole project sets if each project has a `tpd` file, follow the steps described below.
 Unix environment is required.
 
 . Go to the folder of the top level source project.
@@ -920,36 +920,38 @@ Unix environment is required.
 NOTE: It is located in the source root folder not in the workspace!
 . Use this command from command line:
 +
-....
+[source]
+----
 ttcn3_makefilegen -V -P rootdir_to_split -t top_level_tpd.tpd | xargs tar cfz my_target_tar.tgz
-....
+----
 +
 for example:
 +
-....
+[source]
+----
 ttcn3_makefilegen -V -P /home/ethbaat/DiameterApplib/Diameter_Applib_2013_03_01 -t Libraries/EPTF_Applib_Diameter_CNL113521/EPTF_Applib_Diameter_CNL113521.tpd | xargs tar cfz DiamAppLibTest.tar.gz
-....
+----
 
 [NOTE]
 ====
 The compressed file will contain the files in the same structure as they have been stored in the source root directory.
 
-See more information about the command ttcn3_makefilegen in sections 6.1.2 and 6.1.3 in TITAN Programmer’s Technical Reference for TITAN TTCN-3 Test Executor <<12-references.adoc#_4, [4]>>.
+See more information about the command `ttcn3_makefilegen` in Sections 6.1.2 and 6.1.3 in the TITAN Programmer’s Technical Reference <<12-references.adoc#_4, [4]>>.
 ====
 
 == Formatting Log Files
 
-To format a log file (one having log as extension) *right click* the fileand select *TITAN / Format log*.
+To format a log file (one having `.log` as extension) *right click* the file and select *TITAN / Format log*.
 
 image::images/4_F82.png[title="Format log menu"]
 
-This will produce a formatted log file in the very same directory, with the same name, but having the extension formatted_log.
+This will produce a formatted log file in the very same directory, with the same name, but having the extension `.formatted_log`.
 
 NOTE: For the duration while the formatted log is being created progress indication is provided in the *Progress view*.
 
 == Merging Log Files
 
-To merge several log files (ones having log as extension) select them, and after right clicking on one select TITAN / Format log.
+To merge several log files (ones having `.log` as extension) select them, and after *right clicking* on one select *TITAN / Merge log*.
 
 image::images/4_F83.png[title="Merge log menu"]
 
@@ -960,33 +962,33 @@ NOTE: For the duration while the formatted log is being created progress indicat
 [[using-project-references]]
 == Using Project References
 
-In Eclipse for the creation of a hierarchy of projects building on other projects we can use project references (Figure 81).
+In Eclipse for the creation of a hierarchy of projects building on other projects one can use project references (Figure 81).
 
-When a project references another project, this means for Eclipse that all of the resources of the referenced project are available for use in the referring project. For example if Project_2 is referencing Project_1:
+When a project references another project, this means for Eclipse that all of the resources of the referenced project are available for use in the referring project. For example if _Project_2_ is referencing _Project_1_:
 
-* All modules available in Project_1 can be used in Project_2 too (for importation, code completion …).For the on-the-fly toolset is will seem as if those modules were also part of Project_2.
+* All modules available in _Project_1 can be used in _Project_2_ too (for importation, code completion …). For the on-the-fly toolset is will seem as if those modules were also part of Project_2.
 
-* The order in which Project_1 and Project_2 are built will always be handled automatically:
+* The order in which _Project_1_ and _Project_2_ are built will always be handled automatically:
 
-* If Project_1 changes, Project_2 will be refreshed too.
+* If _Project_1_ changes, _Project_2_ will be refreshed too.
 
-* If Project_2 is built Project_1 will also be built, but only if it has also changed since the last time it was built.
+* If _Project_2_ is built _Project_1_ will also be built, but only if it has also changed since the last time it was built.
 
-* When Project_2 is built, it will not attempt to build the modules from Project_1 again, but rather use their already built form from the working directory of Project_1.
+* When _Project_2_ is built, it will not attempt to build the modules from _Project_1_ again, but rather use their already built form from the working directory of _Project_1_.
 
-NOTE: Project reference hierarchies are not limited to 2 projects they can contain any number of projects.
+NOTE: Project reference hierarchies are not limited to two projects they can contain any number of projects.
 
 Project references for one project can be managed in the following way: *right click* the project whose references should be changed and select *Properties / Project References.* Adding or removing a reference to a project can be done by simply selecting or unselecting to projects the references should point to.
 
 image::images/4_F84.png[title="Project references"]
 
-NOTE: These references are operating system and file system independent. This means that it is possible to connect projects coming from different physical locations / version handling systems … as long as each is project is set up to work correctly within its own rules.
+NOTE: These references are operating system and file system independent. This means that it is possible to connect projects coming from different physical locations / version handling systems, as long as each is project is set up to work correctly within its own rules.
 
 == Mapping Elements of the Old Format
 
 The elements of the old GUI can usually be mapped to the new GUI as folders. So, for example, a testports folder should be created in the project, and the files of testports should be placed there. This provides the users with much more configurable project hierarchy, as they can organize their sources as they wish.
 
-Included projects can be generally mapped to simple or linked folders, provided that the central storage property of the folder is set (see section 4.6). Included projects are fully functioning projects that can be built separately, but are included in the actual project because they provide some useful features. Generally speaking, they are folders (projects are practically stored separately), which might be linked (as they are expected to be on a different computer in the network, if they are just local folders then they can be mapped to local directories) and they have their own `makefile` (because they can be built separately).
+Included projects can be generally mapped to simple or linked folders, provided that the central storage property of the folder is set (see <<converting-a-folder-into-a-central-storage,Section 4.7>>). Included projects are fully functioning projects that can be built separately, but are included in the actual project because they provide some useful features. Generally speaking, they are folders (projects are practically stored separately), which might be linked (as they are expected to be on a different computer in the network, if they are just local folders then they can be mapped to local directories) and they have their own `makefile` (because they can be built separately).
 
 NOTE: Linked folders with their central storage property set provide the same features.
 
@@ -1024,10 +1026,10 @@ It can happen that the source code shall be sent to another team member or to th
 
 This can be done
 
-* by exporting the whole project (by right clicking on the project, selecting the option *Export…> General>Archive File*) or
+* by exporting the whole project (by *right clicking* on the project, selecting the option *Export… > General > Archive File*) or
 
-* by executing the command "make archive" from the Eclipse IDE. It can be executed if the Makefile exists in the working directory and a UNIX shell can be executed. Right click on the name of the project and select the option *Titan>Make archive*. The command ``make archive'' will be executed in the working directory and a backup directory will be generated in it. This directory will contain a tgz file including the source files, the Makefile and optionally the tpd file.
+* by executing the command "Make archive" from the Eclipse IDE. It can be executed if the `Makefile` exists in the working directory and a UNIX shell can be executed. *Right click* on the name of the project and select the option *Titan>Make archive*. The command `make archive` will be executed in the working directory and a backup directory will be generated in it. This directory will contain a `tgz` file including the source files, the `Makefile` and optionally the `tpd` file.
 
 image::images/4_F86.png[title="Create Make archive"]
 
-NOTE: The TITAN Java Projects do not use makefiles to drive their build process, as such the make archive option is also not available. TITAN Java projects can be exported into archive files by right clicking on the project, selecting the option *Export…> General>Archive File* .
+NOTE: The TITAN Java Projects do not use makefiles to drive their build process, as such the "Make archive" option is also not available. TITAN Java projects can be exported into archive files by *right clicking* on the project, selecting the option *Export… > General > Archive File* .

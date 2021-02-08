@@ -2,7 +2,7 @@
 :toc:
 :figure-number: 93
 
-In this chapter a detailed, stepbystep procedure description is provided about how to build a project according to the workflow.
+In this chapter a detailed, step-by-step procedure description is provided about how to build a project according to the workflow.
 
 Building a project from the TTCN–3 or ASN.1 source modules and perhaps test port files is a procedure consisting of several steps. In the TITAN Designer plugin, the procedure is fully automated. The commands issued by the build related functionalities and their progress messages are displayed in the TITAN console, so the successful completion of the processes can easily be verified. Also, in case of an error, the analysis of the progress messages helps to find the cause of the problem (this is also automated to some extent; please refer <<7-editing_with_titan_designer_plugin.adoc#mark-occurrences-1, here>>). The build process also provides Eclipse with user friendly information about its progress.
 
@@ -10,9 +10,9 @@ The building process is automated; that is, the executable is updated in the bac
 
 There is a way to build the project manually, by selecting *Project* / *Build project* or *Project* / *Build all.* This is useful when automatic building (*Project* / *Build Automatically*) is disabled**.**
 
-NOTE: The problem markers of the compiler are parsed from the output of TITAN, for this reason they are updated when the compiler is run (the project is built, or the files are checked). If automatic building is not used, the projects should be built regularly, to have up-to-date problem markers (see <<7-editing_with_titan_designer_plugin.adoc#mark-occurrences-1, here>>)).
+NOTE: The problem markers of the compiler are parsed from the output of TITAN, for this reason they are updated when the compiler is run (the project is built, or the files are checked). If automatic building is not used, the projects should be built regularly, to have up-to-date problem markers (see <<7-editing_with_titan_designer_plugin.adoc#mark-occurrences-1, here>>).
 
-== Building the TITAN Project
+== Building the TITAN {cpp} Project
 
 === Step by Step
 
@@ -54,7 +54,7 @@ This step, if needed, is carried out manually by the user.
 
 ==== Module Compilation
 
-In this step {cpp} files are generated from TTCN-3 and ASN.1 files. When a {cpp} file already exists, then the timestamp of the Compile file is used to decide whether a {cpp} file in question is uptodate or not. A {cpp} file is refreshed only if the corresponding TTCN–3 or ASN.1 module was modified later than the timestamp in the Compile file indicates, or the project was refreshed by *right clicking* the project and selecting *Refresh*; otherwise the generated {cpp} file is considered uptodate.
+In this step {cpp} files are generated from TTCN-3 and ASN.1 files. When a {cpp} file already exists, then the timestamp of the Compile file is used to decide whether a {cpp} file in question is up-to-date or not. A {cpp} file is refreshed only if the corresponding TTCN–3 or ASN.1 module was modified later than the timestamp in the Compile file indicates, or the project was refreshed by *right clicking* the project and selecting *Refresh*; otherwise the generated {cpp} file is considered up-to-date.
 
 The first compilation of the modules will result in addition of the following files in the working directory:
 
@@ -298,28 +298,28 @@ The following sections describe the steps of the build process. These steps are 
 
 ==== Module Compilation
 
-In this step Java files are generated from TTCN-3 and ASN.1 files. When a Java file already exists, its contents re check to decide whether the Java file in question is uptodate or not. A Java file is refreshed only if in the current build the generated from the corresponding TTCN–3 or ASN.1 module would be different; otherwise the generated Java file is considered uptodate.
+In this step Java source files are generated from TTCN-3 and ASN.1 files. When a Java file already exists, its content is re-checked to decide whether the Java file in question is up-to-date or not. A Java file is refreshed in the current build only if the generated code from the corresponding TTCN–3 or ASN.1 module would be different; otherwise the generated Java file is considered up-to-date.
 
 The first compilation of the modules will result in addition of the following files in the java_src directory:
 
 * Java files:
 +
-These are the java files of the generated Java code. One `.java` file is generated for every TTCN–3 and ASN.1 module in the project with the same name.
+These are the Java files of the generated Java code. One `.java` file is generated for every TTCN–3 and ASN.1 module in the project with the same name.
 
 Module compilation is done automatically by the build process; no user action is required.
 
-NOTE: The java files will be located in a Java package that is created using the project's name. This process will also create some subdirectories inside the java_src folder. For more information please refer to section 5.1 of the TITAN Programmer’s Technical Reference guide <<12-references.adoc#_12, [12]>>.
+NOTE: The Java files will be located in a Java package that is created using the project's name. This process will also create some subdirectories inside the java_src folder. For more information please refer to section 5.1 of the TITAN Programmer’s Technical Reference guide <<12-references.adoc#_12, [12]>>.
 
 [[building-java]]
 ==== Building
 
-In the final step of the project building procedure Eclipse's built-in Java compilation is used to compile Test port codes, external functions and the generated Java source code to executable Java format.
+In the final step of the project's building procedure, Eclipse's built-in Java compilation feature is used to compile Test port codes, external functions and the generated Java source codes to executable Java format (`.class` files).
 
 If automatic building is enabled, Eclipse will invoke the build process whenever project resources change (are created, deleted or updated), or you refresh your project by *right clicking* the project and selecting *Refresh*.
 
 If automatic building (*Project / Build Automatically*) is disabled, then the build process is started by a click on *Project / Build project,* *Project / Build all* or by *right clicking* the project name and selecting *Build*.
 
-The built in Java compiler infrastructure of Eclipse takes the generated code (from the java_src folder) and the test ports and external functions (preferably from the user_provided folder) and compiles them into `.class` files generated into the java_bin folder.
+The built in Java compiler infrastructure of Eclipse takes the generated code (from the java_src folder), the test ports and external functions (preferably from the user_provided folder) and compiles them into `.class` files generated into the java_bin folder.
 
 === Cleaning the TITAN Java Project
 
@@ -327,4 +327,4 @@ After switching to a newer version of the test executor or simply to save disk s
 
 To remove all generated files from the project, select *Clean* in the *Project* menu option in Eclipse.
 
-This action will delete all files from the java_src and Java_bin folders.
+This action will delete all files from the java_src and java_bin folders.

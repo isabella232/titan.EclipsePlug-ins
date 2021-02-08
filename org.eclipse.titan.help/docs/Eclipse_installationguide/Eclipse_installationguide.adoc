@@ -60,7 +60,7 @@ This document uses the following typographical conventions:
 
 == Requirements for the TITAN Designer, Executor and Log Viewer plug-ins for the Eclipse IDE
 
-* Eclipse 4.2 (Juno) or later (max. 4.7.1a (Oxygen) - this one being recommended) and all its dependencies, for example, GTK2, must be installed
+* Eclipse IDE 4.7.0 (Oxygen) and all its dependencies, for example, GTK2, must be installed. Any later version is supported. Recommended: the latest Eclipse IDE for Java Developers or Eclipse IDE for C/C++ Developers depending on the user preferences
 
 * ANTLR Runtime 4.3
 

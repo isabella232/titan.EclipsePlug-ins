@@ -464,6 +464,10 @@ To apply the new syntax color scheme, press the *Apply* or the *OK* button. Acti
 
 The *Restore Defaults* button restores every setting to its default value.
 
+As an experimental feature, TITAN Designer plug-in supports theming. The supported Eclipse built-in themes are light (default) and dark. To change the theme go to *Window / Preferences* and select *General/Appearance*. Check *Enable theming* and select the preferred theme from the drop-down list.
+
+image::images/theming.png[title="Setting up theming"]
+
 == TITAN Actions
 
 image::images/3_F24.png[title="TITAN Actions preferences"]
