@@ -8,103 +8,71 @@ In Eclipse, every aspect of the launch can be configured, for example, different
 
 NOTE: Right now the Java side of the TITAN Test Executor is supported as a Java application native to Eclipse. It as executed with the same limitations and benefits.
 
-WARNING: The execution of TITAN Java projects (the Java side of the Test Executor) is done as Eclipse native java applications. It is not yet integrated to the usual Interface elements (Views, TITAN Launch configurations, etc...) that support the execution of the binaries of the C side of the TITAN Test Executor.
+WARNING: The execution of TITAN Java projects (the Java side of the Test Executor) is done as Eclipse native Java applications. It is not yet fully integrated to the usual Interface elements like Views that support the execution of the binaries of the C side of the TITAN Test Executor.
 
 [[launching-modes-supported-by-the-TITAN-Executor-plug-in-for-TITAN-Java-Projects]]
 == The Launching Modes Supported by the TITAN Executor Plug-in for TITAN Java Projects
 
-The TITAN Executor can operate in single or parallel mode.
+The TITAN Executor can operate in single or in parallel mode.
 
 From the point of view there are 2 ways to execute TITAN Java projects: 
 from Eclipse as Java projects and executing exported jar files.
 
 === Executing TITAN Java Projects from Eclipse
 
-To execute TITAN Java projects inside Eclipse requires the creation of a Launch configuration.
-For that two options are available for the users at the moment: automatic generation of a default launch configuration or manual creation.
+To execute TITAN Java projects inside Eclipse requires the creation of a Launch configuration. For TITAN Java Projects the TITAN Native Java launch configuration mode is necessary that supports both the single and parallel execution mode. Launch configurations can be created, modified and deleted in the *Create, manage, and run configuration* dialog window. It can be opened in the numerous ways as detailed in <<creating-launch-configuration,Creating Launch Configuration>>:
+* using the *Run as* option in pop-up menu of the *Project explorer* (<<Figure-4-F7,Figure 7>>),
+* using the *Launch Commands* on the toolbar (<<Figure-4-F8,Figure 8>>).
 
-NOTE: It is recommended to use the automatic generation to reduce the number of possible mistakes. The generated launch configuration is still editable via the Eclipse embedded launch configurator.
+Furthermore, a default launch configuration can be created using launch shortcuts. It works the same way as described in <<creating-launch-configuration,Creating Launch Configuration>>, however the TITAN Native Java launching mode requires less option, i.e.:
 
-NOTE: In newer Eclipse versions "Launch configuration" is called "Run configuration", however throughout in this document "Launch configuration" is used.
+. A new launch configuration is made.
 
-==== Generating Launch configuration for TITAN Java Project automatically
+. The project and configuration file paths are initialized.
 
-The generation of launch configuration is available from the pop-up menu of a Titan configuration file under *Titan* menu group. The user can choose to generate launch configuration for single operation mode or parallel operation mode as shown in <<Figure-7-lc-popup,Figure 43>>.
+. Finally the newly created launch configuration is launched automatically in parallel execution mode.
 
-[[Figure-7-lc-popup]]
-image::images/7_lc_popup.png[title="Pop-up menu items for launch configuration generation"]
+The launch configuration created using launch shortcuts is automatically added to favorite list under the *Launch Commands* (<<Figure-4-F8,Figure 8>>).
 
-NOTE: This feature is only available for TITAN Java Projects, and the menu only appears if Titan configuration file is selected.
+NOTE: It is encouraged to use the launch shortcuts to reduce the number of possible mistakes. The generated launch configuration is still editable in the *Create, manage, and run configuration* dialog window (see below).
 
-After selecting one of the menu items, the user is asked for a file name prefix that will be used during the generation process (see <<Figure-7-lc-dialog,Figure 44>>). It is possible to overwrite the existing launch configuration with the same name. The given name is extended with "-Single" or "-Parallel" according the selected operation mode.
+=== Basic Main Controller Options Page of the Launch Configuration
 
-NOTE: By using this feature, launch configuration files are created under the *launch* folder of project root. For single operation mode one launch configuration file is generated, while for parallel operation mode three launch configuration files are generated.
-
-[[Figure-7-lc-dialog]]
-image::images/7_lc_dialog.png[title="Dialog for naming the launch configuration"]
-
-After the successful generation of the launch configuration, it will appear immediately between the available launch configurations on the toolbar. The user is able to run the project by clicking on the newly created launch configuration or to further edit it (see <<Figure-7-lc-toolbar,Figure 45>>).
-
-[[Figure-7-lc-toolbar]]
-image::images/7_lc_toolbar.png[title="Launch configuration options"]
-
-==== Creating Launch configuration for TITAN Java Project manually
-
-In the toolbar, click the down arrow at the *Launch Commands*, and select *Run Configurations...* . +
-If not visible, modify the Launch properties in the *Windows > Customize Perspective* (see <<Figure-4-F8,Figure 4>>).
-
-The following operations are available:
-
-* ’*New*’:
-+
-This button can be used to create a new launch configuration. The values of the created launch configurations will be set to their defaults.
-
-* ’*Duplicate*’:
-+
-This button will create a new launch configuration, filled with the values of the source launch configuration. This button should be used if the new launch configuration does not differ too much from an earlier one.
-
-* ’*Delete*’:
-+
-This button deletes the actually selected launch configuration.
-
-To create a new Launch Configuration for executing a TITAN Java Project:
-
-1. select *Java Application*.
-
-2. On the toolbar select *New*.
-+
-At this point a new Launch Configuration should appear, similar to "New_Configuration (2)" on figure <<Figure-7-F43,Figure 46>>.
-+
 [[Figure-7-F43]]
-image::images/7_F43.png[title="Launch configuration options"]
+image::images/7_F43.png[title="Basic Main Controller options page"]
 
-3. To configure the *Main* page:
-* for the *Project* field select the project you wish to execute.
+On this page it is possible to set:
 
-* for the Main Class field select the generated class fitting to your execution mode:
-** classes with their names ending in "generated.Single_main" can be used to drive single mode execution.
-** classes with their names ending in "generated.Parallel_main" can be used to drive parallel mode execution.
+* The name of the project.
++
+Filling this field is mandatory. The entered name is checked for validity. The project's root folder is used during the automatically filling of the other fields. The path variables are relative to the project's root supporting the portability of the project as whole. If you enter the name of a valid project with TITAN nature (or select one by browsing, as can be seen <<Figure-13,below>>), the configuration file will be filled in automatically.
 
-4. To configure the *Arguments* page:
-* for the *Program Arguments* field provide the arguments you would like your execution started with.
-** For single mode execution this is generally the path of the configuration file to use (relative to the root folder of the project being executed).
-** For parallel mode execution this is generally the host address and port, the Main Controller is expecting connection on.
+NOTE: It is encouraged to use the *Browse Workspace* button to select a valid project from the workspace that simplifies the filling of the other fields, as well as reduces the possible mistakes. 
 
-* In the *VM Arguments* field, you can provide configuration options for the Java Virtual Machine that will do the execution.
+* The path of the configuration file.
++
+Please note that not only the existence but also the validity of the configuration file is evaluated here. If a problem was found while trying to process the configuration file, the launch process will be interrupted here. Please note that this evaluation is done every time this configuration page becomes active, meaning that switching to and from this page can take some time. The entered file path is checked for validity.
 
-[[Figure-7-F44]]
-image::images/7_F44.png[title="Example Arguments page for single mode execution"]
+* Execute automatically
++
+Whether the user wish to start executing the configuration file automatically when the launcher is started. Please note that this option is turned on by default.
 
-Figure <<Figure-7-F44,Figure 47>> shows an example for configuring a single mode execution. The "minimal1.cfg" will be the configuration file used for execution. The Java Virtual Machine will be configured to execute in server mode, using the Garbage First (G1) garbage collector.
+* Execute in single mode
++
+Whether the user wish to start executing the TITAN Java project in single or in parallel mode. Please note that this option is turned off by default.
 
-[[Figure-7-F45]]
-image::images/7_F45.png[title="Example Arguments page for parallel mode execution"]
+All fields can be filled in either by entering the proper values, or via browsing for them.
 
-Figure <<Figure-7-F45,Figure 48>> shows an example for configuring a parallel mode execution. The main controller is expecting the host controller to connect to the "localhost" to port number "7339" for execution. The Java Virtual Machine will be configured to execute in server mode, using the Garbage First (G1) garbage collector, and to use 1024 MBs of memory during its execution.
+If you press *Apply* some other launch configurations will appear automatically according to the filled values in the *Create, manage, and run configuration* dialog window.
 
-All launch configuration types supported by the Executor plug-in can be found in the panel.
+[NOTE]
+====
+During the filling Eclipse might ask for saving the modification.
 
-NOTE: Please note, that the process is very similar to that described in section <<Running-from-the-Launch-Command-Toolbar,4.2>>, we are just using a different launch configuration kind to configure the execution.
+Sometimes Eclipse automatically switches to one of the additionally created launch configuration after saving the TITAN Native Java launch configuration.
+====
+
+The functionality of other tab pages of the of the TITAN Native Java launch configuration matches the ones for JNI launch mode, see <<creating-launch-configuration,Creating Launch Configuration>>.
 
 === Executing TITAN Java project via exported jar files.
 

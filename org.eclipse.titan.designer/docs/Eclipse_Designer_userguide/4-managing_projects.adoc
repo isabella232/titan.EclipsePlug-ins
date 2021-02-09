@@ -966,7 +966,7 @@ In Eclipse for the creation of a hierarchy of projects building on other project
 
 When a project references another project, this means for Eclipse that all of the resources of the referenced project are available for use in the referring project. For example if _Project_2_ is referencing _Project_1_:
 
-* All modules available in _Project_1 can be used in _Project_2_ too (for importation, code completion …). For the on-the-fly toolset is will seem as if those modules were also part of Project_2.
+* All modules available in _Project_1_ can be used in _Project_2_ too (for importation, code completion …). For the on-the-fly toolset is will seem as if those modules were also part of Project_2.
 
 * The order in which _Project_1_ and _Project_2_ are built will always be handled automatically:
 

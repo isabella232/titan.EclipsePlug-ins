@@ -3,17 +3,17 @@
 
 == Formatting Log Files
 
-To format a log file (one having log as extension) *right click* the fileand select *Titan Log > Format log*.
+To format a log file (one having `.log` as extension) *right click* the file and select *Titan Log > Format log*.
 
 image::images/6_F41.png[title="Format log menu"]
 
-This will produce a formatted log file in the very same directory, with the same name, but having the extension formatted_log.
+This will produce a formatted log file in the very same directory, with the same name, but having the extension `.formatted_log`.
 
 Please note that for the duration while the formatted log is being created progress indication is provided in the *Progress view*.
 
 == Merging Log Files
 
-To merge several log files (ones having log as extension) select them, and after right clicking on one select *Titan Log > Format log.*
+To merge several log files (ones having `.log` as extension) select them, and after right clicking on one select *Titan Log > Merge log.*
 
 image::images/6_F42.png[title="Merge log menu"]
 

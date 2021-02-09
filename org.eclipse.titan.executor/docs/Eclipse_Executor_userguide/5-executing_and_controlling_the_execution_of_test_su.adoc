@@ -1,7 +1,7 @@
 = Executing and Controlling the Execution of Test Suites
 :figure-number: 25
 
-The three different launch modes that are supported by the Executor plug-in, also imply three different execution mechanisms (executions and executors).
+The three different launch modes related to TITAN {cpp} projects that are supported by the Executor plug-in, also imply three different execution mechanisms (executions and executors).
 
 As the general user interaction interfaces, are about the same, we will discuss them one by one, detailing the differences between the execution modes when they apply.
 
@@ -105,7 +105,7 @@ This action allows you to automatically execute tests. You will be presented wit
 
 * *Start Host Controllers*:
 +
-This action starts the Host Controllers set on the Host Controllers page of the launch configuration. Please note that the variables inserted into the Host Controllers commands are extracted at this point. For more information on the Host Controllers page of the launch configuration, please refer <<4-launching_the_test_suite.adoc#host-controllers-page-of-the-launch-configuration, here>>;
+This action starts the Host Controllers set on the Host Controllers page of the launch configuration. Please note that the variables inserted into the Host Controllers commands are extracted at this point. For more information on the Host Controllers page of the launch configuration, please refer to <<4-launching_the_test_suite.adoc#host-controllers-page-of-the-launch-configuration, Host Controllers Page of the Launch Configuration>>;
 
 * *Create MTC*:
 +
@@ -129,7 +129,7 @@ This action executes the "**info**" command, providing inner state information t
 
 NOTE: The last five commands are commands of the `Mctr_cli`.
 
-All of the commands of *Mctr_cli* can be issued directly from the Console too (including the ones mentioned). The executor will try to adapt to the changes, for example if you select the *info* action, or execute the *info* command in the Console, the information displayed under the executor node will be updated (this can be seen on <<Figure-29,Figure 29>>). For more information on the commands of the *Mctr_cli* and how to execute testcases in it please refer to chapter 12 of the User Guide <<8-references.adoc#_3, [3]>>.
+All of the commands of *Mctr_cli* can be issued directly from the Console too (including the ones mentioned). The executor will try to adapt to the changes, for example if you select the *info* action, or execute the *info* command in the Console, the information displayed under the executor node will be updated (this can be seen on <<Figure-29,Figure 29>>). For more information on the commands of the *Mctr_cli* and how to execute testcases in it please refer to Section 4.4 of the User Guide <<8-references.adoc#_3, [3]>>.
 
 [[Figure-29]]
 image::images/5_F29.png[title="Example information display in the Parallel launch mode"]
@@ -175,7 +175,8 @@ Resumes the interrupted test execution.
 
 * *Stop execution*:
 +
-Terminates the test execution. +The verdict of the actual test case will not be considered in the statistics of the test suite.
+Terminates the test execution. +
+The verdict of the actual test case will not be considered in the statistics of the test suite.
 
 * *Exit MTC*:
 +
@@ -233,7 +234,7 @@ As several executions can be ongoing at any given time, this view always shows t
 
 Notifications of an execution can only be reached; as long as the execution is not removed from the system (being terminated is allowed).
 
-Please note that the Performance page of the launch configuration has some options to tweak the performance of this view. For more information please refer <<4-launching_the_test_suite.adoc#host-controllers-page-of-the-launch-configuration, here>>.
+Please note that the Performance page of the launch configuration has some options to tweak the performance of this view. For more information please refer to <<4-launching_the_test_suite.adoc#host-controllers-page-of-the-launch-configuration, Host Controllers Page of the Launch Configuration>>.
 
 The following actions are supported:
 
@@ -257,9 +258,7 @@ image::images/5_F34.png[title="The Executed tests view"]
 
 The TITAN test results view (above) contains verdict changing notifications extracted from the list of notifications.
 
-This view serves the purpose of summarizing the verdict changes of a test execution, briefly showing when and which testcase set what verdict value. As several executions can be ongoing at any given time, this view always shows the verdict changing messages, created by the execution/launch actually selected in the
-
-TITAN Execution Controller view (<<Figure-26,Figure 26>>). This information of an execution can only be reached; as long as the execution is not removed from the system (being terminated is allowed).
+This view serves the purpose of summarizing the verdict changes of a test execution, briefly showing when and which testcase set what verdict value. As several executions can be ongoing at any given time, this view always shows the verdict changing messages, created by the execution/launch actually selected in the TITAN Execution Controller view (<<Figure-26,Figure 26>>). This information of an execution can only be reached as long as the execution is not removed from the system (being terminated is allowed).
 
 It is worth to notice that the tool tip of this view not only identifies the execution it belongs to, but also presents its statistics (as seen below).
 
@@ -269,7 +268,7 @@ The following actions are supported:
 
 * *Save as*:
 +
-Selecting this action allows the user to save the extracted notifications in a file via a standard save as… Window.
+Selecting this action allows the user to save the extracted notifications in a file via a standard *save as…* Window.
 
 * *Follow the last record*:
 +
@@ -295,10 +294,12 @@ There are a few things to remember about console views:
 
 === Creating a New Console View
 
-By default the Executor perspective has only a single Console view open this can be changed by selecting the Open Console menu (Figure 36) and clicking on the New Console View option (Figure 37). By doing so a new Console view will be created in the actual perspective
+By default the Executor perspective has only a single Console view open this can be changed by selecting the Open Console menu (<<Figure-36,Figure 36>>) and clicking on the New Console View option (<<Figure-37,Figure 37>>). By doing so a new Console view will be created in the actual perspective
 
+[[Figure-36]]
 image::images/5_F36.png[title="The Open Console menu item"]
 
+[[Figure-37]]
 image::images/5_F37.png[title="The New Console View menu entry"]
 
 Using this feature of the Console views it is possible to create a separate Console view for each Host Controller or Main Controller of interest, and with their output at the same time.
@@ -307,15 +308,18 @@ Using this feature of the Console views it is possible to create a separate Cons
 
 The default behavior of the Console View provided by its plug-in is that it always tries to show the data printed to a console. For this reason when any Host controller or the Main Controller displays any information on its standard output, the Console View will automatically switch to the Console displaying that information.
 
-If it is desired to have a given console present at all time this can be achieved by selecting the Display Selected Console menu item (Figure 38), and from the list of available consoles selecting the one desired (Figure 39).
+If it is desired to have a given console present at all time this can be achieved by selecting the Display Selected Console menu item (<<Figure-38,Figure 38>>), and from the list of available consoles selecting the one desired (<<Figure-39,Figure 39>>).
 
+[[Figure-38]]
 image::images/5_F38.png[title="The Display Selected Console menu"]
 
+[[Figure-39]]
 image::images/5_F39.png[title="A list of available consoles displayed"]
 
 
-To force a Console View to always display the contents of a given console, one has to click on the Pin Console menu item (Figure 40). To lift this limitation from the Console View the Pin Console menu item has to be clicked again.
+To force a Console View to always display the contents of a given console, one has to click on the Pin Console menu item (<<Figure-40,Figure 40>>). To lift this limitation from the Console View the Pin Console menu item has to be clicked again.
 
+[[Figure-40]]
 image::images/5_F40.png[title="The Pin Console menu item"]
 
 == Limitations
@@ -324,7 +328,12 @@ image::images/5_F40.png[title="The Pin Console menu item"]
 
 * In JNI mode we have witnessed, that on some machines the Java Virtual Machine fails to load the `LD_LIBRARY_PATH` environmental variable from the shell into his set of environmental variables. +
 An indication of this problem is when the JNI executor reports, that the JNI dynamic library could not be loaded, though the path to the file can be found on the `LD_LIBRARY_PATH` of the shell. +
-A solution can be to start Eclipse with the following command forcing the Java Virtual Machine to load this environmental variable: *java -classpath startup.jar –Djava.library.path=$LD_LIBRARY_PATH org.eclipse.core.launcher.Main* +
-(This command must be executed in the directory where Eclipse was installed to)
+A solution can be to start Eclipse with the following command forcing the Java Virtual Machine to load this environmental variable:
+[source]
+----
+java -classpath startup.jar –Djava.library.path=$LD_LIBRARY_PATH org.eclipse.core.launcher.Main
+----
+
+(This command must be executed in the directory where Eclipse was installed to.)
 
 * Execution in JNI mode is not supported on Windows

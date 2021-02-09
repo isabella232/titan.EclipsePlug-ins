@@ -2,7 +2,9 @@
 
 == The TITAN Executing Perspective
 
-WARNING: The execution of TITAN Java projects (the Java side of the Test Executor) is done as Eclipse native java applications. It is not yet integrated to the usual Interface elements (Views, TITAN Launch configurations, etc...) that support the execution of the binaries of the C side of the TITAN Test Executor. For information on executing TITAN Java projects see <<launching-modes-supported-by-the-TITAN-Executor-plug-in-for-TITAN-Java-Projects, The Launching Modes Supported by the TITAN Executor Plug-in for TITAN Java Projects>>.
+WARNING: The execution of TITAN Java projects (the Java side of the Test Executor) is done as Eclipse native Java applications. It is not yet fully integrated to the usual interface elements like Views that support the execution of the binaries of the C side of the TITAN Test Executor. For information on executing TITAN Java projects see <<launching-modes-supported-by-the-TITAN-Executor-plug-in-for-TITAN-Java-Projects, The Launching Modes Supported by the TITAN Executor Plug-in for TITAN Java Projects>>.
+
+NOTE: In newer Eclipse versions "Launch configuration" is called "Run configuration", however throughout in this document "Launch configuration" is used.
 
 [[Figure-1]]
 image::images/2_Figure1.png[title="TITAN Executing perspective"]

@@ -1,13 +1,13 @@
 ---
-Author: Jenő Balaskó
-Version: 7.2.0
-Date: 2020-11-27
+Author: Jenő Balaskó, Ádám Knapp
+Version: 7.2.1
+Date: 2021-02-09
 
 ---
 = User Guide of the TITAN Executor for the Eclipse IDE plug-in
-:author: Jenő Balaskó
-:revnumber: 7.2.0
-:revdate: 2020-11-27
+:author: Jenő Balaskó, Ádám Knapp
+:revnumber: 7.2.1
+:revdate: 2021-02-09
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
