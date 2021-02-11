@@ -20,9 +20,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.utils.FileUtils;
 
 /**
  * @author Szabolcs Beres
+ * @author Adam Knapp
  * */
 public abstract class SampleProject {
 	/**
@@ -37,6 +39,8 @@ public abstract class SampleProject {
 				sourceFolder.create(true, true, new NullProgressMonitor());
 			}
 
+			preconfigure(project);
+
 			setupFiles(getSourceFileContent(), sourceFolder);
 			setupFiles(getOtherFileContent(), project);
 
@@ -46,6 +50,12 @@ public abstract class SampleProject {
 			ErrorReporter.logExceptionStackTrace("Error while creating project", e);
 		}
 	}
+
+	/**
+	 * Preconfigures the project and/or prepares the source codes before the files are created.
+	 * @param project the project to configure
+	 */
+	protected void preconfigure(final IProject project) {}
 
 	/**
 	 * Configures the project after the files have been created.
@@ -85,14 +95,8 @@ public abstract class SampleProject {
 	 * @param folder
 	 * @throws CoreException
 	 */
-	private  void createFolder(final IFolder folder) throws CoreException {
-		final IContainer parent = folder.getParent();
-		if (parent instanceof IFolder) {
-			createFolder((IFolder) parent);
-		}
-		if (!folder.exists()) {
-			folder.create(true, true, new NullProgressMonitor());
-		}
+	private void createFolder(final IFolder folder) throws CoreException {
+		FileUtils.createDir(folder);
 	}
 
 	/**

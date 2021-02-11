@@ -32,9 +32,21 @@ public class NewTITANProjectContentPage extends WizardPage {
 
 	private Composite pageComposite;
 	private SampleProject sampleProject = null;
+	
+	private boolean titanJavaProject = false;
 
 	public NewTITANProjectContentPage() {
 		super(TITLE);
+	}
+
+	/**
+	 * With this constructor one is able to notify this page
+	 * about it is related to Titan C++ or Titan Java project
+	 * @param isTitanJavaProject True if this page is related to Titan Java project; false otherwise 
+	 */
+	public NewTITANProjectContentPage(boolean isTitanJavaProject) {
+		this();
+		this.titanJavaProject = isTitanJavaProject;
 	}
 
 	@Override
@@ -51,6 +63,14 @@ public class NewTITANProjectContentPage extends WizardPage {
 	public void dispose() {
 		pageComposite.dispose();
 		super.dispose();
+	}
+	
+	/**
+	 * Returns whether this page is created for Titan C++ or Java project
+	 * @return True, if this page is created for Titan Java project; false otherwise
+	 */
+	public boolean isTitanJavaProject() {
+		return titanJavaProject;
 	}
 
 	/**
@@ -101,7 +121,13 @@ public class NewTITANProjectContentPage extends WizardPage {
 		samplesList.setLayoutData(new GridData(GridData.FILL_BOTH));
 		int indexOfEmptyProject = 0;
 		int i = 0;
-		for (final Map.Entry<String, SampleProject> entry : SampleProjects.getProjects().entrySet()) {
+		Map<String, SampleProject> map = null;
+		if (titanJavaProject) {
+			map = SampleProjects.getJavaProjects();
+		} else {
+			map = SampleProjects.getProjects();
+		}
+		for (final Map.Entry<String, SampleProject> entry : map.entrySet()) {
 			samplesList.add(entry.getValue().getName());
 			if ("Empty Project".equals(entry.getValue().getName())) {
 				indexOfEmptyProject = i;
@@ -109,7 +135,11 @@ public class NewTITANProjectContentPage extends WizardPage {
 			++i;
 		}
 		samplesList.select(indexOfEmptyProject);
-		sampleProject = SampleProjects.getProjects().get(samplesList.getSelection()[0]);
+		if (titanJavaProject) {
+			sampleProject = SampleProjects.getJavaProjects().get(samplesList.getSelection()[0]);
+		} else {
+			sampleProject = SampleProjects.getProjects().get(samplesList.getSelection()[0]);
+		}
 
 		final Label description = new Label(projectAndDescription, SWT.BORDER);
 		description.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -121,7 +151,11 @@ public class NewTITANProjectContentPage extends WizardPage {
 				if (samplesList.getSelectionCount() != 1) {
 					return;
 				}
-				sampleProject = SampleProjects.getProjects().get(samplesList.getSelection()[0]);
+				if (titanJavaProject) {
+					sampleProject = SampleProjects.getJavaProjects().get(samplesList.getSelection()[0]);
+				} else {
+					sampleProject = SampleProjects.getProjects().get(samplesList.getSelection()[0]);
+				}
 				description.setText(sampleProject.getDescription());
 			}
 

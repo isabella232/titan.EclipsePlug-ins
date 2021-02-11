@@ -35,6 +35,7 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
  * @author Arpad Lovassy
  */
 public final class ProjectSourceCompiler {
+	private final static String PACKAGE_RUNTIME_ROOT = "org.eclipse.titan.runtime.core";
 	public static boolean generated;
 
 	/**
@@ -44,29 +45,53 @@ public final class ProjectSourceCompiler {
 		//intentionally empty
 	}
 
-	/** the root package of the generated java source */
-	private static String getPackageGeneratedRoot(final IProject project) {
+	/**
+	 * Returns the string {@code org.eclipse.titan.runtime.core}
+	 * @return Returns the string {@code org.eclipse.titan.runtime.core}
+	 */
+	public static String getPackageRuntimeRoot() {
+		return PACKAGE_RUNTIME_ROOT;
+	}
+
+	/** 
+	 * Returns the root package of the generated java source
+	 * @param project Project to which the package is related to
+	 * @return The root package of the generated java source
+	 */
+	public static String getPackageGeneratedRoot(final IProject project) {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 
 		return MessageFormat.format("org.eclipse.titan.{0}.generated", projectName);
 	}
 
+	/**
+	 * Returns the root package of the user provided java source
+	 * @param project Project to which the package is related to
+	 * @return The root package of the user provided java source
+	 */
 	public static String getPackageUserProvidedRoot(final IProject project) {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 
 		return MessageFormat.format("org.eclipse.titan.{0}.user_provided", projectName);
 	}
 
-	private final static String PACKAGE_RUNTIME_ROOT = "org.eclipse.titan.runtime.core";
-
-	/** the root folder of the generated java source */
-	private static String getGeneratedRoot(final IProject project) {
+	/** 
+	 * Returns the root folder (path) of the generated java source 
+	 * @param project Project to which the folder is related to
+	 * @return The root folder (path) of the generated java source
+	 */
+	public static String getGeneratedRoot(final IProject project) {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 
 		return MessageFormat.format("java_src/org/eclipse/titan/{0}/generated", projectName);
 	}
 
-	private static String getUserProvidedRoot(final IProject project) {
+	/**
+	 * Returns the root folder (path) of the user provided java source
+	 * @param project Project to which the folder is related to
+	 * @return The root folder (path) of the user provided java source
+	 */
+	public static String getUserProvidedRoot(final IProject project) {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 
 		return MessageFormat.format("user_provided/org/eclipse/titan/{0}/user_provided", projectName);
@@ -166,7 +191,7 @@ public final class ProjectSourceCompiler {
  	 * @param contentBuilder string buffer, where the result is written
  	 * 
 	 */
-	private static void generateCommonHeaderComments(StringBuilder contentBuilder) {
+	public static void generateCommonHeaderComments(StringBuilder contentBuilder) {
 		if (contentBuilder == null)
 			return;
 		

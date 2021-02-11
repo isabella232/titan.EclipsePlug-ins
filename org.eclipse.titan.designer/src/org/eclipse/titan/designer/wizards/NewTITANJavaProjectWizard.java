@@ -11,7 +11,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.common.utils.FileUtils;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 import org.eclipse.titan.designer.core.TITANNature;
@@ -46,6 +44,7 @@ import org.eclipse.titan.designer.properties.data.MakeAttributesData;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 import org.eclipse.titan.designer.properties.data.ProjectDocumentHandlingUtility;
 import org.eclipse.titan.designer.properties.data.ProjectFileHandler;
+import org.eclipse.titan.designer.samples.SampleProject;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
@@ -66,6 +65,7 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 	private static final String CREATION_FAILED = "Project creation failed";
 
 	private NewTITANProjectCreationPage mainPage;
+	private NewTITANProjectContentPage contentPage;
 
 	private IConfigurationElement config;
 	private IProject newProject;
@@ -79,6 +79,8 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 		mainPage.setTitle(NEWPROJECT_TITLE);
 		mainPage.setDescription(NEWPROJECT_DESCRIPTION);
 		addPage(mainPage);
+		contentPage = new NewTITANProjectContentPage(true);
+		addPage(contentPage);
 	}
 
 	@Override
@@ -121,16 +123,7 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 			protected void execute(final IProgressMonitor monitor) throws CoreException {
 				createProject(description, newProjectHandle, monitor);
 
-				IFolder folder = newProjectHandle.getFolder("src");
-				if (!folder.exists()) {
-					try {
-						folder.create(true, true, null);
-					} catch (CoreException e) {
-						ErrorReporter.logExceptionStackTrace(e);
-					}
-				}
-
-				folder = newProjectHandle.getFolder("java_src");
+				IFolder folder = newProjectHandle.getFolder("java_src");
 				if (!folder.exists()) {
 					try {
 						folder.create(true, true, null);
@@ -146,7 +139,6 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 						ErrorReporter.logExceptionStackTrace(e);
 					}
 				}
-
 				folder = newProjectHandle.getFolder("java_bin");
 				if (!folder.exists()) {
 					try {
@@ -154,6 +146,21 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 					} catch (CoreException e) {
 						ErrorReporter.logExceptionStackTrace(e);
 					}
+				}
+				folder = newProjectHandle.getFolder("src");
+				if (!folder.exists()) {
+					try {
+						folder.create(true, true, null);
+					} catch (CoreException e) {
+						ErrorReporter.logExceptionStackTrace(e);
+					}
+				}
+				
+				final SampleProject sample = contentPage.getSampleProject();
+				if (sample != null) {
+					sample.setupProject(newProjectHandle.getProject(), folder);
+					ProjectFileHandler pfHandler = new ProjectFileHandler(newProjectHandle.getProject());
+					pfHandler.saveProjectSettings();
 				}
 			}
 		};
@@ -253,30 +260,15 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 		}
 	}
 
-	// the root package of the user generated java source, e.g. test port types, generally TestPortTypeName_PT
-	//private final static String PACKAGE_USER_PROVIDED_ROOT = "org.eclipse.titan.user_provided";
-	// the root folder of the user generated java source, e.g. for test port types 
-//	private final static String DIR_USER_PROVIDED_ROOT = "user_provided/org/eclipse/titan/user_provided";
-	private static String getUserProvidedRoot(final IProject project) {
-		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
-
-		return MessageFormat.format("user_provided/org/eclipse/titan/{0}/user_provided", projectName);
-	}
-	
-	private void createUserProvidedPackageFolder() throws CoreException {
-		final IFolder folder = newProject.getFolder(getUserProvidedRoot(newProject));
-		FileUtils.createDir(folder);
-	}
-
 	@Override
 	public boolean performFinish() {
-		
+
 		Activator.getDefault().pauseHandlingResourceChanges();
 
 		if(!isCreated) {
 			createNewProject();
 		}
-		
+
 		if (newProject == null) {
 			Activator.getDefault().resumeHandlingResourceChanges();
 			return false;
@@ -300,7 +292,6 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 			//createUserProvidedPackageFolder();
 			ProjectSourceCompiler.generateGeneratedPackageInfo(newProject);
 			ProjectSourceCompiler.generateUserProvidedPackageInfo(newProject);
-			
 
 		} catch (CoreException exception) {
 			ErrorReporter.logExceptionStackTrace(exception);
