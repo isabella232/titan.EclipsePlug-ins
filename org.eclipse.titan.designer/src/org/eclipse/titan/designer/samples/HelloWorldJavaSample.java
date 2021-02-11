@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Copyright (c) 2000-2021 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ ******************************************************************************/
 package org.eclipse.titan.designer.samples;
 
 import java.text.MessageFormat;
@@ -56,12 +63,12 @@ public class HelloWorldJavaSample  extends HelloWorldSample {
 	public Map<String, String> getOtherFileContent() {
 		return OTHER_FILE_CONTENT;
 	}
-	
+
 	@Override
 	public Map<String, String> getSourceFileContent() {
 		return SOURCE_FILE_CONTENT;
 	}
-	
+
 	/**
 	 * Generates the user provided test port Java source for the Hello World project
 	 * @param project Project in which the code is needed

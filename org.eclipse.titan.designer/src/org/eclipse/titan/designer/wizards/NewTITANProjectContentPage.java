@@ -32,7 +32,7 @@ public class NewTITANProjectContentPage extends WizardPage {
 
 	private Composite pageComposite;
 	private SampleProject sampleProject = null;
-	
+
 	private boolean titanJavaProject = false;
 
 	public NewTITANProjectContentPage() {
@@ -64,7 +64,7 @@ public class NewTITANProjectContentPage extends WizardPage {
 		pageComposite.dispose();
 		super.dispose();
 	}
-	
+
 	/**
 	 * Returns whether this page is created for Titan C++ or Java project
 	 * @return True, if this page is created for Titan Java project; false otherwise

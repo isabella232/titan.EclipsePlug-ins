@@ -254,7 +254,7 @@ public class HelloWorldSample extends SampleProject {
 		SOURCE_FILE_CONTENT.put("PCOType.hh", PCOTYPE_HH);
 		SOURCE_FILE_CONTENT.put("PCOType.cc", PCOTYPE_CC);
 	}
-	
+
 	private static String setHostName() {
 		try {
 			return InetAddress.getLocalHost().getHostName();			 

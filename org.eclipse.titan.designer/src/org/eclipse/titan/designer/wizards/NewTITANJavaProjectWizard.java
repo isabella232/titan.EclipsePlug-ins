@@ -155,7 +155,7 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 						ErrorReporter.logExceptionStackTrace(e);
 					}
 				}
-				
+
 				final SampleProject sample = contentPage.getSampleProject();
 				if (sample != null) {
 					sample.setupProject(newProjectHandle.getProject(), folder);
@@ -289,7 +289,6 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 
 			createBuildProperties();
 			createManifest();
-			//createUserProvidedPackageFolder();
 			ProjectSourceCompiler.generateGeneratedPackageInfo(newProject);
 			ProjectSourceCompiler.generateUserProvidedPackageInfo(newProject);
 
