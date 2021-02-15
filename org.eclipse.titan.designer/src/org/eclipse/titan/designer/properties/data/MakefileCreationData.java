@@ -44,6 +44,9 @@ public final class MakefileCreationData {
 	public static final String TARGET_EXECUTABLE_PROPERTY = "targetExecutable";
 	public static final String CODE_SPLITTING_PROPERTY = "codeSplitting";
 	public static final String DEFAULT_TARGET_PROPERTY = "defaultTarget";
+	public static final String DEFAULT_JAVA_TARGET_PROPERTY = "defaultJavaTarget";
+	public static final String GENERATE_START_SH_SCRIPT_PROPERTY = "generateStartShScript";
+	public static final String GENERATE_START_BAT_SCRIPT_PROPERTY = "generateStartBatScript";
 
 	public static final boolean USE_ABSOLUTEPATH_DEFAULT_VALUE       = false;
 	public static final boolean GNU_MAKE_DEFAULT_VALUE               = false;
@@ -53,20 +56,27 @@ public final class MakefileCreationData {
 	public static final boolean SINGLEMODE_DEFAULT_VALUE	         = false;
 	public static final String  CODE_SPLITTING_DEFAULT_VALUE         = GeneralConstants.NONE;
 	public static final String  DEFAULT_TARGET_DEFAULT_VALUE         = DefaultTarget.getDefault().toString();
+	public static final String  DEFAULT_JAVA_TARGET_DEFAULT_VALUE    = DefaultJavaTarget.getDefault().toString();
+	public static final boolean GENERATE_START_SH_SCRIPT_DEFAULT     = false;
+	public static final boolean GENERATE_START_BAT_SCRIPT_DEFAULT    = false;
 
 	// makefile properties to be saved into the XML
 	public static final String[] MAKEFILE_PROPERTIES = new String[] { USE_ABSOLUTEPATH_PROPERTY, GNU_MAKE_PROPERTY,
 			INCREMENTAL_DEPENDENCY_PROPERTY, DYNAMIC_LINKING_PROPERTY, FUNCTIONTESTRUNTIME_PROPERTY, SINGLEMODE_PROPERTY,
-			CODE_SPLITTING_PROPERTY, DEFAULT_TARGET_PROPERTY };
+			CODE_SPLITTING_PROPERTY, DEFAULT_TARGET_PROPERTY, DEFAULT_JAVA_TARGET_PROPERTY,
+			GENERATE_START_SH_SCRIPT_PROPERTY, GENERATE_START_BAT_SCRIPT_PROPERTY};
 
 	// XML tag names corresponding to the makefile properties
 	public static final String[] MAKEFILE_TAGS = new String[] { "useAbsolutePath", "GNUMake", "incrementalDependencyRefresh", "dynamicLinking",
-			"functiontestRuntime", "singleMode", "codeSplitting", "defaultTarget" };
+			"functiontestRuntime", "singleMode", "codeSplitting", "defaultTarget", "defaultJavaTarget",
+			"generateStartShScript", "generateStartBatScript"};
 
 	private static final String[] DEFAULT_VALUES = new String[] { String.valueOf(USE_ABSOLUTEPATH_DEFAULT_VALUE),
 			String.valueOf(GNU_MAKE_DEFAULT_VALUE), String.valueOf(INCREMENTAL_DEPENDENCY_DEFAULT_VALUE),
 			String.valueOf(DYNAMIC_LINKING_DEFAULT_VALUE), String.valueOf(FUNCTIONTESTRUNTIME_DEFAULT_VALUE),
-			String.valueOf(SINGLEMODE_DEFAULT_VALUE), CODE_SPLITTING_DEFAULT_VALUE, DEFAULT_TARGET_DEFAULT_VALUE };
+			String.valueOf(SINGLEMODE_DEFAULT_VALUE), CODE_SPLITTING_DEFAULT_VALUE, DEFAULT_TARGET_DEFAULT_VALUE,
+			DEFAULT_JAVA_TARGET_DEFAULT_VALUE, String.valueOf(GENERATE_START_SH_SCRIPT_DEFAULT), 
+			String.valueOf(GENERATE_START_BAT_SCRIPT_DEFAULT)};
 
 	public enum DefaultTarget {
 		EXECUTABLE, LIBRARY;
@@ -94,6 +104,34 @@ public final class MakefileCreationData {
 					{ "Library", DefaultTarget.LIBRARY.toString() } };
 		}
 	}
+	
+	public enum DefaultJavaTarget {
+		CLASS, EXECUTABLE, JAR;
+
+		public static DefaultJavaTarget getDefault() {
+			return CLASS;
+		}
+
+		@Override
+		public String toString() {
+			return name().toLowerCase(Locale.ENGLISH);
+		}
+
+		/**
+		 * This works like {@link #valueOf(String)} except it is case
+		 * insensitive. This and {@link #toString()} should be kept
+		 * consistent.
+		 */
+		public static DefaultJavaTarget createInstance(final String str) {
+			return DefaultJavaTarget.valueOf(str.toUpperCase());
+		}
+
+		public static String[][] getDisplayNamesAndValues() {
+			return new String[][] { { "Class files", DefaultJavaTarget.CLASS.toString() },
+					{ "Executable JAR", DefaultJavaTarget.EXECUTABLE.toString() },
+					{ "JAR", DefaultJavaTarget.JAR.toString() } };
+		}
+	}
 
 	private MakefileCreationData() {
 		// Do nothing
@@ -110,6 +148,9 @@ public final class MakefileCreationData {
 			project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, CODE_SPLITTING_PROPERTY), null);
 			project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, DEFAULT_TARGET_PROPERTY), null);
 			project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, TARGET_EXECUTABLE_PROPERTY), null);
+			project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, DEFAULT_JAVA_TARGET_PROPERTY), null);
+			project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, GENERATE_START_SH_SCRIPT_PROPERTY), null);
+			project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, GENERATE_START_BAT_SCRIPT_PROPERTY), null);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace("While removing attributes of `" + project.getName() + "'", e);
 		}
@@ -333,5 +374,10 @@ public final class MakefileCreationData {
 			name.append(".exe");
 		}
 		return name.toString();
+	}
+	
+	public static String getDefaultJavaTargetName(final IProject project, final boolean isAbsolute) {
+		String name = getDefaultTargetExecutableName(project, isAbsolute);
+		return "java_bin" + File.separator + name.replace("bin" + File.separator, "").replace(".exe", "") + ".jar";
 	}
 }

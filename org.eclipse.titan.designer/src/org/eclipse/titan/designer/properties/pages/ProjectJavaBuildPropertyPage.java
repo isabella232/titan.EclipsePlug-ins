@@ -43,6 +43,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 	private TabFolder makefileOperationsTabFolder;
 
 	private InternalJavaCreationTab internalMakefileCreationTab;
+	private JavaCreationTab javaCreationTab;
 
 	private final PreferenceStore tempStorage;
 	private IProject projectResource;
@@ -58,6 +59,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 	@Override
 	public void dispose() {
 		headLabel.dispose();
+		javaCreationTab.dispose();
 		internalMakefileCreationTab.dispose();
 		makefileOperationsTabFolder.dispose();
 		pageComposite.dispose();
@@ -190,7 +192,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 		firstConfiguration = configurationManager.getActualSelection();
 
 		makefileOperationsTabFolder = new TabFolder(pageComposite, SWT.BORDER);
-		
+
 		final GridData makefileOperationsTabFolderGridData = new GridData();
 		makefileOperationsTabFolderGridData.horizontalAlignment = GridData.FILL;
 		makefileOperationsTabFolderGridData.verticalAlignment = GridData.FILL;
@@ -198,6 +200,8 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 		makefileOperationsTabFolderGridData.grabExcessVerticalSpace = true;
 		makefileOperationsTabFolder.setLayoutData(makefileOperationsTabFolderGridData);
 
+		javaCreationTab = new JavaCreationTab(projectResource);
+		javaCreationTab.createContents(makefileOperationsTabFolder);
 		internalMakefileCreationTab = new InternalJavaCreationTab(projectResource);
 		internalMakefileCreationTab.createContents(makefileOperationsTabFolder);
 
@@ -209,16 +213,14 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 		return pageComposite;
 	}
 
-
 	protected void updateContents() {
-
 
 	}
 
 	@Override
 	protected void performDefaults() {
+		javaCreationTab.performDefaults(projectResource);
 		internalMakefileCreationTab.performDefaults();
-
 		configurationManager.saveActualConfiguration();
 	}
 
@@ -245,6 +247,9 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 		}
 		if (!pluginPreferenceStore.isDefault(MakeAttributesTab.TEMPORAL_WORKINGDIRECTORY)) {
 			pluginPreferenceStore.setToDefault(MakeAttributesTab.TEMPORAL_WORKINGDIRECTORY);
+		}
+		if (!pluginPreferenceStore.isDefault(JavaCreationTab.TEMPORAL_JAVA_TARGET)) {
+			pluginPreferenceStore.setToDefault(JavaCreationTab.TEMPORAL_JAVA_TARGET);
 		}
 
 		configurationManager.saveActualConfiguration();
@@ -276,6 +281,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 	}
 
 	public void loadProperties() {
+		javaCreationTab.loadProperties(projectResource);
 		internalMakefileCreationTab.loadProperties(projectResource);
 	}
 
@@ -306,6 +312,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 	 * */
 	public boolean checkProperties() {
 		boolean result = true;
+		result &= javaCreationTab.checkProperties(this);
 		result &= internalMakefileCreationTab.checkProperties(this);
 
 		return result;
@@ -314,6 +321,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 	public boolean saveProperties() {
 		boolean success = true;
 		// saving properties if checking was successful
+		success &= javaCreationTab.saveProperties(projectResource);
 		success &= internalMakefileCreationTab.saveProperties(projectResource);
 
 		setErrorMessage(null);
