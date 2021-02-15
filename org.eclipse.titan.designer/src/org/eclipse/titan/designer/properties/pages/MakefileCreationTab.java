@@ -197,6 +197,10 @@ public final class MakefileCreationTab {
 						+ "This field is optional.\n"
 						+ " If it is not set, the executable will be generated into the working directory, with the name of the project.");
 		temporalTargetExecutableFileFieldEditor.setPage(page);
+		if (Platform.OS_WIN32.equals(Platform.getOS())) {
+			final String[] extensions = new String[] {"*.exe", "*.*"};
+			temporalTargetExecutableFileFieldEditor.setFilterExtensions(extensions);
+		}
 
 		creationAttributesTabItem.setControl(automaticBuildPropertiesComposite);
 		return creationAttributesTabItem;

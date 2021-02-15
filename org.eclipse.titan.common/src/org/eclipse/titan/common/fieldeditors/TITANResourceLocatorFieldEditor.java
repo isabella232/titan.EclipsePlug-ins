@@ -63,6 +63,9 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 	// an optional console that might be used to provide debug information.
 	private MessageConsole console = null;
 
+	private boolean enabled = true;
+	List<String> filterExtensions = null;
+
 	/**
 	 * Creates a string button field editor.
 	 *
@@ -229,8 +232,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 	private void handleVariablesButtonPressed() {
 		int variableTypes = IResource.FOLDER;
 
-		// allow selecting file and folder variables when creating a
-		// linked file
+		// allow selecting file and folder variables when creating a linked file
 		if (type == IResource.FILE) {
 			variableTypes |= IResource.FILE;
 		}
@@ -254,8 +256,9 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 		if (type == IResource.FILE) {
 			final FileDialog dialog = new FileDialog(getTextControl().getShell());
 			dialog.setText("Select the target file.");
+			dialog.setFilterExtensions(getFilterExtensions());
 			final IPath path = URIUtil.toPath(resolvedPath);
-			if ( "".equals(getStringValue()) ) {
+			if ( getStringValue().isBlank() ) {
 				dialog.setFilterPath(path.toOSString());
 			} else {
 				dialog.setFilterPath(path.removeLastSegments(1).toOSString());
@@ -283,7 +286,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 	 * the entered value is a variable.
 	 */
 	private void resolveVariable() {
-		if ("".equals(target)) {
+		if (target.isEmpty() || !isEnabled()) {
 			resolvedPathLabelText.setVisible(false);
 			return;
 		}
@@ -297,7 +300,6 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 			message = "Resolved location: " + URIUtil.toPath(resolvedPath).toOSString();
 		}
 		resolvedPathLabelText.setText(message);
-
 
 		if (path.equals(resolvedPath)) {
 			resolvedPathLabelText.setVisible(false);
@@ -339,5 +341,52 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 		}
 
 		return true;
+	}
+	
+	@Override
+	public void setEnabled(boolean enabled, Composite parent) {
+		this.enabled = enabled;
+		resolvedPathLabelText.setVisible(enabled);
+		pathButton.setEnabled(enabled);
+		envButton.setEnabled(enabled);
+		browseButton.setEnabled(enabled);
+		super.setEnabled(enabled, parent);
+	}
+	
+	/**
+	 * Returns whether or not the controls in the field editor are enabled.
+	 * @return The enabled state.
+	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	/**
+	 * Returns the file extensions which the dialog will use to filter the files it shows.
+	 * It is used by the dialog of browse button.
+	 * @return The file extensions filter
+	 * @see org.eclipse.swt.widgets.FileDialog#getFilterExtensions()
+	 */
+	public String[] getFilterExtensions() {
+		return filterExtensions == null ? null : filterExtensions.toArray(new String[filterExtensions.size()]);
+	}
+	
+	/**
+	 * Set the file extensions which the dialog will use to filter the files it shows to the argument. 
+	 * @param extensions The file extension filter
+	 * @see org.eclipse.swt.widgets.FileDialog#setFilterExtensions
+	 */
+	public void setFilterExtensions(String[] extensions) {
+		if (extensions == null || extensions.length == 0) {
+			return;
+		}
+		if (filterExtensions == null) {
+			filterExtensions = new ArrayList<String>(extensions.length);
+		} else {
+			filterExtensions.clear();
+		}
+		for (int i = 0; i < extensions.length; i++) {
+			filterExtensions.add(extensions[i]);
+		}
 	}
 }

@@ -31,6 +31,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -91,14 +92,14 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	private static final String WORKING_DIR_TOOLTIP = "The directory the main controller should be started from.";
 	private static final String EXECUTABLE = "  Executable:";
 	private static final String EXECUTABLE_TOOLTIP =
-			"This field is required.\nThe executable file used to make the creation and validation of testsets possible.";
+			"This field is required.\nThe executable file is used to make the creation and validation of testsets possible.";
 	private static final String EXECUTABLE_REQUIRED = "Executable (REQUIRED):";
 	private static final String EXECUTABLE_NOT_REQUIRED = "Executable:";
 	private static final String EXECUTABLE_REQUIRED_TOOLTIP =
-			"The executable file used to execute testcases and to make the creation and validation of testsets possible.";
+			"The executable file is used to execute testcases and to make the creation and validation of testsets possible.";
 	private static final String CONFIGFILE = "  Configuration file:";
 	private static final String CONFIGFILE_TOOLTIP = "This field is required.\n" +
-			"The runtime configuration file used to describe the runtime behaviour of the executable test program.";
+			"The runtime configuration file is used to describe the runtime behaviour of the executable test program.";
 	private static final String CONFIGFILE_REQUIRED = "Configuration file (REQUIRED):";
 	private static final String BROWSE_WORKSPACE = "Browse Workspace..";
 
@@ -338,6 +339,10 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			executableFileText = new TITANResourceLocator(EXECUTABLE, executableGroup, IResource.FILE, getProject().getLocation().toOSString());
 		}
 		executableFileText.getLabelControl(executableGroup).setToolTipText(EXECUTABLE_TOOLTIP);
+		if (Platform.OS_WIN32.equals(Platform.getOS())) {
+			final String[] extensions = new String[] {"*.exe", "*.*"};
+			executableFileText.setFilterExtensions(extensions);
+		}
 	}
 
 	protected final void createConfigurationEditor(final Composite parent) {
@@ -359,6 +364,8 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			configurationFileText = new TITANResourceLocator(CONFIGFILE, configFileGroup, IResource.FILE, getProject().getLocation().toOSString());
 		}
 		configurationFileText.getLabelControl(configFileGroup).setToolTipText(CONFIGFILE_TOOLTIP);
+		final String[] extensions = new String[] {"*.cfg", "*.*"};
+		configurationFileText.setFilterExtensions(extensions);
 
 		automaticExecuteSectionExecution = new Button(configFileGroup, SWT.CHECK);
 		automaticExecuteSectionExecution.setText("Execute automatically");

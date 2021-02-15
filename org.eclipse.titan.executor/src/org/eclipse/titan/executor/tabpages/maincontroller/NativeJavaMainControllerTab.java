@@ -297,6 +297,8 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 			configurationFileText = new TITANResourceLocator(CONFIGFILE, configFileGroup, IResource.FILE, getProject().getLocation().toOSString());
 		}
 		configurationFileText.getLabelControl(configFileGroup).setToolTipText(CONFIGFILE_TOOLTIP);
+		final String[] extensions = new String[] {"*.cfg", "*.*"};
+		configurationFileText.setFilterExtensions(extensions);
 
 		automaticExecuteSectionExecution = new Button(configFileGroup, SWT.CHECK);
 		automaticExecuteSectionExecution.setText("Execute automatically");
