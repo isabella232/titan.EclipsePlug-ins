@@ -32,6 +32,8 @@ public final class CfgAnalyzer {
 
 	private ExecuteSectionHandler executeSectionHandler = null;
 	private MCSectionHandler mcSectionHandler = null;
+	private GroupSectionHandler groupSectionHandler = null;
+	private ComponentSectionHandler componentSectionHandler = null;
 
 	public ExecuteSectionHandler getExecuteSectionHandler() {
 		return executeSectionHandler;
@@ -161,6 +163,8 @@ public final class CfgAnalyzer {
 
 		executeSectionHandler = parser.getExecuteSectionHandler();
 		mcSectionHandler = parser.getMcSectionHandler();
+		groupSectionHandler = parser.getGroupSectionHandler();
+		componentSectionHandler = parser.getComponentSectionHandler();
 		IOUtils.closeQuietly(reader);
 		final boolean config_process_error = parser.get_error_flag();
 		return lexerListener.encounteredError() || parserListener.encounteredError() || config_process_error;
@@ -168,5 +172,13 @@ public final class CfgAnalyzer {
 
 	public MCSectionHandler getMcSectionHandler() {
 		return mcSectionHandler;
+	}
+
+	public GroupSectionHandler getGroupSectionHandler() {
+		return groupSectionHandler;
+	}
+
+	public ComponentSectionHandler getComponentSectionHandler() {
+		return componentSectionHandler;
 	}
 }

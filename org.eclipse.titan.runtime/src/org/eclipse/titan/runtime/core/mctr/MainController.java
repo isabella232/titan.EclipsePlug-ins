@@ -1404,6 +1404,22 @@ public class MainController {
 	public List<Host> get_hosts() {
 		return hosts;
 	}
+	
+	public synchronized boolean start_reconfiguring() {
+		switch (mc_state) {
+		case MC_READY:
+			mc_state = mcStateEnum.MC_RECONFIGURING;
+			return true;
+		case MC_LISTENING:
+		case MC_HC_CONNECTED:
+			return true;
+		default:
+			lock();
+			error("MainController.start_reconfiguring: called in wrong state.");
+			unlock();
+			return false;
+		}
+	}
 
 	public synchronized void create_mtc(final Host host) {
 		lock();

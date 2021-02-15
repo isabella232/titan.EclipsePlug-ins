@@ -25,7 +25,9 @@ import org.eclipse.titan.runtime.core.TTCN_Runtime;
 import org.eclipse.titan.runtime.core.TitanComponent;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
+import org.eclipse.titan.runtime.core.cfgparser.ComponentSectionHandler;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler;
+import org.eclipse.titan.runtime.core.cfgparser.GroupSectionHandler;
 import org.eclipse.titan.runtime.core.cfgparser.IOUtils;
 import org.eclipse.titan.runtime.core.cfgparser.MCSectionHandler;
 import org.eclipse.titan.runtime.core.mctr.ConfigData.cf_timestamp_format;
@@ -36,6 +38,8 @@ import org.eclipse.titan.runtime.core.mctr.MainController.tc_state_enum;
 
 /**
  * User interface cli implementation.
+ * 
+ * @author Gergo Ujhelyi
  */
 public class Cli extends UserInterface {
 
@@ -62,36 +66,6 @@ public class Cli extends UserInterface {
 			new MainControllerCommand(MainControllerCommand.BATCH_TEXT, " <batch_file>", "Run commands from batch file."),
 			new MainControllerCommand(MainControllerCommand.INFO_TEXT, null, "Display test configuration information.")
 	};
-
-	private static final MainControllerCommand cmtc_command = new MainControllerCommand(MainControllerCommand.CMTC_TEXT,
-			" [hostname]", "Create the MTC.");
-	private static final MainControllerCommand smtc_command = new MainControllerCommand(MainControllerCommand.SMTC_TEXT,
-			" [module_name[[.control]|.testcase_name|.*]", "Start MTC with control part, test case or all test cases.");
-	private static final MainControllerCommand stop_command = new MainControllerCommand(MainControllerCommand.STOP_TEXT,
-			null, "Stop test execution.");
-	private static final MainControllerCommand pause_command = new MainControllerCommand(
-			MainControllerCommand.PAUSE_TEXT, " [on|off]",
-			"Set whether to interrupt test execution after each test case.");
-	private static final MainControllerCommand continue_command = new MainControllerCommand(
-			MainControllerCommand.CONTINUE_TEXT, null, "Resumes interrupted test execution.");
-	private static final MainControllerCommand emtc_command = new MainControllerCommand(MainControllerCommand.EMTC_TEXT,
-			null, "Terminate MTC.");
-	private static final MainControllerCommand log_command = new MainControllerCommand(MainControllerCommand.LOG_TEXT,
-			" [on|off]", "Enable/disable console logging.");
-	private static final MainControllerCommand reconf_command = new MainControllerCommand(
-			MainControllerCommand.RECONF_TEXT, " [config_file]", "Reload configuration file.");
-	private static final MainControllerCommand help_command = new MainControllerCommand(MainControllerCommand.HELP_TEXT,
-			" <command>", "Display help on command.");
-	private static final MainControllerCommand shell_command = new MainControllerCommand(
-			MainControllerCommand.SHELL_TEXT, "[shell cmds]", "Execute commands in subshell.");
-	private static final MainControllerCommand exit_command = new MainControllerCommand(MainControllerCommand.EXIT_TEXT,
-			null, "Exit Main Controller.");
-	private static final MainControllerCommand exit_command2 = new MainControllerCommand(
-			MainControllerCommand.EXIT_TEXT2, null, "Exit Main Controller.");
-	private static final MainControllerCommand batch_command = new MainControllerCommand(
-			MainControllerCommand.BATCH_TEXT, " <batch_file>", "Run commands from batch file.");
-	private static final MainControllerCommand info_command = new MainControllerCommand(MainControllerCommand.INFO_TEXT,
-			null, "Display test configuration information.");
 
 	private static final int EXIT_FAILURE = 1;
 	private static final int EXIT_SUCCESS = 0;
@@ -152,9 +126,10 @@ public class Cli extends UserInterface {
 				cleanUp();
 				return EXIT_FAILURE;
 			} else {
-				;
 				final MCSectionHandler mcSectionHandler = cfgAnalyzer.getMcSectionHandler();
 				final ExecuteSectionHandler executeSectionHandler = cfgAnalyzer.getExecuteSectionHandler();
+				final ComponentSectionHandler componentSectionHandler = cfgAnalyzer.getComponentSectionHandler();
+				final GroupSectionHandler groupSectionHandler = cfgAnalyzer.getGroupSectionHandler();
 
 				if (mcSectionHandler.getKillTimer() != null) {
 					mainController.set_kill_timer(mcSectionHandler.getKillTimer());
@@ -181,9 +156,21 @@ public class Cli extends UserInterface {
 				} else {
 					mycfg.setTcp_listen_port(0);
 				}
-
 				mycfg.add_exec(executeSectionHandler.getExecuteitems());
-				// TODO: assign groups, components and host
+				mycfg.add_host(groupSectionHandler.getGroups());
+				mycfg.add_component(componentSectionHandler.getComponents());
+				for (int i = 0; i < mycfg.getGroup_list().size(); i++) {
+					if (mycfg.getGroup_list().get(i).getGroupItems().isEmpty()) {
+						mainController.add_host(mycfg.getGroup_list().get(i).getGroupName(), null);
+					} else {
+						for (int j = 0; j < mycfg.getGroup_list().get(i).getGroupItems().size(); j++) {
+							mainController.add_host(mycfg.getGroup_list().get(i).getGroupName(), mycfg.getGroup_list().get(i).getGroupItems().get(j).getItem());
+						}
+					}
+				}
+				for (int i = 0; i < mycfg.getComponent_list().size(); i++) {
+					mainController.assign_component(mycfg.getComponent_list().get(i).getHostName(),mycfg.getComponent_list().get(i).getComponentName());
+				}				
 			}
 		} else {
 			try {
@@ -206,14 +193,14 @@ public class Cli extends UserInterface {
 
 	@Override
 	public void status_change() {
-		mutex.lock();
+		lock();
 		try {
 			if (waitState != waitStateEnum.WAIT_NOTHING && conditionHolds(waitState)) {
 				waitState = waitStateEnum.WAIT_NOTHING;
 				signal();
 			}
 		} finally {
-			mutex.unlock();
+			unlock();
 		}
 	}
 
@@ -252,7 +239,7 @@ public class Cli extends UserInterface {
 				break;
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -477,9 +464,53 @@ public class Cli extends UserInterface {
 		}
 	}
 
-	//TODO: finish
+	// Reconfigure MC and HCs
 	private void reconfCallback(final String arguments) {
+		if (!mainController.start_reconfiguring()) {
+			return;
+		}
+		if (arguments != null && !arguments.isEmpty()) {
+			config_file = new File(arguments);
+		} else {
+			System.err.println("Error was found in the configuration file. Exiting.");
+			cleanUp();
+			exitCallback("");
+		}
+		System.out.printf("Using configuration file: %s\n", config_file.getName());
+		final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
 
+		final boolean config_file_failure = cfgAnalyzer.parse(config_file);
+		if (config_file_failure) {
+			System.out.println("Error was found in the configuration file. Exiting");
+			cleanUp();
+			exitCallback("");
+		} else {
+			final MCSectionHandler mcSectionHandler = cfgAnalyzer.getMcSectionHandler();
+			final ComponentSectionHandler componentSectionHandler = cfgAnalyzer.getComponentSectionHandler();
+			final GroupSectionHandler groupSectionHandler = cfgAnalyzer.getGroupSectionHandler();
+
+			if (mcSectionHandler.getKillTimer() != null) {
+				mycfg.setKill_timer(mcSectionHandler.getKillTimer());
+				mainController.set_kill_timer(mcSectionHandler.getKillTimer());
+			}
+			mycfg.add_host(groupSectionHandler.getGroups());
+			mycfg.add_component(componentSectionHandler.getComponents());
+			for (int i = 0; i < mycfg.getGroup_list().size(); i++) {
+				if (mycfg.getGroup_list().get(i).getGroupItems().isEmpty()) {
+					mainController.add_host(mycfg.getGroup_list().get(i).getGroupName(), null);
+				} else {
+					for (int j = 0; j < mycfg.getGroup_list().get(i).getGroupItems().size(); j++) {
+						mainController.add_host(mycfg.getGroup_list().get(i).getGroupName(), mycfg.getGroup_list().get(i).getGroupItems().get(j).getItem());
+					}
+				}
+			}
+			for (int i = 0; i < mycfg.getComponent_list().size(); i++) {
+				mainController.assign_component(mycfg.getComponent_list().get(i).getHostName(),mycfg.getComponent_list().get(i).getComponentName());
+			}
+			if (mainController.get_state() == mcStateEnum.MC_RECONFIGURING) {
+				mainController.configure(ConfigData.getConfigFileContent(config_file));
+			}
+		}
 	}
 
 	private void helpCallback(final String arguments) {
@@ -500,8 +531,9 @@ public class Cli extends UserInterface {
 		}
 	}
 
+	//TODO: implement if it will be necessary
 	private void shellCallback(final String arguments) {
-
+		//Empty by default
 	}
 
 	private void exitCallback(final String arguments) {
@@ -572,7 +604,7 @@ public class Cli extends UserInterface {
 
 		do {
 			try {
-				System.out.print("MC2> ");
+				System.out.print(PROMPT);
 				final String line_read = console_reader.readLine();
 				if (line_read != null) {
 					processCommand(line_read.trim());
@@ -581,8 +613,7 @@ public class Cli extends UserInterface {
 					exitCallback("");
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println(e.getMessage());
 			}
 		} while (!exitFlag);
 		return EXIT_SUCCESS; // EXIT_SUCCESS
@@ -705,7 +736,7 @@ public class Cli extends UserInterface {
 	}
 
 	private void waitMCState(final waitStateEnum newWaitState) {
-		mutex.lock();
+		lock();
 		if (newWaitState != waitStateEnum.WAIT_NOTHING) {
 			if (conditionHolds(newWaitState)) {
 				waitState = waitStateEnum.WAIT_NOTHING;
@@ -715,10 +746,10 @@ public class Cli extends UserInterface {
 			}
 		} else {
 			System.err.println("Cli.waitMCState: invalid argument");
-			mutex.unlock();
+			unlock();
 			return;
 		}
-		mutex.unlock();
+		unlock();
 	}
 
 	private int getHostIndex(final String hostname) {
