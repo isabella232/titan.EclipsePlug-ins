@@ -35,14 +35,16 @@ public final class Runtime_Parallel_main {
 
 		if (argv.length != 2) {
 			System.out.println("For now only 2 arguments can be passed the host address and port number");
+			return -1;
 		}
 
 		String local_addr = null;
 		final String MC_host = argv[0];
-		final int MC_port = Integer.parseInt(argv[1]);
 		//FIXME implement call for Module_list ... list_testcases/list_modulepars
 
 		try {
+			final int MC_port = Integer.parseInt(argv[1]);
+			
 			TTCN_Snapshot.initialize();
 			TTCN_Logger.initialize_logger();
 			TTCN_Logger.set_start_time();
@@ -54,6 +56,9 @@ public final class Runtime_Parallel_main {
 			} catch (TtcnError error) {
 				returnValue = -1;
 			}
+		} catch (NumberFormatException e) {
+			System.out.println("Fatal error. Wrong port number: " + argv[1]);
+			returnValue = -1;
 		} catch (final Throwable e) {
 			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
 			final StringWriter error = new StringWriter();
