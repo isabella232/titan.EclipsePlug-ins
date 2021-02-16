@@ -44,7 +44,7 @@ public final class Runtime_Parallel_main {
 
 		try {
 			final int MC_port = Integer.parseInt(argv[1]);
-			
+
 			TTCN_Snapshot.initialize();
 			TTCN_Logger.initialize_logger();
 			TTCN_Logger.set_start_time();

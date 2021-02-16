@@ -104,7 +104,7 @@ public final class MakefileCreationData {
 					{ "Library", DefaultTarget.LIBRARY.toString() } };
 		}
 	}
-	
+
 	public enum DefaultJavaTarget {
 		CLASS, EXECUTABLE, JAR;
 
@@ -375,7 +375,7 @@ public final class MakefileCreationData {
 		}
 		return name.toString();
 	}
-	
+
 	public static String getDefaultJavaTargetName(final IProject project, final boolean isAbsolute) {
 		String name = getDefaultTargetExecutableName(project, isAbsolute);
 		return "java_bin" + File.separator + name.replace("bin" + File.separator, "").replace(".exe", "") + ".jar";

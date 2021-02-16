@@ -20,8 +20,10 @@ from Eclipse as Java projects and executing exported jar files.
 
 === Executing TITAN Java Projects from Eclipse
 
-To execute TITAN Java projects inside Eclipse requires the creation of a Launch configuration. For TITAN Java Projects the TITAN Native Java launch configuration mode is necessary that supports both the single and parallel execution mode. Launch configurations can be created, modified and deleted in the *Create, manage, and run configuration* dialog window. It can be opened in the numerous ways as detailed in <<creating-launch-configuration,Creating Launch Configuration>>:
+To execute TITAN Java projects inside Eclipse requires the creation of a Launch configuration. For TITAN Java Projects the TITAN Native Java launch configuration mode is necessary that supports both the single and parallel execution modes. Launch configurations can be created, modified and deleted in the *Create, manage, and run configuration* dialog window. It can be opened in numerous ways as detailed in <<creating-launch-configuration,Creating Launch Configuration>>:
+
 * using the *Run as* option in pop-up menu of the *Project explorer* (<<Figure-4-F7,Figure 7>>),
+
 * using the *Launch Commands* on the toolbar (<<Figure-4-F8,Figure 8>>).
 
 Furthermore, a default launch configuration can be created using launch shortcuts. It works the same way as described in <<creating-launch-configuration,Creating Launch Configuration>>, however the TITAN Native Java launching mode requires less option, i.e.:
@@ -45,7 +47,7 @@ On this page it is possible to set:
 
 * The name of the project.
 +
-Filling this field is mandatory. The entered name is checked for validity. The project's root folder is used during the automatically filling of the other fields. The path variables are relative to the project's root supporting the portability of the project as whole. If you enter the name of a valid project with TITAN nature (or select one by browsing, as can be seen <<Figure-13,below>>), the configuration file will be filled in automatically.
+Filling this field is mandatory. The entered name is checked for validity. The project's root folder is used during the automatically filling of the other fields. The path variables are relative to the project's root supporting the portability of the project as whole. If you enter the name of a valid project with TITAN nature (or select one by browsing, as can be seen on <<Figure-13,Figure 13>>), the configuration file will be filled in automatically.
 
 NOTE: It is encouraged to use the *Browse Workspace* button to select a valid project from the workspace that simplifies the filling of the other fields, as well as reduces the possible mistakes. 
 
@@ -72,7 +74,7 @@ During the filling Eclipse might ask for saving the modification.
 Sometimes Eclipse automatically switches to one of the additionally created launch configuration after saving the TITAN Native Java launch configuration.
 ====
 
-The functionality of other tab pages of the of the TITAN Native Java launch configuration matches the ones for JNI launch mode, see <<creating-launch-configuration,Creating Launch Configuration>>.
+The functionality of other tab pages of the TITAN Native Java launch configuration matches the ones for JNI launch mode, see <<creating-launch-configuration,Creating Launch Configuration>>.
 
 === Executing TITAN Java project via exported jar files.
 
@@ -86,12 +88,12 @@ To export a .jar file from a TITAN Java project:
 
 2. In the right click menu, select *Export...*.
 
-3. In the window appearing select *Java / Runnable JAR file* and than *Next* (see <<Figure-7-F46,Figure 49>>).
+3. In the window appearing select *Java / Runnable JAR file* and than *Next* (see <<Figure-7-F46,below>>).
 +
 [[Figure-7-F46]]
 image::images/7_F46.png[title="Export wizard"]
 
-4. Configure the export (see <<Figure-7-F47,Figure 50>>).
+4. Configure the export (see <<Figure-7-F47,below>>).
 +
 [[Figure-7-F47]]
 image::images/7_F47.png[title="Export wizard for JAR file"]

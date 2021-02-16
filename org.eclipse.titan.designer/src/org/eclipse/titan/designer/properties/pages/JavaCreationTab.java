@@ -36,7 +36,7 @@ import org.eclipse.ui.dialogs.PropertyPage;
 
 public class JavaCreationTab {
 	private static final String JAVA_CREATION_TAB_TITLE = "Java target creation attributes";
-	
+
 	private final IProject project;
 	private final PropertyPage page;
 	private Composite automaticBuildPropertiesComposite;
@@ -48,24 +48,24 @@ public class JavaCreationTab {
 	public static final String TEMPORAL_JAVA_TARGET = ProductConstants.PRODUCT_ID_DESIGNER + ".temporalJavaTarget";
 	private Button generateStartShScript;
 	private Button generateStartBatScript;
-	
+
 	public JavaCreationTab(final IProject project, final PropertyPage page) {
 		this.project = project;
 		this.page = page;
 	}
-	
+
 	public JavaCreationTab(final IProject project) {
 		this.project = project;
 		this.page = null;
 	}
-	
+
 	/**
 	 * Disposes the SWT resources allocated by this tab page.
 	 */
 	public void dispose() {
-		
+
 	}
-	
+
 	/**
 	 * Creates and returns the SWT control for the customized body of this
 	 * TabItem under the given parent TabFolder.
@@ -79,7 +79,7 @@ public class JavaCreationTab {
 		creationAttributesTabItem = new TabItem(tabFolder, SWT.BORDER);
 		creationAttributesTabItem.setText(JAVA_CREATION_TAB_TITLE);
 		creationAttributesTabItem.setToolTipText("Settings controlling the generation of Java binaries.");
-		
+
 		automaticBuildPropertiesComposite = new Composite(tabFolder, SWT.MULTI);
 		automaticBuildPropertiesComposite.setEnabled(true);
 		automaticBuildPropertiesComposite.setLayout(new GridLayout());
@@ -87,7 +87,7 @@ public class JavaCreationTab {
 		defaultJavaTargetComposite = new Composite(automaticBuildPropertiesComposite, SWT.NONE);
 		defaultJavaTarget = new ComboFieldEditor(MakefileCreationData.DEFAULT_TARGET_PROPERTY, "Default target:",
 				MakefileCreationData.DefaultJavaTarget.getDisplayNamesAndValues(), defaultJavaTargetComposite);
-		
+
 		defaultJavaTarget.setPropertyChangeListener (new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent event) {
@@ -128,7 +128,7 @@ public class JavaCreationTab {
 		creationAttributesTabItem.setControl(automaticBuildPropertiesComposite);
 		return creationAttributesTabItem;
 	}
-	
+
 	/**
 	 * Checks the properties of this page for errors.
 	 * 
@@ -148,7 +148,7 @@ public class JavaCreationTab {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Loads the properties from the property storage, into the user
 	 * interface elements.
@@ -190,7 +190,7 @@ public class JavaCreationTab {
 			performDefaults(project);
 		}
 	}
-	
+
 	/**
 	 * Saves the properties to the property storage, from the user interface
 	 * elements.
@@ -220,7 +220,7 @@ public class JavaCreationTab {
 		}
 		return true;
 	}
-	
+
 	public void performDefaults(final IProject project) {
 		defaultJavaTarget.setSelectedValue(MakefileCreationData.DefaultJavaTarget.getDefault().toString());
 		temporalJavaTargetFileFieldEditor.setStringValue(MakefileCreationData.getDefaultJavaTargetName(project, false));
@@ -228,7 +228,7 @@ public class JavaCreationTab {
 		generateStartBatScript.setSelection(MakefileCreationData.GENERATE_START_BAT_SCRIPT_DEFAULT);
 		updateDefaultJavaTarget();
 	}
-	
+
 	/**
 	 * Sets the provided value, on the provided project, for the provided
 	 * property.
@@ -259,7 +259,7 @@ public class JavaCreationTab {
 			project.setPersistentProperty(qualifiedName, value);
 		}
 	}
-	
+
 	/**
 	 * Enables or disables the textbox of Java target and the checkboxes according to the selected value.
 	 * If Class is selected, the textbox is disabled.
@@ -278,11 +278,11 @@ public class JavaCreationTab {
 			generateStartBatScript.setEnabled(true);
 		}
 	}
-	
+
 	private boolean isClassSelected() {
 		return defaultJavaTarget.getActualValue().equals(MakefileCreationData.DefaultJavaTarget.CLASS.toString());
 	}
-	
+
 	private boolean isExecutableSelected() {
 		return defaultJavaTarget.getActualValue().equals(MakefileCreationData.DefaultJavaTarget.EXECUTABLE.toString());
 	}
