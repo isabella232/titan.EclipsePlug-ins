@@ -38,8 +38,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
+import org.eclipse.titan.designer.core.TITANJavaBuilder;
 import org.eclipse.titan.designer.core.TITANNature;
-import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.properties.data.MakeAttributesData;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 import org.eclipse.titan.designer.properties.data.ProjectDocumentHandlingUtility;
@@ -312,7 +312,7 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 		try {
 			final IProjectDescription description = newProject.getDescription();
 			final ICommand titanCommand = description.newCommand();
-			titanCommand.setBuilderName(ProductConstants.PRODUCT_ID_DESIGNER + ".core.TITANJavaBuilder");
+			titanCommand.setBuilderName(TITANJavaBuilder.BUILDER_ID);
 
 			final ICommand javaCommand = description.newCommand();
 			javaCommand.setBuilderName(JavaCore.BUILDER_ID);

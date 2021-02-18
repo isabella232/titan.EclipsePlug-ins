@@ -77,13 +77,19 @@ public class HelloWorldSample extends SampleProject {
 
 	protected static final String MYEXAMPLE_CFG =
 			  "[LOGGING]" + NEWLINE
-			+ "LogFile := \"../log/MyExample-%n.log\"" + NEWLINE
+			+ "LogFile := \"logs/MyExample-%n.log\"" + NEWLINE
 			+ "FileMask := LOG_ALL" + NEWLINE
 			+ "ConsoleMask := ERROR | TESTCASE | STATISTICS" + NEWLINE
 			+ "LogSourceInfo := Stack" + NEWLINE
 			+ NEWLINE
 			+ "[EXECUTE]" + NEWLINE
-			+ "MyExample.control" + NEWLINE;
+			+ "MyExample.control" + NEWLINE
+			+ NEWLINE
+			+ "[MAIN_CONTROLLER]" + NEWLINE
+			+ "# The options herein control the behavior of MC." + NEWLINE
+			+ "LocalAddress := 127.0.0.1" + NEWLINE
+			+ "TCPPort := 6789" + NEWLINE
+			+ "KillTimer := 10.0" + NEWLINE;
 
 	// copy of titan/hello/PCOType.hh
 	protected static final String PCOTYPE_HH =

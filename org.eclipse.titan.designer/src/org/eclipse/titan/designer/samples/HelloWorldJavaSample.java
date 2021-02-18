@@ -33,7 +33,8 @@ public class HelloWorldJavaSample  extends HelloWorldSample {
 			+ "\t}\n\n"
 			+ "\t@Override\n"
 			+ "\tprotected void outgoing_send(TitanCharString send_par) {\n"
-			+ "\n"
+			+ "\t\tSystem.out.println(send_par);\n"
+			+ "\t\tincoming_message(new TitanCharString(\"Hello, TTCN-3!\"));\n"
 			+ "\t}\n"
 			+ "}";
 
