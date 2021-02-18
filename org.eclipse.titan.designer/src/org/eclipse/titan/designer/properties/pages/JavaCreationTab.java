@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -95,7 +96,7 @@ public class JavaCreationTab {
 			}
 		});
 
-		//target exe
+		//target JAR
 		javaTargetComposite = new Composite(automaticBuildPropertiesComposite, SWT.NONE);
 		final GridLayout targetExecutableLayout = new GridLayout();
 		javaTargetComposite.setLayout(targetExecutableLayout);
@@ -150,6 +151,83 @@ public class JavaCreationTab {
 	}
 
 	/**
+	 * Copies the actual values into the provided preference storage.
+	 * 
+	 * @param project
+	 *                the actual project (the real preference store).
+	 * @param tempStorage
+	 *                the temporal store to copy the values to.
+	 * */
+	public void copyPropertyStore(final IProject project, final PreferenceStore tempStorage) {
+		String temp = null;
+		try {
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.DEFAULT_JAVA_TARGET_PROPERTY));
+			if (temp != null) {
+				tempStorage.setValue(MakefileCreationData.DEFAULT_JAVA_TARGET_PROPERTY, temp);
+			}
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.TARGET_EXECUTABLE_PROPERTY));
+			if (temp != null) {
+				tempStorage.setValue(MakefileCreationData.TARGET_EXECUTABLE_PROPERTY, temp);
+			}
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.GENERATE_START_SH_SCRIPT_PROPERTY));
+			if (temp != null) {
+				tempStorage.setValue(MakefileCreationData.GENERATE_START_SH_SCRIPT_PROPERTY, temp);
+			}
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.GENERATE_START_BAT_SCRIPT_PROPERTY));
+			if (temp != null) {
+				tempStorage.setValue(MakefileCreationData.GENERATE_START_BAT_SCRIPT_PROPERTY, temp);
+			}
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+	}
+
+	/**
+	 * Evaluates the properties on the option page, and compares them with
+	 * the saved values.
+	 * 
+	 * @param project
+	 *                the actual project (the real preference store).
+	 * @param tempStorage
+	 *                the temporal store to copy the values to.
+	 * 
+	 * @return true if the values in the real and the temporal storage are
+	 *         different (they have changed), false otherwise.
+	 * */
+	public boolean evaluatePropertyStore(final IProject project, final PreferenceStore tempStorage) {
+		boolean result = false;
+
+		String actualValue = null;
+		String copyValue = null;
+		try {
+			actualValue = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.DEFAULT_JAVA_TARGET_PROPERTY));
+			copyValue = tempStorage.getString(MakefileCreationData.DEFAULT_JAVA_TARGET_PROPERTY);
+			result |= ((actualValue != null && !actualValue.equals(copyValue)) || (actualValue == null && copyValue == null));
+			actualValue = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.TARGET_EXECUTABLE_PROPERTY));
+			copyValue = tempStorage.getString(MakefileCreationData.TARGET_EXECUTABLE_PROPERTY);
+			result |= ((actualValue != null && !actualValue.equals(copyValue)) || (actualValue == null && copyValue == null));
+			actualValue = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.GENERATE_START_SH_SCRIPT_PROPERTY));
+			copyValue = tempStorage.getString(MakefileCreationData.GENERATE_START_SH_SCRIPT_PROPERTY);
+			result |= ((actualValue != null && !actualValue.equals(copyValue)) || (actualValue == null && copyValue == null));
+			actualValue = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.GENERATE_START_BAT_SCRIPT_PROPERTY));
+			copyValue = tempStorage.getString(MakefileCreationData.GENERATE_START_BAT_SCRIPT_PROPERTY);
+			result |= ((actualValue != null && !actualValue.equals(copyValue)) || (actualValue == null && copyValue == null));
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		
+		return result;
+	}
+
+	/**
 	 * Loads the properties from the property storage, into the user
 	 * interface elements.
 	 * 
@@ -168,7 +246,7 @@ public class JavaCreationTab {
 				try {
 					defaultJavaTarget.setSelectedValue(MakefileCreationData.DefaultJavaTarget.createInstance(temp).toString());
 				} catch (final IllegalArgumentException e) {
-					ErrorReporter.INTERNAL_ERROR("Unknown default target in makefile creation tab: " + temp);
+					ErrorReporter.INTERNAL_ERROR("Unknown default target in Java target creation tab: " + temp);
 				}
 			}
 

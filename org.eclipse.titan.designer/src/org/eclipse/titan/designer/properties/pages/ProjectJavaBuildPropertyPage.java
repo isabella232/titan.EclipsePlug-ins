@@ -67,6 +67,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 	}
 
 	protected void copyPropertyStore() {
+		javaCreationTab.copyPropertyStore(projectResource, tempStorage);
 		internalMakefileCreationTab.copyPropertyStore(projectResource, tempStorage);
 	}
 
