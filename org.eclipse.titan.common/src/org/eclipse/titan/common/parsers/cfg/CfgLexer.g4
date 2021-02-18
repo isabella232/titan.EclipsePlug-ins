@@ -614,11 +614,12 @@ BITSTRINGMATCH:		'\'' FR_BINDIGITMATCH* '\'' 'B';
 HEXSTRINGMATCH:		'\'' FR_HEXDIGITMATCH* '\'' 'H';
 OCTETSTRINGMATCH:	'\'' FR_OCTDIGITMATCH* '\'' 'O';
 COMMA:				',';
+STAR5:				'*' -> type(STAR);
 FSTRING:
 (	'\\"' // \" is handled separately in the structured definitions
 |	'\\' .   // Handle escaped characters
-|	~[{}"\\$\n\r\t #/,:=]+  // Anything except {,},'"',\,$,#,/,',',:,= and whitespace
-                            // comparing to titan.core [,:=] is excluded, but pr_SimpleValue accepts ASSIGNMENTCHAR, COLON and COMMA
+|	~[{}"\\$\n\r\t #/,:=*]+  // Anything except {,},'"',\,$,#,/,',',:,=,* and whitespace
+                             // comparing to titan.core [,:=*] is excluded, but pr_SimpleValue accepts ASSIGNMENTCHAR, COLON and COMMA, * is a multiplication operator
 |	'/'
 );
 

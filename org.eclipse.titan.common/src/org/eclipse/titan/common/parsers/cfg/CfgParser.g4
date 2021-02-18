@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 @members{
 	// format strings for error messages if definition (macro or environment variable) cannot be resolved
 	// %s : definition
+	private static final String DEFINITION_NOT_FOUND  = "Could not resolve definition: %s";
 	private static final String DEFINITION_NOT_FOUND_STRING  = "Could not resolve definition: %s using \"\" as a replacement.";
 	private static final String DEFINITION_NOT_FOUND_BSTR    = "Could not resolve definition: %s using ''B as a replacement.";
 	private static final String DEFINITION_NOT_FOUND_HSTR    = "Could not resolve definition: %s using ''H as a replacement.";
@@ -299,6 +300,27 @@ import java.util.regex.Pattern;
 			final TITANMarker errorMarker = createError( errorMsg, aMacroToken, aMacroToken );
 			addMacro( definition, aMacroToken, errorMarker );
 			return "";
+		}
+		return value;
+	}
+
+	/**
+	 * Gets the macro value string of a macro (general, with or without type)
+	 * @param aMacroToken the macro token
+	 * @param aErrorFormatStr format strings for error messages if definition (macro or environment variable) cannot be resolved
+	 *                        %s : definition
+	 * @return the macro value string
+	 *         or "" if macro is invalid. In this case an error marker is also created
+	 */
+	private String getAnyMacroValue( final Token aMacroToken, String aErrorFormatStr ) {
+		String definition = getMacroName( aMacroToken.getText() );
+		if (definition == null) {
+			definition = getTypedMacroName( aMacroToken.getText() );
+		}
+		final String errorMsg = String.format( DEFINITION_NOT_FOUND, definition );
+		final String value = getDefinitionValue( definition );
+		if ( value == null ) {
+			reportError( errorMsg, aMacroToken, aMacroToken );
 		}
 		return value;
 	}
@@ -1158,7 +1180,9 @@ pr_MacroAssignment returns [ DefineSectionHandler.Definition definition ]
 }:
 (	col = TTCN3IDENTIFIER { name = $col.getText(); }
 	ASSIGNMENTCHAR
-	endCol = pr_MacroRhs { value = $endCol.text; }
+	(	endCol = pr_MacroRhs { value = $endCol.text; }
+	|	mul = pr_MacroMultiplication { value = $mul.value; }
+	)
 )
 {	if(name != null && value != null) {
 		addDefinition( name, value, $col );
@@ -1175,6 +1199,38 @@ pr_MacroRhs:
 |	BEGINCHAR
 	pr_StructuredValue*
 	ENDCHAR
+;
+
+pr_MacroMultiplication returns [ String value ]
+@init {
+	$value = null;
+	double num = 0;
+}:
+(	v1 = pr_MacroAssignmentValue
+		{	final String defValue = $v1.text.charAt(0) == '$' ? getAnyMacroValue( $v1.start, DEFINITION_NOT_FOUND ) : $v1.text;
+			if ( defValue != null ) {
+				try {
+					num = Double.parseDouble( defValue );
+				} catch (Exception e) {
+					reportError( "First operand of multiplication is not a number: "+defValue, $v1.start, $v1.stop );
+				}
+			}
+		}
+	(	STAR
+		v2 = pr_MacroAssignmentValue
+			{	final String defValue2 = $v2.text.charAt(0) == '$' ? getAnyMacroValue( $v2.start, DEFINITION_NOT_FOUND ) : $v2.text;
+				if ( defValue2 != null ) {
+					try {
+						num *= Double.parseDouble( defValue2 );
+					} catch (Exception e) {
+						reportError( "Second operand of multiplication is not a number: "+defValue2, $v2.start, $v2.stop );
+					}
+				}
+			}
+	)+
+)
+{	$value = ""+num;
+}
 ;
 
 pr_StructuredValue:
