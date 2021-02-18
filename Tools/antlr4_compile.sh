@@ -21,7 +21,24 @@
 set -e
 set -o pipefail
 
-ANTLR4="java -classpath $HOME/lib/antlr-4.3-complete.jar org.antlr.v4.Tool"
+ANTLR_VERSION=4.3
+
+while :
+do
+        case $1 in
+            -av)
+                ANTLR_VERSION=$2
+                shift
+                ;;
+            *)
+                break;
+        esac
+        shift
+    done
+
+ANTLR4="java -classpath $HOME/lib/antlr-${ANTLR_VERSION}-complete.jar org.antlr.v4.Tool"
+
+echo Using antlr version $ANTLR_VERSION
 
 # script directory
 # http://stackoverflow.com/questions/59895/can-a-bash-script-tell-which-directory-it-is-stored-in

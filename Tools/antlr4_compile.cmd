@@ -11,10 +11,26 @@
 @rem #
 @rem ###############################################################################
 
+@echo off
+
+@set ANTLR_VERSION=4.3
+
+:loop
+@if not "%1"=="" (
+    @if "%1"=="-av" (
+        @set ANTLR_VERSION=%2
+        @shift
+    )
+    @shift
+    @goto :loop
+)
+
+@echo Using antlr version %ANTLR_VERSION%
+
 @set CURDIR=%cd%
 @set DIR=%~dp0
 @set WORKSPACE_PATH=%DIR%\..
-@set ANTLR=-cp %HOMEDRIVE%%HOMEPATH%\lib\\antlr-4.3-complete.jar org.antlr.v4.Tool
+@set ANTLR=-cp %HOMEDRIVE%%HOMEPATH%\lib\\antlr-%ANTLR_VERSION%-complete.jar org.antlr.v4.Tool
 
 @cd %WORKSPACE_PATH%\org.eclipse.titan.runtime\src\org\eclipse\titan\runtime\core\cfgparser\
 @java %ANTLR% RuntimeCfgLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.runtime.core.cfgparser
