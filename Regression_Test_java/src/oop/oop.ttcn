@@ -1,0 +1,748 @@
+/******************************************************************************
+ * Copyright (c) 2000-2021 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ *
+ * Contributors:
+ *   Baranyi, Botond
+ *
+ ******************************************************************************/
+module oop {
+
+type component CT {
+  port PT pt;
+}
+
+type port PT message { inout integer; } with { extension "internal" }
+
+type record of integer IntList;
+
+///////////////////////////////////////////////////
+///////////////////// CLASSES /////////////////////
+///////////////////////////////////////////////////
+
+type record Rec {
+  charstring str,
+  IntList list
+}
+
+type union Uni {
+  integer i,
+  charstring cs
+}
+
+function f_this_as_param(object p) {
+  log(p);
+}
+
+type class BaseClass runs on CT mtc CT system CT {
+  /*protected*/ const integer m_const := 1;
+  private const IntList m_const2 := { 1, 2, 3 };
+  /*protected*/ var charstring m_var;
+  private template octetstring m_temp := ? length (1..4);
+  /*protected*/ var template float m_var_temp;
+  //private PT m_port; // port members not supported
+  /*protected*/ timer m_timer;
+  private timer m_timer_array[3];
+  
+  //public template integer m_temp_pard(integer p) := p; // parameterized template members not supported
+  
+  // this would also be the implicit constructor's header:
+  create(integer p_const, IntList p_const2, charstring p_var,
+         template octetstring p_temp, template float p_var_temp) {
+    m_const := p_const;
+    m_const := 2;
+    m_var := p_var;
+    m_const2[2] := p_const2[0];
+    m_temp := p_temp;
+    m_temp := *;
+    m_var_temp := p_var_temp;
+    //m_port := p_port;
+    //m_timer := p_timer;
+  }
+  
+  public function f(in integer x) return integer {
+    m_var := m_var & int2str(x);
+    return x;
+  }
+  
+  public function f2(in integer x) return Rec {
+    var Rec ret_val := { str := int2str(x), list := {} };
+    for (var integer i := 0; i < x; i := i + 1) {
+      ret_val.list[i] := i;
+    }
+    return ret_val;
+  }
+  
+  public function get_var() return charstring {
+    return m_var;
+  }
+  
+  public function get_var_temp() return template float {
+    return m_var_temp;
+  }
+  
+  public function members_and_methods_test() {
+    var BaseClass v_base := BaseClass.create(4, { 1, 2, 4 }, "a", 'FF'O, (0.0 .. 10.0));
+    var IntList il := { 1, 2, 4 };
+    var template float tf := (0.0 .. 10.0);
+    var BaseClass v_sub := SubClass.create(4, il, "a", 'FF'O, tf);
+    var BaseClass v_final := FinalClass.create(4, il, "a", 'FF'O, tf, 8, "x", -1.5, *);
+    
+    log(v_base.f(6));
+    log(v_sub.f(6));
+    log(v_final.f(6));
+    
+    log(v_base.m_const);
+    log(v_sub.m_var_temp);
+    log(v_final.get_var());
+    log(v_final.f2(3).list[1]);
+    
+    if (v_base.f(6) != 6) {
+      setverdict(fail, "v_base.f(6) = ", v_base.f(6));
+    }
+    if (v_sub.f(6) != 5) {
+      setverdict(fail, "v_sub.f(6) = ", v_sub.f(6));
+    }
+    if (v_final.f(6) != 14) {
+      setverdict(fail, "v_final.f(6) = ", v_final.f(6));
+    }
+    
+    if (log2str(v_base.f(6)) != "6") {
+      setverdict(fail, "log2str(v_base.f(6)) = ", log2str(v_base.f(6)));
+    }
+    
+    if (v_base.m_const != 2) {
+      setverdict(fail, "v_base.m_const = ", v_base.m_const);
+    }
+    if (log2str(v_sub.m_var_temp) != "(0.000000 .. 10.000000)") {
+      setverdict(fail, "v_sub.m_var_temp = ", v_sub.m_var_temp);
+    }
+    if (v_final.get_var() != "ax66") {
+      setverdict(fail, "v_final.get_var() = ", v_final.get_var());
+    }
+    if (v_final.f2(3).list[1] != 1) {
+      setverdict(fail, "v_final.f2(3).list[1] = ", v_final.f2(3).list[1]);
+    }
+  }
+  
+  public function this_test(in integer get_var, in charstring p_log_str) {
+    var integer m_const := 9;
+    if (this.m_const != 2) {
+      setverdict(fail, "this.m_const = ", this.m_const);
+    }
+    if (this.get_var() != m_var) {
+      setverdict(fail, "this.get_var() = ", this.get_var(), ", m_var = ", m_var);
+    }
+    if (log2str(this) != p_log_str) {
+      setverdict(fail, "this = ", this, ", expected: ", p_log_str);
+    }
+    var BaseClass v_ref := this;
+    if (not v_ref == this) {
+      setverdict(fail, "equality failed");
+    }
+    var BaseClass v_ref2;
+    v_ref2 := this;
+    if (this != v_ref2) {
+      setverdict(fail, "inequality failed");
+    }
+    f_this_as_param(this);
+  }
+}
+finally {
+  //pt.send(-1);
+  log(m_var);
+  log(this);
+  log(this);
+  log(this);
+  log(this);
+}
+
+type class SubClass extends BaseClass {  
+  create(integer p_const := 1, IntList p_const2, charstring p_var,
+         template octetstring p_temp, template float p_var_temp)
+         : BaseClass(p_const, p_const2, p_var, p_temp, p_var_temp) {
+    m_const3 := 'FFFF'O;
+    m_var := m_var & "x";
+  }
+  
+  const octetstring m_const3 := 'AB'O; // the parser currently doesn't accept constants without initial value
+  
+  public function f(in integer x) return integer {
+    return super.f(x) - 1;
+  }
+}
+
+type class @final FinalClass extends SubClass {
+  private const integer m_final_const := 1;
+  private template charstring m_final_temp := ? length (1..4);
+  private var float m_final_var := 1.0;
+  private var template octetstring m_final_var_temp := ''O;
+  
+  public function @final f(in integer x) return integer {
+    return super.f(x) + m_final_const + 1;
+  }
+  
+  public function get_uni() return Uni {
+    return { i := m_final_const };
+  }
+  
+  public function get_uni_temp() return template Uni {
+    return { cs := m_final_temp };
+  }
+}
+
+
+type class @abstract AbstractClass {
+  public function @abstract f_abs(inout integer x) return boolean;
+  public function f_con(in charstring x) {
+    log(x);
+  }
+}
+
+type class ConcreteClass extends AbstractClass {
+  create(octetstring p_const := 'AB'O) {
+    // for compilation only, to make sure there are no name clashes between parameter default values
+    log(p_const);
+  }
+  public function f_abs(inout integer x) return boolean {
+    x := x + 1;
+    return x > 0;
+  }
+}
+
+
+type external class ExternalClass {
+  public external function f_ext(in integer x) return charstring;
+}
+
+type class InternalClass extends ExternalClass {
+  public function f_int() return integer {
+    return 0;
+  }
+  public external function f_ext2();
+}
+
+testcase tc_members_and_methods() runs on CT {
+  var BaseClass v_base := BaseClass.create(4, { 1, 2, 4 }, "a", 'FF'O, (0.0 .. 10.0));
+  v_base.members_and_methods_test();
+  setverdict(pass);
+}
+
+testcase tc_logging() runs on CT {
+  var BaseClass v_base := BaseClass.create(4, { 1, 2, 4 }, "a", 'FF'O, (0.0 .. 10.0));
+  var IntList il := { 1, 2, 4 };
+  var template float tf := (0.0 .. 10.0);
+  var BaseClass v_sub := SubClass.create(4, il, "a", 'FF'O, tf);
+  var BaseClass v_final := FinalClass.create(4, il, "a", 'FF'O, tf, 8, "x", -1.5, *);
+
+  log(v_base);
+  log(v_sub);
+  log(v_final);
+  
+  var charstring v_base_str := "BaseClass: { m_const := 2, m_const2 := { 1, 2, 1 }, m_var := \"a\", m_temp := *, m_var_temp := (0.000000 .. 10.000000), m_timer := timer: { name: m_timer, default duration: none, state: inactive }, m_timer_array := { timer: { name: m_timer_array[0], default duration: none, state: inactive }, timer: { name: m_timer_array[1], default duration: none, state: inactive }, timer: { name: m_timer_array[2], default duration: none, state: inactive } } }";
+  var charstring v_sub_str := "SubClass: { BaseClass: { m_const := 2, m_const2 := { 1, 2, 1 }, m_var := \"ax\", m_temp := *, m_var_temp := (0.000000 .. 10.000000), m_timer := timer: { name: m_timer, default duration: none, state: inactive }, m_timer_array := { timer: { name: m_timer_array[0], default duration: none, state: inactive }, timer: { name: m_timer_array[1], default duration: none, state: inactive }, timer: { name: m_timer_array[2], default duration: none, state: inactive } } }, m_const3 := 'FFFF'O }";
+  var charstring v_final_str := "FinalClass: { SubClass: { BaseClass: { m_const := 2, m_const2 := { 1, 2, 1 }, m_var := \"ax\", m_temp := *, m_var_temp := (0.000000 .. 10.000000), m_timer := timer: { name: m_timer, default duration: none, state: inactive }, m_timer_array := { timer: { name: m_timer_array[0], default duration: none, state: inactive }, timer: { name: m_timer_array[1], default duration: none, state: inactive }, timer: { name: m_timer_array[2], default duration: none, state: inactive } } }, m_const3 := 'FFFF'O }, m_final_const := 8, m_final_temp := \"x\", m_final_var := -1.500000, m_final_var_temp := * }";
+  
+  if (log2str(v_base) != v_base_str) {
+    setverdict(fail, "v_base: ", v_base);
+  }
+  if (log2str(v_sub) != v_sub_str) {
+    setverdict(fail, "v_sub: ", v_sub);
+  }
+  if (log2str(v_final) != v_final_str) {
+    setverdict(fail, "v_final: ", v_final);
+  }
+  setverdict(pass);
+}
+
+testcase tc_equality() runs on CT {
+  var BaseClass v_base := BaseClass.create(4, { 1, 2, 4 }, "a", 'FF'O, (0.0 .. 10.0));
+  var BaseClass v_base2 := BaseClass.create(4, { 1, 2, 4 }, "a", 'FF'O, (0.0 .. 10.0));
+  if (v_base == v_base2) {
+    setverdict(fail, "Equality of different objects failed");
+  }
+  if (not v_base != v_base2) {
+    setverdict(fail, "Inquality of different objects failed");
+  }
+  
+  var BaseClass v_ref := v_base;
+  if (not v_ref == v_base) {
+    setverdict(fail, "Equality of object and reference to object failed");
+  }
+  if (v_ref != v_base) {
+    setverdict(fail, "Inequality of object and reference to object failed");
+  }
+  
+  var BaseClass v_ref2 := v_ref;
+  if (not v_ref2 == v_base) {
+    setverdict(fail, "Equality of object and indirect reference to object failed");
+  }
+  if (v_ref2 != v_base) {
+    setverdict(fail, "Inequality of object and indirect reference to object failed");
+  }
+  
+  var SubClass v_sub := SubClass.create(4, { 1, 2, 4 }, "a", 'FF'O, (0.0 .. 10.0));
+  var BaseClass v_ref3 := v_sub;
+  if (not v_ref3 == v_sub) {
+    setverdict(fail, "Equality of subclass object and superclass reference failed");
+  }
+  if (v_ref3 != v_sub) {
+    setverdict(fail, "Inquality of subclass object and superclass reference failed");
+  }
+  setverdict(pass);
+}
+
+testcase tc_null() runs on CT {
+  var BaseClass v_base := BaseClass.create(4, { 1, 2, 4 }, "a", 'FF'O, (0.0 .. 10.0));
+  var IntList il := { 1, 2, 4 };
+  var template float tf := (0.0 .. 10.0);
+  var SubClass v_sub := SubClass.create(4, il, "a", 'FF'O, tf);
+  var FinalClass v_final := FinalClass.create(4, il, "a", 'FF'O, tf, 8, "x", -1.5, *);
+  
+  var BaseClass v_null := null;
+  var BaseClass v_empty;
+  
+  log(v_null);
+  log(v_empty);
+  
+  if (v_base == v_null) {
+    setverdict(fail, "BaseClass equality with null reference failed");
+  }
+  if (v_base == v_empty) {
+    setverdict(fail, "BaseClass equality with empty reference failed");
+  }
+  if (v_null != v_empty) {
+    setverdict(fail, "null reference equality with empty reference failed");
+  }
+  if (v_base == null) {
+    setverdict(fail, "BaseClass equality with null value failed");
+  }
+  if (null == v_final) {
+    setverdict(fail, "FinalClass equality with null value failed");
+  }
+  if (v_null != null) {
+    setverdict(fail, "null reference equality with null value failed");
+  }
+  if (null != v_empty) {
+    setverdict(fail, "null value equality with empty reference failed");
+  }
+  setverdict(pass);
+}
+
+testcase tc_this() runs on CT {
+  var BaseClass v_base := BaseClass.create(4, { 1, 2, 4 }, "a", 'FF'O, (0.0 .. 10.0));
+  v_base.this_test(10, log2str(v_base));
+  setverdict(pass);
+}
+
+testcase tc_references() runs on CT {
+  var BaseClass v_base := BaseClass.create(4, { 1, 2, 4 }, "a", 'FF'O, 1.0);
+  var SubClass v_sub := SubClass.create(4, { 1, 2, 4 }, "a", 'FF'O, 1.0);
+  var FinalClass v_final := FinalClass.create(4, { 1, 2, 4 }, "a", 'FF'O, 1.0, 8, "x", -1.5, *);
+  var BaseClass v_null := null;
+  
+  var BaseClass v_ref1;
+  if (v_ref1 != null) {
+    setverdict(fail, "#1");
+  }
+  v_ref1 := v_base;
+  if (v_ref1 != v_base) {
+    setverdict(fail, "#2");
+  }
+  var integer v_int := v_final.f(1);
+  if (v_int != 9) {
+    setverdict(fail, "#3, ", v_final.f(1));
+  }
+  v_int := v_final.f(2);
+  if (v_int != 10) {
+    setverdict(fail, "#4, ", v_final.f(2));
+  }
+  if (not isbound(v_final.f2(3).list[1])) {
+    setverdict(fail, "#5");
+  }
+  if (not isvalue(v_base.get_var_temp())) {
+    setverdict(fail, "#6");
+  }
+  if (not ispresent(v_base.get_var_temp())) {
+    setverdict(fail, "#7");
+  }
+  if (ischosen(v_final.get_uni().cs)) {
+    setverdict(fail, "#8");
+  }
+  if (not ischosen(v_final.get_uni_temp().cs)) {
+    setverdict(fail, "#9");
+  }
+  if (v_final.f2(3).list[1] + v_final.f(-6) != v_base.f(3) * float2int(valueof(v_sub.get_var_temp()))) {
+    setverdict(fail, "#10, ", v_final.f2(3).list[1] + v_final.f(-6), " != ", v_base.f(3) * float2int(valueof(v_sub.get_var_temp())));
+  }
+  if (match(v_final.get_uni(), v_final.get_uni_temp())) {
+    setverdict(fail, "#11, ", match(v_final.get_uni(), v_final.get_uni_temp()));
+  }
+  if (not isbound(v_sub)) {
+    setverdict(fail, "#12");
+  }
+  if (isbound(v_null)) {
+    setverdict(fail, "#13");
+  }
+  if (not isvalue(v_final)) {
+    setverdict(fail, "#14");
+  }
+  if (isvalue(v_null)) {
+    setverdict(fail, "#15");
+  }
+  if (not ispresent(v_base)) {
+    setverdict(fail, "#16");
+  }
+  if (ispresent(v_null)) {
+    setverdict(fail, "#17");
+  }
+  var BaseClass v_base2 := v_null;
+  if (v_base2 != null) {
+    setverdict(fail, "#18");
+  }
+  setverdict(pass);
+}
+
+
+type class Node {
+  var integer data;
+  var Node next;
+  public function get_next() return Node { return next; }
+  public function f() return integer { return 1; }
+}
+
+function f_test(in Node p1, inout Node p2, out Node p3,
+                in charstring p1_str, in charstring p2_str) return Node {
+  if (log2str(p1) != p1_str) {
+    setverdict(fail, "Invalid 'in' parameter value at start: ", p1, ", expected: ", p1_str);
+  }
+  if (log2str(p2) != p2_str) {
+    setverdict(fail, "Invalid 'inout' parameter value at start: ", p2, ", expected: ", p2_str);
+  }
+  if (p3 != null) {
+    setverdict(fail, "Invalid 'out' parameter value at start: ", p3, ", expected: null");
+  }
+  var integer i := p1.f();
+  if (i != 1) {
+    setverdict(fail, "Invalid value returned by function call of 'in' parameter: ", i);
+  }
+  var Node tmp := p2;
+  p3 := p1;
+  p1 := null;
+  p2 := null;
+  return tmp;
+}
+
+testcase tc_function_pars_and_retval() runs on CT {
+  var Node x := Node.create(1, Node.create(2, Node.create(3, null)));
+  var Node y := Node.create(0, null);
+  var Node z := Node.create(-1, null);
+  var charstring x_str := log2str(x);
+  var charstring y_str := log2str(y);
+  var Node res := f_test(x, y, z, x_str, y_str);
+  if (log2str(x) != x_str) {
+    setverdict(fail, "Invalid 'in' parameter value at end: ", x, ", expected: ", x_str);
+  }
+  if (y != null) {
+    setverdict(fail, "Invalid 'inout' parameter value at end: ", y, ", expected: null");
+  }
+  if (log2str(z) != x_str) {
+    setverdict(fail, "Invalid 'out' parameter value at end: ", z, ", expected: ", x_str);
+  }
+  if (log2str(res) != y_str) {
+    setverdict(fail, "Invalid return value: ", res, ", expected: ", y_str);
+  }
+  
+  setverdict(pass);
+}
+
+type class Node2 {
+  var object data;
+  var Node2 next;
+  public function get_data() return object { return data; }
+  public function f(in object p) { data := p; }
+}
+
+function f_test_in(Node p1, Node2 p2) {
+  p2.f(p1.get_next());
+}
+
+type class InParTester {
+  public function test(object x) return boolean {
+    return x of Node;
+  }
+}
+
+testcase tc_function_pars_in() runs on CT {
+  var Node n1 := Node.create(1, Node.create(2, null));
+  var Node2 n2 := Node2.create(null, null);
+  f_test_in(n1, n2);
+  if (log2str(n2.get_data()) != log2str(n1.get_next())) {
+    setverdict(fail, "Expected: ", n1.get_next(), ", got: ", n2.get_data());
+  }
+  var InParTester t := InParTester.create;
+  if (not t.test(n1.get_next())) {
+    setverdict(fail, "InParTester failed");
+  }
+  setverdict(pass);
+}
+
+type class Something {
+  public function toString() return universal charstring {
+    return "Something";
+  }
+}
+
+testcase tc_object() runs on CT {
+  var object v_obj := Node.create(3, null);
+  var Node v_node := Node.create(3, null);
+  if (log2str(v_obj) != log2str(v_node)) {
+    setverdict(fail, "v_obj: ", v_obj, ", v_node: ", v_node);
+  }
+  if (v_obj.toString() != "Object") {
+    setverdict(fail, "v_obj.toString(): ", v_obj.toString());
+  }
+  if (v_obj.toString() != v_node.toString()) {
+    setverdict(fail, "v_obj.toString(): ", v_obj.toString(), ", v_node.toString(): ", v_node.toString());
+  }
+  var object v_obj2 := Something.create;
+  var Something v_smthn := Something.create;
+  if (v_obj2.toString() != "Something") {
+    setverdict(fail, "v_obj2.toString(): ", v_obj2.toString());
+  }
+  if (v_obj2.toString() != v_smthn.toString()) {
+    setverdict(fail, "v_obj2.toString(): ", v_obj2.toString(), ", v_smthn.toString(): ", v_smthn.toString());
+  }
+  if (v_obj2.toString()[3] != "e") {
+    setverdict(fail, "v_obj2.toString()[3]: ", v_obj2.toString()[3]);
+  }
+  var Node2 v_node2 := Node2.create(Something.create, Node2.create(Node.create(1, null), null));
+  if (log2str(v_node2) != "Node2: { data := Something: {  }, next := Node2: { data := Node: { data := 1, next := null }, next := null } }") {
+    setverdict(fail, "v_node2: ", v_node2);
+  }
+  setverdict(pass);
+}
+
+type class Order {
+  var integer b;
+  var integer d;
+  var integer c;
+  var integer a;
+}
+
+testcase tc_order() runs on CT {
+  var Order x := Order.create(1, 2, 3, 4);
+  if (log2str(x) == "Order: { b := 1, d := 2, c := 3, a := 4 }") {
+    setverdict(pass);
+  }
+  else {
+    setverdict(fail, x);
+  }
+}
+
+testcase tc_abstract() runs on CT {
+  var AbstractClass v := ConcreteClass.create;
+  var integer x := 0;
+  if (v.f_abs(x) and x == 1) {
+    setverdict(pass);
+  }
+  else {
+    setverdict(fail);
+  }
+}
+
+type class Destructor { }
+finally {
+  setverdict(pass);
+}
+
+testcase tc_destructor() runs on CT {
+  var Destructor x := Destructor.create;
+}
+
+testcase tc_of_operator() runs on CT {
+  var SubClass v_sub := SubClass.create(4, { 1, 2, 4 }, "a", 'FF'O, 1.0);
+  var SubClass v_final := FinalClass.create(4, { 1, 2, 4 }, "a", 'FF'O, 1.0, 8, "x", -1.5, *);
+  var object v_obj := Node.create(3, null);
+  var BaseClass v_null := null;
+  
+  if (not v_sub of BaseClass) {
+    setverdict(fail, "#1");
+  }
+  if (not v_sub of SubClass) {
+    setverdict(fail, "#2");
+  }
+  if (v_sub of FinalClass) {
+    setverdict(fail, "#3");
+  }
+  if (not v_final of BaseClass) {
+    setverdict(fail, "#4");
+  }
+  if (not v_final of SubClass) {
+    setverdict(fail, "#5");
+  }
+  if (not v_final of FinalClass) {
+    setverdict(fail, "#6");
+  }
+  if (v_sub of Node) {
+    setverdict(fail, "#7");
+  }
+  if (not v_sub of object) {
+    setverdict(fail, "#8");
+  }
+  if (not v_obj of object) {
+    setverdict(fail, "#9");
+  }
+  if (not v_obj of Node) {
+    setverdict(fail, "#10");
+  }
+  if (v_obj of AbstractClass) {
+    setverdict(fail, "#11");
+  }
+  if (v_null of BaseClass) {
+    setverdict(fail, "#12");
+  }
+  if (v_null of object) {
+    setverdict(fail, "#13");
+  }
+  setverdict(pass);
+}
+
+testcase tc_select_class() runs on CT {
+  var SubClass v_sub := SubClass.create(4, { 1, 2, 4 }, "a", 'FF'O, 1.0);
+  var SubClass v_final := FinalClass.create(4, { 1, 2, 4 }, "a", 'FF'O, 1.0, 8, "x", -1.5, *);
+  var object v_obj := Node.create(3, null);
+  var BaseClass v_null := null;
+  
+  select class (v_sub) {
+    case (FinalClass) {
+      setverdict(fail, "#1 FinalClass");
+    }
+    case (SubClass) {
+      setverdict(pass);
+    }
+    case (BaseClass) {
+      setverdict(fail, "#1 BaseClass");
+    }
+  }
+  
+  select class (v_final) {
+    case (FinalClass) {
+      setverdict(pass);
+    }
+    case (SubClass) {
+      setverdict(fail, "#2 SubClass");
+    }
+    case (BaseClass) {
+      setverdict(fail, "#2 BaseClass");
+    }
+  }
+  
+  select class (v_obj) {
+    case (object) {
+      setverdict(pass);
+    }
+    case (Node) {
+      setverdict(fail, "#3 Node");
+    }
+    case else {
+      setverdict(fail, "#3 else");
+    }
+  }
+  
+  select class (v_null) {
+    case (BaseClass) {
+      setverdict(fail, "#4 BaseClass");
+    }
+    case (Node) {
+      setverdict(fail, "#4 Node");
+    }
+    case (object) {
+      setverdict(fail, "#4 object");
+    }
+    case else {
+      setverdict(pass);
+    }
+  }
+}
+
+testcase tc_casting() runs on CT {
+  var SubClass v_sub := SubClass.create(4, { 1, 2, 4 }, "a", 'FF'O, 1.0);
+  var SubClass v_final := FinalClass.create(4, { 1, 2, 4 }, "a", 'FF'O, 1.0, 8, "x", -1.5, *);
+  var object v_obj := Node.create(3, null);
+  var BaseClass v_null := null;
+  var Node v_null2 := null;
+  var object v_con := ConcreteClass.create;
+  
+  var BaseClass v_base := v_sub => BaseClass;
+  if (log2str(v_base) != log2str(v_sub)) {
+    setverdict(fail, "#1: ", v_base);
+  }
+  var FinalClass v_final2 := v_final => FinalClass;
+  if (log2str(v_final2) != log2str(v_final)) {
+    setverdict(fail, "#2: ", v_final2);
+  }
+  var Node v_node := v_obj => (v_null2);
+  if (log2str(v_node) != log2str(v_obj)) {
+    setverdict(fail, "#3: ", v_node);
+  }
+  var SubClass v_sub2 := v_sub => SubClass;
+  if (log2str(v_sub2) != log2str(v_sub)) {
+    setverdict(fail, "#4: ", v_sub2);
+  }
+  var object v_obj2 := v_sub => object;
+  if (log2str(v_obj2) != log2str(v_sub)) {
+    setverdict(fail, "#5: ", v_obj2);
+  }
+  var AbstractClass v_abs := v_con => AbstractClass;
+  if (log2str(v_abs) != log2str(v_con)) {
+    setverdict(fail, "#6: ", v_abs);
+  }
+  @try {
+    var SubClass v_bad := v_null => SubClass;
+    setverdict(fail, "#7: Error expected");
+  }
+  @catch(msg) {
+    if (not match(msg, pattern "*Casting a null reference")) {
+      setverdict(fail, "#7: Invalid error: ", msg);
+    }
+  }
+  @try {
+    var FinalClass v_bad2 := v_sub => FinalClass;
+    setverdict(fail, "#8: Error expected");
+  }
+  @catch(msg) {
+    if (not match(msg, pattern "*Invalid casting to class type `FinalClass'")) {
+      setverdict(fail, "#8: Invalid error: ", msg);
+    }
+  }
+  /*var integer v_int := (v_obj => Node).data;
+  if (v_int != 3) {
+    setverdict(fail, "#9: ", v_int);
+  }*/
+  setverdict(pass);
+}
+
+
+control {
+  execute(tc_members_and_methods());
+  execute(tc_logging());
+  execute(tc_equality());
+  execute(tc_null());
+  execute(tc_this());
+  execute(tc_references());
+  execute(tc_function_pars_and_retval());
+  execute(tc_function_pars_in());
+  execute(tc_object());
+  execute(tc_order());
+  execute(tc_abstract());
+  execute(tc_destructor());
+  execute(tc_of_operator());
+  execute(tc_select_class());
+  execute(tc_casting());
+}
+
+}

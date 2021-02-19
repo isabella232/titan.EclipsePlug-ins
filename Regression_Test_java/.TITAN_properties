@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TITAN_Designer_Properties>
+<?xml version="1.0" encoding="UTF-8"?><TITAN_Designer_Properties>
   <ActiveConfiguration>Default</ActiveConfiguration>
   <ProjectProperties>
     <MakefileSettings>
@@ -40,6 +39,18 @@
     </FileResource>
     <FileResource>
       <FilePath>src/functionSubref/TvalueofSubref.ttcn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
+      <FilePath>src/oop/ExternalClass.hh</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
+      <FilePath>src/oop/ext.cc</FilePath>
       <FileProperties>
         <ExcludeFromBuild>true</ExcludeFromBuild>
       </FileProperties>
@@ -299,6 +310,13 @@
     </FolderResource>
     <FolderResource>
       <FolderPath>src/done</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
+      <FolderPath>src/oop</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
         <ExcludeFromBuild>true</ExcludeFromBuild>
