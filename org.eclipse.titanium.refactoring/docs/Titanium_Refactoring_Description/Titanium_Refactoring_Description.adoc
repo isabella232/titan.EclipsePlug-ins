@@ -1,13 +1,13 @@
 ---
 Author: Kristóf Szabados
-Version: 7.2.0, Rev. A
-Date: 2020-11-27
+Version: 7.2.1, Rev. A
+Date: 2021-02-19
 
 ---
 = Titanium Refactoring Description
 :author: Kristóf Szabados
-:revnumber: 7.2.0
-:revdate: 2020-11-27
+:revnumber: 7.2.1
+:revdate: 2021-02-19
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
@@ -53,7 +53,7 @@ The limitations present in the Designer plug-in also apply here: there are TTCN-
 
 == Intended audience
 
-This document is intended for users of the TITAN TTCN-3 Test Toolset (product number: 7/CAX 105 7730 R2A).
+This document is intended for users of the TITAN TTCN-3 Test Toolset.
 
 == Presumed knowledge
 
