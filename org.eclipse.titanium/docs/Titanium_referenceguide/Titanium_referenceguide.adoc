@@ -1,13 +1,13 @@
 ---
 Author: Kristóf Szabados
-Version: 7.2.0
-Date: 2020-11-27
+Version: 7.2.1
+Date: 2021-02-19
 
 ---
 = Programmers' Technical Reference Guide for Titanium
 :author: Kristóf Szabados
-:revnumber: 7.2.0
-:revdate: 2020-11-27
+:revnumber: 7.2.1
+:revdate: 2021-02-19
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book

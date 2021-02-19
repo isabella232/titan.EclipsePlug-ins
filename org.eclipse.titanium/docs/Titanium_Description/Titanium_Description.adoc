@@ -1,13 +1,13 @@
 ---
 Author: Kristóf Szabados
-Version: 7.2.0
-Date: 2020-11-27
+Version: 7.2.1
+Date: 2021-02-19
 
 ---
 = Titanium Description
 :author: Kristóf Szabados
-:revnumber: 7.2.0
-:revdate: 2020-11-27
+:revnumber: 7.2.1
+:revdate: 2021-02-19
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
@@ -75,7 +75,7 @@ The limitations present in the Designer plug-in also apply here: there are TTCN�
 
 == Intended audience
 
-This document is intended for users of the TITAN TTCN–3 Test Toolset (product number: 7/CAX 105 7730 R2A). In addition to this document, readers analyzing their codes with this tool are advised to read our knowledge base listing the code smells and metrics available.
+This document is intended for users of the TITAN TTCN–3 Test Toolset. In addition to this document, readers analyzing their codes with this tool are advised to read our knowledge base listing the code smells and metrics available.
 
 == Presumed knowledge
 
