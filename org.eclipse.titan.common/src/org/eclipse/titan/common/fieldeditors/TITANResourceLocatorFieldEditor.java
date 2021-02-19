@@ -258,7 +258,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 			dialog.setText("Select the target file.");
 			dialog.setFilterExtensions(getFilterExtensions());
 			final IPath path = URIUtil.toPath(resolvedPath);
-			if ( getStringValue().isBlank() ) {
+			if ( getStringValue().isEmpty() ) {
 				dialog.setFilterPath(path.toOSString());
 			} else {
 				dialog.setFilterPath(path.removeLastSegments(1).toOSString());
