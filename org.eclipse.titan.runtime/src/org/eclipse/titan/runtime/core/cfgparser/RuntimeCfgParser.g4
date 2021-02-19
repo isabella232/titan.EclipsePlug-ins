@@ -1187,7 +1187,9 @@ pr_HostNameIpV6:
 pr_MacroAssignment:
 (	TTCN3IDENTIFIER
 	ASSIGNMENTCHAR
-	pr_MacroRhs
+	(	pr_MacroRhs
+	|	pr_MacroMultiplication
+	)
 )
 ;
 
@@ -1196,6 +1198,14 @@ pr_MacroRhs:
 |	BEGINCHAR
 	pr_StructuredValue*
 	ENDCHAR
+;
+
+pr_MacroMultiplication:
+(	pr_MacroAssignmentValue
+	(	STAR
+		pr_MacroAssignmentValue
+	)+
+)
 ;
 
 pr_StructuredValue:

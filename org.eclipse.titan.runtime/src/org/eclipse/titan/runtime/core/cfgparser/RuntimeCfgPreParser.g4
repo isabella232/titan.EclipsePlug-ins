@@ -654,7 +654,9 @@ pr_HostNameIpV6:
 pr_MacroAssignment returns [ String name, ParserRuleContext value ]:
 (	n = TTCN3IDENTIFIER { $name = $n.getText(); }
 	ASSIGNMENTCHAR
-	v = pr_MacroRhs { $value = $v.ctx; }
+	(	v = pr_MacroRhs { $value = $v.ctx; }
+	|	mul = pr_MacroMultiplication { $value = $mul.ctx; }
+	)
 )
 ;
 
@@ -663,6 +665,14 @@ pr_MacroRhs:
 |	BEGINCHAR
 	pr_StructuredValue*
 	ENDCHAR
+;
+
+pr_MacroMultiplication:
+(	pr_MacroAssignmentValue
+	(	STAR
+		pr_MacroAssignmentValue
+	)+
+)
 ;
 
 pr_StructuredValue:
