@@ -11,6 +11,14 @@
 @rem #
 @rem ###############################################################################
 
+@rem ###############################################################################
+@rem # Script to compile all the .g4 files in the Titan EclipsePlug-ins repo.
+@rem #
+@rem # Example usage:
+@rem #   cd <titan.EclipsePlug-ins project root>
+@rem #   Tools/antlr4_compile.cmd
+@rem ###############################################################################
+
 @echo off
 
 @set ANTLR_VERSION=4.3
