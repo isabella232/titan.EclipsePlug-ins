@@ -8,12 +8,14 @@
 package org.eclipse.titan.common.product;
 
 import org.eclipse.titan.common.utils.ObjectUtils;
+import org.eclipse.titan.common.utils.StringUtils;
 
 /**
  * For information on the product identity system please refer to 0012-073 Uen or to 1092-212 Uen
  * */
 public final class ProductIdentity implements Comparable<ProductIdentity> {
-	public static final String TITAN_PRODUCT_NUMBER = "CAX 105 7730";
+	public static final String TITAN_PRODUCT_NUMBER = "";
+	public static final String TITAN_PRODUCT_NUMBER_CAX = "CAX 105 7730";
 	public static final String TITAN_PRODUCT_NUMBER_CRL = "CRL 113 200";
 	public static final int TITAN_VERSION_MAJOR = 7;
 	public static final int TITAN_VERSION_MINOR = 2;
@@ -145,7 +147,7 @@ public final class ProductIdentity implements Comparable<ProductIdentity> {
 		}
 
 		final StringBuilder builder = new StringBuilder(20);
-		if (productNumber != null) {
+		if (!StringUtils.isNullOrEmpty(productNumber)) {
 			if (productNumber.contains("CRL") || productNumber.contains("crl")) {
 				builder.append(productNumber);
 				if (productNumberSuffix == 0 || (productNumberSuffix == 1 && revisionDigit < 9)) {
@@ -162,14 +164,17 @@ public final class ProductIdentity implements Comparable<ProductIdentity> {
 				builder.append(productNumber);
 				builder.append(' ');
 			}
-		}
-
-		builder.append('R').append(revisionDigit).append((char) (revisionLetter + 'A'));
-		if (verificationStep != 0) {
-			if (verificationStep < 10) {
-				builder.append('0');
+			builder.append('R').append(revisionDigit).append((char) (revisionLetter + 'A'));
+			if (verificationStep != 0) {
+				if (verificationStep < 10) {
+					builder.append('0');
+				}
+				builder.append(verificationStep);
 			}
-			builder.append(verificationStep);
+		}
+		if (productNumber != null && productNumber.isEmpty()) {
+			builder.append(productNumberSuffix).append('.').append(revisionDigit).append('.')
+				.append(revisionLetter);
 		}
 
 		return builder.toString();

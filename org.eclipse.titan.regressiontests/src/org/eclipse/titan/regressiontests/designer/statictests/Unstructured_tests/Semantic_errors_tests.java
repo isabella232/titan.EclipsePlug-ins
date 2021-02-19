@@ -294,21 +294,21 @@ public class Semantic_errors_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("Version template must be exactly <RnXnn>",  --lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate version attribute",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Wrong format for product version information: The accepted formats resemble CRL 113 200/1 R9A or 7/CAX 105 7730 R2A",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Wrong format for product version information: The accepted formats resemble CRL 113 200/1 R9A or 7/CAX 105 7730 R2A or 7.2.1",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate version attribute",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Wrong format for version information: The accepted formats resemble R2D02 and R2D",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Wrong format for version information: The accepted formats resemble R2D02 or R2D or 7.2.1",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate version attribute",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Wrong format for version information: The accepted formats resemble R2D02 and R2D",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Wrong format for version information: The accepted formats resemble R2D02 or R2D or 7.2.1",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate version attribute",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The minor version number 2,147,483,648 is unexpectedly large, right now we can not handle such large numbers",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate version attribute",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The build version number 2,147,483,648 is unexpectedly large, right now we can not handle such large numbers",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no module with name `nonExi'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
-		markersToCheck.add(new MarkerToCheck("Wrong format for product version information: The accepted formats resemble CRL 113 200/1 R9A or 7/CAX 105 7730 R2A",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Wrong format for product version information: The accepted formats resemble CRL 113 200/1 R9A or 7/CAX 105 7730 R2A or 7.2.1",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Wrong format for version information: The accepted formats resemble R2D02 and R2D", lineNum++, IMarker.SEVERITY_ERROR));
+			markersToCheck.add(new MarkerToCheck("Wrong format for version information: The accepted formats resemble R2D02 or R2D or 7.2.1", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("The minor version number 2,147,483,648 is unexpectedly large, right now we can not handle such large numbers",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The build version number 2,147,483,648 is unexpectedly large, right now we can not handle such large numbers",  ++lineNum, IMarker.SEVERITY_ERROR));

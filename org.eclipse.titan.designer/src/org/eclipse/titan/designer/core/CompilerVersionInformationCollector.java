@@ -67,6 +67,13 @@ public final class CompilerVersionInformationCollector {
 			+ "Compiled with: ([^\\n]+)\\n?\\n"
 			+ "(.+)", Pattern.MULTILINE | Pattern.DOTALL);
 
+	private static final Pattern BASE_TITAN_HEADER_PATTERN4 = Pattern.compile(
+			"TTCN\\-3 and ASN\\.1 Compiler for the TTCN\\-3 Test Executor\\n"
+			+ "Version: (.+)\\n"
+			+ "Build date: (.+)\\n"
+			+ "Compiled with: ([^\\n]+)\\n?\\n"
+			+ "(.+)", Pattern.MULTILINE | Pattern.DOTALL);
+
 	private static final class CompilerInfoStruct {
 		private String compilerProductNumber;
 		private String buildDate;
@@ -290,6 +297,17 @@ public final class CompilerVersionInformationCollector {
 			temp.buildDate = baseTITANErrorMatcher3.group(2);
 			temp.cCompilerVersion = baseTITANErrorMatcher3.group(3);
 			temp.compilerVersion = null;
+
+			return temp;
+		}
+
+		final Matcher baseTITANErrorMatcher4 = BASE_TITAN_HEADER_PATTERN4.matcher(readLines.toString());
+		if (baseTITANErrorMatcher3.matches()) {
+			final CompilerInfoStruct temp = new CompilerInfoStruct();
+			temp.compilerProductNumber = "";
+			temp.compilerVersion = baseTITANErrorMatcher4.group(1);
+			temp.buildDate = baseTITANErrorMatcher4.group(2);
+			temp.cCompilerVersion = baseTITANErrorMatcher4.group(3);
 
 			return temp;
 		}

@@ -28,11 +28,15 @@ public final class ProductIdentityHelper {
 	private static final Matcher PRODUCT_PATTERN3_MATCHER = PRODUCT_PATTERN3.matcher("");
 	private static final Pattern PRODUCT_PATTERN4 = Pattern.compile("^(R.+)$");
 	private static final Matcher PRODUCT_PATTERN4_MATCHER = PRODUCT_PATTERN4.matcher("");
+	private static final Pattern PRODUCT_PATTERN5 = Pattern.compile("^([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2})");
+	private static final Matcher PRODUCT_PATTERN5_MATCHER = PRODUCT_PATTERN5.matcher("");
 
 	private static final Pattern RNUMBER_PATTERN1 = Pattern.compile("^R([0-9]+)([A-Z]+)([0-9]+)$");
 	private static final Matcher RNUMBER_PATTERN1_MATCHER = RNUMBER_PATTERN1.matcher("");
 	private static final Pattern RNUMBER_PATTERN2 = Pattern.compile("^R([0-9]+)([A-Z]+)$");
 	private static final Matcher RNUMBER_PATTERN2_MATCHER = RNUMBER_PATTERN2.matcher("");
+	private static final Pattern RNUMBER_PATTERN3 = Pattern.compile("^([0-9]{1,2}).([0-9]{1,2}).([0-9]{1,2})");
+	private static final Matcher RNUMBER_PATTERN3_MATCHER = RNUMBER_PATTERN3.matcher("");
 
 	private ProductIdentityHelper() {
 	}
@@ -73,9 +77,13 @@ public final class ProductIdentityHelper {
 			rNumber = PRODUCT_PATTERN3_MATCHER.group(2);
 		} else if (PRODUCT_PATTERN4_MATCHER.reset(versionString).matches()) {
 			rNumber = PRODUCT_PATTERN4_MATCHER.group(1);
+		} else if (PRODUCT_PATTERN5_MATCHER.reset(versionString).matches()) {
+			productNumber = "";
+			rNumber = PRODUCT_PATTERN2_MATCHER.group(1);
 		} else {
 			if (location != null) {
-				location.reportSemanticError("Wrong format for product version information: The accepted formats resemble CRL 113 200/1 R9A or 7/CAX 105 7730 R2A");
+				location.reportSemanticError("Wrong format for product version information: "
+						+ "The accepted formats resemble CRL 113 200/1 R9A or 7/CAX 105 7730 R2A or 7.2.1");
 			}
 			return null;
 		}
@@ -90,9 +98,13 @@ public final class ProductIdentityHelper {
 		} else if (RNUMBER_PATTERN2_MATCHER.reset(rNumber).matches()) {
 			revisionDigit = RNUMBER_PATTERN2_MATCHER.group(1);
 			revisionLetter = RNUMBER_PATTERN2_MATCHER.group(2);
+		} else if (RNUMBER_PATTERN3_MATCHER.reset(rNumber).matches()) {
+			productNumberSuffix = RNUMBER_PATTERN3_MATCHER.group(1);
+			revisionDigit = RNUMBER_PATTERN3_MATCHER.group(2);
+			revisionLetter = RNUMBER_PATTERN3_MATCHER.group(3);
 		} else {
 			if (location != null) {
-				location.reportSemanticError("Wrong format for version information: The accepted formats resemble R2D02 and R2D");
+				location.reportSemanticError("Wrong format for version information: The accepted formats resemble R2D02 or R2D or 7.2.1");
 			}
 			return null;
 		}
@@ -182,8 +194,7 @@ public final class ProductIdentityHelper {
 		}
 
 		if ("CNL 113 300".equals(productNumber) && majorVersion == 0) {
-			// in previous TITAN versions this information was not
-			// stored.
+			// in previous TITAN versions this information was not stored.
 			majorVersion = 1;
 		}
 
