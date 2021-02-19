@@ -12,11 +12,15 @@
 @rem ###############################################################################
 
 @rem ###############################################################################
-@rem # Script to compile all the .g4 files in the Titan EclipsePlug-ins repo.
+@rem # Script for Windows to compile all the .g4 files in the Titan EclipsePlug-ins 
+@rem # repo. Can be used to invoke antlr manually if the eclipse antlr plugin does
+@rem # not work properly.
+@rem # The script also builds helper classes for parser debuggig (these are not part
+@rem # of the Titan build as they are only useful for parser developers).
 @rem #
 @rem # Example usage:
 @rem #   cd <titan.EclipsePlug-ins project root>
-@rem #   Tools/antlr4_compile.cmd
+@rem #   Tools/antlr4_compile.cmd 
 @rem ###############################################################################
 
 @echo off
@@ -72,7 +76,7 @@
 @java %ANTLR% PatternStringLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
 
 @REM Extension attribute
-@echo Copiling ext attr
+@echo Compiling ext attr
 @cd %WORKSPACE_PATH%\org.eclipse.titan.designer\src\org\eclipse\titan\designer\parsers\extensionattributeparser\
 @java %ANTLR% ExtensionAttributeLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.extensionattributeparser
 @java %ANTLR% ExtensionAttributeParser.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.extensionattributeparser
