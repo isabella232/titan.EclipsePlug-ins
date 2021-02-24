@@ -714,6 +714,7 @@ pr_StructuredTypeDef returns[Def_Type def_type]
 |	t9 = pr_FunctionTypeDef { $def_type = $t9.def_type; }
 |	t10 = pr_AltstepTypeDef { $def_type = $t10.def_type; }
 |	t11 = pr_TestcaseTypeDef { $def_type = $t11.def_type; }
+|	t12 = pr_ClassDef 
 );
 
 pr_RecordDef returns[Def_Type def_type]
@@ -6114,6 +6115,7 @@ pr_PredefinedType returns[Type type]
 |	FLOAT		{ $type = new Float_Type(); }
 |	ADDRESS		{ $type = new Address_Type(); }
 |	DEFAULT		{ $type = new Default_Type(); }
+|	OBJECTKEYWORD	{ $type = new Anytype_Type(); }
 |	ANYTYPE
 		{
 			Reference reference = new Reference(null);
@@ -7645,6 +7647,9 @@ pr_Primary returns[Value value]
 				)
 			)?
 		)
+	|	(
+			pr_ConstructorCall
+		)
 	|	(	sr = pr_ExtendedFieldReference
 				{	subReferences = $sr.subReferences;
 					if(subReferences != null) {
@@ -7725,7 +7730,7 @@ pr_Primary returns[Value value]
 			)?
 			(	p2 = pr_ApplyOpEnd
 					{	$value = new ApplyExpression( $value, $p2.parsedParameters );
-			 	 		$value.setLocation(getLocation( $t.start, $p2.stop));
+				$value.setLocation(getLocation( $t.start, $p2.stop));
 					}
 			)*
 			(	pr_Dot
@@ -7747,6 +7752,9 @@ pr_Primary returns[Value value]
 						}
 				)
 			)?
+		)
+	|	(
+			pr_ConstructorCall
 		)
 	|	(	sr = pr_ExtendedFieldReference
 				{	subReferences = $sr.subReferences;
@@ -8908,3 +8916,101 @@ pr_KeywordLessGlobalModuleId returns [Reference reference]
 		{	$reference = new Reference($i.identifier); }
 	)
 );
+
+
+pr_ClassDef
+@init {
+    Configuration_Helper runsonHelper = new Configuration_Helper();
+	Configuration_Helper systemspecHelper = new Configuration_Helper();
+	Configuration_Helper mtcHelper = new Configuration_Helper();
+}:
+(	pr_ExtKeyword? CLASS pr_Modifier pr_Identifier
+	pr_ExtendsClassDef? (pr_RunsOnSpec[runsonHelper])? 
+	(pr_MTCSpec[mtcHelper])? (pr_SystemSpec[systemspecHelper])?
+	pr_BeginChar pr_ClassMemberList pr_EndChar pr_FinallyDef?
+)
+;
+
+pr_Modifier
+@init {
+	boolean isFinal = false;
+}:
+	(FINALKEYWORD { isFinal = true; })? 
+	(a = ABSTRACTKEYWORD
+	{
+		if (isFinal) {
+			reportError("A final class cannot be abstract", $a, $a);
+		}
+	}
+	)?
+;
+
+pr_ExtendsClassDef:
+(
+	EXTENDS 
+	( pr_ReferencedType
+	| OBJECTKEYWORD
+	)
+)
+;
+
+pr_ClassMemberList:
+(
+	pr_ClassMember pr_WithStatement? SEMICOLON?
+)*
+;
+
+pr_ClassMember:
+(
+	pr_FieldVisibility?
+	(	pr_VarInstance 
+	|	pr_TimerInstance 
+	|	pr_ConstDef 
+	|	pr_TemplateDef 
+	|	pr_ClassFunctionDef
+	|	pr_ClassConstructorDef
+	|	pr_TypeDef
+	)
+)
+;
+
+pr_FieldVisibility:
+(	PRIVATE
+| 	PUBLIC
+)
+;
+
+pr_FinallyDef:
+(
+	FINALLY sb=pr_StatementBlock	
+)
+;
+
+pr_ClassFunctionDef:
+(
+	pr_ExtKeyword? pr_FunctionKeyword pr_Modifier pr_DeterministicModifier? 
+	pr_Identifier LPAREN pr_FunctionFormalParList? RPAREN
+	pr_ReturnType? sb=pr_StatementBlock
+)
+;
+
+pr_ClassConstructorDef:
+(	CREATE LPAREN pr_FunctionFormalParList RPAREN 
+	(
+		pr_ExtKeyword LPAREN pr_FunctionFormalParList RPAREN
+	)?
+	(
+		COLON pr_ReferencedType pr_FunctionActualParList 
+	)?
+	sb=pr_StatementBlock?
+)
+;
+
+pr_ConstructorCall:
+(
+	pr_Dot CREATE
+	(
+		LPAREN pr_FunctionActualParList RPAREN
+	)?
+)
+;

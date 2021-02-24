@@ -236,7 +236,8 @@ tokens {
 
   CALL,                       CASE,                       CATCH,
   CHARKEYWORD,                CHARSTRING,                 CHECK,
-  CHECKSTATE,                 CLEAR,                      COMPLEMENTKEYWORD,
+  CHECKSTATE,                 CLASS,
+  CLEAR,                      COMPLEMENTKEYWORD,
   COMPONENT,                  CONNECT,                    CONST,
   CONTINUE,                   CONTROL,                    CREATE,
 
@@ -250,7 +251,8 @@ tokens {
   EXCEPT,                     EXCEPTION,                  EXECUTE,
   EXTENDS,                    EXTENSION,                  EXTERNAL,
 
-  FAIL,                       FALSE,                      FLOAT,
+  FAIL,                       FALSE,                      FINALLY,
+  FLOAT,
   FOR,                        FRIEND,                     FROM,
   FUNCTION,
 
@@ -278,7 +280,8 @@ tokens {
   NOWAIT,                     NOT_A_NUMBER,               NULL1,
   NULL2,
 
-  OBJECTIDENTIFIERKEYWORD,    OCTETSTRING,                OF,
+  OBJECTIDENTIFIERKEYWORD,    OBJECTKEYWORD,              OCTETSTRING,                
+  OF,
   OMIT,                       ON,                         OPTIONAL,
   OR,                         OR4B,                       OUT,
   OVERRIDEKEYWORD,
@@ -286,6 +289,7 @@ tokens {
   PARAM,                      PASS,                       PATTERNKEYWORD,
   PERMUTATION,                PORT,                       PUBLIC,
   PRESENT,                    PRIVATE,                    PROCEDURE,
+  PROTECTED,
 
   RAISE,                      READ,                       REALTIME,
   RECEIVE,                    RECORD,                     RECURSIVE,
@@ -527,6 +531,8 @@ TITANSPECIFICCATCH:	'@catch';
 TITANSPECIFICUPDATEKEYWORD: '@update';
 
 // modifier keywords
+ABSTRACTKEYWORD:		'@abstract';
+FINALKEYWORD:			'@final';
 NOCASEKEYWORD:			'@nocase';
 LAZYKEYWORD:			'@lazy';
 DECODEDKEYWORD:			'@decoded';

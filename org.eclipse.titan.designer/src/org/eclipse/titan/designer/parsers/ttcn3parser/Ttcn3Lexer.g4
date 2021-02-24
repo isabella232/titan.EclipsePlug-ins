@@ -46,7 +46,8 @@ import Ttcn3BaseLexer;
 
   CALL: 'call';                     CASE: 'case';                     CATCH: 'catch';
   CHARKEYWORD: 'char';              CHARSTRING: 'charstring';         CHECK: 'check';
-  CHECKSTATE: 'checkstate';         CLEAR: 'clear';                   COMPLEMENTKEYWORD: 'complement';
+  CHECKSTATE: 'checkstate';         CLASS: 'class';
+  CLEAR: 'clear';                   COMPLEMENTKEYWORD: 'complement';
   COMPONENT: 'component';           CONNECT: 'connect';               CONST: 'const';
   CONTINUE: 'continue';             CONTROL: 'control';               CREATE: 'create';
 
@@ -60,7 +61,8 @@ import Ttcn3BaseLexer;
   EXCEPT: 'except';                 EXCEPTION: 'exception';           EXECUTE: 'execute';
   EXTENDS: 'extends';               EXTENSION: 'extension';           EXTERNAL: 'external';
 
-  FAIL: 'fail';                     FALSE: 'false';                   FLOAT: 'float';
+  FAIL: 'fail';                     FALSE: 'false';                   FINALLY: 'finally';
+  FLOAT: 'float';
   FOR: 'for';                       FRIEND: 'friend';                 FROM: 'from';
   FUNCTION: 'function';
 
@@ -84,10 +86,11 @@ import Ttcn3BaseLexer;
   MODULE: 'module';                 MODULEPAR: 'modulepar';           MTC: 'mtc';
 
   NOBLOCK: 'noblock';               NONE: 'none';                     NOT: 'not';
-  NOT4B: 'not4b';                   NOWAIT: 'nowait';                 NOT_A_NUMBER: 'not_a_number';
-  NULL1: 'null';                    NULL2: 'NULL';
+  NOT4B: 'not4b';                   NOWAIT: 'nowait';
+  NOT_A_NUMBER: 'not_a_number';     NULL1: 'null';                    NULL2: 'NULL';
 
-  OBJECTIDENTIFIERKEYWORD: 'objid'; OCTETSTRING: 'octetstring';       OF: 'of';
+  OBJECTIDENTIFIERKEYWORD: 'objid'; OBJECTKEYWORD: 'object';          OCTETSTRING: 'octetstring';       
+  OF: 'of';
   OMIT: 'omit';                     ON: 'on';                         OPTIONAL: 'optional';
   OR: 'or';                         OR4B: 'or4b';                     OUT: 'out';
   OVERRIDEKEYWORD: 'override';
@@ -95,6 +98,7 @@ import Ttcn3BaseLexer;
   PARAM: 'param';                   PASS: 'pass';                     PATTERNKEYWORD: 'pattern';
   PERMUTATION: 'permutation';       PORT: 'port';                     PUBLIC: 'public';
   PRESENT: 'present';               PRIVATE: 'private';               PROCEDURE: 'procedure';
+  PROTECTED: 'protected';
 
   RAISE: 'raise';                   READ: 'read';                     RECEIVE: 'receive';
   RECORD: 'record';                 RECURSIVE: 'recursive';           REFERS: 'refers';
