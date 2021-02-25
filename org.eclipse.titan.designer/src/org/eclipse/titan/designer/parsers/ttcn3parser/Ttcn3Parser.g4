@@ -391,6 +391,7 @@ public boolean isErrorListEmpty() {
 /**
  * @author Kristof Szabados
  * @author Arpad Lovassy
+ * @author Miklos Magyari
  */
 
 pr_TTCN3File:
@@ -714,7 +715,7 @@ pr_StructuredTypeDef returns[Def_Type def_type]
 |	t9 = pr_FunctionTypeDef { $def_type = $t9.def_type; }
 |	t10 = pr_AltstepTypeDef { $def_type = $t10.def_type; }
 |	t11 = pr_TestcaseTypeDef { $def_type = $t11.def_type; }
-|	t12 = pr_ClassDef 
+|	t12 = pr_ClassDef { $def_type = $t12.def_type; }
 );
 
 pr_RecordDef returns[Def_Type def_type]
@@ -8918,17 +8919,33 @@ pr_KeywordLessGlobalModuleId returns [Reference reference]
 	)
 );
 
-
-pr_ClassDef
+pr_ClassDef returns[Def_Type def_type]
 @init {
+	$def_type = null;
     Configuration_Helper runsonHelper = new Configuration_Helper();
 	Configuration_Helper systemspecHelper = new Configuration_Helper();
 	Configuration_Helper mtcHelper = new Configuration_Helper();
 }:
-(	pr_ExtKeyword? CLASS pr_Modifier pr_Identifier
+(	pr_ExtKeyword? 
+	col = pr_ClassKeyword
+	pr_Modifier 
+	i = pr_Identifier
 	pr_ExtendsClassDef? (pr_RunsOnSpec[runsonHelper])? 
 	(pr_MTCSpec[mtcHelper])? (pr_SystemSpec[systemspecHelper])?
 	pr_BeginChar pr_ClassMemberList pr_EndChar pr_FinallyDef?
+)
+{
+	if ($i.identifier != null) {
+		Type type = new Class_Type();
+		type.setLocation(getLocation($col.start, getLastVisibleToken()));
+		$def_type = new Def_Type($i.identifier, type);
+	}
+}
+;
+
+pr_ClassKeyword:
+(
+	CLASS
 )
 ;
 

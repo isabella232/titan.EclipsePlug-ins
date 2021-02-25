@@ -160,7 +160,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 		/** embedded_pdv (ASN.1). */
 		TYPE_EMBEDDED_PDV,
 		/** selection (ASN.1). */
-		TYPE_SELECTION
+		TYPE_SELECTION,
+		/** class (TTCN-3). */
+		TYPE_CLASS
 	}
 
 	/**
