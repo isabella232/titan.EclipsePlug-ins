@@ -409,6 +409,8 @@ ASSIGNMENTCHAR:	':=';
 
 PORTREDIRECTSYMBOL:	'->';
 
+CLASSCASTING:	'=>';
+
 CSTRING:
 '"'
 (	'\\' .

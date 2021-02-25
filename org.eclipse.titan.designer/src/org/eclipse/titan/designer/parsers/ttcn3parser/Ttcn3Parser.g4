@@ -7882,6 +7882,7 @@ pr_OpCall returns[Value value]
 |	v7 = pr_CheckStateOp		{ $value = $v7.value; }
 |	v8 = pr_GetRefOp		{ $value = $v8.value; }
 |	v9 = pr_nowOp			{ $value = $v9.value; }
+|	v10 = pr_ClassCastingOp		{ $value = null; }
 );
 
 pr_CheckStateOp returns[Value value]
@@ -9012,5 +9013,14 @@ pr_ConstructorCall:
 	(
 		LPAREN pr_FunctionActualParList RPAREN
 	)?
+)
+;
+
+pr_ClassCastingOp:
+(	pr_VariableRef CLASSCASTING
+	(	pr_ReferencedType 
+	|	OBJECTKEYWORD
+	|	LPAREN pr_VariableRef RPAREN
+	)	
 )
 ;
