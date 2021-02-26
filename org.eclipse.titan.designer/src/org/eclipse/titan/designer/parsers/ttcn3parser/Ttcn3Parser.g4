@@ -8923,12 +8923,13 @@ pr_ClassDef returns[Def_Type def_type]
 @init {
 	$def_type = null;
     Configuration_Helper runsonHelper = new Configuration_Helper();
-	Configuration_Helper systemspecHelper = new Configuration_Helper();
 	Configuration_Helper mtcHelper = new Configuration_Helper();
+	Configuration_Helper systemspecHelper = new Configuration_Helper();
+	List<ClassModifier> modifiers = null;
 }:
 (	pr_ExtKeyword? 
 	col = pr_ClassKeyword
-	pr_Modifier 
+	m = pr_Modifier { modifiers = $m.modifiers; }
 	i = pr_Identifier
 	pr_ExtendsClassDef? (pr_RunsOnSpec[runsonHelper])? 
 	(pr_MTCSpec[mtcHelper])? (pr_SystemSpec[systemspecHelper])?
@@ -8936,7 +8937,7 @@ pr_ClassDef returns[Def_Type def_type]
 )
 {
 	if ($i.identifier != null) {
-		Type type = new Class_Type();
+		Type type = new Class_Type(modifiers, runsonHelper.runsonReference);
 		type.setLocation(getLocation($col.start, getLastVisibleToken()));
 		$def_type = new Def_Type($i.identifier, type);
 	}
@@ -8949,16 +8950,23 @@ pr_ClassKeyword:
 )
 ;
 
-pr_Modifier
+pr_Modifier returns[List<ClassModifier> modifiers]
 @init {
+	$modifiers = new ArrayList<ClassModifier>();
 	boolean isFinal = false;
+	boolean isAbstract = false;
 }:
-	(FINALKEYWORD { isFinal = true; })? 
+	(FINALKEYWORD { 
+		isFinal = true; 
+		$modifiers.add(ClassModifier.Final);
+	})? 
 	(a = ABSTRACTKEYWORD
 	{
+		isAbstract = true;
+		$modifiers.add(ClassModifier.Abstract);
 		if (isFinal) {
-			reportError("A final class cannot be abstract", $a, $a);
-		}
+			reportWarning("A final class cannot be abstract", $a, $a);
+		} 
 	}
 	)?
 ;
@@ -8980,7 +8988,7 @@ pr_ClassMemberList:
 
 pr_ClassMember:
 (
-	pr_FieldVisibility?
+	pr_OopVisibility?
 	(	pr_VarInstance 
 	|	pr_TimerInstance 
 	|	pr_ConstDef 
@@ -8992,9 +9000,13 @@ pr_ClassMember:
 )
 ;
 
-pr_FieldVisibility:
-(	PRIVATE
-| 	PUBLIC
+pr_OopVisibility returns[OopVisibilityModifier modifier]
+@init {
+	$modifier = OopVisibilityModifier.Protected;
+}:
+(	PRIVATE		{$modifier = OopVisibilityModifier.Private;}
+| 	PUBLIC		{$modifier = OopVisibilityModifier.Public;}
+|	PROTECTED	{$modifier = OopVisibilityModifier.Protected;}
 )
 ;
 

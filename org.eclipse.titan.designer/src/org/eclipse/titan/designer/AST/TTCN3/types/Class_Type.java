@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -17,16 +18,27 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo.Chain;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ClassModifier;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
+ * class type (TTCN-3).
+ * 
  * @author Miklos Magyari
  */
 
 public final class Class_Type extends Type {
 	private static final String CLASSTYPE_NAME = "class";
+	
+	private final Reference runsOnRef;
+	private final List<ClassModifier> modifiers;
+	
+	public Class_Type(List<ClassModifier> modifiers, final Reference runsOnRef) {
+		this.modifiers = modifiers;
+		this.runsOnRef = runsOnRef;
+	}
 	
     @Override
     /** {@inheritDoc} */
@@ -46,6 +58,8 @@ public final class Class_Type extends Type {
     @Override
     public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
     		final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
+    	registerUsage(template);
+    	
     	return false;
     }
     
@@ -65,7 +79,7 @@ public final class Class_Type extends Type {
     	lastTimeGenerated = aData.getBuildTimstamp();
     	
     	final String ownName = getGenNameOwn();
-    	source.append(MessageFormat.format("\t/* class code will be here for {0}:{1} */\n", ownName, getGenNameValue(aData, source)));
+    	source.append(MessageFormat.format("\t/* class code will be here for {0}:{1} mod: {2} */\n", ownName, getGenNameValue(aData, source), getModifiers()));
     	
     	if (hasDoneAttribute()) {
 			generateCodeDone(aData, source);
@@ -117,5 +131,9 @@ public final class Class_Type extends Type {
 	public String getGenNameTypeDescriptor(JavaGenData aData, StringBuilder source) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<ClassModifier> getModifiers() {
+		return modifiers; 
 	}
 }
