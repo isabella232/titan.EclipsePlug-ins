@@ -53,7 +53,6 @@ public final class GeneralConstants {
 	public static final String NUMBER_DEFAULT = "1";
 
 	public static final String VERSION_STRING = ON_THE_FLY_ANALYZER_VERSION.toString();
-	public static final String COPYRIGHT_STRING = "Copyright (c) 2000-2021 Ericsson Telecom AB";
 
 	public static final String PROJECT_PROPERTY_PAGE = "org.eclipse.titan.designer.properties.pages.ProjectBuildPropertyPage";
 
@@ -66,6 +65,8 @@ public final class GeneralConstants {
 			FolderBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY);
 
 	public static final String ACTIVITY_DEBUG = "org.eclipse.titan.designer.activities.debug";
+	
+	public final static String JAVA_BUILD_DIR = "java_bin";
 
 	/** private constructor to disable instantiation */
 	private GeneralConstants() {

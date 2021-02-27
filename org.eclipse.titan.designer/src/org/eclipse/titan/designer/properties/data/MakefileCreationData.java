@@ -129,7 +129,8 @@ public final class MakefileCreationData {
 		public static String[][] getDisplayNamesAndValues() {
 			return new String[][] { { "Class files", DefaultJavaTarget.CLASS.toString() },
 					{ "Executable JAR", DefaultJavaTarget.EXECUTABLE.toString() },
-					{ "JAR", DefaultJavaTarget.JAR.toString() } };
+					// TODO: exporting to simple JAR is not implemented yet, users have to do it manually
+					/*{ "JAR", DefaultJavaTarget.JAR.toString() }*/ };
 		}
 	}
 
