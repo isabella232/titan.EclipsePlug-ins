@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
@@ -32,11 +33,15 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public final class Class_Type extends Type {
 	private static final String CLASSTYPE_NAME = "class";
 	
+	private static final String SE_FINALVSABSTRACT = "A final class cannot be abstract.";
+	
+	private final Location modifierLoc;
 	private final Reference runsOnRef;
 	private final List<ClassModifier> modifiers;
 	
-	public Class_Type(List<ClassModifier> modifiers, final Reference runsOnRef) {
+	public Class_Type(List<ClassModifier> modifiers, final Location modifierLoc, final Reference runsOnRef) {
 		this.modifiers = modifiers;
+		this.modifierLoc = modifierLoc;
 		this.runsOnRef = runsOnRef;
 	}
 	
@@ -135,5 +140,17 @@ public final class Class_Type extends Type {
 	
 	public List<ClassModifier> getModifiers() {
 		return modifiers; 
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void check(final CompilationTimeStamp timestamp) {
+		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
+			return;
+		}
+		
+		if (modifiers.contains(ClassModifier.Final) && modifiers.contains(ClassModifier.Abstract)) {
+			modifierLoc.reportSemanticError(SE_FINALVSABSTRACT);
+		}
 	}
 }

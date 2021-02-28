@@ -8928,7 +8928,7 @@ pr_ClassDef returns[Def_Type def_type]
 	List<ClassModifier> modifiers = null;
 }:
 (	pr_ExtKeyword? 
-	col = pr_ClassKeyword
+	kw = pr_ClassKeyword
 	m = pr_Modifier { modifiers = $m.modifiers; }
 	i = pr_Identifier
 	pr_ExtendsClassDef? (pr_RunsOnSpec[runsonHelper])? 
@@ -8937,8 +8937,9 @@ pr_ClassDef returns[Def_Type def_type]
 )
 {
 	if ($i.identifier != null) {
-		Type type = new Class_Type(modifiers, runsonHelper.runsonReference);
-		type.setLocation(getLocation($col.start, getLastVisibleToken()));
+		Location modifierLoc = getLocation($m.start, $m.stop);
+		Type type = new Class_Type(modifiers, modifierLoc, runsonHelper.runsonReference);
+		type.setLocation(getLocation($kw.start, getLastVisibleToken()));
 		$def_type = new Def_Type($i.identifier, type);
 	}
 }
@@ -8956,7 +8957,7 @@ pr_Modifier returns[List<ClassModifier> modifiers]
 	boolean isFinal = false;
 	boolean isAbstract = false;
 }:
-	(FINALKEYWORD { 
+	(f = FINALKEYWORD { 
 		isFinal = true; 
 		$modifiers.add(ClassModifier.Final);
 	})? 
@@ -8964,9 +8965,6 @@ pr_Modifier returns[List<ClassModifier> modifiers]
 	{
 		isAbstract = true;
 		$modifiers.add(ClassModifier.Abstract);
-		if (isFinal) {
-			reportWarning("A final class cannot be abstract", $a, $a);
-		} 
 	}
 	)?
 ;
