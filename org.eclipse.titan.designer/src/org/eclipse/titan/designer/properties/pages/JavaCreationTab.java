@@ -29,12 +29,19 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.path.PathUtil;
 import org.eclipse.titan.common.path.TITANPathUtilities;
 import org.eclipse.titan.common.utils.StringUtils;
+import org.eclipse.titan.designer.core.ant.AntLaunchConfigGenerator;
+import org.eclipse.titan.designer.core.ant.AntScriptGenerator;
 import org.eclipse.titan.designer.preferences.pages.ComboFieldEditor;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.properties.data.MakefileCreationData;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 import org.eclipse.ui.dialogs.PropertyPage;
 
+/**
+ * Tab page for configuring the Java target, i.e. class or executable JAR is produced 
+ * at the end of build process 
+ * @author Adam Knapp
+ * */
 public class JavaCreationTab {
 	private static final String JAVA_CREATION_TAB_TITLE = "Java target creation attributes";
 
@@ -105,7 +112,7 @@ public class JavaCreationTab {
 		targetExecutableData.horizontalAlignment = SWT.FILL;
 		javaTargetComposite.setLayoutData(targetExecutableData);
 		temporalJavaTargetFileFieldEditor = new TITANResourceLocatorFieldEditor(TEMPORAL_JAVA_TARGET, 
-				"Java target:", javaTargetComposite, IResource.FILE, project.getLocation().toOSString());
+				"JAR file:", javaTargetComposite, IResource.FILE, project.getLocation().toOSString());
 		temporalJavaTargetFileFieldEditor
 				.getLabelControl(javaTargetComposite)
 				.setToolTipText("The target of the Java build process.\n"
@@ -200,7 +207,6 @@ public class JavaCreationTab {
 	 * */
 	public boolean evaluatePropertyStore(final IProject project, final PreferenceStore tempStorage) {
 		boolean result = false;
-
 		String actualValue = null;
 		String copyValue = null;
 		try {
@@ -223,7 +229,6 @@ public class JavaCreationTab {
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-		
 		return result;
 	}
 
@@ -290,8 +295,15 @@ public class JavaCreationTab {
 			if (path.equals(resolvedPath)) {
 				temp = PathUtil.getRelativePath(project.getLocation().toOSString(), temp);
 			}
-
 			setProperty(project, MakefileCreationData.TARGET_EXECUTABLE_PROPERTY, temp);
+			if (isExecutableSelected()) {
+				if (AntScriptGenerator.generateAndStoreBuildXML(project)) {
+					AntLaunchConfigGenerator.createAntLaunchConfiguration(project);
+					AntLaunchConfigGenerator.addAntBuilder(project);
+					project.refreshLocal(IResource.DEPTH_ONE, null);
+				}
+			}
+			AntLaunchConfigGenerator.setAntBuilderEnabled(project, isExecutableSelected());
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			return false;
