@@ -9019,8 +9019,9 @@ pr_ClassFunctionDef returns[Def_Type def_type]:
 	pr_ExtKeyword? pr_FunctionKeyword 
 	mod = pr_Modifier 
 	pr_DeterministicModifier? 
-	pr_Identifier LPAREN pr_FunctionFormalParList? RPAREN
-	pr_ReturnType? sb=pr_StatementBlock
+	pr_Identifier 
+	LPAREN pr_FunctionFormalParList? RPAREN
+	pr_ReturnType? sb=pr_StatementBlock?
 );
 
 pr_ClassConstructorDef returns[FormalParameterList parList]
