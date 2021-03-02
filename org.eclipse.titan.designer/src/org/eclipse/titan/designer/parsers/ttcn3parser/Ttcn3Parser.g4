@@ -7272,6 +7272,7 @@ pr_BasicStatements returns[Statement statement]
 				$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 			}
 		}
+|	pr_SelectClass { $statement = null; }		
 );
 
 pr_Expression returns[Value value]
@@ -9068,4 +9069,36 @@ pr_OfClassOp:
 	(	pr_ReferencedType
 	|	OBJECTKEYWORD
 	)
+);
+
+pr_SelectClass:
+(
+	SELECT CLASS 
+	LPAREN 
+	pr_VariableRef
+	RPAREN
+	pr_SelectClassBody
+);
+
+pr_SelectClassBody:
+(
+	BEGINCHAR
+	pr_SelectClassCase+
+	ENDCHAR
+);
+
+pr_SelectClassCase:
+(
+	CASE 
+	(
+		((  LPAREN 
+			(	pr_ReferencedType 
+			|	OBJECTKEYWORD
+			)
+			RPAREN)
+		|ELSE
+		)
+	)
+	pr_StatementBlock
+	SEMICOLON?
 );
