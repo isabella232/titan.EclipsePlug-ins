@@ -66,7 +66,10 @@ public final class GeneralConstants {
 
 	public static final String ACTIVITY_DEBUG = "org.eclipse.titan.designer.activities.debug";
 	
-	public final static String JAVA_BUILD_DIR = "java_bin";
+	public static final String JAVA_BUILD_DIR = "java_bin";
+	public static final String JAVA_SOURCE_DIR = "java_src";
+	public static final String JAVA_TEMP_DIR = "temp";
+	public static final String JAVA_USER_PROVIDED = "user_provided";
 
 	/** private constructor to disable instantiation */
 	private GeneralConstants() {

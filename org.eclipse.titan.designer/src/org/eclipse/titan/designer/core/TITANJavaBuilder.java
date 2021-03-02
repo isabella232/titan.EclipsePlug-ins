@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
+import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
@@ -110,25 +111,35 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		super.clean(monitor);
 
 		final SubMonitor progress = SubMonitor.convert(monitor, 100);
-		progress.subTask("Deleting java_src/org");
+		progress.subTask("Deleting " + GeneralConstants.JAVA_SOURCE_DIR + "/org");
 
 		final IProject project = getProject();
-		IFolder folder = project.getFolder( "java_src/org");
+		IFolder folder = project.getFolder(GeneralConstants.JAVA_SOURCE_DIR + "/org");
 		if( folder.exists() ) {
 			try {
-				folder.delete(true, progress.newChild(50));
+				folder.delete(true, progress.newChild(40));
 			} catch (CoreException e) {
-				ErrorReporter.logExceptionStackTrace("While cleaning generated code in java_src", e);
+				ErrorReporter.logExceptionStackTrace("While cleaning generated code in " + GeneralConstants.JAVA_SOURCE_DIR, e);
 			}
 		}
 
-		progress.subTask("Deleting java_bin");
-		folder = project.getFolder("java_bin");
+		progress.subTask("Deleting " + GeneralConstants.JAVA_BUILD_DIR);
+		folder = project.getFolder(GeneralConstants.JAVA_BUILD_DIR);
 		if( folder.exists() ) {
 			try {
 				folder.delete(true, progress.newChild(50));
 			} catch (CoreException e) {
-				ErrorReporter.logExceptionStackTrace("While cleaning generated code in java_bin ", e);
+				ErrorReporter.logExceptionStackTrace("While cleaning generated code in " + GeneralConstants.JAVA_BUILD_DIR, e);
+			}
+		}
+		
+		progress.subTask("Deleting " + GeneralConstants.JAVA_TEMP_DIR);
+		folder = project.getFolder(GeneralConstants.JAVA_TEMP_DIR);
+		if( folder.exists() ) {
+			try {
+				folder.delete(true, progress.newChild(10));
+			} catch (CoreException e) {
+				ErrorReporter.logExceptionStackTrace("While cleaning files in " + GeneralConstants.JAVA_TEMP_DIR, e);
 			}
 		}
 
