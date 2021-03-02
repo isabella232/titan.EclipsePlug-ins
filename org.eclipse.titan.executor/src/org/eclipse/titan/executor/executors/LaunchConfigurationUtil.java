@@ -33,6 +33,7 @@ import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.cfg.ConfigFileHandler;
+import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.consoles.TITANConsole;
 import org.eclipse.titan.executor.designerconnection.DynamicLinkingHelper;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
@@ -46,7 +47,7 @@ public final class LaunchConfigurationUtil {
 
 	private static final String MAIN_SINGLE = "org.eclipse.titan.{0}.generated.Single_main";
 	private static final String MAIN_PARALLEL = "org.eclipse.titan.{0}.generated.Parallel_main";
-	private static final String PATH_PREFIX = "java_src";
+	private static final String PATH_PREFIX = GeneralConstants.JAVA_SOURCE_DIR;
 	private static final String GROUP_LAUNCH_CONFIGURATION_ID = "org.eclipse.debug.core.groups.GroupLaunchConfigurationType";
 	private static final String LAUNCH_CONFIGURATION_LIST_ATTR = PLUGIN_ID + ".linkedLaunchConfigurations";
 

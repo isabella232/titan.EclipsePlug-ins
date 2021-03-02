@@ -138,7 +138,7 @@ public final class ProjectBasedBuilder {
 	 * */
 	public IContainer[] getWorkingDirectoryResources(final boolean reportError) {
 		if (TITANJavaBuilder.isBuilderEnabled(project)) {
-			final IFolder folder = project.getFolder("java_bin");
+			final IFolder folder = project.getFolder(GeneralConstants.JAVA_BUILD_DIR);
 			final IContainer containers[] = new IContainer[1];
 			containers[0] = folder;
 			return containers;

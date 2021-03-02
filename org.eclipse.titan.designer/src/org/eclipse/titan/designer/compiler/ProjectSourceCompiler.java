@@ -72,7 +72,7 @@ public final class ProjectSourceCompiler {
 	public static String getPackageUserProvidedRoot(final IProject project) {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 
-		return MessageFormat.format("org.eclipse.titan.{0}.user_provided", projectName);
+		return MessageFormat.format("org.eclipse.titan.{0}." + GeneralConstants.JAVA_USER_PROVIDED, projectName);
 	}
 
 	/** 
@@ -83,7 +83,7 @@ public final class ProjectSourceCompiler {
 	public static String getGeneratedRoot(final IProject project) {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 
-		return MessageFormat.format("java_src/org/eclipse/titan/{0}/generated", projectName);
+		return MessageFormat.format(GeneralConstants.JAVA_SOURCE_DIR + "/org/eclipse/titan/{0}/generated", projectName);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public final class ProjectSourceCompiler {
 	public static String getUserProvidedRoot(final IProject project) {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
 
-		return MessageFormat.format("user_provided/org/eclipse/titan/{0}/user_provided", projectName);
+		return MessageFormat.format(GeneralConstants.JAVA_USER_PROVIDED + "/org/eclipse/titan/{0}/" + GeneralConstants.JAVA_USER_PROVIDED, projectName);
 	}
 
 	public static void generateSourceFolder(final IProject project) throws CoreException {

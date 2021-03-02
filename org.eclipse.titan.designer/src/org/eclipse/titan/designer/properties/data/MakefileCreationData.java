@@ -379,6 +379,6 @@ public final class MakefileCreationData {
 
 	public static String getDefaultJavaTargetName(final IProject project, final boolean isAbsolute) {
 		String name = getDefaultTargetExecutableName(project, isAbsolute);
-		return "java_bin" + File.separator + name.replace("bin" + File.separator, "").replace(".exe", "") + ".jar";
+		return GeneralConstants.JAVA_BUILD_DIR + File.separator + name.replace("bin" + File.separator, "").replace(".exe", "") + ".jar";
 	}
 }

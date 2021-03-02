@@ -37,6 +37,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
+import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 import org.eclipse.titan.designer.core.TITANJavaBuilder;
 import org.eclipse.titan.designer.core.TITANNature;
@@ -124,7 +125,7 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 			protected void execute(final IProgressMonitor monitor) throws CoreException {
 				createProject(description, newProjectHandle, monitor);
 
-				IFolder folder = newProjectHandle.getFolder("java_src");
+				IFolder folder = newProjectHandle.getFolder(GeneralConstants.JAVA_SOURCE_DIR);
 				if (!folder.exists()) {
 					try {
 						folder.create(true, true, null);
@@ -132,7 +133,7 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 						ErrorReporter.logExceptionStackTrace(e);
 					}
 				}
-				folder = newProjectHandle.getFolder("user_provided");
+				folder = newProjectHandle.getFolder(GeneralConstants.JAVA_USER_PROVIDED);
 				if (!folder.exists()) {
 					try {
 						folder.create(true, true, null);
@@ -140,7 +141,7 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 						ErrorReporter.logExceptionStackTrace(e);
 					}
 				}
-				folder = newProjectHandle.getFolder("java_bin");
+				folder = newProjectHandle.getFolder(GeneralConstants.JAVA_BUILD_DIR);
 				if (!folder.exists()) {
 					try {
 						folder.create(true, true, null);
@@ -218,9 +219,9 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 
 	private void createBuildProperties() throws CoreException {
 		final StringBuilder content = new StringBuilder();
-		content.append("source.. = java_src/,\\\n");
-		content.append("               user_provided/\n");
-		content.append("output.. = java_bin/\n");
+		content.append("source.. = " + GeneralConstants.JAVA_SOURCE_DIR + "/,\\\n");
+		content.append("               " + GeneralConstants.JAVA_USER_PROVIDED + "/\n");
+		content.append("output.. = " + GeneralConstants.JAVA_BUILD_DIR + "/\n");
 		content.append("bin.includes = META-INF/,\\\n");
 		content.append("               .\n");
 
@@ -234,8 +235,6 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 	}
 
 	private void createManifest() throws CoreException {
-		final String projectJavaName = newProject.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
-
 		final StringBuilder content = new StringBuilder("Manifest-Version: 1.0\n");
 		content.append("Bundle-ManifestVersion: 2\n");
 		content.append("Bundle-Name: " + newProject.getName() + "\n");
@@ -245,8 +244,8 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 		content.append(" org.antlr.runtime;bundle-version=\"4.3.0\"\n");
 		content.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.6\n");
 		content.append("Bundle-ActivationPolicy: lazy\n");
-		content.append("Export-Package: org.eclipse.titan." + projectJavaName + ".generated,\n");
-		content.append(" org.eclipse.titan." + projectJavaName + ".user_provided\n");
+		content.append("Export-Package: " + ProjectSourceCompiler.getPackageGeneratedRoot(newProject) + ",\n");
+		content.append(" " + ProjectSourceCompiler.getPackageUserProvidedRoot(newProject) + "\n");
 
 		final IFolder metaInf = newProject.getFolder("META-INF");
 		if (!metaInf.exists()) {
@@ -277,7 +276,7 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 
 		try {
 			newProject.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					MakeAttributesData.TEMPORAL_WORKINGDIRECTORY_PROPERTY), "java_src");
+					MakeAttributesData.TEMPORAL_WORKINGDIRECTORY_PROPERTY), GeneralConstants.JAVA_SOURCE_DIR);
 			final String executableJar = MakefileCreationData.getDefaultJavaTargetName(newProject, false);
 			newProject.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakefileCreationData.TARGET_EXECUTABLE_PROPERTY), executableJar);
@@ -286,10 +285,10 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 			final List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5")));
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
-			classpathEntries.add(JavaCore.newSourceEntry(new Path("/" + newProject.getName() +"/java_src")));
-			classpathEntries.add(JavaCore.newSourceEntry(new Path("/" + newProject.getName() +"/user_provided")));
+			classpathEntries.add(JavaCore.newSourceEntry(new Path("/" + newProject.getName() + "/" + GeneralConstants.JAVA_SOURCE_DIR)));
+			classpathEntries.add(JavaCore.newSourceEntry(new Path("/" + newProject.getName() +"/" + GeneralConstants.JAVA_USER_PROVIDED)));
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]), null);
-			javaProject.setOutputLocation(new Path("/" + newProject.getName() + "/java_bin"), null);
+			javaProject.setOutputLocation(new Path("/" + newProject.getName() + "/" + GeneralConstants.JAVA_BUILD_DIR), null);
 
 			createBuildProperties();
 			createManifest();
@@ -334,11 +333,9 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
-
 		BasicNewProjectResourceWizard.updatePerspective(config);
 		selectAndReveal(newProject);
 
 		return true;
 	}
-
 }
