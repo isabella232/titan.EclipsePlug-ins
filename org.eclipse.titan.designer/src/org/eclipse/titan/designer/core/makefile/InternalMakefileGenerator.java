@@ -44,6 +44,7 @@ import org.eclipse.titan.common.path.PathConverter;
 import org.eclipse.titan.common.path.PathUtil;
 import org.eclipse.titan.common.path.TITANPathUtilities;
 import org.eclipse.titan.common.product.ProductIdentity;
+import org.eclipse.titan.common.utils.CommentUtils;
 import org.eclipse.titan.common.utils.Cygwin;
 import org.eclipse.titan.common.utils.IOUtils;
 import org.eclipse.titan.common.utils.ResourceUtils;
@@ -738,7 +739,7 @@ public final class InternalMakefileGenerator {
 		final String date = simpleDateFormat.format(new Date());
 
 		contents.append(") on ").append(date).append("\n\n");
-		contents.append("# ").append(GeneralConstants.COPYRIGHT_STRING).append('\n');
+		contents.append("# ").append(CommentUtils.COPYRIGHT_TEXT).append('\n');
 		contents.append('\n');
 		contents.append("# The following make commands are available:\n");
 		contents.append("# - make, make all      ");

@@ -41,6 +41,7 @@ import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 import org.eclipse.titan.designer.core.TITANJavaBuilder;
 import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.properties.data.MakeAttributesData;
+import org.eclipse.titan.designer.properties.data.MakefileCreationData;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 import org.eclipse.titan.designer.properties.data.ProjectDocumentHandlingUtility;
 import org.eclipse.titan.designer.properties.data.ProjectFileHandler;
@@ -277,6 +278,9 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 		try {
 			newProject.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakeAttributesData.TEMPORAL_WORKINGDIRECTORY_PROPERTY), "java_src");
+			final String executableJar = MakefileCreationData.getDefaultJavaTargetName(newProject, false);
+			newProject.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.TARGET_EXECUTABLE_PROPERTY), executableJar);
 
 			final IJavaProject javaProject = JavaCore.create(newProject);
 			final List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();

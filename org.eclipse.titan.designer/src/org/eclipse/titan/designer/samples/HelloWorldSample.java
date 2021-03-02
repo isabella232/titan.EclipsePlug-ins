@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.utils.CommentUtils;
 import org.eclipse.titan.common.utils.StringUtils;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
@@ -97,7 +98,7 @@ public class HelloWorldSample extends SampleProject {
 			+ "// TTCN-3 Compiler of the TTCN-3 Test Executor version " + GeneralConstants.VERSION_STRING + NEWLINE
 			+ "// for (" + System.getProperty("user.name") + "@" + HOSTNAME + ")" + NEWLINE
 			+ NEWLINE
-			+ "// " + GeneralConstants.COPYRIGHT_STRING + NEWLINE
+			+ "// " + CommentUtils.COPYRIGHT_TEXT + NEWLINE
 			+ NEWLINE
 			+ "// You may modify this file. Add your attributes and prototypes of your" + NEWLINE
 			+ "// member functions here." + NEWLINE
@@ -148,7 +149,7 @@ public class HelloWorldSample extends SampleProject {
 			+ "// TTCN-3 Compiler of the TTCN-3 Test Executor version " + GeneralConstants.VERSION_STRING + NEWLINE
 			+ "// for (" + System.getProperty("user.name") + "@" + HOSTNAME + ")" + NEWLINE
 			+ NEWLINE
-			+ "// " + GeneralConstants.COPYRIGHT_STRING + NEWLINE
+			+ "// " + CommentUtils.COPYRIGHT_TEXT + NEWLINE
 			+ NEWLINE
 			+ "// You may modify this file. Complete the body of empty functions and" + NEWLINE
 			+ "// add your member functions here." + NEWLINE

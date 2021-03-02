@@ -64,7 +64,7 @@ public class InternalJavaCreationTab {
 
 	protected TabItem createContents(final TabFolder tabFolder) {
 		newBuildPropertiesTabItem = new TabItem(tabFolder, SWT.BORDER);
-		newBuildPropertiesTabItem.setText("Internal makefile creation attributes");
+		newBuildPropertiesTabItem.setText("Internal build attributes");
 		newBuildPropertiesTabItem.setToolTipText("Settings controlling the new generation of the makefile.");
 
 		newBuildPropertiesComposite = new Composite(tabFolder, SWT.MULTI);
