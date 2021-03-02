@@ -157,7 +157,7 @@ public final class AntLaunchConfigGenerator {
 	 * Returns the singleton launch manager.
 	 * @return launch manager
 	 */
-	public static ILaunchManager getLaunchManager() {
+	private static ILaunchManager getLaunchManager() {
 		return DebugPlugin.getDefault().getLaunchManager();
 	}
 

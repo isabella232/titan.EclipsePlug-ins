@@ -27,25 +27,25 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.jarpackagerfat.FatJarRsrcUrlBuilder;
-import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.path.PathUtil;
 import org.eclipse.titan.common.utils.CommentUtils;
+import org.eclipse.titan.common.utils.FileUtils;
 import org.eclipse.titan.common.utils.StringUtils;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
+import org.eclipse.titan.designer.core.JavaRuntimeHelper;
 import org.eclipse.titan.designer.properties.data.MakefileCreationData;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 import org.w3c.dom.Document;
@@ -107,14 +107,17 @@ public final class AntScriptGenerator {
 	/**
 	 * Copies the {@code jar-in-jar-loader.zip} file into the project's {@code java_bin} folder
 	 * @param project Project where {@code jar-in-jar-loader.zip} is required
+	 * @throws CoreException
 	 * @throws IOException
 	 */
-	private static void copyJarInJarLoader(IProject project) throws IOException {
-		final String pathString = GeneralConstants.JAVA_BUILD_DIR + File.separator + FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP;
+	private static void copyJarInJarLoader(IProject project) throws CoreException, IOException {
+		final String pathString = GeneralConstants.JAVA_TEMP_DIR + File.separator + FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP;
 		final IFile zipFile = project.getFile(new Path(pathString));
 		if (zipFile.exists()) {
 			return;
 		}
+		IFolder tempFolder = project.getFolder(new Path(GeneralConstants.JAVA_TEMP_DIR));
+		FileUtils.createDir(tempFolder);
 		final URI zipURI = URIUtil.toURI(zipFile.getLocation());
 		if (zipURI == null) {
 			throw new IOException("Path error: " + pathString);
@@ -142,25 +145,6 @@ public final class AntScriptGenerator {
 		}
 		final IFile buildFile = project.getFile(BUILD_XML_NAME);
 		return buildFile.exists();
-	}
-
-	/**
-	 * Searches for a launch configuration of Java application type that is related to the specified project.
-	 * The launch configuration is used to get the class paths. 
-	 * @param project Project where the launch configuration is looked for
-	 * @return The launch configuration of Java application type
-	 * @throws CoreException
-	 */
-	private static ILaunchConfiguration findLaunchConfiguration(final IProject project) throws CoreException {
-		ILaunchConfigurationType type = DebugPlugin.getDefault().getLaunchManager().
-				getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
-		ILaunchConfiguration[] configs = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations(type);
-		for (ILaunchConfiguration config : configs) {
-			if (project.getName().equals(config.getAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, ""))) {
-				return config;
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -216,7 +200,7 @@ public final class AntScriptGenerator {
 			ErrorReporter.INTERNAL_ERROR("Jar file is null or empty");
 			return null;
 		}
-		final ILaunchConfiguration config = findLaunchConfiguration(project);
+		final ILaunchConfiguration config = JavaAppLaunchConfigGenerator.findLaunchConfiguration(project);
 		if (config == null) {
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
 					"Error while generating the ANT script 'jarbuild.xml' for project",
@@ -225,6 +209,7 @@ public final class AntScriptGenerator {
 			return null;
 		}
 		final SourceInfo[] sourceInfos = convert(getClasspath(config));
+		JavaAppLaunchConfigGenerator.deleteTemporaryJavaAppLaunchConfiguration(project);
 		DocumentBuilder docBuilder = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setValidating(false);
@@ -325,19 +310,21 @@ public final class AntScriptGenerator {
 		manifest.appendChild(attribute);
 
 		Element zipfileset = document.createElement("zipfileset");
-		zipfileset.setAttribute("src", "${dir.build}/" + FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP);
+		zipfileset.setAttribute("src", GeneralConstants.JAVA_TEMP_DIR + "/" + FatJarRsrcUrlBuilder.JAR_RSRC_LOADER_ZIP);
 		jar.appendChild(zipfileset);
 
 		for (SourceInfo sourceInfo : sourceInfos) {
 			if (sourceInfo.isJar) {
 				final File sourceJarFile = new File(sourceInfo.absPath);
+				final String relPath = PathUtil.getRelativePath(project.getLocation().toOSString(), sourceJarFile.getParent()).replace("\\", "/");
 				Element fileset = document.createElement("zipfileset");
-				fileset.setAttribute("dir", PathUtil.getRelativePath(project.getLocation().toOSString(), sourceJarFile.getParent()));
+				fileset.setAttribute("dir", relPath);
 				fileset.setAttribute("includes", sourceJarFile.getName());
 				jar.appendChild(fileset);
 			} else {
 				Element fileset = document.createElement("fileset");
-				fileset.setAttribute("dir", PathUtil.getRelativePath(project.getLocation().toOSString(), sourceInfo.absPath));
+				final String relPath = PathUtil.getRelativePath(project.getLocation().toOSString(), sourceInfo.absPath).replace("\\", "/");
+				fileset.setAttribute("dir", relPath);
 				jar.appendChild(fileset);
 			}
 		}
@@ -357,11 +344,11 @@ public final class AntScriptGenerator {
 		entries = JavaRuntime.resolveRuntimeClasspath(entries, configuration);
 
 		final ArrayList<IPath> userEntries = new ArrayList<IPath>(entries.length);
-		final boolean isModularConfig = JavaRuntime.isModularConfiguration(configuration);
+		final boolean isModularConfig = JavaRuntimeHelper.isModularConfiguration(configuration);
 		for (final IRuntimeClasspathEntry cpentry : entries) {
 			final int classPathProperty= cpentry.getClasspathProperty();
 			if ((!isModularConfig && classPathProperty == IRuntimeClasspathEntry.USER_CLASSES)
-					|| (isModularConfig && (classPathProperty == IRuntimeClasspathEntry.CLASS_PATH || classPathProperty == IRuntimeClasspathEntry.MODULE_PATH))) {
+					|| (isModularConfig && (classPathProperty == JavaRuntimeHelper.CLASS_PATH || classPathProperty == JavaRuntimeHelper.MODULE_PATH))) {
 				final String location = cpentry.getLocation();
 				if (location != null) {
 					final IPath entry = Path.fromOSString(location);
