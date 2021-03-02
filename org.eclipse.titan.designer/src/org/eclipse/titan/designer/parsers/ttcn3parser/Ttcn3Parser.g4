@@ -7884,6 +7884,7 @@ pr_OpCall returns[Value value]
 |	v8 = pr_GetRefOp		{ $value = $v8.value; }
 |	v9 = pr_nowOp			{ $value = $v9.value; }
 |	v10 = pr_ClassCastingOp		{ $value = null; }
+|	v11 = pr_OfClassOp		{ $value = null; }
 );
 
 pr_CheckStateOp returns[Value value]
@@ -9059,4 +9060,12 @@ pr_ClassCastingOp:
 	|	OBJECTKEYWORD
 	|	LPAREN pr_VariableRef RPAREN
 	)	
+);
+
+pr_OfClassOp:
+(
+	pr_VariableRef OF 
+	(	pr_ReferencedType
+	|	OBJECTKEYWORD
+	)
 );
