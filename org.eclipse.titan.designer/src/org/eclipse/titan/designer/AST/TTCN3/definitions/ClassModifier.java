@@ -13,5 +13,5 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
  * @author Miklos Magyari
  * */
 public enum ClassModifier {
-	None, Abstract, Final 
+	None, Abstract, Final, Deterministic 
 }

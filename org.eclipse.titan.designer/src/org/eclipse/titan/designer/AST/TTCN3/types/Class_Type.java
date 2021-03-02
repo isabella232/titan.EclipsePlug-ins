@@ -12,7 +12,10 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Type;
@@ -22,6 +25,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ClassModifier;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.compiler.JavaGenData;
+import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -31,17 +35,20 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  */
 
 public final class Class_Type extends Type {
+	private static final String SE_FINALVSABSTRACT = "A final class cannot be abstract.";
+	private static final String SE_BADBASECLASS = "Incorrect base class";
+	
 	private static final String CLASSTYPE_NAME = "class";
 	
-	private static final String SE_FINALVSABSTRACT = "A final class cannot be abstract.";
-	
 	private final Location modifierLoc;
+	private final Reference extClass;
 	private final Reference runsOnRef;
 	private final List<ClassModifier> modifiers;
 	
-	public Class_Type(List<ClassModifier> modifiers, final Location modifierLoc, final Reference runsOnRef) {
+	public Class_Type(List<ClassModifier> modifiers, final Location modifierLoc, Reference extClass, final Reference runsOnRef) {
 		this.modifiers = modifiers;
-		this.modifierLoc = modifierLoc;
+		this.modifierLoc = modifierLoc;		
+		this.extClass = extClass;
 		this.runsOnRef = runsOnRef;
 	}
 	
@@ -82,16 +89,27 @@ public final class Class_Type extends Type {
 		}
     	
     	lastTimeGenerated = aData.getBuildTimstamp();
+    	final StringBuilder sb = new StringBuilder();
     	
     	final String ownName = getGenNameOwn();
-    	source.append(MessageFormat.format("\t/* class code will be here for {0}:{1} mod: {2} */\n", ownName, getGenNameValue(aData, source), getModifiers()));
+    	Identifier id = getIdentifier();
+    	List<ClassModifier> modifiers = getModifiers();
+    	String modifier = "";
     	
-    	if (hasDoneAttribute()) {
-			generateCodeDone(aData, source);
-		}
-		if (subType != null) {
-			subType.generateCode(aData, source);
-		}
+    	if (modifiers.contains(ClassModifier.Final))
+    		modifier = "final";
+    	if (modifiers.contains(ClassModifier.Abstract))
+    		modifier = "abstract";
+    	
+    	sb.append(MessageFormat.format("\tpublic {0} class {1} ", modifier, ownName));
+    	if (extClass != null) {
+    		sb.append(MessageFormat.format("extends {0}", extClass.getSubreferences().get(0).getId()));
+    	}
+    	
+    	sb.append(" {\n");
+    	sb.append("\n\t}\n");
+    	
+    	source.append(sb);
     }
     
     @Override
@@ -138,10 +156,6 @@ public final class Class_Type extends Type {
 		return null;
 	}
 	
-	public List<ClassModifier> getModifiers() {
-		return modifiers; 
-	}
-	
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
@@ -152,5 +166,17 @@ public final class Class_Type extends Type {
 		if (modifiers.contains(ClassModifier.Final) && modifiers.contains(ClassModifier.Abstract)) {
 			modifierLoc.reportSemanticError(SE_FINALVSABSTRACT);
 		}
+		
+		if (extClass != null) {
+			ISubReference sub = extClass.getSubreferences().get(0);			
+			Subreference_type type = sub.getReferenceType(); 
+			if (type == null) {
+				extClass.getLocation().reportSemanticError(SE_BADBASECLASS);
+			}
+		}
+	}
+	
+	public List<ClassModifier> getModifiers() {
+		return modifiers; 
 	}
 }

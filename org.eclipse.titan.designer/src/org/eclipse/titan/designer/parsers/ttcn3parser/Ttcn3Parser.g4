@@ -715,7 +715,7 @@ pr_StructuredTypeDef returns[Def_Type def_type]
 |	t9 = pr_FunctionTypeDef { $def_type = $t9.def_type; }
 |	t10 = pr_AltstepTypeDef { $def_type = $t10.def_type; }
 |	t11 = pr_TestcaseTypeDef { $def_type = $t11.def_type; }
-|	t12 = pr_ClassDef { $def_type = $t12.def_type; }
+|	t12 = pr_ClassTypeDef { $def_type = $t12.def_type; }
 );
 
 pr_RecordDef returns[Def_Type def_type]
@@ -8919,7 +8919,7 @@ pr_KeywordLessGlobalModuleId returns [Reference reference]
 	)
 );
 
-pr_ClassDef returns[Def_Type def_type]
+pr_ClassTypeDef returns[Def_Type def_type]
 @init {
 	$def_type = null;
     Configuration_Helper runsonHelper = new Configuration_Helper();
@@ -8931,25 +8931,23 @@ pr_ClassDef returns[Def_Type def_type]
 	kw = pr_ClassKeyword
 	m = pr_Modifier { modifiers = $m.modifiers; }
 	i = pr_Identifier
-	pr_ExtendsClassDef? (pr_RunsOnSpec[runsonHelper])? 
+	ecd = pr_ExtendsClassDef (pr_RunsOnSpec[runsonHelper])? 
 	(pr_MTCSpec[mtcHelper])? (pr_SystemSpec[systemspecHelper])?
 	pr_BeginChar pr_ClassMemberList pr_EndChar pr_FinallyDef?
 )
 {
 	if ($i.identifier != null) {
 		Location modifierLoc = getLocation($m.start, $m.stop);
-		Type type = new Class_Type(modifiers, modifierLoc, runsonHelper.runsonReference);
+		Type type = new Class_Type(modifiers, modifierLoc, $ecd.reference, runsonHelper.runsonReference);
 		type.setLocation(getLocation($kw.start, getLastVisibleToken()));
 		$def_type = new Def_Type($i.identifier, type);
 	}
-}
-;
+};
 
 pr_ClassKeyword:
 (
 	CLASS
-)
-;
+);
 
 pr_Modifier returns[List<ClassModifier> modifiers]
 @init {
@@ -8965,18 +8963,22 @@ pr_Modifier returns[List<ClassModifier> modifiers]
 	{
 		isAbstract = true;
 		$modifiers.add(ClassModifier.Abstract);
-	}
 	)?
-;
+};
 
-pr_ExtendsClassDef:
+pr_ExtendsClassDef returns[Reference reference]:
 (
 	EXTENDS 
-	( pr_ReferencedType
-	| OBJECTKEYWORD
+	( id = pr_Identifier
+	{
+		$reference = new Reference($id.identifier);
+		$reference.setLocation(getLocation($id.start, $id.stop));
+		FieldSubReference subReference = new FieldSubReference($id.identifier);
+		$reference.addSubReference(subReference);
+	}
+	| OBJECTKEYWORD				
 	)
-)
-;
+)?;
 
 pr_ClassMemberList:
 (
@@ -8995,8 +8997,7 @@ pr_ClassMember:
 	|	pr_ClassConstructorDef
 	|	pr_TypeDef
 	)
-)
-;
+);
 
 pr_OopVisibility returns[OopVisibilityModifier modifier]
 @init {
@@ -9005,22 +9006,21 @@ pr_OopVisibility returns[OopVisibilityModifier modifier]
 (	PRIVATE		{$modifier = OopVisibilityModifier.Private;}
 | 	PUBLIC		{$modifier = OopVisibilityModifier.Public;}
 |	PROTECTED	{$modifier = OopVisibilityModifier.Protected;}
-)
-;
+);
 
 pr_FinallyDef:
 (
 	FINALLY sb=pr_StatementBlock	
-)
-;
+);
 
-pr_ClassFunctionDef:
+pr_ClassFunctionDef returns[Def_Type def_type]:
 (
-	pr_ExtKeyword? pr_FunctionKeyword pr_Modifier pr_DeterministicModifier? 
+	pr_ExtKeyword? pr_FunctionKeyword 
+	mod = pr_Modifier 
+	pr_DeterministicModifier? 
 	pr_Identifier LPAREN pr_FunctionFormalParList? RPAREN
 	pr_ReturnType? sb=pr_StatementBlock
-)
-;
+);
 
 pr_ClassConstructorDef:
 (	CREATE LPAREN pr_FunctionFormalParList RPAREN 
@@ -9031,8 +9031,7 @@ pr_ClassConstructorDef:
 		COLON pr_ReferencedType pr_FunctionActualParList 
 	)?
 	sb=pr_StatementBlock?
-)
-;
+);
 
 pr_ConstructorCall:
 (
@@ -9040,8 +9039,7 @@ pr_ConstructorCall:
 	(
 		LPAREN pr_FunctionActualParList RPAREN
 	)?
-)
-;
+);
 
 pr_ClassCastingOp:
 (	pr_VariableRef CLASSCASTING
@@ -9049,5 +9047,4 @@ pr_ClassCastingOp:
 	|	OBJECTKEYWORD
 	|	LPAREN pr_VariableRef RPAREN
 	)	
-)
-;
+);
