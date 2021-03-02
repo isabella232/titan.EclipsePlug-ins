@@ -9023,13 +9023,23 @@ pr_ClassFunctionDef returns[Def_Type def_type]:
 	pr_ReturnType? sb=pr_StatementBlock
 );
 
-pr_ClassConstructorDef:
-(	CREATE LPAREN pr_FunctionFormalParList RPAREN 
+pr_ClassConstructorDef returns[FormalParameterList parList]
+@init {
+	FormalParameterList parList = null;
+}:
+(	CREATE LPAREN 
+	pl = pr_FunctionFormalParList { parList = $pl.parList; }
+	RPAREN 
 	(
-		pr_ExtKeyword LPAREN pr_FunctionFormalParList RPAREN
+		pr_ExtKeyword LPAREN 
+		pr_FunctionFormalParList
+		RPAREN
 	)?
 	(
-		COLON pr_ReferencedType pr_FunctionActualParList 
+		COLON pr_Identifier 
+		LPAREN 
+		pr_FunctionActualParList 
+		RPAREN
 	)?
 	sb=pr_StatementBlock?
 );
