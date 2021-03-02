@@ -8963,8 +8963,9 @@ pr_Modifier returns[List<ClassModifier> modifiers]
 	{
 		isAbstract = true;
 		$modifiers.add(ClassModifier.Abstract);
+	}
 	)?
-};
+;
 
 pr_ExtendsClassDef returns[Reference reference]:
 (
