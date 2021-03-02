@@ -7272,6 +7272,7 @@ pr_BasicStatements returns[Statement statement]
 				$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 			}
 		}
+|	pr_SelectClass { $statement = null; }		
 );
 
 pr_Expression returns[Value value]
@@ -7884,6 +7885,7 @@ pr_OpCall returns[Value value]
 |	v8 = pr_GetRefOp		{ $value = $v8.value; }
 |	v9 = pr_nowOp			{ $value = $v9.value; }
 |	v10 = pr_ClassCastingOp		{ $value = null; }
+|	v11 = pr_OfClassOp		{ $value = null; }
 );
 
 pr_CheckStateOp returns[Value value]
@@ -9059,4 +9061,44 @@ pr_ClassCastingOp:
 	|	OBJECTKEYWORD
 	|	LPAREN pr_VariableRef RPAREN
 	)	
+);
+
+pr_OfClassOp:
+(
+	pr_VariableRef OF 
+	(	pr_ReferencedType
+	|	OBJECTKEYWORD
+	)
+);
+
+pr_SelectClass:
+(
+	SELECT CLASS 
+	LPAREN 
+	pr_VariableRef
+	RPAREN
+	pr_SelectClassBody
+);
+
+pr_SelectClassBody:
+(
+	BEGINCHAR
+	pr_SelectClassCase+
+	ENDCHAR
+);
+
+pr_SelectClassCase:
+(
+	CASE 
+	(
+		((  LPAREN 
+			(	pr_ReferencedType 
+			|	OBJECTKEYWORD
+			)
+			RPAREN)
+		|ELSE
+		)
+	)
+	pr_StatementBlock
+	SEMICOLON?
 );
