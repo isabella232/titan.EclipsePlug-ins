@@ -300,10 +300,11 @@ tokens {
   SELECT,                     SELF,                       SEND,
   SENDER,                     SET,                        SETVERDICT,
   SETSTATE,                   SIGNATURE,                  START,
-  STOP,                       SUBSET,                     SUPERSET,
-  SYSTEM,
+  STOP,                       SUBSET,                     SUPER,
+  SUPERSET,					  SYSTEM,
 
-  TEMPLATE,                   TESTCASE,                   TIMEOUT,
+  TEMPLATE,                   TESTCASE,                   THIS,
+  TIMEOUT,
   TIMER,                      TIMESTAMP,                  TO,
   TRIGGER,                    TRUE,                       TYPE,
 

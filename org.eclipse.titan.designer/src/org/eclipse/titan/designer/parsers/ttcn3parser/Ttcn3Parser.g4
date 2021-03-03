@@ -3051,7 +3051,8 @@ pr_FunctionInstance returns[Reference temporalReference]
 	$temporalReference = null;
 	ParsedActualParameters parameters = null;
 }:
-(	t = pr_FunctionRef { $temporalReference = $t.reference; }
+(	((pr_Identifier | SUPER) DOT)? 
+	t = pr_FunctionRef { $temporalReference = $t.reference; }
 	a = pr_LParen
 	( p = pr_FunctionActualParList { parameters = $p.parsedParameters; } )?
 	endcol = pr_RParen
@@ -6379,7 +6380,16 @@ pr_ReferencedValue returns[Value value]
 	Reference temporalReference = null;
 	List<ISubReference> subReferences = null;
 }:
-(	t = pr_ValueReference { temporalReference = $t.reference; }
+(	
+	(	t = pr_ValueReference { temporalReference = $t.reference; }
+	|	pr_Identifier DOT pr_PredefOrIdentifier pr_ExtendedFieldReference?
+	|	pr_Identifier DOT pr_Identifier LPAREN pr_FunctionActualParList? RPAREN pr_ExtendedFieldReference?
+	|	pr_Identifier DOT pr_ObjectIdentifierValue DOT pr_Identifier pr_ExtendedFieldReference?
+	|	THIS DOT pr_Identifier pr_ExtendedFieldReference?
+	|	THIS DOT pr_Identifier LPAREN pr_FunctionActualParList? RPAREN pr_ExtendedFieldReference?
+	|	THIS
+	|	SUPER DOT pr_Identifier LPAREN pr_FunctionActualParList? RPAREN pr_ExtendedFieldReference?
+	)
 	(	e = pr_ExtendedFieldReference { subReferences = $e.subReferences; }	)?
 )
 {
@@ -7272,7 +7282,7 @@ pr_BasicStatements returns[Statement statement]
 				$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 			}
 		}
-|	pr_SelectClass { $statement = null; }		
+|	pr_SelectClass { $statement = null; }
 );
 
 pr_Expression returns[Value value]
@@ -8946,7 +8956,7 @@ pr_ClassTypeDef returns[Def_Type def_type]
 	}
 };
 
-pr_ClassKeyword:
+pr_ClassKeyword: 
 (
 	CLASS
 );
@@ -8983,13 +8993,25 @@ pr_ExtendsClassDef returns[Reference reference]:
 	)
 )?;
 
-pr_ClassMemberList:
+pr_ClassMemberList returns[List<Definition> definitions]
+@init {
+	$definitions = new ArrayList<Definition>();
+}:
 (
-	pr_ClassMember pr_WithStatement? SEMICOLON?
+	cm = pr_ClassMember 
+	pr_WithStatement? SEMICOLON?
+	{
+		if ($cm.definition != null) {
+			$definitions.add($cm.definition);
+		}
+	}
 )*
 ;
 
-pr_ClassMember:
+pr_ClassMember returns[Definition definition]
+@init {
+	$definition = null;
+}:
 (
 	pr_OopVisibility?
 	(	pr_VarInstance 

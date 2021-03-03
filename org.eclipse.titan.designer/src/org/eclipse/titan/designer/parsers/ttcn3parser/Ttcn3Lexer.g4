@@ -108,10 +108,11 @@ import Ttcn3BaseLexer;
   SELECT: 'select';                 SELF: 'self';                     SEND: 'send';
   SENDER: 'sender';                 SET: 'set';                       SETVERDICT: 'setverdict';
   SETSTATE: 'setstate';             SIGNATURE: 'signature';           START: 'start';
-  STOP: 'stop';                     SUBSET: 'subset';                 SUPERSET: 'superset';
-  SYSTEM: 'system';
+  STOP: 'stop';                     SUBSET: 'subset';                 SUPER: 'super';
+  SUPERSET: 'superset';             SYSTEM: 'system';
 
-  TEMPLATE: 'template';             TESTCASE: 'testcase';             TIMEOUT: 'timeout';
+  TEMPLATE: 'template';             TESTCASE: 'testcase';             THIS: 'this';
+  TIMEOUT: 'timeout';
   TIMER: 'timer';                   TO: 'to';                         TRIGGER: 'trigger';
   TRUE: 'true';                     TYPE: 'type';
 
