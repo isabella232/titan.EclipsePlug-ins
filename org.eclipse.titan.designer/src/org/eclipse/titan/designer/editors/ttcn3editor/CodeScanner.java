@@ -35,9 +35,17 @@ public final class CodeScanner extends RuleBasedScanner {
 		"modifies", "module", "modulepar", "mtc", "noblock", "not", "not4b", "not_a_number", "nowait", "of", "omit", "on", "optional", "or", "or4b", "out",
 		"override", "param", "pattern", "port", "present", "procedure", "realtime", "record", "recursive", "rem", "repeat", "return", "runs", "select",
 		"self", "sender", "set", "signature", "system", "timestamp", "template", "testcase", "to", "type", "union", "value", "valueof", "var",
-		"variant", "while", "with", "xor", "xor4b", "now" };
+		"variant", "while", "with", "xor", "xor4b", "now",
+		
+		/* OOP keywords not starting with @ */
+		"class", "this", "super", "finally" };
 
-	public static final String[] TITANSPECIFICKEYWORDS = new String[] { "@try", "@catch" };
+	public static final String[] TITANSPECIFICKEYWORDS = new String[] { 
+			"@try", "@catch", 
+			
+			/* Because some OOP keywords start with @, they are added here temporarily 
+			 * as TITANSPECIFICKEYWORDS have special handling of the @ character */
+			"@abstract", "@final" };
 
 	public static final String[] TEMPLATE_MATCH = new String[] { "complement", "decmatch", "ifpresent", "subset", "superset", "permutation" };
 

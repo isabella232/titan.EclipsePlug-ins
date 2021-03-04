@@ -40,7 +40,11 @@ public final class TTCN3Keywords {
 		"isvalue", "lengthof", "oct2bit", "oct2char", "oct2hex", "oct2int", "oct2str", "regexp", "replace", "rnd", "sizeof",
 		"str2bit", "str2float", "str2hex", "str2int", "str2oct", "substr", "unichar2int", "encvalue", "decvalue", "true", "false",
 		"none", "pass", "inconc", "fail", "error", "null", "NULL", "omit", "friend", "public", "private",
-		"get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64", "testcasename", "now" };
+		"get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64", "testcasename", "now",
+		
+		/* OOP extension keywords */
+		"class", "@abstract", "@final", "this", "super" , "finally"
+		};
 
 	public static final String[] FORMAL_PARAMETER_SCOPE = new String[] { "in", "inout", "out", "template" };
 
