@@ -44,10 +44,15 @@ public final class Runtime_Parallel_main {
 
 		try {
 			final int MC_port = Integer.parseInt(argv[1]);
+			if (MC_port < 0 && MC_port > 65536) {
+				throw new NumberFormatException();
+			}
 
 			TTCN_Snapshot.initialize();
 			TTCN_Logger.initialize_logger();
 			TTCN_Logger.set_start_time();
+			
+			System.out.println("TTCN-3 Host Controller (parallel mode)");
 
 			try {
 				Module_List.pre_init_modules();
@@ -57,7 +62,7 @@ public final class Runtime_Parallel_main {
 				returnValue = -1;
 			}
 		} catch (NumberFormatException e) {
-			System.out.println("Fatal error. Wrong port number: " + argv[1]);
+			System.out.println("Fatal error. Invalid MC port: " + argv[1]);
 			returnValue = -1;
 		} catch (final Throwable e) {
 			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
