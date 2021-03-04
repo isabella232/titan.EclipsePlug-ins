@@ -8938,6 +8938,7 @@ pr_ClassTypeDef returns[Def_Type def_type]
 	Configuration_Helper mtcHelper = new Configuration_Helper();
 	Configuration_Helper systemspecHelper = new Configuration_Helper();
 	List<ClassModifier> modifiers = null;
+	StatementBlock sb = null;
 }:
 (	pr_ExtKeyword? 
 	kw = pr_ClassKeyword
@@ -8945,13 +8946,16 @@ pr_ClassTypeDef returns[Def_Type def_type]
 	i = pr_Identifier
 	ecd = pr_ExtendsClassDef (pr_RunsOnSpec[runsonHelper])? 
 	(pr_MTCSpec[mtcHelper])? (pr_SystemSpec[systemspecHelper])?
-	pr_BeginChar pr_ClassMemberList pr_EndChar pr_FinallyDef?
+	pr_BeginChar pr_ClassMemberList pr_EndChar 
+	fd = pr_FinallyDef { if ($fd.ctx != null) sb = $fd.block; }
 )
 {
 	if ($i.identifier != null) {
 		Location modifierLoc = getLocation($m.start, $m.stop);
-		Type type = new Class_Type(modifiers, modifierLoc, $ecd.reference, runsonHelper.runsonReference);
-		type.setLocation(getLocation($kw.start, getLastVisibleToken()));
+		Type type = new Class_Type(modifiers, modifierLoc, $ecd.reference, 
+			runsonHelper.runsonReference, mtcHelper.mtcReference, systemspecHelper.systemReference,
+			sb);
+		type.setLocation(getLocation($start, getLastVisibleToken()));
 		$def_type = new Def_Type($i.identifier, type);
 	}
 };
@@ -8982,7 +8986,8 @@ pr_Modifier returns[List<ClassModifier> modifiers]
 pr_ExtendsClassDef returns[Reference reference]:
 (
 	EXTENDS 
-	( id = pr_Identifier
+	//( id = pr_Identifier
+	( id = pr_TypeReference
 	{
 		$reference = new Reference($id.identifier);
 		$reference.setLocation(getLocation($id.start, $id.stop));
@@ -9033,10 +9038,13 @@ pr_OopVisibility returns[OopVisibilityModifier modifier]
 |	PROTECTED	{$modifier = OopVisibilityModifier.Protected;}
 );
 
-pr_FinallyDef:
+pr_FinallyDef returns[StatementBlock block]
+@init {
+	$block = null;
+}:
 (
-	FINALLY sb=pr_StatementBlock	
-);
+	FINALLY sb=pr_StatementBlock { $block = $sb.statementblock;	}
+)?;
 
 pr_ClassFunctionDef returns[Def_Type def_type]:
 (
@@ -9073,7 +9081,7 @@ pr_ConstructorCall:
 (
 	pr_Dot CREATE
 	(
-		LPAREN pr_FunctionActualParList RPAREN
+		LPAREN pr_FunctionActualParList? RPAREN
 	)?
 );
 

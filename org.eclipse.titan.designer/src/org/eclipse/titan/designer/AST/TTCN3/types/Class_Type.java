@@ -10,26 +10,33 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.FieldSubReference;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.NamedBridgeScope;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo.Chain;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ClassModifier;
+import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.compiler.JavaGenData;
-import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
- * class type (TTCN-3).
+ * class type (TTCN-3)
  * 
  * @author Miklos Magyari
  */
@@ -43,13 +50,36 @@ public final class Class_Type extends Type {
 	private final Location modifierLoc;
 	private final Reference extClass;
 	private final Reference runsOnRef;
+	private final Reference mtcRef;
+	private final Reference systemRef;
 	private final List<ClassModifier> modifiers;
+	private final StatementBlock finallyBlock;
+
+	private NamedBridgeScope bridgeScope = null;
 	
-	public Class_Type(List<ClassModifier> modifiers, final Location modifierLoc, Reference extClass, final Reference runsOnRef) {
+	public Class_Type(List<ClassModifier> modifiers, final Location modifierLoc, Reference extClass, 
+			final Reference runsOnRef, final Reference mtcRef, final Reference systemRef,
+			StatementBlock finallyBlock) {
 		this.modifiers = modifiers;
 		this.modifierLoc = modifierLoc;		
 		this.extClass = extClass;
 		this.runsOnRef = runsOnRef;
+		this.mtcRef = mtcRef;
+		this.systemRef = systemRef;
+		this.finallyBlock = finallyBlock;
+		
+		if (runsOnRef != null) {
+			runsOnRef.setFullNameParent(this);
+		}
+		if (mtcRef != null) {
+			mtcRef.setFullNameParent(this);
+		}
+		if (systemRef != null) {
+			systemRef.setFullNameParent(this);
+		}
+		if (finallyBlock != null) {
+			finallyBlock.setFullNameParent(this);
+		}
 	}
 	
     @Override
@@ -92,7 +122,6 @@ public final class Class_Type extends Type {
     	final StringBuilder sb = new StringBuilder();
     	
     	final String ownName = getGenNameOwn();
-    	Identifier id = getIdentifier();
     	List<ClassModifier> modifiers = getModifiers();
     	String modifier = "";
     	
@@ -107,6 +136,14 @@ public final class Class_Type extends Type {
     	}
     	
     	sb.append(" {\n");
+    	
+    	if (finallyBlock != null) {
+    		sb.append("\n\t\t@Override");
+    		sb.append("\n\t\tpublic void finalize() {\n");
+    		finallyBlock.generateCode(aData, sb);
+    		sb.append("\t\t}\n");
+    	}
+    	
     	sb.append("\n\t}\n");
     	
     	source.append(sb);
@@ -125,10 +162,33 @@ public final class Class_Type extends Type {
 	}
 
 	@Override
-	public IType getFieldType(CompilationTimeStamp timestamp, Reference reference, int actualSubReference,
-			Expected_Value_type expectedIndex, IReferenceChain refChain, boolean interruptIfOptional) {
-		// TODO Auto-generated method stub
-		return null;
+	/** {@inheritDoc} */
+	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
+			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
+		final List<ISubReference> subreferences = reference.getSubreferences();
+		if (subreferences.size() <= actualSubReference) {
+			return this;
+		}
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
+		switch (subreference.getReferenceType()) {
+		case arraySubReference:
+			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
+			return null;
+		case fieldSubReference:
+			subreference.getLocation().reportSemanticError(
+					MessageFormat.format(FieldSubReference.INVALIDSUBREFERENCE, ((FieldSubReference) subreference).getId().getDisplayName(),
+							getTypename()));
+			return null;
+		case parameterisedSubReference:
+			subreference.getLocation().reportSemanticError(
+					MessageFormat.format(FieldSubReference.INVALIDSUBREFERENCE, ((ParameterisedSubReference) subreference).getId().getDisplayName(),
+							getTypename()));
+			return null;
+		default:
+			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
+			return null;
+		}
 	}
 
 	@Override
@@ -140,8 +200,7 @@ public final class Class_Type extends Type {
 
 	@Override
 	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -168,15 +227,56 @@ public final class Class_Type extends Type {
 		}
 		
 		if (extClass != null) {
-			ISubReference sub = extClass.getSubreferences().get(0);			
+			ISubReference sub = extClass.getSubreferences().get(0);
+			
 			Subreference_type type = sub.getReferenceType(); 
 			if (type == null) {
 				extClass.getLocation().reportSemanticError(SE_BADBASECLASS);
 			}
 		}
+		
+		if (finallyBlock != null) {
+			finallyBlock.check(timestamp);
+			finallyBlock.postCheck();
+			finallyBlock.setCodeSection(CodeSectionType.CS_INLINE);
+		}
 	}
 	
 	public List<ClassModifier> getModifiers() {
 		return modifiers; 
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setMyScope(final Scope scope) {
+		super.setMyScope(scope);
+		if (runsOnRef != null) {
+			runsOnRef.setMyScope(scope);
+		}
+		if (mtcRef != null) {
+			mtcRef.setMyScope(scope);
+		}
+		if (systemRef != null) {
+			systemRef.setMyScope(scope);
+		}
+		if (finallyBlock != null) {
+			bridgeScope = new NamedBridgeScope();
+			bridgeScope.setParentScope(scope);
+			finallyBlock.setMyScope(bridgeScope);
+			scope.addSubScope(finallyBlock.getLocation(), finallyBlock);
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
+		super.findReferences(referenceFinder, foundIdentifiers);
+	
+		if (runsOnRef != null) {
+			runsOnRef.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (finallyBlock != null) {
+			finallyBlock.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 }
