@@ -150,13 +150,14 @@ public final class AntScriptGenerator {
 	/**
 	 * Creates and then stores the {@code jarbuild.xml} ANT script for the specified project's root 
 	 * @param project Project where the ANT script is required
+	 * @param isUpdated Whether the file path was modified on the UI
 	 * @return {@code true} if the generation was completed or {@code false} if error occurred during the process
 	 */
-	public static boolean generateAndStoreBuildXML(final IProject project) {
+	public static boolean generateAndStoreBuildXML(final IProject project, final boolean isUpdated) {
 		if (project == null) {
 			return false;
 		}
-		if (existsBuildXML(project)) {
+		if (existsBuildXML(project) && !isUpdated) {
 			return true;
 		}
 		try {

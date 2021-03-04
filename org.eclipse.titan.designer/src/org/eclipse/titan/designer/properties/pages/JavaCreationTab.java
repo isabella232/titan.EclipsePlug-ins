@@ -31,6 +31,7 @@ import org.eclipse.titan.common.path.TITANPathUtilities;
 import org.eclipse.titan.common.utils.StringUtils;
 import org.eclipse.titan.designer.core.ant.AntLaunchConfigGenerator;
 import org.eclipse.titan.designer.core.ant.AntScriptGenerator;
+import org.eclipse.titan.designer.core.ant.CliScriptGenerator;
 import org.eclipse.titan.designer.preferences.pages.ComboFieldEditor;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.properties.data.MakefileCreationData;
@@ -124,12 +125,12 @@ public class JavaCreationTab {
 			temporalJavaTargetFileFieldEditor.setPage(page);
 		}
 		generateStartShScript = new Button(automaticBuildPropertiesComposite, SWT.CHECK);
-		generateStartShScript.setText("Generate ttcn3_start shell script for starting the JAR (Linux)");
+		generateStartShScript.setText("Generate '" + CliScriptGenerator.SHELL_SCRIPT_NAME + "' shell script for starting the JAR (Linux)");
 		generateStartShScript.setEnabled(false);
 		generateStartShScript
 				.setToolTipText("If this option is set, also a shell script will be generated to start the JAR");
 		generateStartBatScript = new Button(automaticBuildPropertiesComposite, SWT.CHECK);
-		generateStartBatScript.setText("Generate ttcn3_start.bat script for starting the JAR (WIN)");
+		generateStartBatScript.setText("Generate '" + CliScriptGenerator.CMD_SCRIPT_NAME + "' script for starting the JAR (WIN)");
 		generateStartBatScript.setEnabled(false);
 		generateStartBatScript
 				.setToolTipText("If this option is set, also a .bat script will be generated to start the JAR");
@@ -295,13 +296,14 @@ public class JavaCreationTab {
 			if (path.equals(resolvedPath)) {
 				temp = PathUtil.getRelativePath(project.getLocation().toOSString(), temp);
 			}
-			setProperty(project, MakefileCreationData.TARGET_EXECUTABLE_PROPERTY, temp);
+			final boolean updated  = setProperty(project, MakefileCreationData.TARGET_EXECUTABLE_PROPERTY, temp);
 			if (isExecutableSelected()) {
-				if (AntScriptGenerator.generateAndStoreBuildXML(project)) {
+				if (AntScriptGenerator.generateAndStoreBuildXML(project, updated)) {
 					AntLaunchConfigGenerator.createAntLaunchConfiguration(project);
 					AntLaunchConfigGenerator.addAntBuilder(project);
 					project.refreshLocal(IResource.DEPTH_ONE, null);
 				}
+				CliScriptGenerator.generateAndStoreScripts(project);
 			}
 			AntLaunchConfigGenerator.setAntBuilderEnabled(project, isExecutableSelected());
 		} catch (CoreException e) {
@@ -329,6 +331,8 @@ public class JavaCreationTab {
 	 *                the name of the property to change.
 	 * @param value
 	 *                the value to set.
+	 * @return
+	 * 				  whether the value of the specified property is different from the old one or not.
 	 * 
 	 * @exception CoreException
 	 *                    if this method fails. Reasons include:
@@ -342,12 +346,14 @@ public class JavaCreationTab {
 	 *                    details.</li>
 	 *                    </ul>
 	 * */
-	private void setProperty(final IProject project, final String name, final String value) throws CoreException {
+	private boolean setProperty(final IProject project, final String name, final String value) throws CoreException {
 		final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, name);
 		final String oldValue = project.getPersistentProperty(qualifiedName);
 		if (value != null && !value.equals(oldValue)) {
 			project.setPersistentProperty(qualifiedName, value);
+			return true;
 		}
+		return false;
 	}
 
 	/**

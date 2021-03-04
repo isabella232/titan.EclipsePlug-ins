@@ -42,6 +42,8 @@ public final class Runtime_Single_main {
 		TTCN_Logger.initialize_logger();
 		TTCN_Logger.set_start_time();
 
+		System.out.println("TTCN-3 Host Controller (single mode)");
+		
 		if (Usage_Stats.USAGE_STAT_SENDING) {
 			Module_List.send_usage_stats();
 		}
