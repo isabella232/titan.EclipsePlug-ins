@@ -135,11 +135,15 @@ public final class Class_Type extends Type {
     		sb.append(MessageFormat.format("extends {0}", extClass.getSubreferences().get(0).getId()));
     	}
     	
+    	if (finallyBlock != null) {
+    		sb.append(" implements AutoCloseable ");
+    	}
+    	
     	sb.append(" {\n");
     	
     	if (finallyBlock != null) {
     		sb.append("\n\t\t@Override");
-    		sb.append("\n\t\tpublic void finalize() {\n");
+    		sb.append("\n\t\tpublic void close () throws Exception {\n");
     		finallyBlock.generateCode(aData, sb);
     		sb.append("\t\t}\n");
     	}
