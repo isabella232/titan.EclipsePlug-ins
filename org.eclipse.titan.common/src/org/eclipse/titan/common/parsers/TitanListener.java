@@ -14,8 +14,6 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.misc.Nullable;
 
 public class TitanListener extends BaseErrorListener {
 	protected List<SyntacticErrorStorage> errorsStored = null;
@@ -32,8 +30,8 @@ public class TitanListener extends BaseErrorListener {
 	}
 
 	@Override
-	public void syntaxError(@NotNull final Recognizer<?, ?> recognizer, @Nullable final Object offendingSymbol, final int line, final int charPositionInLine,
-			@NotNull final String msg, @Nullable final RecognitionException e) {
+	public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, final int line, final int charPositionInLine,
+			final String msg, final RecognitionException e) {
 		SyntacticErrorStorage errorStorage;
 		if (offendingSymbol instanceof CommonToken) {
 			final CommonToken token = (CommonToken) offendingSymbol;

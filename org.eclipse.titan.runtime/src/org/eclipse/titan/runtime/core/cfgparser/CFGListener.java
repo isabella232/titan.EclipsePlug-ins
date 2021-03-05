@@ -12,8 +12,6 @@ import java.text.MessageFormat;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.misc.Nullable;
 import org.eclipse.titan.runtime.core.TTCN_Logger;
 
 public class CFGListener extends BaseErrorListener {
@@ -34,8 +32,8 @@ public class CFGListener extends BaseErrorListener {
 	}
 
 	@Override
-	public void syntaxError(@NotNull final Recognizer<?, ?> recognizer, @Nullable final Object offendingSymbol, final int line, final int charPositionInLine,
-			@NotNull final String msg, @Nullable final RecognitionException e) {
+	public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, final int line, final int charPositionInLine,
+			final String msg, final RecognitionException e) {
 		encounteredError = true;
 
 		TTCN_Logger.begin_event(TTCN_Logger.Severity.ERROR_UNQUALIFIED);
