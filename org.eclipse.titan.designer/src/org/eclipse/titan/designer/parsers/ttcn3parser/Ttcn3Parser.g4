@@ -4434,23 +4434,24 @@ pr_ControlStatement returns[Statement statement]
 				$statement.setLocation(getLocation( $start, getLastVisibleToken())); }
 );
 
-pr_VarInstance returns[List<Definition> definitions]
+pr_VarInstance returns[List<Definition> definitions, Type type]
 @init {
 	$definitions = new ArrayList<Definition>();
 	List<Identifier> identifiers = null;
 	TemplateRestriction.Restriction_type templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
 	parameterEvaluationType eval = parameterEvaluationType.NORMAL_EVAL;
+	$type = null;
 }:
 (	col = pr_VarKeyword
 	(	tr = pr_TemplateOptRestricted { templateRestriction = $tr.templateRestriction; }
 		lf = pr_OptLazyOrFuzzyModifier { eval = $lf.eval; }
-		t = pr_Type
+		t = pr_Type { if ($t.ctx != null) $type = $t.type; }
 		pr_TempVarList[ $definitions, $t.type, templateRestriction ]
 	|
 		lf = pr_OptLazyOrFuzzyModifier { eval = $lf.eval; }
-		t2 = pr_Type
+		t2 = pr_Type { if ($t2.ctx != null) $type = $t2.type; }
 		pr_VarList[ $definitions, $t2.type, eval ]
-	)
+	)	
 )
 {
 	if ( $definitions.size() > 0 ) {
@@ -6382,7 +6383,7 @@ pr_ReferencedValue returns[Value value]
 }:
 (	
 	(	t = pr_ValueReference { temporalReference = $t.reference; }
-	|	pr_Identifier DOT pr_PredefOrIdentifier pr_ExtendedFieldReference?
+	|	pr_Identifier DOT t = pr_PredefOrIdentifier pr_ExtendedFieldReference? { temporalReference = $t.reference; }
 	|	pr_Identifier DOT pr_Identifier LPAREN pr_FunctionActualParList? RPAREN pr_ExtendedFieldReference?
 	|	pr_Identifier DOT pr_ObjectIdentifierValue DOT pr_Identifier pr_ExtendedFieldReference?
 	|	THIS DOT pr_Identifier pr_ExtendedFieldReference?
@@ -8938,6 +8939,7 @@ pr_ClassTypeDef returns[Def_Type def_type]
 	Configuration_Helper mtcHelper = new Configuration_Helper();
 	Configuration_Helper systemspecHelper = new Configuration_Helper();
 	List<ClassModifier> modifiers = null;
+	CompFieldMap compFieldMap = new CompFieldMap();
 	StatementBlock sb = null;
 }:
 (	pr_ExtKeyword? 
@@ -8946,7 +8948,9 @@ pr_ClassTypeDef returns[Def_Type def_type]
 	i = pr_Identifier
 	ecd = pr_ExtendsClassDef (pr_RunsOnSpec[runsonHelper])? 
 	(pr_MTCSpec[mtcHelper])? (pr_SystemSpec[systemspecHelper])?
-	pr_BeginChar pr_ClassMemberList pr_EndChar 
+	pr_BeginChar 
+	cml = pr_ClassMemberList[compFieldMap]
+	pr_EndChar 
 	fd = pr_FinallyDef { if ($fd.ctx != null) sb = $fd.block; }
 )
 {
@@ -8954,7 +8958,7 @@ pr_ClassTypeDef returns[Def_Type def_type]
 		Location modifierLoc = getLocation($m.start, $m.stop);
 		Type type = new Class_Type(modifiers, modifierLoc, $ecd.reference, 
 			runsonHelper.runsonReference, mtcHelper.mtcReference, systemspecHelper.systemReference,
-			sb);
+			sb, compFieldMap);
 		type.setLocation(getLocation($start, getLastVisibleToken()));
 		$def_type = new Def_Type($i.identifier, type);
 	}
@@ -8998,28 +9002,26 @@ pr_ExtendsClassDef returns[Reference reference]:
 	)
 )?;
 
-pr_ClassMemberList returns[List<Definition> definitions]
-@init {
-	$definitions = new ArrayList<Definition>();
-}:
+pr_ClassMemberList[CompFieldMap compFieldMap]:
 (
-	cm = pr_ClassMember 
+	cm = pr_ClassMember[compFieldMap] { 
+		// for (int i = 0; i < cfm.getNofComponents(); i++) {
+		// 	compFieldMap.addComp(cfm.getComponentByIndex(i)); 
+		// }
+		// compFieldMap.setLocation(getLocation( $start, getLastVisibleToken() ));
+	}
 	pr_WithStatement? SEMICOLON?
 	{
-		if ($cm.definition != null) {
-			$definitions.add($cm.definition);
-		}
+		
 	}
 )*
 ;
 
-pr_ClassMember returns[Definition definition]
-@init {
-	$definition = null;
-}:
+pr_ClassMember[CompFieldMap compFieldMap]
+:
 (
 	pr_OopVisibility?
-	(	pr_VarInstance 
+	(	var = pr_VarInstance 
 	|	pr_TimerInstance 
 	|	pr_ConstDef 
 	|	pr_TemplateDef 
@@ -9027,7 +9029,14 @@ pr_ClassMember returns[Definition definition]
 	|	pr_ClassConstructorDef
 	|	pr_TypeDef
 	)
-);
+)
+{
+	if ($var.ctx != null) {
+		for (Definition d : $var.definitions) {
+			$compFieldMap.addComp(new CompField(d.getIdentifier(), $var.type, false, null));
+		}
+	}
+};
 
 pr_OopVisibility returns[OopVisibilityModifier modifier]
 @init {

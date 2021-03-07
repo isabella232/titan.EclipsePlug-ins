@@ -19,6 +19,8 @@ import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.ITypeWithComponents;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NamedBridgeScope;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
@@ -41,7 +43,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Miklos Magyari
  */
 
-public final class Class_Type extends Type {
+public final class Class_Type extends Type implements ITypeWithComponents {
 	private static final String SE_FINALVSABSTRACT = "A final class cannot be abstract.";
 	private static final String SE_BADBASECLASS = "Incorrect base class";
 	
@@ -54,12 +56,13 @@ public final class Class_Type extends Type {
 	private final Reference systemRef;
 	private final List<ClassModifier> modifiers;
 	private final StatementBlock finallyBlock;
+	private final CompFieldMap compFieldMap;
 
 	private NamedBridgeScope bridgeScope = null;
 	
 	public Class_Type(List<ClassModifier> modifiers, final Location modifierLoc, Reference extClass, 
 			final Reference runsOnRef, final Reference mtcRef, final Reference systemRef,
-			StatementBlock finallyBlock) {
+			StatementBlock finallyBlock, CompFieldMap compFieldMap) {
 		this.modifiers = modifiers;
 		this.modifierLoc = modifierLoc;		
 		this.extClass = extClass;
@@ -67,6 +70,9 @@ public final class Class_Type extends Type {
 		this.mtcRef = mtcRef;
 		this.systemRef = systemRef;
 		this.finallyBlock = finallyBlock;
+		this.compFieldMap = compFieldMap;
+		compFieldMap.setMyType(this);
+		compFieldMap.setFullNameParent(this);
 		
 		if (runsOnRef != null) {
 			runsOnRef.setFullNameParent(this);
@@ -166,36 +172,6 @@ public final class Class_Type extends Type {
 	}
 
 	@Override
-	/** {@inheritDoc} */
-	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
-			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		final List<ISubReference> subreferences = reference.getSubreferences();
-		if (subreferences.size() <= actualSubReference) {
-			return this;
-		}
-
-		final ISubReference subreference = subreferences.get(actualSubReference);
-		switch (subreference.getReferenceType()) {
-		case arraySubReference:
-			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
-			return null;
-		case fieldSubReference:
-			subreference.getLocation().reportSemanticError(
-					MessageFormat.format(FieldSubReference.INVALIDSUBREFERENCE, ((FieldSubReference) subreference).getId().getDisplayName(),
-							getTypename()));
-			return null;
-		case parameterisedSubReference:
-			subreference.getLocation().reportSemanticError(
-					MessageFormat.format(FieldSubReference.INVALIDSUBREFERENCE, ((ParameterisedSubReference) subreference).getId().getDisplayName(),
-							getTypename()));
-			return null;
-		default:
-			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
-			return null;
-		}
-	}
-
-	@Override
 	public boolean isCompatible(CompilationTimeStamp timestamp, IType otherType, TypeCompatibilityInfo info,
 			Chain leftChain, Chain rightChain) {
 		// TODO Auto-generated method stub
@@ -269,6 +245,9 @@ public final class Class_Type extends Type {
 			finallyBlock.setMyScope(bridgeScope);
 			scope.addSubScope(finallyBlock.getLocation(), finallyBlock);
 		}
+		if (compFieldMap != null) {
+			compFieldMap.setMyScope(scope);
+		}
 	}
 	
 	@Override
@@ -281,6 +260,78 @@ public final class Class_Type extends Type {
 		}
 		if (finallyBlock != null) {
 			finallyBlock.findReferences(referenceFinder, foundIdentifiers);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Identifier getComponentIdentifierByName(final Identifier identifier) {
+		if(identifier == null){
+			return null;
+		}
+		final CompField cf = getComponentByName(identifier.getName());
+		return cf == null ? null : cf.getIdentifier();
+	}
+	
+	/**
+	 * Returns the element with the specified name.
+	 *
+	 * @param name the name of the element to return
+	 * @return the element with the specified name in this list, or null if none was found
+	 */
+	public final CompField getComponentByName(final String name) {
+		if (compFieldMap.componentFieldMap == null) {
+			return null;
+		}
+
+		return compFieldMap.componentFieldMap.get(name);
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public final IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
+			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
+		final List<ISubReference> subreferences = reference.getSubreferences();
+		if (subreferences.size() <= actualSubReference) {
+			return this;
+		}
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
+		switch (subreference.getReferenceType()) {
+		case arraySubReference:
+			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
+			return null;
+		case fieldSubReference:
+			final Identifier id = subreference.getId();
+			final CompField compField = compFieldMap.getCompWithName(id);
+			if (compField == null) {
+				subreference.getLocation().reportSemanticError(
+						MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE, ((FieldSubReference) subreference).getId().getDisplayName(),
+								getTypename()));
+				return null;
+			}
+
+			final IType fieldType = compField.getType();
+			if (fieldType == null) {
+				return null;
+			}
+
+			if (interruptIfOptional && compField.isOptional()) {
+				return null;
+			}
+
+			final Expected_Value_type internalExpectation =
+					expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE : expectedIndex;
+			//This is the recursive function call:
+			return fieldType.getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, interruptIfOptional);
+		case parameterisedSubReference:
+			subreference.getLocation().reportSemanticError(
+					MessageFormat.format(FieldSubReference.INVALIDSUBREFERENCE, ((ParameterisedSubReference) subreference).getId().getDisplayName(),
+							getTypename()));
+			return null;
+		default:
+			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
+			return null;
 		}
 	}
 }
