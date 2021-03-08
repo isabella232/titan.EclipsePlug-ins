@@ -151,10 +151,10 @@ pr_Version returns [Identifier identifier]
 		(
 			b = NUMBER	{$temp += " " + $b.getText();}
 			c = NUMBER	{$temp += " " + $c.getText();}
-				(
-					SLASH
-					d = NUMBER	{$temp += "/" + $d.getText();}
-				)?
+			(
+				SLASH
+				d = NUMBER	{$temp += "/" + $d.getText();}
+			)?
 			e = IDENTIFIER	{$temp += " " + $e.getText(); $endCol = $e;} // CNL 113 200 R9A
 		)?
 	)
