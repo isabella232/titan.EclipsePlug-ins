@@ -112,7 +112,7 @@ NUMBER:
 
 REALNUMBER:
 (
-	NUMBER ([\.] [0-9]+)? ([eE][+\-]? NUMBER)?
+	NUMBER ([.] [0-9]+)? ([eE][+\-]? NUMBER)?
 );
 
 SINGLELINECOMMENT:
@@ -158,7 +158,7 @@ CSTRING:
 (
 '"'
 	(
-		'\"\"'
+		'""'
 	|	~('"')
 	)*
 '"'

@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.Location;
 
 /**
  * @author Kristof Szabados
+ * @author Adam Knapp
  * */
 public final class ProductIdentityHelper {
 
@@ -79,7 +80,7 @@ public final class ProductIdentityHelper {
 			rNumber = PRODUCT_PATTERN4_MATCHER.group(1);
 		} else if (PRODUCT_PATTERN5_MATCHER.reset(versionString).matches()) {
 			productNumber = "";
-			rNumber = PRODUCT_PATTERN2_MATCHER.group(1);
+			rNumber = PRODUCT_PATTERN5_MATCHER.group(1);
 		} else {
 			if (location != null) {
 				location.reportSemanticError("Wrong format for product version information: "
@@ -88,6 +89,7 @@ public final class ProductIdentityHelper {
 			return null;
 		}
 
+		boolean isNumber = false;
 		String revisionDigit = null;
 		String revisionLetter = null;
 		String verificationStep = null;
@@ -102,6 +104,7 @@ public final class ProductIdentityHelper {
 			productNumberSuffix = RNUMBER_PATTERN3_MATCHER.group(1);
 			revisionDigit = RNUMBER_PATTERN3_MATCHER.group(2);
 			revisionLetter = RNUMBER_PATTERN3_MATCHER.group(3);
+			isNumber = true;
 		} else {
 			if (location != null) {
 				location.reportSemanticError("Wrong format for version information: The accepted formats resemble R2D02 or R2D or 7.2.1");
@@ -153,21 +156,35 @@ public final class ProductIdentityHelper {
 			return null;
 		}
 
-		final char c = revisionLetter.charAt(0);
-		final int patchVersion = revisionLetter.codePointAt(0) - "A".codePointAt(0);
-		switch (c) {
-		case 'I':
-		case 'O':
-		case 'P':
-		case 'Q':
-		case 'R':
-		case 'W':
-			if (location != null) {
-				location.reportSemanticError(MessageFormat.format("Letter {0} not allowed as patch version", c));
+		int patchVersion = 0;
+		if (isNumber) {
+			final BigInteger temp = new BigInteger(revisionLetter);
+			if (temp.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) >= 0) {
+				if (location != null) {
+					location.reportSemanticError(MessageFormat
+							.format("The patch version number {0} is unexpectedly large, right now we can not handle such large numbers",
+									temp));
+				}
+				return null;
 			}
-			return null;
-		default:
-			break;
+			patchVersion = temp.intValue();
+		} else {
+			final char c = revisionLetter.charAt(0);
+			patchVersion = revisionLetter.codePointAt(0) - "A".codePointAt(0);
+			switch (c) {
+			case 'I':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'W':
+				if (location != null) {
+					location.reportSemanticError(MessageFormat.format("Letter {0} not allowed as patch version", c));
+				}
+				return null;
+			default:
+				break;
+			}
 		}
 
 		int buildVersion = 0;
