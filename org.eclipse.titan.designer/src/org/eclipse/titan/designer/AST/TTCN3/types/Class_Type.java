@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -16,7 +17,6 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
-import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.ITypeWithComponents;
@@ -35,6 +35,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.ClassModifier;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.compiler.JavaGenData;
+import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -45,12 +46,12 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 public final class Class_Type extends Type implements ITypeWithComponents {
 	private static final String SE_FINALVSABSTRACT = "A final class cannot be abstract.";
-	private static final String SE_BADBASECLASS = "Incorrect base class";
+	private static final String SE_BADBASECLASS = "Only a class type can be used after 'extends'";
 	
 	private static final String CLASSTYPE_NAME = "class";
 	
 	private final Location modifierLoc;
-	private final Reference extClass;
+	private final Type extClass;
 	private final Reference runsOnRef;
 	private final Reference mtcRef;
 	private final Reference systemRef;
@@ -60,7 +61,7 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 
 	private NamedBridgeScope bridgeScope = null;
 	
-	public Class_Type(List<ClassModifier> modifiers, final Location modifierLoc, Reference extClass, 
+	public Class_Type(List<ClassModifier> modifiers, final Location modifierLoc, Type extClass, 
 			final Reference runsOnRef, final Reference mtcRef, final Reference systemRef,
 			StatementBlock finallyBlock, CompFieldMap compFieldMap) {
 		this.modifiers = modifiers;
@@ -70,6 +71,7 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 		this.mtcRef = mtcRef;
 		this.systemRef = systemRef;
 		this.finallyBlock = finallyBlock;
+		
 		this.compFieldMap = compFieldMap;
 		compFieldMap.setMyType(this);
 		compFieldMap.setFullNameParent(this);
@@ -138,7 +140,7 @@ public final class Class_Type extends Type implements ITypeWithComponents {
     	
     	sb.append(MessageFormat.format("\tpublic {0} class {1} ", modifier, ownName));
     	if (extClass != null) {
-    		sb.append(MessageFormat.format("extends {0}", extClass.getSubreferences().get(0).getId()));
+    		//sb.append(MessageFormat.format("extends {0}", extClass.getSubreferences().get(0).getId()));
     	}
     	
     	if (finallyBlock != null) {
@@ -202,19 +204,28 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 			return;
 		}
 		
+		if (extClass instanceof Referenced_Type) {
+			Reference parentRef = ((Referenced_Type)extClass).getReference(); 
+			Declaration d = parentRef.getReferencedDeclaration(parentRef.getSubreferences(0, 0).get(0));
+			Assignment assignment = d.getAssignment();
+			IType etype = assignment.getType(timestamp);
+			if (! (etype instanceof Class_Type)) {
+				extClass.getLocation().reportSemanticError(SE_BADBASECLASS);
+			} else {
+				Class_Type parent = (Class_Type)etype;
+				CompFieldMap cfm = parent.getCompFieldMap();
+				for (Map.Entry<String, CompField> entry : cfm.getComponentFieldMap(timestamp).entrySet()) {
+					if (compFieldMap.getCompWithName(entry.getKey()) == null)
+						compFieldMap.addComp(entry.getValue());
+				}
+			}
+		}
+		
 		if (modifiers.contains(ClassModifier.Final) && modifiers.contains(ClassModifier.Abstract)) {
 			modifierLoc.reportSemanticError(SE_FINALVSABSTRACT);
 		}
 		
-		if (extClass != null) {
-			ISubReference sub = extClass.getSubreferences().get(0);
-			
-			Subreference_type type = sub.getReferenceType(); 
-			if (type == null) {
-				extClass.getLocation().reportSemanticError(SE_BADBASECLASS);
-			}
-		}
-		
+				
 		if (finallyBlock != null) {
 			finallyBlock.check(timestamp);
 			finallyBlock.postCheck();
@@ -238,6 +249,9 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 		}
 		if (systemRef != null) {
 			systemRef.setMyScope(scope);
+		}
+		if (extClass != null) {
+			extClass.setMyScope(scope.getParentScope());
 		}
 		if (finallyBlock != null) {
 			bridgeScope = new NamedBridgeScope();
@@ -333,5 +347,9 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
 			return null;
 		}
+	}
+	
+	public CompFieldMap getCompFieldMap() {
+		return compFieldMap;
 	}
 }

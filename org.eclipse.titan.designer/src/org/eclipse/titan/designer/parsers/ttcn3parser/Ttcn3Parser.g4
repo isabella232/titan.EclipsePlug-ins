@@ -8946,8 +8946,10 @@ pr_ClassTypeDef returns[Def_Type def_type]
 	kw = pr_ClassKeyword
 	m = pr_Modifier { modifiers = $m.modifiers; }
 	i = pr_Identifier
-	ecd = pr_ExtendsClassDef (pr_RunsOnSpec[runsonHelper])? 
-	(pr_MTCSpec[mtcHelper])? (pr_SystemSpec[systemspecHelper])?
+	ecd = pr_ExtendsClassDef
+	(pr_RunsOnSpec[runsonHelper])? 
+	(pr_MTCSpec[mtcHelper])? 
+	(pr_SystemSpec[systemspecHelper])?
 	pr_BeginChar 
 	cml = pr_ClassMemberList[compFieldMap]
 	pr_EndChar 
@@ -8956,7 +8958,7 @@ pr_ClassTypeDef returns[Def_Type def_type]
 {
 	if ($i.identifier != null) {
 		Location modifierLoc = getLocation($m.start, $m.stop);
-		Type type = new Class_Type(modifiers, modifierLoc, $ecd.reference, 
+		Type type = new Class_Type(modifiers, modifierLoc, $ecd.type, 
 			runsonHelper.runsonReference, mtcHelper.mtcReference, systemspecHelper.systemReference,
 			sb, compFieldMap);
 		type.setLocation(getLocation($start, getLastVisibleToken()));
@@ -8987,16 +8989,12 @@ pr_Modifier returns[List<ClassModifier> modifiers]
 	)?
 ;
 
-pr_ExtendsClassDef returns[Reference reference]:
+pr_ExtendsClassDef returns[Type type]:
 (
 	EXTENDS 
-	//( id = pr_Identifier
-	( id = pr_TypeReference
+	( t = pr_ReferencedType 
 	{
-		$reference = new Reference($id.identifier);
-		$reference.setLocation(getLocation($id.start, $id.stop));
-		FieldSubReference subReference = new FieldSubReference($id.identifier);
-		$reference.addSubReference(subReference);
+		$type = $t.type;
 	}
 	| OBJECTKEYWORD				
 	)
