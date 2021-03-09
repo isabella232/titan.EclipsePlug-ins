@@ -61,7 +61,7 @@ public final class ProductIdentityHelper {
 			return null;
 		}
 
-		if ("RnXnn".equals(versionString)) {
+		if (versionString.contains("RnXnn")) {
 			return new ProductIdentity();
 		}
 
@@ -161,7 +161,7 @@ public final class ProductIdentityHelper {
 			}
 			patchVersion = temp.intValue();
 		} else {
-			if (revisionLetter.length() > 1 && majorVersion > 1) {
+			if (revisionLetter.length() > 2) {
 				reportSemanticError(location, MessageFormat
 						.format("More than one letter is not allowed as patch version: {0}", revisionLetter));
 				return null;
