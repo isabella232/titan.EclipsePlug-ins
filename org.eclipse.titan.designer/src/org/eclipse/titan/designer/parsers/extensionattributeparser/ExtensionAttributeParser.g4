@@ -136,16 +136,28 @@ pr_Version returns [Identifier identifier]
 	locals[String temp, Token endCol]
 	:
 (
-	a = IDENTIFIER	{$temp = $a.getText(); $endCol = $a;}
-	(
-		b = NUMBER	{$temp += " " + $b.getText();}
-		c = NUMBER	{$temp += " " + $c.getText();}
-	(
+	(	x = NUMBER {$temp = $x.getText() + ".";}
+		DOT
+		y = NUMBER {$temp += $y.getText() + ".";}
+		DOT
+		z = NUMBER {$temp += $z.getText(); $endCol = $z;}   // 7.2.1
+	|	maj = NUMBER {$temp = $maj.getText() + "/";}
 		SLASH
-		d = NUMBER	{$temp += "/" + $d.getText();}
-	)?
-	e = IDENTIFIER	{$temp += " " + $e.getText(); $endCol = $e;} // CNL 113 200 R9A
-	)?
+		id1 = IDENTIFIER {$temp += $id1.getText();}
+		nr1 = NUMBER	{$temp += " " + $nr1.getText();}
+		nr2 = NUMBER	{$temp += " " + $nr2.getText();}
+		id2 = IDENTIFIER	{$temp += " " + $id2.getText(); $endCol = $id2;}  // 7/CAX 105 7730 R2A
+	|	a = IDENTIFIER	{$temp = $a.getText(); $endCol = $a;} 
+		(
+			b = NUMBER	{$temp += " " + $b.getText();}
+			c = NUMBER	{$temp += " " + $c.getText();}
+			(
+				SLASH
+				d = NUMBER	{$temp += "/" + $d.getText();}
+			)?
+			e = IDENTIFIER	{$temp += " " + $e.getText(); $endCol = $e;} // CNL 113 200 R9A
+		)?
+	)
 )
 {
 	$identifier = new Identifier(Identifier_type.ID_TTCN, $temp, getLocation($start, $endCol));
