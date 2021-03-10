@@ -6415,20 +6415,22 @@ pr_ValueReference returns[Reference reference]
 @init {
 	$reference = null;
 }:
-(	(	r = pr_GlobalModuleId { $reference = $r.reference; }
+(	
+	(	r = pr_Identifier 
 		pr_Dot
 	)?
 	id = pr_Identifier
 )
 {
-	if ( $id.identifier != null ) {
-		if ( $reference == null ) {
-			$reference = new Reference(null);
-		}
-		FieldSubReference subReference = new FieldSubReference($id.identifier);
-		subReference.setLocation($id.identifier.getLocation());
+	if ( $r.ctx != null ) {
+		$reference = new Reference($r.identifier);
+		FieldSubReference subReference = new FieldSubReference($r.identifier);
+		subReference.setLocation($r.identifier.getLocation());
 		$reference.addSubReference(subReference);
-		$reference.setLocation(getLocation( $start, getLastVisibleToken()));//TODO: maybe this can be improved too.
+		$reference.setLocation(getLocation( $id.start, getLastVisibleToken()));
+	} else {
+		$reference = new Reference($id.identifier);
+		$reference.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -7616,7 +7618,8 @@ pr_Primary returns[Value value]
 	Reference index_reference = null;
 	boolean applyFound = false;
 }:
-(	t = pr_ValueReference { temporalReference = $t.reference; }
+(		
+	t = pr_ValueReference { temporalReference = $t.reference; }
 	(	(	a11 = pr_LParen
 			(p1 = pr_FunctionActualParList { parameters = $p1.parsedParameters; } )?
 			a12 = pr_RParen
@@ -7765,9 +7768,6 @@ pr_Primary returns[Value value]
 						}
 				)
 			)?
-		)
-	|	(
-			pr_ConstructorCall
 		)
 	|	(	sr = pr_ExtendedFieldReference
 				{	subReferences = $sr.subReferences;
@@ -9002,48 +9002,60 @@ pr_ExtendsClassDef returns[Type type]:
 
 pr_ClassMemberList[CompFieldMap compFieldMap]:
 (
-	cm = pr_ClassMember[compFieldMap] { 
-		// for (int i = 0; i < cfm.getNofComponents(); i++) {
-		// 	compFieldMap.addComp(cfm.getComponentByIndex(i)); 
-		// }
-		// compFieldMap.setLocation(getLocation( $start, getLastVisibleToken() ));
-	}
+	cm = pr_ClassMember[compFieldMap]
 	pr_WithStatement? SEMICOLON?
-	{
-		
-	}
 )*
 ;
 
 pr_ClassMember[CompFieldMap compFieldMap]
-:
+@init {
+	OopVisibilityModifier visibility = OopVisibilityModifier.Protected; 
+	Location location = null;
+}:
 (
-	pr_OopVisibility?
+	vis = pr_OopVisibility? 
+	{ 
+		if ($vis.ctx != null) {
+			visibility = $vis.modifier;
+			location = $vis.location;
+		}
+	}
 	(	var = pr_VarInstance 
 	|	pr_TimerInstance 
 	|	pr_ConstDef 
 	|	pr_TemplateDef 
-	|	pr_ClassFunctionDef
+	|	func = pr_ClassFunctionDef
 	|	pr_ClassConstructorDef
 	|	pr_TypeDef
 	)
 )
 {
+	CompField cf = null;
 	if ($var.ctx != null) {
 		for (Definition d : $var.definitions) {
-			$compFieldMap.addComp(new CompField(d.getIdentifier(), $var.type, false, null));
+			cf = new CompField(d.getIdentifier(), $var.type, false, null, visibility, location);
+			cf.setLocation(getLocation($start, $var.stop));
+			$compFieldMap.addComp(cf);
 		}
+	}
+	if ($func.ctx != null) {
+		cf = new  CompField($func.identifier, $func.type, false, null, visibility, location);
+		cf.setLocation(getLocation($start, $func.stop));
+		$compFieldMap.addComp(cf);
 	}
 };
 
-pr_OopVisibility returns[OopVisibilityModifier modifier]
+pr_OopVisibility returns[OopVisibilityModifier modifier, Location location]
 @init {
 	$modifier = OopVisibilityModifier.Protected;
 }:
 (	PRIVATE		{$modifier = OopVisibilityModifier.Private;}
 | 	PUBLIC		{$modifier = OopVisibilityModifier.Public;}
 |	PROTECTED	{$modifier = OopVisibilityModifier.Protected;}
-);
+)
+{
+	$location = new Location(getLocation($start, $stop));
+};
 
 pr_FinallyDef returns[StatementBlock block]
 @init {
@@ -9053,15 +9065,26 @@ pr_FinallyDef returns[StatementBlock block]
 	FINALLY sb=pr_StatementBlock { $block = $sb.statementblock;	}
 )?;
 
-pr_ClassFunctionDef returns[Def_Type def_type]:
+pr_ClassFunctionDef returns[Type type, Identifier identifier]
+@init {
+	Reference reference = null;
+}:
 (
 	pr_ExtKeyword? pr_FunctionKeyword 
 	mod = pr_Modifier 
 	pr_DeterministicModifier? 
-	pr_Identifier 
+	id = pr_Identifier { $identifier = $id.identifier; }
 	LPAREN pr_FunctionFormalParList? RPAREN
 	pr_ReturnType? sb=pr_StatementBlock?
-);
+)
+{
+	reference = new Reference(null);
+	FieldSubReference subReference = new FieldSubReference($id.identifier);
+	subReference.setLocation(getLocation($id.start, $id.stop));
+	reference.addSubReference(subReference);
+	reference.setLocation(getLocation($start, getLastVisibleToken()));
+	$type = new Referenced_Type(reference);
+};
 
 pr_ClassConstructorDef returns[FormalParameterList parList]
 @init {

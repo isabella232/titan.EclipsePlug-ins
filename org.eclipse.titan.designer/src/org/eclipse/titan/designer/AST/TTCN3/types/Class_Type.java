@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo.Chain;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ClassModifier;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.OopVisibilityModifier;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -47,6 +48,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public final class Class_Type extends Type implements ITypeWithComponents {
 	private static final String SE_FINALVSABSTRACT = "A final class cannot be abstract.";
 	private static final String SE_BADBASECLASS = "Only a class type can be used after 'extends'";
+	private static final String SE_PUBLICFIELD = "Class fields cannot be public";
 	
 	private static final String CLASSTYPE_NAME = "class";
 	
@@ -58,6 +60,7 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 	private final List<ClassModifier> modifiers;
 	private final StatementBlock finallyBlock;
 	private final CompFieldMap compFieldMap;
+	private final CompFieldMap compFieldMapOwn;
 
 	private NamedBridgeScope bridgeScope = null;
 	
@@ -75,6 +78,10 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 		this.compFieldMap = compFieldMap;
 		compFieldMap.setMyType(this);
 		compFieldMap.setFullNameParent(this);
+		compFieldMapOwn = new CompFieldMap();
+		for (Map.Entry<String, CompField> entry : compFieldMap.getComponentFieldMap(null).entrySet()) {
+			compFieldMapOwn.addComp(entry.getValue());
+		}
 		
 		if (runsOnRef != null) {
 			runsOnRef.setFullNameParent(this);
@@ -204,6 +211,15 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 			return;
 		}
 		
+		for (Map.Entry<String, CompField> entry : compFieldMap.getComponentFieldMap(timestamp).entrySet()) {
+			CompField c = entry.getValue();
+			if (c.getType().getTypetype() != Type_type.TYPE_REFERENCED) {
+				if (c.getVisibility() == OopVisibilityModifier.Public) {
+					c.getVisibilityLocation().reportSemanticError(SE_PUBLICFIELD);
+				}
+			}
+		}
+		
 		if (extClass instanceof Referenced_Type) {
 			Reference parentRef = ((Referenced_Type)extClass).getReference(); 
 			Declaration d = parentRef.getReferencedDeclaration(parentRef.getSubreferences(0, 0).get(0));
@@ -224,7 +240,6 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 		if (modifiers.contains(ClassModifier.Final) && modifiers.contains(ClassModifier.Abstract)) {
 			modifierLoc.reportSemanticError(SE_FINALVSABSTRACT);
 		}
-		
 				
 		if (finallyBlock != null) {
 			finallyBlock.check(timestamp);

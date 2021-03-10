@@ -14,5 +14,5 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
  * @author Miklos Magyari
  * */
 public enum OopVisibilityModifier {
-	Private, Public, Protected
+	Private, Public, Protected, None
 }

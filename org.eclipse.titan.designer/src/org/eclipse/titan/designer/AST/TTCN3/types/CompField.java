@@ -34,6 +34,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.OopVisibilityModifier;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.IIdentifierReparser;
@@ -48,6 +49,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
  * Used to contain data about a field of a structured type.
  *
  * @author Kristof Szabados
+ * @author Miklos Magyari
  * */
 public final class CompField extends ASTNode
 implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUpdateable, IReferencingElement {
@@ -57,6 +59,8 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	private final Type type;
 	private final boolean optional;
 	private final Value defaultValue;
+	private final OopVisibilityModifier visibility;
+	private final Location visibilityLocation;
 
 	private Location commentLocation = null;
 
@@ -66,11 +70,14 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	 **/
 	private Location location;
 
-	public CompField(final Identifier name, final Type type, final boolean optional, final Value defaultValue) {
+	public CompField(final Identifier name, final Type type, final boolean optional, final Value defaultValue,
+			final OopVisibilityModifier visibility, Location visibilityLocation) {
 		this.name = name;
 		this.type = type;
 		this.optional = optional;
 		this.defaultValue = defaultValue;
+		this.visibility = visibility;
+		this.visibilityLocation = visibilityLocation;
 
 		if (type != null) {
 			type.setOwnertype(TypeOwner_type.OT_COMP_FIELD, this);
@@ -82,7 +89,11 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 
 		location = NULL_Location.INSTANCE;
 	}
-
+	
+	public CompField(final Identifier name, final Type type, final boolean optional, final Value defaultValue) {
+		this(name, type, optional, defaultValue, OopVisibilityModifier.None, null);
+	}
+	
 	public CompField newInstance() {
 		return new CompField(name, type, optional, defaultValue);
 	}
@@ -125,6 +136,20 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	 * */
 	public Type getType() {
 		return type;
+	}
+	
+	/**
+	 * @return the oop visibility of this component field
+	 */
+	public OopVisibilityModifier getVisibility() {
+		return visibility;
+	}
+	
+	/**
+	 * @return location of the oop visibility modifier 
+	 */
+	public Location getVisibilityLocation() {
+		return visibilityLocation;
 	}
 
 	@Override
