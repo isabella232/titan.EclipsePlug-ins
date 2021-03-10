@@ -800,6 +800,12 @@ extension "requiresTITAN CRL 113 300 R8B"
 extension "requiresTITAN CRL 113 300/1 R8B"
 extension "requiresTITAN CN 113 300 R8B"
 extension "requiresTITAN CNL 113 300 R8"
+extension "requiresTITAN 7/CAX 105 7730 R2A";
+extension "requiresTITAN 7/CAX 105 7730 R2A01";
+extension "requiresTITAN 7.2.1";
+extension "requiresTITAN 9999999999.2.1";
+extension "requiresTITAN 77.9999999999.1";
+extension "requiresTITAN 77.2.9999999999";
 extension (a, [1], [0], [-],
  a.a, a.boolean, a.bitstring, a.hexstring, a.octetstring, a.charstring, a.integer, a.float, a.verdicttype, a.anytype,
  a[1].b, a[0].b, a[-].b,

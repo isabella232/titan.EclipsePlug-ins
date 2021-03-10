@@ -403,6 +403,10 @@ public class AST_tests {
 		lineNum += 5;
 		markersToCheck.add(new MarkerToCheck("Wrong format for product version information: The accepted formats resemble CRL 113 200/1 R9A or 7/CAX 105 7730 R2A or 7.2.1",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Wrong format for version information: The accepted formats resemble R2D02 or R2D or 7.2.1",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 4;
+		markersToCheck.add(new MarkerToCheck("The major version number 9,999,999,999 is unexpectedly large, right now we can not handle such large numbers",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The minor version number 9,999,999,999 is unexpectedly large, right now we can not handle such large numbers",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The patch version number 9,999,999,999 is unexpectedly large, right now we can not handle such large numbers",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field qualifiers are only allowed for record, set and union types",  ++lineNum, IMarker.SEVERITY_ERROR));
 
 		return markersToCheck;
