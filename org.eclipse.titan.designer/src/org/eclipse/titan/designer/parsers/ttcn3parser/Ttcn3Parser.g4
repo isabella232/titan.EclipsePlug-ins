@@ -9094,7 +9094,7 @@ pr_ClassConstructorDef returns[FormalParameterList parList]
 	FormalParameterList parList = null;
 }:
 (	CREATE LPAREN 
-	pl = pr_FunctionFormalParList { parList = $pl.parList; }
+	pl = pr_FunctionFormalParList? { if ($pl.ctx != null) parList = $pl.parList; }
 	RPAREN 
 	(
 		pr_ExtKeyword LPAREN 
