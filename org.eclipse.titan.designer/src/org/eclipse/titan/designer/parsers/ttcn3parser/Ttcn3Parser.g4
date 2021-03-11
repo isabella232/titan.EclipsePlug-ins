@@ -6383,7 +6383,7 @@ pr_ReferencedValue returns[Value value]
 }:
 (	
 	(	t = pr_ValueReference { temporalReference = $t.reference; }
-	|	pr_Identifier DOT t = pr_PredefOrIdentifier pr_ExtendedFieldReference? { temporalReference = $t.reference; }
+	|	pr_Identifier DOT i = pr_PredefOrIdentifier pr_ExtendedFieldReference? { temporalReference = new Reference($i.identifier); }
 	|	pr_Identifier DOT pr_Identifier LPAREN pr_FunctionActualParList? RPAREN pr_ExtendedFieldReference?
 	|	pr_Identifier DOT pr_ObjectIdentifierValue DOT pr_Identifier pr_ExtendedFieldReference?
 	|	THIS DOT pr_Identifier pr_ExtendedFieldReference?
