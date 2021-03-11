@@ -6413,7 +6413,7 @@ pr_ReferencedValue returns[Value value]
 
 pr_ValueReference returns[Reference reference]
 @init {
-	$reference = null;
+	$reference = new Reference(null);
 }:
 (	
 	(	r = pr_Identifier 
@@ -6430,6 +6430,9 @@ pr_ValueReference returns[Reference reference]
 		$reference.setLocation(getLocation( $id.start, getLastVisibleToken()));
 	} else {
 		$reference = new Reference($id.identifier);
+		FieldSubReference subReference = new FieldSubReference($id.identifier);
+		subReference.setLocation($id.identifier.getLocation());
+		$reference.addSubReference(subReference);
 		$reference.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
