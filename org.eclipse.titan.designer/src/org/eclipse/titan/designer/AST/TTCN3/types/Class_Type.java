@@ -49,6 +49,7 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 	private static final String SE_FINALVSABSTRACT = "A final class cannot be abstract.";
 	private static final String SE_BADBASECLASS = "Only a class type can be used after 'extends'";
 	private static final String SE_PUBLICFIELD = "Class fields cannot be public";
+	private static final String SE_DUPLICATEFIELD = "{0} shadows inherited member {1}";
 	
 	private static final String CLASSTYPE_NAME = "class";
 	
@@ -60,7 +61,6 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 	private final List<ClassModifier> modifiers;
 	private final StatementBlock finallyBlock;
 	private final CompFieldMap compFieldMap;
-	private final CompFieldMap compFieldMapOwn;
 
 	private NamedBridgeScope bridgeScope = null;
 	
@@ -78,11 +78,7 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 		this.compFieldMap = compFieldMap;
 		compFieldMap.setMyType(this);
 		compFieldMap.setFullNameParent(this);
-		compFieldMapOwn = new CompFieldMap();
-		for (Map.Entry<String, CompField> entry : compFieldMap.getComponentFieldMap(null).entrySet()) {
-			compFieldMapOwn.addComp(entry.getValue());
-		}
-		
+	
 		if (runsOnRef != null) {
 			runsOnRef.setFullNameParent(this);
 		}
@@ -231,8 +227,17 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 				Class_Type parent = (Class_Type)etype;
 				CompFieldMap cfm = parent.getCompFieldMap();
 				for (Map.Entry<String, CompField> entry : cfm.getComponentFieldMap(timestamp).entrySet()) {
-					if (compFieldMap.getCompWithName(entry.getKey()) == null)
-						compFieldMap.addComp(entry.getValue());
+					CompField existing = compFieldMap.getCompWithName(entry.getKey());
+					CompField inherited = entry.getValue();
+					if (existing == null) {
+						inherited.setInherited(true);
+						compFieldMap.addComp(inherited);
+					} else {
+						if (existing.isInherited() == false) {
+							existing.getLocation().reportSemanticError(MessageFormat.format(SE_DUPLICATEFIELD, 
+									existing.getFullName(), inherited.getFullName()));
+						}
+					}
 				}
 			}
 		}

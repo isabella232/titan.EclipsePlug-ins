@@ -9036,13 +9036,13 @@ pr_ClassMember[CompFieldMap compFieldMap]
 	CompField cf = null;
 	if ($var.ctx != null) {
 		for (Definition d : $var.definitions) {
-			cf = new CompField(d.getIdentifier(), $var.type, false, null, visibility, location);
+			cf = new CompField(d.getIdentifier(), $var.type, false, null, false, visibility, location);
 			cf.setLocation(getLocation($start, $var.stop));
 			$compFieldMap.addComp(cf);
 		}
 	}
 	if ($func.ctx != null) {
-		cf = new  CompField($func.identifier, $func.type, false, null, visibility, location);
+		cf = new  CompField($func.identifier, $func.type, false, null, false, visibility, location);
 		cf.setLocation(getLocation($start, $func.stop));
 		$compFieldMap.addComp(cf);
 	}

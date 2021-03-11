@@ -59,6 +59,7 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	private final Type type;
 	private final boolean optional;
 	private final Value defaultValue;
+	private boolean inherited;
 	private final OopVisibilityModifier visibility;
 	private final Location visibilityLocation;
 
@@ -71,14 +72,15 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	private Location location;
 
 	public CompField(final Identifier name, final Type type, final boolean optional, final Value defaultValue,
-			final OopVisibilityModifier visibility, Location visibilityLocation) {
+			final boolean inherited, final OopVisibilityModifier visibility, Location visibilityLocation) {
 		this.name = name;
 		this.type = type;
 		this.optional = optional;
 		this.defaultValue = defaultValue;
+		this.inherited = inherited;
 		this.visibility = visibility;
 		this.visibilityLocation = visibilityLocation;
-
+		
 		if (type != null) {
 			type.setOwnertype(TypeOwner_type.OT_COMP_FIELD, this);
 			type.setFullNameParent(this);
@@ -91,7 +93,7 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	}
 	
 	public CompField(final Identifier name, final Type type, final boolean optional, final Value defaultValue) {
-		this(name, type, optional, defaultValue, OopVisibilityModifier.None, null);
+		this(name, type, optional, defaultValue, false, OopVisibilityModifier.None, null);
 	}
 	
 	public CompField newInstance() {
@@ -143,6 +145,19 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	 */
 	public OopVisibilityModifier getVisibility() {
 		return visibility;
+	}
+	
+	/**
+	 * @return if the field is inherited from a parent
+	 */
+	public boolean isInherited() {
+		return inherited;
+	}
+	
+	/**
+	 */
+	public void setInherited(final boolean isInherited) {
+		this.inherited = isInherited;
 	}
 	
 	/**
