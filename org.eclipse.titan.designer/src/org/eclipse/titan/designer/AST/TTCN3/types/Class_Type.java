@@ -52,7 +52,8 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 	private static final String SE_DUPLICATEFIELD = "{0} shadows inherited member {1}";
 	
 	private static final String CLASSTYPE_NAME = "class";
-	
+
+	private boolean isExternal;
 	private final Location modifierLoc;
 	private final Type extClass;
 	private final Reference runsOnRef;
@@ -64,9 +65,10 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 
 	private NamedBridgeScope bridgeScope = null;
 	
-	public Class_Type(List<ClassModifier> modifiers, final Location modifierLoc, Type extClass, 
+	public Class_Type(final boolean isExternal, final List<ClassModifier> modifiers, final Location modifierLoc, Type extClass, 
 			final Reference runsOnRef, final Reference mtcRef, final Reference systemRef,
 			StatementBlock finallyBlock, CompFieldMap compFieldMap) {
+		this.isExternal = isExternal;
 		this.modifiers = modifiers;
 		this.modifierLoc = modifierLoc;		
 		this.extClass = extClass;
@@ -143,7 +145,7 @@ public final class Class_Type extends Type implements ITypeWithComponents {
     	
     	sb.append(MessageFormat.format("\tpublic {0} class {1} ", modifier, ownName));
     	if (extClass != null) {
-    		//sb.append(MessageFormat.format("extends {0}", extClass.getSubreferences().get(0).getId()));
+    		sb.append(MessageFormat.format("extends {0}", extClass.getGenNameOwn()));
     	}
     	
     	if (finallyBlock != null) {
@@ -234,13 +236,15 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 						compFieldMap.addComp(inherited);
 					} else {
 						if (existing.isInherited() == false) {
-							existing.getLocation().reportSemanticError(MessageFormat.format(SE_DUPLICATEFIELD, 
-									existing.getFullName(), inherited.getFullName()));
+							if (inherited.isAbstract() == false) {
+								existing.getLocation().reportSemanticError(MessageFormat.format(SE_DUPLICATEFIELD, 
+										existing.getFullName(), inherited.getFullName()));
+							} 
 						}
 					}
 				}
 			}
-		}
+		} 
 		
 		if (modifiers.contains(ClassModifier.Final) && modifiers.contains(ClassModifier.Abstract)) {
 			modifierLoc.reportSemanticError(SE_FINALVSABSTRACT);
@@ -250,7 +254,7 @@ public final class Class_Type extends Type implements ITypeWithComponents {
 			finallyBlock.check(timestamp);
 			finallyBlock.postCheck();
 			finallyBlock.setCodeSection(CodeSectionType.CS_INLINE);
-		}
+		} 
 	}
 	
 	public List<ClassModifier> getModifiers() {

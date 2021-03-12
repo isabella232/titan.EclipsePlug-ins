@@ -8944,8 +8944,9 @@ pr_ClassTypeDef returns[Def_Type def_type]
 	List<ClassModifier> modifiers = null;
 	CompFieldMap compFieldMap = new CompFieldMap();
 	StatementBlock sb = null;
+	boolean isExternal = false;
 }:
-(	pr_ExtKeyword? 
+(	ext = pr_ExtKeyword? { if($ext.ctx != null) isExternal = true; }
 	kw = pr_ClassKeyword
 	m = pr_Modifier { modifiers = $m.modifiers; }
 	i = pr_Identifier
@@ -8961,7 +8962,7 @@ pr_ClassTypeDef returns[Def_Type def_type]
 {
 	if ($i.identifier != null) {
 		Location modifierLoc = getLocation($m.start, $m.stop);
-		Type type = new Class_Type(modifiers, modifierLoc, $ecd.type, 
+		Type type = new Class_Type(isExternal, modifiers, modifierLoc, $ecd.type, 
 			runsonHelper.runsonReference, mtcHelper.mtcReference, systemspecHelper.systemReference,
 			sb, compFieldMap);
 		type.setLocation(getLocation($start, getLastVisibleToken()));
@@ -9036,13 +9037,13 @@ pr_ClassMember[CompFieldMap compFieldMap]
 	CompField cf = null;
 	if ($var.ctx != null) {
 		for (Definition d : $var.definitions) {
-			cf = new CompField(d.getIdentifier(), $var.type, false, null, false, visibility, location);
+			cf = new CompField(d.getIdentifier(), $var.type, false, null, false, null, visibility, location);
 			cf.setLocation(getLocation($start, $var.stop));
 			$compFieldMap.addComp(cf);
 		}
 	}
 	if ($func.ctx != null) {
-		cf = new  CompField($func.identifier, $func.type, false, null, false, visibility, location);
+		cf = new  CompField($func.identifier, $func.type, false, null, false, $func.modifiers, visibility, location);
 		cf.setLocation(getLocation($start, $func.stop));
 		$compFieldMap.addComp(cf);
 	}
@@ -9068,13 +9069,13 @@ pr_FinallyDef returns[StatementBlock block]
 	FINALLY sb=pr_StatementBlock { $block = $sb.statementblock;	}
 )?;
 
-pr_ClassFunctionDef returns[Type type, Identifier identifier]
+pr_ClassFunctionDef returns[Type type, Identifier identifier, List<ClassModifier> modifiers]
 @init {
 	Reference reference = null;
 }:
 (
 	pr_ExtKeyword? pr_FunctionKeyword 
-	mod = pr_Modifier 
+	mod = pr_Modifier { $modifiers = $mod.modifiers; }
 	pr_DeterministicModifier? 
 	id = pr_Identifier { $identifier = $id.identifier; }
 	LPAREN pr_FunctionFormalParList? RPAREN
